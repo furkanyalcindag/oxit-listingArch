@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view
 
 from inoks import tasks
 from inoks.models import Profile, Product, Order, ProductCategory, City, OrderProduct
+from inoks.models.ProfileControlObject import ProfileControlObject
 from inoks.serializers.order_serializers import OrderSerializer
 from inoks.serializers.profile_serializers import ProfileSerializer
 from inoks.services import general_methods
@@ -109,9 +110,45 @@ def return_user_dashboard(request):
         urunDict['count'] = products['count']
         arrayUrun.append(urunDict)
 
+    profilList = []
+    current_user = request.user
+    total_earning = 0
+
+    userprofile = Profile.objects.get(user=current_user)
+
+    profileArray = []
+    levelDict = dict()
+    level = 1
+    profileArray.append(userprofile.id)
+
+    general_methods.returnLevelTree(profileArray, levelDict, level)
+
+    for i in range(7):
+        total_earning = float(total_earning) + float(general_methods.calculate_earning(levelDict, i + 1))
+
+    x = general_methods.calculate_earning(levelDict, 2)
+
+    # total_order = general_methods.monthlyMemberOrderTotal(userprofile)['total_price']
+    total_order = general_methods.MemberAllOrderTotal(userprofile)['total_price']
+
+    if total_order is None:
+        total_order = 0
+
+    total_order = str(float(str(total_order).replace(",", ".")))
+
+    total = 0
+
+    profilList.append(ProfileControlObject(profile=userprofile, is_controlled=False,
+                                           total_order=total_order))
+
+    trees = general_methods.rtrnProfileBySponsorID(profilList)
+
+
+
+
     return render(request, 'dashboard/user-dashboard.html',
                   {'my_orders': my_orders, 'onerilenler': onerilenler,
-                   'total_price': total_order_price, 'total_product': x, 'coksatanlar': arrayUrun})
+                   'total_price': total_order_price, 'total_product': x, 'coksatanlar': arrayUrun,'member_count':len(trees)-1})
 
 
 @api_view()

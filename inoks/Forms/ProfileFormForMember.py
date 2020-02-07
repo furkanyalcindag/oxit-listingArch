@@ -23,8 +23,8 @@ class ProfileForm(ModelForm):
             'address': forms.Textarea(
                 attrs={'class': 'form-control ', 'placeholder': 'Adres', 'rows': '2', 'required': 'required'}),
             'mobilePhone': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Telefon Numarası', 'required': 'required',
-                       'maxlength': '10', 'minlength': '10'}),
+                 attrs={'class': 'form-control ', 'placeholder': '(5XX)-XXX-XX-XX', 'required': 'required',
+                        'maxlength': '10', 'minlength': '10'}),
             'gender': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
                                           'style': 'width: 100%;', 'required': 'required'}),
             'tc': forms.TextInput(
