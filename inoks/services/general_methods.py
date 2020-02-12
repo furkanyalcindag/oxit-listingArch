@@ -1,5 +1,6 @@
 import calendar
 import datetime
+from datetime import timedelta
 
 from django.contrib.auth.models import User, Permission
 from django.db.models import Sum
@@ -92,7 +93,7 @@ def rtrnProfileBySponsorID(profile_list):
         if not prof.is_controlled:
             profiles = Profile.objects.filter(sponsor=prof.profile)
             for profile in profiles:
-                #total_order = monthlyMemberOrderTotal(profile)['total_price']
+                # total_order = monthlyMemberOrderTotal(profile)['total_price']
                 total_order = MemberAllOrderTotal(profile)['total_price']
                 if total_order is None:
                     total_order = 0
@@ -153,6 +154,7 @@ def MemberAllOrderTotal(profile):
 
     return orders_sum
 
+
 def monthlyMemberOrderTotalByDate(profile, month, year):
     datetime_current = datetime.datetime.today()
     year = year
@@ -171,6 +173,112 @@ def monthlyMemberOrderTotalByDate(profile, month, year):
         total_price=Sum('totalPrice'))
 
     return orders_sum
+
+
+def monthlyMemberOrderTotalByDateFor2500(profile, month, year, past, date):
+    datetime_current = datetime.datetime.today()
+    cyear = datetime_current.year
+    cmonth = datetime_current.month
+    cnum_days = calendar.monthrange(year, month)[1]
+
+    if past:
+        x = date.split('/')
+
+        cyear = int(x[1])
+        cmonth = int(x[0])
+        cnum_days = calendar.monthrange(cyear, cmonth)[1]
+    else:
+        cyear = datetime_current.year
+        cmonth = datetime_current.month
+        cnum_days = calendar.monthrange(year, month)[1]
+
+    datetime_current = datetime.datetime.today()
+    year = year
+    month = month
+    num_days = calendar.monthrange(year, month)[1]
+
+    datetime_start = datetime.datetime(year, month, 1, 0, 0)
+
+    datetime_end = datetime.datetime(cyear, cmonth, cnum_days, 23, 59)
+
+    # scores = Score.objects.filter(creationDate__range=(datetime_start, datetime_end)).order_by('score')[:100]
+    order2 = Order.objects.filter(creationDate__range=(datetime_start, datetime_end)).filter(isApprove=True).filter(
+        profile=profile)
+    orders_sum = Order.objects.filter(creationDate__range=(datetime_start, datetime_end)).filter(isApprove=True).filter(
+        profile=profile).aggregate(
+        total_price=Sum('totalPrice'))
+
+    return orders_sum
+
+
+def monthlyMemberOrderTotalByDateFor2500Past(profile, month, year):
+    datetime_current = datetime.datetime.today()
+    cyear = datetime_current.year
+    cmonth = datetime_current.month
+    cnum_days = calendar.monthrange(year, month)[1]
+
+    pnum_days = calendar.monthrange(year, month)[1]
+
+    datetime_current = datetime.datetime.today()
+    year = year
+    month = month
+    num_days = calendar.monthrange(year, month)[1]
+
+    datetime_start = datetime.datetime(year, month, 1, 0, 0)
+
+    datetime_end = datetime.datetime(year, month, pnum_days, 23, 59)
+
+    # scores = Score.objects.filter(creationDate__range=(datetime_start, datetime_end)).order_by('score')[:100]
+    order2 = Order.objects.filter(creationDate__range=(datetime_start, datetime_end)).filter(isApprove=True).filter(
+        profile=profile)
+    orders_sum = Order.objects.filter(creationDate__range=(datetime_start, datetime_end)).filter(isApprove=True).filter(
+        profile=profile).aggregate(
+        total_price=Sum('totalPrice'))
+
+    return orders_sum
+
+
+def returnLevelTreeByDateFor2500(profileArray, levelDict, level, month, year, past, date):
+    profiles = []
+    profiles = Profile.objects.filter(id__in=profileArray)
+    profile_list = []
+    total_order = 0
+
+    for profile in profiles:
+        if past:
+            total_order = monthlyMemberOrderTotalByDateFor2500(profile, month, year, True, date)['total_price']
+        else:
+            total_order = monthlyMemberOrderTotalByDateFor2500(profile, month, year, False, None)['total_price']
+        # total_order = monthlyMemberOrderTotalByDateFor2500(profile, month, year)['total_price']
+        if total_order is None:
+            total_order = 0
+        total_order = str(float(str(total_order).replace(",", ".")))
+
+        profile_object = ProfileControlObject(profile=profile, is_controlled=False,
+                                              total_order=total_order)
+        profile_list.append(profile_object)
+
+    levelDict[str(level)] = profile_list
+
+    id_array = []
+
+    if level < 7:
+        for profile in profiles:
+
+            profileSponsor = Profile.objects.filter(sponsor__id=profile.id)
+
+            for sponsor in profileSponsor:
+                id_array.append(sponsor.id)
+        if past:
+            returnLevelTreeByDateFor2500(id_array, levelDict, level + 1, month, year, True, date)
+        else:
+            returnLevelTreeByDateFor2500(id_array, levelDict, level + 1, month, year, False, date)
+
+    elif level == 7:
+        return levelDict
+
+    else:
+        return 0
 
 
 def returnLevelTreeByDate(profileArray, levelDict, level, month, year):
@@ -357,7 +465,245 @@ def calculate_order_of_tree(levelDict):
     return earning
 
 
-def calculate_earning_of_tree(levelDict, total_order_member):
+# eski aylara bakarak toplam prim hesaplama(2500 tl kuralı)
+def calculate_order_old_month(profileArray, levelDict, level):
+    profiles = []
+    profiles = Profile.objects.filter(id__in=profileArray)
+    profile_list = []
+
+    for profile in profiles:
+        total_order = monthlyMemberOrderTotal(profile)['total_price']
+        if total_order is None:
+            total_order = 0
+        total_order = str(float(str(total_order).replace(",", ".")))
+
+        profile_object = ProfileControlObject(profile=profile, is_controlled=False,
+                                              total_order=total_order)
+        profile_list.append(profile_object)
+
+    levelDict[str(level)] = profile_list
+
+    id_array = []
+
+    if level < 7:
+        for profile in profiles:
+
+            profileSponsor = Profile.objects.filter(sponsor__id=profile.id)
+
+            for sponsor in profileSponsor:
+                id_array.append(sponsor.id)
+
+        returnLevelTree(id_array, levelDict, level + 1)
+
+    elif level == 7:
+        return levelDict
+
+    else:
+        return 0
+
+
+def control_2500(profile, past, date):
+    profile = Profile.objects.get(pk=profile.pk)
+    earning1 = None
+    earning = 0
+    earnings = earningPayments.objects.filter(profile=profile).order_by('-id')
+    if not past:
+        if earnings.count() > 0:
+            earning1 = earnings[0]
+            split = earning1.payedDate.split('/')
+            x = datetime.datetime(int(split[1]), int(split[0]), 1)
+            days_in_month = calendar.monthrange(x.year, x.month)[1]
+            start_date = x + timedelta(days=days_in_month)
+            datetime_current = datetime.datetime.today()
+            year = datetime_current.year
+            month = datetime_current.month
+
+            profileArray = []
+            levelDict = dict()
+            level = 1
+            total_earning = 0
+
+            profileArray.append(profile.id)
+
+            """returnLevelTreeByDate(profileArray, levelDict, level, start_date.month,
+                                                  start_date.year)"""
+            # past = False
+            returnLevelTreeByDateFor2500(profileArray, levelDict, level, month, year, past, None)
+
+            # for i in range(7):
+            #   total_earning = float(total_earning) + float(general_methods.calculate_earning(levelDict, i + 1))
+
+            order_total_member = monthlyMemberOrderTotalByDate(profile, start_date.month,
+                                                               start_date.year)
+
+            for i in range(7):
+
+                if i + 1 == 1:
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 2:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 3:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 4:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 5:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 6:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 7:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+    else:
+        if earnings.count() > 0:
+            earning1 = earnings[0]
+            split = earning1.payedDate.split('/')
+            x = datetime.datetime(int(split[1]), int(split[0]), 1)
+            days_in_month = calendar.monthrange(x.year, x.month)[1]
+            start_date = x + timedelta(days=days_in_month)
+            datetime_current = datetime.datetime.today()
+            year = datetime_current.year
+            month = datetime_current.month
+
+            profileArray = []
+            levelDict = dict()
+            level = 1
+            total_earning = 0
+
+            profileArray.append(profile.id)
+
+            """returnLevelTreeByDate(profileArray, levelDict, level, start_date.month,
+                                                  start_date.year)"""
+            # past = False
+            returnLevelTreeByDateFor2500(profileArray, levelDict, level, month, year, past, date)
+
+            # for i in range(7):
+            #   total_earning = float(total_earning) + float(general_methods.calculate_earning(levelDict, i + 1))
+
+            order_total_member = monthlyMemberOrderTotalByDate(profile, start_date.month,
+                                                               start_date.year)
+
+            for i in range(7):
+
+                if i + 1 == 1:
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 2:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 3:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 4:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 5:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 6:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 7:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+        else:
+
+            x = datetime.datetime(2019, 11, 1)
+            days_in_month = calendar.monthrange(x.year, x.month)[1]
+            start_date = x + timedelta(days=days_in_month)
+            datetime_current = datetime.datetime.today()
+            # year = datetime_current.year
+            # month = datetime_current.month
+            year = start_date.year
+            month = start_date.month
+
+            profileArray = []
+            levelDict = dict()
+            level = 1
+            total_earning = 0
+
+            profileArray.append(profile.id)
+
+            """returnLevelTreeByDate(profileArray, levelDict, level, start_date.month,
+                                                  start_date.year)"""
+            # past = False
+            returnLevelTreeByDateFor2500(profileArray, levelDict, level, month, year, past, date)
+
+            # for i in range(7):
+            #   total_earning = float(total_earning) + float(general_methods.calculate_earning(levelDict, i + 1))
+
+            order_total_member = monthlyMemberOrderTotalByDate(profile, start_date.month,
+                                                               start_date.year)
+
+            for i in range(7):
+
+                if i + 1 == 1:
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 2:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 3:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 4:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 5:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 6:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+                if i + 1 == 7:
+
+                    for orderPrice in levelDict[str(i + 1)]:
+                        earning = earning + float(orderPrice.total_order)
+
+    return earning
+
+
+def calculate_earning_of_tree(levelDict, total_order_member, past, date):
     earning = 0
 
     kademe = 0
@@ -367,7 +713,7 @@ def calculate_earning_of_tree(levelDict, total_order_member):
     total_order_member = total_order_member['total_price']
 
     if total_order_member is None:
-        total_order_member=0
+        total_order_member = 0
 
     total_order1 = (total_order * 100) / 118
 
@@ -421,7 +767,14 @@ def calculate_earning_of_tree(levelDict, total_order_member):
             earning = 0
 
     else:
-        earning = 0
+        total_order2 = control_2500(levelDict['1'][0].profile, past, date)
+        total_order3 = (total_order2 * 100) / 118
+        if 2500 <= total_order2 < 7500:
+            earning = float(total_order3 * 6 / 100)
+            kademe = 1
+
+        kademe = 1
+        # earning = 0
 
     # kademeye göre sipariş kontrolü
     if kademe == 0:
@@ -554,5 +907,3 @@ def control_access(request):
         is_exist = True
 
     return is_exist
-
-

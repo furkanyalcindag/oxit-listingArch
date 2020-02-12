@@ -3,17 +3,17 @@ from oxiterp.settings.base import *
 # Override base.py settings here
 
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mutek',
+        'NAME': 'mutek_son',
         'USER': 'postgres',
         'PASSWORD': 'oxit2016',
         'HOST': 'localhost',
         'PORT': '5432',
     }
-}"""
-DATABASES = {
+}
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'oxit_inoks',
@@ -22,7 +22,7 @@ DATABASES = {
         'HOST': '185.122.203.112',
         'PORT': '5432',
     }
-}
+}"""
 
 #
 #DATABASES = {

@@ -4,46 +4,59 @@
 
 
     <style>
-#cover-spin {
-    position:fixed;
-    width:100%;
-    left:0;right:0;top:0;bottom:0;
-    background-color: rgba(255,255,255,0.7);
-    z-index:9999;
-    display:none;
-}
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
 
-@-webkit-keyframes spin {
-	from {-webkit-transform:rotate(0deg);}
-	to {-webkit-transform:rotate(360deg);}
-}
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
 
-@keyframes spin {
-	from {transform:rotate(0deg);}
-	to {transform:rotate(360deg);}
-}
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
-#cover-spin::after {
-    content:'';
-    display:block;
-    position:absolute;
-    left:48%;top:40%;
-    width:40px;height:40px;
-    border-style:solid;
-    border-color:black;
-    border-top-color:transparent;
-    border-width: 4px;
-    border-radius:50%;
-    -webkit-animation: spin .8s linear infinite;
-    animation: spin .8s linear infinite;
-}
-</style>
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%;
+            top: 40%;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+    </style>
 
 
 
 
 
-<div class="modal modal-warning fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+    <div class="modal modal-warning fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
          aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -115,7 +128,7 @@
 
 
     <section class="content">
-<div id="cover-spin"></div>
+        <div id="cover-spin"></div>
 
         <div class="row">
             <div class="box-body">
@@ -198,7 +211,7 @@
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ total_paid|floatformat:2  }} ₺ </h3>
+                            <h3>{{ total_paid|floatformat:2 }} ₺ </h3>
                             <p>Toplam Ödenenenler</p>
                         </div>
                         <div class="icon">
@@ -212,7 +225,7 @@
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{{ not_paid|floatformat:2  }} ₺ </h3>
+                            <h3>{{ not_paid|floatformat:2 }} ₺ </h3>
 
                             <p>Kalan</p>
                         </div>
@@ -252,7 +265,7 @@
 
                                 <th>Üye</th>
                                 <th>Üye Sipariş</th>
-                                 <th>Üyenin Ağaç Sipariş</th>
+                                <th>Üyenin Ağaç Sipariş</th>
                                 <th>Prim</th>
                                 <th>Gelir Vergisi Kesintisi</th>
 
@@ -273,11 +286,11 @@
                                         <td>{{ forloop.counter }}</td>
 
                                         <td>{{ earn.profile }}</td>
-                                        <td>  {{ earn.total_price|get_item:'total_price' }} ₺ </td>
-                                     <td>  {{ earn.tree_price}} ₺ </td>
-                                    <td>{{ earn.total_earn_with_tax|floatformat:2 }} ₺</td>
+                                        <td>  {{ earn.total_price|get_item:'total_price' }} ₺</td>
+                                        <td>  {{ earn.tree_price }} ₺</td>
+                                        <td>{{ earn.total_earn_with_tax|floatformat:2 }} ₺</td>
 
-                                     <td>  {{ earn.income_tax_price|floatformat:2}} ₺ </td>
+                                        <td>  {{ earn.income_tax_price|floatformat:2 }} ₺</td>
 
                                         <td>{{ earn.earning|floatformat:2 }} ₺</td>
 
@@ -289,8 +302,9 @@
                                                             class="fa fa-check"></i>Ödendi - {{ earn.paid_date }}</a>
 
                                                 {% else %}
-                                                    <a class="btn btn-danger" onclick="makePayment({{ earn.profile.id }} , {{ month }} +'/'+{{ year }}, '{{earn.earning }}'.replace(/,/g, '.'))">
-                                                            <i class="fa fa-check"></i>Öde {{ part }}</a>
+                                                    <a class="btn btn-danger"
+                                                       onclick="makePayment({{ earn.profile.id }} , {{ month }} +'/'+{{ year }}, '{{ earn.earning }}'.replace(/,/g, '.'))">
+                                                        <i class="fa fa-check"></i>Öde {{ part }}</a>
                                                 {% endif %}
 
 
@@ -340,7 +354,7 @@
     <script>
 
 
-        function makePayment(profile_id,part,payment) {
+        function makePayment(profile_id, part, payment) {
 
             var price = parseFloat(payment.toString().replace(',', '.'))
             $(".deneme23").on("shown.bs.modal", function (e) {
@@ -350,7 +364,7 @@
                         url: "{% url 'inoks:odeme-yap' %}",
                         type: "post", // or "get"
                         data: {
-                            profile_id:profile_id ,
+                            profile_id: profile_id,
 
                             part: part.valueOf(),
                             payment: price
@@ -359,7 +373,7 @@
                         success: function (result) {
 
                             if (result.status == 'Success') {
-                                 document.getElementById("cover-spin").style.display = "none";
+                                document.getElementById("cover-spin").style.display = "none";
                                 swal("Başarılı", "<ödeme başarıyla gerçekleştirildi.", "success");
                                 window.location.replace("{% url "inoks:odenecekler" %}");
 
