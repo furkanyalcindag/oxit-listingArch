@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from phone_field import PhoneField
-from phonenumber_field.modelfields import PhoneNumberField
 
 from inoks.models import City, Job, District
 

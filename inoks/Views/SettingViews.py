@@ -23,11 +23,12 @@ def sponsor_isexist(request):
         isExist = False
         adSoyad = ''
         sponsor = request.POST['sponsor']
+
         profile = Profile.objects.filter(pk=sponsor)
 
         if len(profile) > 0:
             isExist = True
-            adSoyad = profile[0].user.first_name[0]+ '****** ' + profile[0].user.last_name[0] + '******'
+            adSoyad = profile[0].user.first_name[0] + '****** ' + profile[0].user.last_name[0] + '******'
 
         situation = dict()
         situation['situation'] = isExist
@@ -36,6 +37,9 @@ def sponsor_isexist(request):
 
         responseData = dict()
         responseData['isExist'] = data.data
+
+        if profile[0].pk == 1:
+            isExist = False
 
         if isExist:
             return JsonResponse({'status': 'Success', 'msg': 'Sponsor Doğrulandı', 'isExist': True, 'adSoyad': adSoyad})
