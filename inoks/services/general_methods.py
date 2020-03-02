@@ -579,8 +579,11 @@ def control_2500(profile, past, date):
             days_in_month = calendar.monthrange(x.year, x.month)[1]
             start_date = x + timedelta(days=days_in_month)
             datetime_current = datetime.datetime.today()
-            year = datetime_current.year
-            month = datetime_current.month
+            #year = datetime_current.year
+            #month = datetime_current.month
+            month =  int(split[0])
+
+            year =  int(split[1])
 
             profileArray = []
             levelDict = dict()
