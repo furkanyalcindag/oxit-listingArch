@@ -135,6 +135,9 @@ def monthlyMemberOrderTotal(profile):
     return orders_sum
 
 
+
+
+#profilin tüm zamanlarda ki siparişi
 def MemberAllOrderTotal(profile):
     datetime_current = datetime.datetime.today()
     year = datetime_current.year
@@ -173,6 +176,10 @@ def monthlyMemberOrderTotalByDate(profile, month, year):
         total_price=Sum('totalPrice'))
 
     return orders_sum
+
+
+
+
 
 
 def monthlyMemberOrderTotalByDateFor2500(profile, month, year, past, date):
@@ -273,6 +280,43 @@ def returnLevelTreeByDateFor2500(profileArray, levelDict, level, month, year, pa
             returnLevelTreeByDateFor2500(id_array, levelDict, level + 1, month, year, True, date)
         else:
             returnLevelTreeByDateFor2500(id_array, levelDict, level + 1, month, year, False, date)
+
+    elif level == 7:
+        return levelDict
+
+    else:
+        return 0
+
+
+
+def returnLevelTreeByDateNew(profileArray, levelDict, level, month, year):
+    profiles = []
+    profiles = Profile.objects.filter(id__in=profileArray)
+    profile_list = []
+
+    for profile in profiles:
+        total_order = monthlyMemberOrderTotalByDate(profile, month, year)['total_price']
+        if total_order is None:
+            total_order = 0
+        total_order = str(float(str(total_order).replace(",", ".")))
+
+        profile_object = ProfileControlObject(profile=profile, is_controlled=False,
+                                              total_order=total_order)
+        profile_list.append(profile_object)
+
+    levelDict[str(level)] = profile_list
+
+    id_array = []
+
+    if level < 7:
+        for profile in profiles:
+
+            profileSponsor = Profile.objects.filter(sponsor__id=profile.id)
+
+            for sponsor in profileSponsor:
+                id_array.append(sponsor.id)
+
+        returnLevelTreeByDate(id_array, levelDict, level + 1, month, year)
 
     elif level == 7:
         return levelDict
