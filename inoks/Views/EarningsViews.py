@@ -52,7 +52,9 @@ def return_my_earnings_report(request):
 
             date = request.POST['ay'] + '/' + request.POST['yil']
 
-            total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member, True, date)
+            total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member,
+                                                                      int(request.POST['ay']), int(request.POST['yil']),
+                                                                      True)
 
             # total_earning = general_methods.calculate_earning_of_tree(levelDict, order_total_member)
             x = total_earning
@@ -112,7 +114,8 @@ def return_my_earnings_report(request):
 
         order_total_member = earning_methods.monthlyMemberOrderTotal(user, )
 
-        total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member, False, None)
+        total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member, str(month), str(year),
+                                                                  False)
 
         # total_earning = general_methods.calculate_earning_of_tree(levelDict, order_total_member)
         # earnDict[user] = total_earning
@@ -349,7 +352,9 @@ def return_odenecekler(request):
 
             date = request.POST['ay'] + '/' + request.POST['yil']
 
-            total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member, True, date)
+            total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member,
+                                                                      int(request.POST['ay']), int(request.POST['yil']),
+                                                                      True)
 
             # earnDict[user] = total_earning
             # x = (total_earning * 100) / 118
@@ -411,7 +416,9 @@ def return_odenecekler(request):
         # order_total_member = general_methods.monthlyMemberOrderTotalByDate(user, int(request.POST['ay']),
         #                                                                   int(request.POST['yil']))
 
-        total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member, False, None)
+        total_earning = earning_methods.calculate_earning_of_tree(levelDict, order_total_member,
+                                                                  str(month), str(year),
+                                                                  False)
 
         # earnDict[user] = total_earning
         # x = (total_earning * 100) / 118
@@ -498,7 +505,7 @@ def make_pay(request):
 
             earning_methods.returnLevelTreeNewVersionByDate(profileArray, levelDict, level, int(month),
                                                             int(year))
-            total_order =earning_methods.calculate_order_of_tree(levelDict)['all_order']
+            total_order = earning_methods.calculate_order_of_tree(levelDict)['all_order']
 
             kademe = earning_methods.return_level_of_profile(total_order, levelDict)
 
