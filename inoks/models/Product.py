@@ -16,7 +16,7 @@ class Product(models.Model):
     info = models.TextField(blank=True, null=True, verbose_name='Ürün Bilgileri')
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
-    isOpen = models.BooleanField(default=False)
+    isOpen = models.BooleanField(default=True,null=False, blank=False)
 
     def __str__(self):
         return '%s ' % self.name
