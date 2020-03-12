@@ -2825,7 +2825,7 @@
                             if (result.status == 'Success') {
                                 swal("Başarılı", "Resim Silindi", "success");
                                 {% if durum == "GUNCELLE" %}
-                                window.location.replace("{% url "inoks:urun-duzenle" product %}");
+                                    window.location.replace("{% url "inoks:urun-duzenle" product %}");
                                 {% endif %}
 
 
@@ -2843,7 +2843,7 @@
 
         }
 
-    function getCookie(name) {
+        function getCookie(name) {
             var cookieValue = null;
             var i = 0;
             if (document.cookie && document.cookie !== '') {
@@ -3215,8 +3215,9 @@
                                                 <div class="col-md-3" style="border: #00000052;border-style: double;">
                                                     <img src="/media/{{ image.productImage }}" width="150" height="150"
                                                          alt="..." class="margin">
-                                                    <a onclick="product_image_delete({{ product }},{{ image.pk }})" class="button btn btn-danger"><i class="fa fa-trash-o"
-                                                                                        ></i>
+                                                    <a onclick="product_image_delete({{ product }},{{ image.pk }})"
+                                                       class="button btn btn-danger"><i class="fa fa-trash-o"
+                                                    ></i>
                                                         Sil</a>
                                                 </div>
                                             {% endfor %}</div>
@@ -3296,6 +3297,17 @@
                                 <div class="form-group">
                                     <label> {{ product_form.info.label }}</label>
                                     {{ product_form.info }}
+                                </div>
+
+
+                                <div class="checkbox">
+                                    <label>
+                                        {{ product_form.isOpen }}
+
+
+                                        <a>Ürün Durumu Açık</a>
+
+                                    </label>
                                 </div>
 
 

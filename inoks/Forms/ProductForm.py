@@ -13,7 +13,7 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = (
-            'name', 'price', 'stock', 'category', 'info')
+            'name', 'price', 'stock', 'category', 'info','isOpen')
         labels = {
             'price': 'Ürün Fiyatı',
 

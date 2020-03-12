@@ -203,7 +203,7 @@ def return_products(request):
         logout(request)
         return redirect('accounts:login')
     categories = ProductCategory.objects.all()
-    urunler = Product.objects.all()
+    urunler = Product.objects.filter(isOpen=True)
 
     return render(request, 'urunler/urunler.html',
                   {'kategoriler': categories, 'urunler': urunler})

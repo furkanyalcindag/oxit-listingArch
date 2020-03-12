@@ -40,7 +40,7 @@ def return_add_orders_admin(request):
         return redirect('accounts:login')
     kargo = float(Settings.objects.filter(name='kargo')[0].value)
     order_form = OrderFormAdmin(instance=Profile.objects.get(user=request.user))
-    products = Product.objects.all()
+    products = Product.objects.filter(isOpen=True)
     current_user = request.user
     profile = Profile.objects.get(user=current_user)
 
@@ -120,7 +120,7 @@ def return_add_orders(request):
         return redirect('accounts:login')
 
     kargo = float(Settings.objects.filter(name='kargo')[0].value)
-    products = Product.objects.all()
+    products = Product.objects.filter(isOpen=True)
     current_user = request.user
     profile = Profile.objects.get(user=current_user)
     order_form = OrderForm(instance=Profile.objects.get(user=request.user),
