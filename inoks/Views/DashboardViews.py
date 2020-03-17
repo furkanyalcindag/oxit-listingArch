@@ -15,6 +15,7 @@ from inoks.models.ProfileControlObject import ProfileControlObject
 from inoks.serializers.order_serializers import OrderSerializer
 from inoks.serializers.profile_serializers import ProfileSerializer
 from inoks.services import general_methods
+from inoks.services.earning_methods import returnLevelTreeNewVersion, calculate_order_of_tree
 from inoks.services.general_methods import activeUser, activeOrder
 
 
@@ -145,10 +146,24 @@ def return_user_dashboard(request):
 
 
 
+    levelDict2 = dict()
+
+    profileArray =[]
+
+    profileArray.append(userprofile.id)
+
+    returnLevelTreeNewVersion(profileArray, levelDict2, 1)
+
+    x=calculate_order_of_tree(levelDict2)
+
+    total_order_of_tree_all = x['all_order']
+
+
+
 
     return render(request, 'dashboard/user-dashboard.html',
                   {'my_orders': my_orders, 'onerilenler': onerilenler,
-                   'total_price': total_order_price, 'total_product': x, 'coksatanlar': arrayUrun,'member_count':len(trees)-1})
+                   'total_price': total_order_price, 'total_product': x, 'coksatanlar': arrayUrun,'member_count':len(trees)-1,'total_order_all':total_order_of_tree_all})
 
 
 @api_view()
