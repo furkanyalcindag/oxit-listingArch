@@ -101,6 +101,8 @@ def return_user_dashboard(request):
     for order in orders:
         x = x + order.product.count()
 
+    urun_miktar = x
+
     if total_order_price is None:
         total_order_price = 0
 
@@ -163,7 +165,7 @@ def return_user_dashboard(request):
 
     return render(request, 'dashboard/user-dashboard.html',
                   {'my_orders': my_orders, 'onerilenler': onerilenler,
-                   'total_price': total_order_price, 'total_product': x, 'coksatanlar': arrayUrun,'member_count':len(trees)-1,'total_order_all':total_order_of_tree_all})
+                   'total_price': total_order_price, 'total_product': urun_miktar, 'coksatanlar': arrayUrun,'member_count':len(trees)-1,'total_order_all':total_order_of_tree_all})
 
 
 @api_view()

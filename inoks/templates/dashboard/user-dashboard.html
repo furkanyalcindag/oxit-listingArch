@@ -152,7 +152,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{ total_price }} ₺</h3>
+                        <h3>{{ total_price|floatformat:2 }} ₺</h3>
 
                         <p>Toplam Sipariş Miktarı</p>
                     </div>
@@ -197,7 +197,7 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>{{  total_order_all }} ₺</h3>
+                        <h3>{{  total_order_all|floatformat:2 }} ₺</h3>
 
                         <p>Toplam Ciro(Ağaç)</p>
                     </div>
