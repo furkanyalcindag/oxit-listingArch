@@ -154,9 +154,9 @@ def return_user_dashboard(request):
 
     returnLevelTreeNewVersion(profileArray, levelDict2, 1)
 
-    x=calculate_order_of_tree(levelDict2)
+    tree_order=calculate_order_of_tree(levelDict2)
 
-    total_order_of_tree_all = x['all_order']
+    total_order_of_tree_all = tree_order['all_order']
 
 
 
