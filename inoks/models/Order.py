@@ -40,7 +40,7 @@ class Order(models.Model):
 
     def latest_catch(self):
         if len(self.order_situations.all())>0:
-            return self.order_situations.latest('id').name
+            return self.order_situations.all()[0].name
             #return self.order_situations.get_queryset()[len(self.order_situations.get_queryset())-1].name
             #return self.order_situations.all().order_by('id')[len(self.order_situations.all())-1]
         else:
