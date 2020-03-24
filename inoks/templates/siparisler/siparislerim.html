@@ -2,7 +2,7 @@
 
 {% block content %}
 
-
+ {% load app_filter %}
 
    <!-- <div class="modal fade bd-example-modal-lg" id="product" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -199,10 +199,9 @@
                                             {% if order.payment_type == 'Kredi Kartı' %}
 
 
-                                                {% for d in order.order_situations.all %}
-                                                    {% if forloop.last %}
 
-                                                        {% ifequal d.name  "Ödeme Bekliyor" %}
+
+                                                        {% if order|get_latest_situation ==  "Ödeme Bekliyor" %}
 
                                                             <a href="{% url 'inoks:odeme-yap' siparis=order.id %}"
                                                                class="btn btn-warning"
@@ -211,10 +210,9 @@
 
                                                              <a class="btn btn-danger" onclick="deleteOrders({{ order.id }})"><i
                                                     class="fa fa-trash"></i>sil</a>
-                                                        {% endifequal %}
+                                                        {% endif %}
 
-                                                    {% endif %}
-                                                {% endfor %}
+
 
 
                                             {% endif %}
