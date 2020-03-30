@@ -160,12 +160,14 @@ def return_user_dashboard(request):
 
     total_order_of_tree_all = tree_order['all_order']
 
+    total_order_of_tree_monthly = tree_order['monthly_order']
+
 
 
 
     return render(request, 'dashboard/user-dashboard.html',
                   {'my_orders': my_orders, 'onerilenler': onerilenler,
-                   'total_price': total_order_price, 'total_product': urun_miktar, 'coksatanlar': arrayUrun,'member_count':len(trees)-1,'total_order_all':total_order_of_tree_all})
+                   'total_price': total_order_price, 'total_product': urun_miktar, 'coksatanlar': arrayUrun,'member_count':len(trees)-1,'total_order_all':total_order_of_tree_all,'total_order_monthly':total_order_of_tree_monthly})
 
 
 @api_view()
