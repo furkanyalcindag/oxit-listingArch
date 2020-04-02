@@ -275,10 +275,56 @@ def calculate_earning_of_tree(levelDict, total_order_member, month, year, past):
 
     elif 7500 <= total_order_all < 22500:
         if len(levelDict[str(3)]) == 9:
+
+
+
+
+
             earning = float(total_order1 * 5 / 100)
             kademe = 2
         elif len(levelDict[str(2)]) == 3:
-            earning = float(total_order1 * 6 / 100)
+
+            if earningPayments.objects.filter(profile=levelDict[str(1)][0].profile).count() == 0:
+                if past:
+                    tree_info_array = percent6ruleByDate(levelDict[str(1)][0].profile, month, year)
+                    for tree_info in tree_info_array:
+
+                        if tree_info['percent_tree']['percent'] == 6:
+                            total_order_all = total_order_all - tree_info['tree_all_order']
+                        # dictler döndürelecek ve sipariş miktarı düşürülecek
+
+                else:
+                    tree_info_array = percent6rule(levelDict[str(1)][0].profile)
+                    for tree_info in tree_info_array:
+
+                        if tree_info['percent_tree']['percent'] == 6:
+                            total_order_all = total_order_all - tree_info['tree_all_order']
+                        # dictler döndürelecek ve sipariş miktarı düşürülecek
+                earning = total_order_all * 100 / 118
+                earning = float(earning * 6 / 100)
+            else:
+                # total_order1 = (monthly_order * 100) / 118
+                if past:
+                    tree_info_array = percent6ruleByDate(levelDict[str(1)][0].profile, month, year)
+                    for tree_info in tree_info_array:
+
+                        if tree_info['percent_tree']['percent'] == 6:
+                            total_order1 = total_order1 - (tree_info['tree_monthly_order'] * 100 / 118)
+                        # dictler döndürelecek ve sipariş miktarı düşürülecek
+
+                else:
+                    tree_info_array = percent6rule(levelDict[str(1)][0].profile)
+                    for tree_info in tree_info_array:
+
+                        if tree_info['percent_tree']['percent'] == 6:
+                            total_order1 = total_order1 - (tree_info['tree_monthly_order'] * 100 / 118)
+                        # dictler döndürelecek ve sipariş miktarı düşürülecek
+
+                earning = float(total_order1 * 6 / 100)
+
+
+
+            #earning = float(total_order1 * 6 / 100)
             kademe = 1
         else:
             earning = 0
