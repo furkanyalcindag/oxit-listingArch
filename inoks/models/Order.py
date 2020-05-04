@@ -12,7 +12,7 @@ class Order(models.Model):
     PAYMENT_CHOICES = (
 
         (TRANSFER, 'Kredi Kartı'),
-        (EFT , 'Havale/EFT')
+        (EFT, 'Havale/EFT')
     )
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Üye Adı')
@@ -39,10 +39,10 @@ class Order(models.Model):
         return '%d ' % self.id
 
     def latest_catch(self):
-        if len(self.order_situations.all())>0:
+        if len(self.order_situations.all()) > 0:
             return self.order_situations.all()[0].name
 
-            #return self.order_situations.get_queryset()[len(self.order_situations.get_queryset())-1].name
-            #return self.order_situations.all().order_by('id')[len(self.order_situations.all())-1]
+            # return self.order_situations.get_queryset()[len(self.order_situations.get_queryset())-1].name
+            # return self.order_situations.all().order_by('id')[len(self.order_situations.all())-1]
         else:
             return 0
