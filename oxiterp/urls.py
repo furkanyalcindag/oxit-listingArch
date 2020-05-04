@@ -26,15 +26,9 @@ from django.conf.urls.static import static
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # re_path('api/(?P<version>(v1|v2))/', include('patient.urls')),
-    #path('hasta/', include('patient.urls',  namespace='patient')),
-    # url(r'^', include(router.urls)),
-    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-    #path('', include('accounts.urls')),
-    #path('accounts/', include('django.contrib.auth.urls'))
+
     path('', include('accounts.urls')),
-    #path('egitim/', include('education.urls')),
-    path('baven/', include('inoks.urls')),
+    path('kurye/', include('kurye.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

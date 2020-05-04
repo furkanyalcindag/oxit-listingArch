@@ -1,0 +1,422 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    {% load staticfiles %}
+
+
+    <!-- success modal -->
+    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">İşlem Başarılı</h4>
+                </div>
+                <div class="modal-body successModal">
+                    ...
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-danger"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Uyarı</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Silmek istediğinizden emin misiniz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                            data-dismiss="modal">Evet
+                    </button>
+                    <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+    <div class="modal modal-danger fade in siparis-onay" tabindex="-2" role="dialog" id="siparis-onay"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Uyarı</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Siparişi onaylamak istediğinizden emin misiniz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf-2"
+                            data-dismiss="modal">Evet
+                    </button>
+                    <button type="button" class="btn btn-outline" id="btn-siparis">Hayır</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+    <div class="modal modal-danger fade in uye-onay" tabindex="-3" role="dialog" id="uye-onay"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Uyarı</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Üyeyi onaylamak istediğinizden emin misiniz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf-3"
+                            data-dismiss="modal">Evet
+                    </button>
+                    <button type="button" class="btn btn-outline" id="btn-uye">Hayır</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+
+
+
+
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+ <section class="content-header">
+      <h1>
+        Anasayfa
+
+      </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>15</h3>
+
+              <p>ATANAN GÖREV</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">Atanan Görevler <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-orange">
+            <div class="inner">
+              <h3>10</h3>
+
+              <p>BEKLEYEN GÖREV </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">Bekleyen Görevler <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>44</h3>
+
+              <p>TAMAMLANAN GÖREV</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">Tamamlanan Görevler <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>4</h3>
+
+              <p>AKTİF KULLANICI</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">Başarısız Görevler <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+
+
+	  <div class="row">
+	  <div class="col-lg-8 col-xs-12">
+	 <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Son Görevler</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>Görev Numarası</th>
+					<th>Restoran/Market</th>
+                    <th>Kurye</th>
+                    <th>Durumu</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td><a href="#">101487</a></td>
+					<td><a href="#">Merkez Lokantası</a></td>
+                    <td>1-Furkan Kadir Yalçındağ</td>
+                    <td><span class="label label-warning">Yolda</span></td>
+                  </tr>
+                   <tr>
+                    <td><a href="#">101488</a></td>
+					<td><a href="#">Merkez Market</a></td>
+                    <td>2-Hakkı Şimşek</td>
+                    <td><span class="label label-success">Tamamlandı</span></td>
+                  </tr>
+				   <tr>
+                    <td><a href="#">101489</a></td>
+					<td><a href="#">Merkez Lokantası</a></td>
+                    <td>3-Mesut Genç</td>
+                    <td><span class="label label-danger">İptal Edildi</span></td>
+                  </tr>
+				   <tr>
+                    <td><a href="#">101490</a></td>
+					<td><a href="#">Merkez Market</a></td>
+                    <td>1-Furkan Kadir Yalçındağ</td>
+                    <td><span class="label label-warning">Yolda</span></td>
+                  </tr>
+				   <tr>
+                    <td><a href="#">101487</a></td>
+					<td><a href="#">Merkez Lokantası</a></td>
+                    <td>3-Mesut Genç</td>
+                    <td><span class="label label-warning">Yolda</span></td>
+                  </tr>
+                   <tr>
+                    <td><a href="#">101488</a></td>
+					<td><a href="#">Merkez Market</a></td>
+                    <td>1-Furkan Kadir Yalçındağ</td>
+                    <td><span class="label label-success">Tamamlandı</span></td>
+                  </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Görev Ata</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Tamamlanan Görevler</a>
+            </div>
+            <!-- /.box-footer -->
+
+
+
+		 </div>
+
+
+
+
+
+	 </div>
+
+	 <div class="col-lg-4 col-xs-12">
+<div class="box box-danger">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Kuryeler</h3>
+
+                  <div class="box-tools pull-right">
+                    <span class="label label-danger">Son 6 Kurye</span>
+
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                  <ul class="users-list clearfix">
+                    <li>
+                       <a href="#"><img src="/media/profile/2_4Y0kkpm.jpg" alt="User Image"></a>
+                      <a class="users-list-name" >Furkan Kadir Yalçındağ</a>
+                      <span class="users-list-date">Bugün</span>
+                    </li>
+                    <li>
+                       <a href="#"><img src="/media/profile/2_4Y0kkpm.jpg" alt="User Image"></a>
+                      <a class="users-list-name" >Furkan Kadir Yalçındağ</a>
+                      <span class="users-list-date">Bugün</span>
+                    </li>
+
+					  <li>
+                       <a href="#"><img src="/media/profile/2_4Y0kkpm.jpg" alt="User Image"></a>
+                      <a class="users-list-name" >Furkan Kadir Yalçındağ</a>
+                      <span class="users-list-date">Bugün</span>
+                    </li>
+
+					  <li>
+                       <a href="#"><img src="/media/profile/2_4Y0kkpm.jpg" alt="User Image"></a>
+                      <a class="users-list-name" >Furkan Kadir Yalçındağ</a>
+                      <span class="users-list-date">Bugün</span>
+                    </li>
+
+
+					  <li>
+                       <a href="#"><img src="/media/profile/2_4Y0kkpm.jpg" alt="User Image"></a>
+                      <a class="users-list-name" >Furkan Kadir Yalçındağ</a>
+                      <span class="users-list-date">Bugün</span>
+                    </li>
+
+
+					  <li>
+                       <a href="#"><img src="/media/profile/2_4Y0kkpm.jpg" alt="User Image"></a>
+                      <a class="users-list-name" >Furkan Kadir Yalçındağ</a>
+                      <span class="users-list-date">Bugün</span>
+                    </li>
+
+
+                  </ul>
+                  <!-- /.users-list -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                  <a href="javascript:void(0)" class="uppercase">Tüm Kuryeler</a>
+                </div>
+                <!-- /.box-footer -->
+              </div>
+	 </div>
+
+  </div>
+
+
+	</section>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

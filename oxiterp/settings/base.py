@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
     'education',
-    'inoks',
+    'kurye',
 
 ]
 
@@ -88,8 +88,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-                'inoks.services.general_methods.getMenu',
-                'inoks.services.general_methods.getAdminMenu',
+                'kurye.services.general_methods.getAdminMenu',
+                'kurye.services.general_methods.getCourierMenu',
+                'kurye.services.general_methods.getUserMenu',
 
                 # "education.services.general_methods.append_privileges",
             ],
@@ -114,7 +115,7 @@ WSGI_APPLICATION = 'oxiterp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'oxiterp3',
+        'NAME': 'oxit_kurye',
         'USER': 'postgres',
         'PASSWORD': 'oxit2016',
         'HOST': 'localhost',
@@ -171,12 +172,12 @@ EMAIL_USE_SSL = True"""
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.baven.net'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'info@baven.net'
-EMAIL_HOST_PASSWORD = 'SEhy15X0'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.yandex.com.tr'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'ik@oxityazilim.com'
+EMAIL_HOST_PASSWORD = 'oxit2016'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 
 STATIC_ROOT = ''
 
