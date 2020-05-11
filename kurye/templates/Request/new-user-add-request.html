@@ -1,0 +1,295 @@
+{% extends 'base_layout.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Yeni Müşteriyle Talep Oluştur
+
+        </h1>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+
+
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-primary">
+
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6 col-xs-12">
+
+                                <div class="box-body">
+
+                                    <div class="form-group">
+
+                                        <label for="">Teslim Alacak Kişi</label>
+                                        {{ customer_form.customer }}
+
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{ customer_form.phone.label }}</label>
+                                        {{ customer_form.phone }}
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xs-12">
+
+                                            <div class="form-group">
+                                                <label>{{ request_form.totalPrice.label }}</label>
+                                                {{ request_form.totalPrice }}
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label>{{ request_form.payment_type.label }}</label>
+
+                                                {{ request_form.payment_type }}
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-lg-6 col-xs-12">
+
+                                <div class="box-body">
+
+                                    <div class="row">
+                                        <div class="col-lg-4 col-xs-12">
+
+                                            <div class="form-group">
+                                                <label>{{ customer_form.city.label }}</label>
+                                                {{ customer_form.city }}
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-4 col-xs-12">
+                                            <div class="form-group">
+                                                <label>{{ customer_form.district.label }}</label>
+                                                {{ customer_form.district }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Teslim Alacak Açık Adres</label>
+                                        {{ customer_form.address }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{ request_form.description.label }}</label>
+                                        {{ request_form.description }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xs-12">
+
+                                            <div class="form-group">
+                                                <label>{{ request_form.exitDate.label }}</label>
+                                                {{ request_form.exitDate }}
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label>{{ request_form.exitTime.label }}</label>
+
+                                                <div class="input-group">
+                                                    {{ request_form.exitTime }}
+
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- /.box-body -->
+
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+    <!-- /.content -->
+
+
+    <script>
+        $(function () {
+            $('.select2').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+    <script>
+
+        function ilceGetir() {
+            debugger;
+            var e = document.getElementById("id_city");
+            var il_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'kurye:ilce-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    il_id: il_id,
+
+                },
+                success: function (result) {
+                    debugger;
+
+                    let select = document.getElementById("ilce_id");
+
+                    select.options[select.options.length] = new Option('Text 1', 'Value1');
+
+                    $('#ilce_id').empty();
+
+                    for (let i = 0; i < result.ilceler.length; i++) {
+                        select.options[select.options.length] = new Option(result.ilceler[i].name, result.ilceler[i].name);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+
+            ilceGetir();
+            //console.log($('#ilce_id').select2('data'))
+            $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'
+
+
+        });
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

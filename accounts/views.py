@@ -28,8 +28,11 @@ def login(request):
             if user.groups.all()[0].name == 'Admin':
                 return redirect('kurye:admin-dashboard')
 
+            elif user.groups.all()[0].name == 'Kurye':
+                return redirect('kurye:kurye-dashboard')
 
-
+            elif user.groups.all()[0].name == 'Kullanıcı':
+                return redirect('kurye:kullanıcı-dashboard')
 
             else:
                 return redirect('accounts:logout')
