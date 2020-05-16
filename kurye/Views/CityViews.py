@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
-from kurye.models import City, District
+from kurye.models.District import District
 from kurye.serializers.DistrictSerializer import DistrictSerializer
 
 

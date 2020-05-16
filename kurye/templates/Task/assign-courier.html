@@ -1,0 +1,270 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+    <!-- success modal -->
+    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">İşlem Başarılı</h4>
+                </div>
+                <div class="modal-body successModal">
+                    ...
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-danger"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Uyarı</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Silmek istediğinizden emin misiniz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                            data-dismiss="modal">Evet
+                    </button>
+                    <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Tamamlanan Görevler</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <h1>
+           {{ obj.name }}
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+
+                            <br>
+                            <table id="kurye" class="table  table-bordered table-hover display responsive nowrap "
+                                   cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+
+                                    <th>#</th>
+                                    <th>Durumu</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Telefon</th>
+                                    <th>Görev Ata</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for courier in couriers %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        {% if courier.isActive == True %}
+                                            <td><span class="label label-success">Görevi Yok</span></td>
+                                        {% else %}
+                                            <td><span class="label label-danger">Görevde</span>
+                                            </td>
+                                        {% endif %}
+                                        <td>{{ courier.courier.user.first_name }} {{ courier.courier.user.last_name }}</td>
+                                        <td>{{ courier.courier.mobilePhone }}</td>
+
+                                        <td><a href="{% url 'kurye:talepler' courier.pk %}"><span
+                                                class="label label-primary">Görev Ata</span></a>
+
+
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <!-- /.row (main row) -->
+
+    </section>
+
+    <script>
+        $(function () {
+            $('#kurye').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+
+        })
+    </script>
+
+    <script>
+        function getCourier(id) {
+
+            var html = '';
+            $.get(" {% url "kurye:kurye getir" pk=12121   %}".replace(/12121/, id.toString()))
+                .done(function (response) {
+
+                    var courier = response.courier;
+                    courier.courier.creationDate = formatDate(courier.courier.creationDate);
+
+
+                    html = '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-hover">';
+                    html += ' <tbody><tr>';
+                    html += '<th>Ad Soyad</th><th>Email</th><th>T.C.</th><th>Telefon</th><th>Adres</th><th>Giriş Tarihi</th></tr><tr>';
+                    html += '<td>' + courier.courier.user.first_name + courier.courier.user.last_name + '</td><td>' + courier.courier.user.email + '</td><td>' + courier.courier.tc + '</td><td>' + courier.courier.mobilePhone + '</td><td>' + courier.courier.address + '</td><td>' + courier.courier.creationDate + '</td>';
+                    html += '</tr></tbody></table></div>';
+
+                    $(".bodys").html(html);
+
+                });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }
+
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [day, month, year].join('.');
+        }
+    </script>
+{% endblock %}
+

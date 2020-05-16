@@ -57,7 +57,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
         # 'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAdminUser',
-     ),
+    ),
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
@@ -91,6 +91,8 @@ TEMPLATES = [
                 'kurye.services.general_methods.getAdminMenu',
                 'kurye.services.general_methods.getCourierMenu',
                 'kurye.services.general_methods.getUserMenu',
+                'kurye.services.general_methods.activeMenu',
+                'kurye.services.general_methods.notifications',
 
                 # "education.services.general_methods.append_privileges",
             ],
@@ -170,11 +172,10 @@ EMAIL_HOST_PASSWORD = 'oxit2016'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True"""
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.com.tr'
 EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'ik@oxityazilim.com'
+EMAIL_HOST_USER = 'burcu.dogan@oxityazilim.com'
 EMAIL_HOST_PASSWORD = 'oxit2016'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True

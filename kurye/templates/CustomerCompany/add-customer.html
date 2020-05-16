@@ -50,9 +50,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Müşteri Kayıt
-
+           {{ obj.name }}
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
 
@@ -82,8 +86,8 @@
                                         <label> {{ customer_form.phone.label }}</label>
                                         {{ customer_form.phone }}
                                     </div>
-                                     <div class="form-group">
-                                        <label >{{ customer_form.email.label }}</label>
+                                    <div class="form-group">
+                                        <label>{{ customer_form.email.label }}</label>
                                         {{ customer_form.email }}
                                     </div>
 
@@ -143,7 +147,7 @@
         </div>
     </section>
     <!-- /.content -->
-       <script>
+    <script>
         $(function () {
             $('.select2').select2();
             //Money Euro

@@ -95,8 +95,13 @@
 
     <section class="content-header">
         <h1>
-            Müşteriler
+            {{ obj.name }}
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
     <section class="content">

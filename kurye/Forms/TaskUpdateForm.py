@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
 
-from kurye.models import TaskSituations
 from kurye.models.Task import Task
 
 
@@ -9,7 +8,8 @@ class TaskUpdateForm(ModelForm):
     class Meta:
         model = Task
 
-        fields = ('courier', 'task_situation')
+        fields = ('description',)
 
-    task_situation = forms.ModelChoiceField(queryset=TaskSituations.objects.all(), widget=forms.Select(
-        attrs={'class': 'form-control select2 select2-hidden-accessible', 'style': 'width: 100%;'}))
+        widgets = {
+            'description': forms.TextInput(attrs={'class': 'form-control ', 'placeholder': 'Açıklama'}),
+        }

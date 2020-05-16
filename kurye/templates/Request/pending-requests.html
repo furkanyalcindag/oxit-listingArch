@@ -125,7 +125,7 @@
             <div class="modal-content" style="height:fit-content">
 
                 <div class="modal-header" style="background-color:#3c8dbc ">
-                    <font color="white">Sipariş Durumu Güncelle</font>
+                    <font color="white">Onay Bekleyen Talepler</font>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -168,11 +168,16 @@
 
 
 
+
     <section class="content-header">
         <h1>
-            Bekleyen Talepler
-
+            {{ obj.name }}
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
     <section class="content">
@@ -190,19 +195,15 @@
 
                     <div class="box box-primary">
                         <br>
-                        <table id="pendingrequest" class="table table-bordered table-hover">
+                        <table id="pendingrequest" class="display responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                             <tr>
 
                                 <th>No</th>
                                 <th>Firma</th>
-                                <th>Ödeme Şekli</th>
-                                <th>Tutar</th>
-                                <th>Müşteri</th>
-                                <th>Adres</th>
-                                <th>Talep Tarihi</th>
-                                <th>Talep Zamanı</th>
-                                <th>Onayla/Sil</th>
+                                <th>Müşteri Adresi</th>
+                                <th>Talep Tarih/Saat</th>
+                                <th>Onayla/Sil/Detay</th>
 
                             </tr>
                             </thead>
@@ -216,33 +217,24 @@
 
                                     <td>{{ request.company.companyName }}</td>
 
-                                    <td>{{ request.payment_type }}</td>
-
-
-                                    <td>{{ request.totalPrice }} ₺</td>
-
-
-                                    <td>{{ request.receiver.customer }} - {{ request.receiver.phone }}</td>
-
                                     <td>{{ request.receiver.address }}</td>
 
+                                    <td>{{ request.exitDate }} - {{ request.exitTime }} </td>
 
-                                    <td>{{ request.exitDate }}</td>
-
-                                    <td>{{ request.exitTime }}</td>
 
                                     <td>
-                                        <div class="btn-group">
 
-                                            <a class="btn btn-success"
-                                               onclick="requestActive({{ request.pk }})"><i
-                                                    class="fa fa-align-left"></i> Onayla </a>
 
-                                            <a class="btn btn-danger"
-                                               data-toggle="modal"
-                                               onclick=deletePendingRequest({{ request.pk }})><i
-                                                    class="fa fa-trash"></i> Sil </a>
-                                        </div>
+                                        <a onclick="requestActive({{ request.pk }})"><span
+                                                class="label label-primary">Onayla</span></a>
+
+                                        <a data-toggle="modal"
+                                           onclick=deletePendingRequest({{ request.pk }})><span
+                                                class="label label-danger">Sil</span></a>
+
+                                        <a class="btn" onclick="getRequest({{ request.pk }})"><span
+                                                class="label label-primary">Detay</span></a>
+
                                     </td>
 
 
@@ -318,14 +310,14 @@
         });
 
 
-        function requestActive(user_id, is_true) {
+        function requestActive(request_id, is_true) {
             $(".aktif").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
                     $.ajax({
                         url: "{% url 'kurye:talep-onayla' %}",
                         type: "post", // or "get"
                         data: {
-                            user_id: user_id,
+                            request_id: request_id,
                             is_true: is_true
                         },
                         success: function (result) {
@@ -395,9 +387,60 @@
 
         }
 
-
     </script>
+    <script>
+        function getRequest(id) {
+            debugger;
 
+            var html = '';
+            $.get(" {% url "kurye:talep getir" pk=12121   %}".replace(/12121/, id.toString()))
+                .done(function (response) {
+                    var request = response.request[0];
+
+
+                    html = '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-hover">';
+                    html += ' <tbody><tr>';
+                    html += '<th>Müşteri Ad Soyad</th><th>Müşteri Adres</th><th>Firma</th><th>Ödenecek Ücret</th><th>Ödeme Yöntemi</th></tr><tr>';
+                    html += '<td>' + request.request.receiver.customer + '</td><td>' + request.request.receiver.address + '</td><td>' + request.request.company.companyName + '</td><td>' + request.request.totalPrice + '₺</td><td>' + request.request.payment_type + '</td>';
+                    html += '</tr></tbody></table></div>';
+
+                    $(".bodys").html(html);
+
+                });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }
+
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            hour = d.getHours();
+            minute = d.getMinutes();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            date = [day, month, year].join('.');
+            time = [hour, minute].join(':');
+
+
+            return [date, time].join('-');
+        }
+    </script>
 
 {% endblock %}
 

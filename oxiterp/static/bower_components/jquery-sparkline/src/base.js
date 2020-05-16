@@ -110,7 +110,7 @@
 
 
     /**
-     * User option handler
+     * CustomerCompany option handler
      */
     $.fn.sparkline.options = createClass({
         init: function (tag, userOptions) {

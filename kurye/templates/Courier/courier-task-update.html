@@ -95,9 +95,14 @@
 
     <section class="content-header">
         <h1>
-            Atanan Görevlerim
+            {{ obj.name }}
 
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
     <section class="content">
@@ -114,46 +119,78 @@
 
 
                     <div class="box box-primary">
-                        <br>
-                        <table id="kurye" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
+                        <div class="box-body">
+                            <br>
+                            <table id="kurye" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
 
-                                <th>#</th>
-                                <th>Durum</th>
-                                <th>Adres</th>
-                                <th>Oluşturulma Tarihi</th>
-                                <th>Oluşturulma Zamanı</th>
-                                <th></th>
+                                    <th>#</th>
+                                    <th></th>
+                                    <th>Durum Seç</th>
+                                    <th>Açıklama Ekle</th>
+                                    <th>Adres</th>
+                                    <th>Çıkış Tarihi</th>
+                                    <th>Çıkış Zamanı</th>
 
 
-                            </tr>
-                            </thead>
-                            <tbody>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                            {% for task in tasks %}
-                                <form action="" method="post">
-                                    {% csrf_token %}
+                                {% for task in tasks %}
+
                                     <tr role="row" class="odd">
-                                        <td>{{ forloop.counter }}</td>
 
-                                        <td>{{ task_form.task_situation }}</td>
-                                        <td>{{ task.request.receiver.address }}</td>
-                                        <td>{{ task.creationDate }}</td>
-                                        <td>{{ task.creationTime }}</td>
-                                        <td>
-                                            <button type="submit" class="btn btn-block btn-success">Güncelle
-                                            </button>
-                                        </td>
-                                        <input type="hidden" value="{{ task.pk }}" name="task">
+                                        <form method="post" role="form">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="{{ task.pk }}" name="task">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>
+                                                <button type="submit" class="btn btn-success">Güncelle
+                                                </button>
+
+                                            </td>
+
+                                            <td>
+                                                <select style="width: 100%" name="situation">
+
+                                                    {% for situation in task_situations %} }
+
+
+                                                        {% if task.activeTask == situation.name %}
+                                                            <option
+                                                                    selected>{{ situation.name }}</option>
+                                                        {% else %}
+                                                            {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
+                                                            {% else %}
+                                                                <option>{{ situation.name }}</option>
+                                                            {% endif %}
+                                                        {% endif %}
+
+
+
+                                                    {% endfor %}
+
+
+                                                </select></td>
+                                            <td><input
+                                                    value="{% if task.description %}{{ task.description }} {% endif %}"
+                                                    type="text" class="form-control" name="description"
+                                                    placeholder="Açıklama"></td>
+                                            <td>{{ task.request.receiver.address }}</td>
+                                            <td>{{ task.request.exitDate }}</td>
+                                            <td>{{ task.request.exitTime }}</td>
+
+                                        </form>
                                     </tr>
-                                </form>
-                            {% endfor %}
+
+                                {% endfor %}
 
 
-                            </tbody>
-                        </table>
-
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
 
@@ -200,5 +237,40 @@
         })
 
     </script>
+
+
+
+    <script>       function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });</script>
 {% endblock %}
 

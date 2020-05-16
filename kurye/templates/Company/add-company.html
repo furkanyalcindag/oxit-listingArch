@@ -49,9 +49,15 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Kullanıcı Ekle
+           {{ obj.name }}
 
         </h1>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
 
@@ -134,11 +140,7 @@
                             <div class="col-lg-12 col-xs-12">
 
                                 <div class="box-footer">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Sözleşmeyi okudum,kabul ediyorum
-                                        </label>
-                                    </div>
+
 
                                     <button type="submit" class="btn btn-primary">Ekle</button>
                                 </div>

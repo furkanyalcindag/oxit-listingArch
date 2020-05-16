@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>BAVEN 2</title>
+    <title>OXIT</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -30,13 +30,13 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-color: #ffffff">
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>BAVEN </b></a>
+        <a href="#"><b>OXIT</b></a>
     </div>
     <!-- /.login-logo -->
-    <div class="login-box-body">
+    <div class="login-box-body" style="background:#c8c5c5">
         <p class="login-box-msg">Hoşgeldiniz</p>
 
         {% if messages %}
@@ -90,16 +90,16 @@
                 </div>
                 <!-- /.col -->
 
-                 <div class="col-xs-4">
+                <div class="col-xs-4">
 
-                      <button type="submit" class="btn btn-primary btn-block btn-flat">Giriş Yap</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Giriş Yap</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
 
-        <a href="/forgot" class="text-center">Şifremi Unuttum</a><br>
+        <a href="{% url 'accounts:forgot' %}" class="text-center">Şifremi Unuttum</a><br>
 
 
     </div>
@@ -108,11 +108,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery 3 -->
-<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 <!-- iCheck -->
-<script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
 <script>
     $(function () {
         $('input').iCheck({

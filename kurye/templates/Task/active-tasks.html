@@ -95,8 +95,13 @@
 
     <section class="content-header">
         <h1>
-           Görev Ata
+            {{ obj.name }}
         </h1>
+      <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
     <section class="content">
@@ -113,37 +118,41 @@
 
 
                     <div class="box box-primary">
-                        <br>
-                        <table id="activetask" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-
-                                <th>Görev Numarası</th>
-                                <th>Restoran/Market</th>
-                                <th>Teslim Edilecek Adres</th>
-                                <th>Kurye</th>
-                                <th>Durumu</th>
-
-
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for task in active_tasks %}
+                        <div class="box-body">
+                            <br>
+                            <table id="activetask" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
                                 <tr>
-                                    <td><a href="#">{{ task.pk }}</a></td>
-                                    <td><a href="#">{{ task.request.company.companyName }}</a></td>
-                                    <td>{{ task.request.receiver.address }}</td>
-                                    <td>{{ task.courier.courier.user.first_name }} {{ task.courier.courier.user.last_name }}</td>
-                                    <td><span class="label label-warning">Yolda</span></td>
+
+                                    <th>Görev Numarası</th>
+                                    <th>Durumu</th>
+                                    <th>Restoran/Market</th>
+                                    <th>Teslim Edilecek Adres</th>
+                                    <th>Kurye</th>
+
+
                                 </tr>
+                                </thead>
+                                <tbody>
 
-                            {% endfor %}
+                                {% for task in active_tasks %}
+                                    <tr>
+                                        <td><a href="#">{{ task.pk }}</a></td>
+                                        <td><span
+                                                class="label label-warning">{{ task.task_situation.task_situation.name }}</span>
+                                        </td>
+
+                                        <td><a href="#">{{ task.request.company.companyName }}</a></td>
+                                        <td>{{ task.request.receiver.address }}</td>
+                                        <td>{{ task.courier.courier.user.first_name }} {{ task.courier.courier.user.last_name }}</td>
+                                    </tr>
+
+                                {% endfor %}
 
 
-                            </tbody>
-                        </table>
-
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                     <!-- /.box -->

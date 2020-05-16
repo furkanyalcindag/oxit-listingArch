@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from kurye.models import Request
+from kurye.models.Request import Request
 
 
 class RequestForm(ModelForm):

@@ -170,9 +170,15 @@
 
     <section class="content-header">
         <h1>
-            Aktif Talepler
+            {{ obj.name }}
 
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
 
     </section>
     <section class="content">
@@ -189,71 +195,49 @@
 
 
                     <div class="box box-primary">
-                        <br>
-                        <table id="pendingrequest" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-
-                                <th>No</th>
-                                <th>Firma</th>
-                                <th>Ödeme Şekli</th>
-                                <th>Tutar</th>
-                                <th>Müşteri</th>
-                                <th>Adres</th>
-                                <th>Talep Tarihi</th>
-                                <th>Talep Zamanı</th>
-                                <th>Onayla/Sil</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for request in task %}
+                        <div class="box-body">
+                            <br>
+                            <table id="endingtask" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
                                 <tr>
 
-
-                                    <td>{{ forloop.counter }} </td>
-
-                                    <td>{{ request.company.companyName }}</td>
-
-                                    <td>{{ request.payment_type }}</td>
-
-
-                                    <td>{{ request.totalPrice }} ₺</td>
-
-
-                                    <td>{{ request.receiver.customer }} - {{ request.receiver.phone }}</td>
-
-                                    <td>{{ request.receiver.address }}</td>
-
-
-                                    <td>{{ request.exitDate }}</td>
-
-                                    <td>{{ request.exitTime }}</td>
-
-                                    <td>
-                                        <div class="btn-group">
-
-                                            <a class="btn btn-success"
-                                               onclick="requestActive({{ request.pk }})"><i
-                                                    class="fa fa-align-left"></i> Onayla </a>
-
-                                            <a class="btn btn-danger"
-                                               data-toggle="modal"
-                                               onclick=deletePendingRequest({{ request.pk }})><i
-                                                    class="fa fa-trash"></i> Sil </a>
-                                        </div>
-                                    </td>
-
+                                    <th>No</th>
+                                    <th>Durumu</th>
+                                    <th>Müşteri Ad Soyad</th>
+                                    <th>Adres</th>
+                                    <th>Ödenen Tutar</th>
+                                    <th>Çıkış Tarih/Zaman</th>
+                                    <th>Teslim Tarih/Zaman</th>
 
                                 </tr>
+                                </thead>
+                                <tbody>
 
-                            {% endfor %}
+                                {% for task in ending_tasks %}
+                                    <tr>
 
 
-                            </tbody>
-                        </table>
+                                        <td>{{ forloop.counter }} </td>
+                                        {% if  task.task_situation.name  == 'Teslim Edildi' %}
+                                            <td><span class="label label-success">Teslim Edildi</span></td>
+                                        {% else %}
+                                            <td><span class="label label-danger">Teslim Edilemedi</span></td>
+                                        {% endif %}
+                                        <td>{{ task.task.request.receiver.customer }}</td>
+                                        <td>{{ task.task.request.receiver.address }}</td>
+                                        <td>{{ task.task.request.totalPrice }} ₺</td>
+                                        <td>{{ task.task.request.exitDate }} - {{ task.task.request.exitTime }} </td>
+                                        <td>{{ task.task.deliveryDate }} - {{ task.task.deliveryTime }}</td>
 
+
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                     <!-- /.box -->
@@ -270,7 +254,7 @@
 
     <script>
         $(function () {
-            $('#pendingrequest').DataTable({
+            $('#endingtask').DataTable({
                 'paging': true,
                 'lengthChange': true,
                 'searching': true,
@@ -316,84 +300,6 @@
                 }
             }
         });
-
-
-        function requestActive(user_id, is_true) {
-            $(".aktif").on("shown.bs.modal", function (e) {
-                $("#btn-conf").click(function () {
-                    $.ajax({
-                        url: "{% url 'kurye:talep-onayla' %}",
-                        type: "post", // or "get"
-                        data: {
-                            user_id: user_id,
-                            is_true: is_true
-                        },
-                        success: function (result) {
-
-                            if (result.status == 'Success') {
-
-                                let html = 'Talep Onaylandı';
-
-                                $(".successModal").html(html);
-                                $('#modal-success').on("shown.bs.modal", function (e) {
-                                    $(".btn-ok").click(function () {
-
-                                        window.location.replace("{% url "kurye:bekleyen talepler" %}");
-
-                                    });
-
-                                }).modal('show');
-
-                            } else {
-                                swal("Başarılı", result.messages, "error");
-                            }
-                        }
-                    });
-                });
-            }).modal('show');
-            $('#btn-aktif').click(function () {
-                $('#aktif').modal('hide');
-            });
-        }
-
-        function deletePendingRequest(id) {
-            debugger;
-            console.log(id);
-            var html = '';
-            $("#sil").on("shown.bs.modal", function (e) {
-                $("#btn-conf1").click(function () {
-                    $.ajax({
-                        url: "{% url "kurye:talep-sil" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),
-                        type: "POST",
-                        data: {
-                            'csrfmiddlewaretoken': "{{  csrf_token  }}",
-                            isActive: 'False'
-                        },
-                        success: function (result) {
-
-                            html = 'Talep Başarıyla Silindi';
-
-                            $(".successModal").html(html);
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
-
-                                    window.location.replace("{% url "kurye:bekleyen talepler" %}");
-
-                                });
-
-                            }).modal('show');
-
-
-                            console.log(result.status)
-                        }
-                    });
-                });
-            }).modal('show');
-            $('#btn-close').click(function () {
-                $('#modal-danger').modal('hide');
-            });
-
-        }
 
 
     </script>

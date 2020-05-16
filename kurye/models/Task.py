@@ -1,6 +1,4 @@
 from django.db import models
-
-from kurye.models.TaskSituations import TaskSituations
 from kurye.models.Request import Request
 from kurye.models.Courier import Courier
 
@@ -14,13 +12,8 @@ class Task(models.Model):
     deliveryTime = models.TimeField(null=True, blank=True, verbose_name='Teslim zamanı')
     deliveryDate = models.DateField(null=True, blank=True, verbose_name='Teslim Tarihi')
     description = models.CharField(max_length=250, null=True, blank=True, verbose_name='Açıklama')
-    task_situation = models.ManyToManyField(TaskSituations, verbose_name='Görev Durumu', null=True, blank=True)
+    isComplete = models.BooleanField(default=False)
+    activeTask = ''
 
     def __str__(self):
-        return '%s %s %s' % (self.task_situation, '-', self.request.receiver.address)
-
-    def latest_catch(self):
-        if len(self.task_situation.all()) > 0:
-            return self.task_situation.objects.last().name
-        else:
-            return 0
+        return '%s %s %s' % (self.request.receiver.customer, '-', self.request.receiver.address)

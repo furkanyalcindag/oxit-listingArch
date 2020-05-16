@@ -32,6 +32,9 @@
           href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
     <link rel="stylesheet" href="{% static 'fieldChooser/css/jquery.lwMultiSelect.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
 
 </head>
 
@@ -48,11 +51,17 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="index.html" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>M</b>T</span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Moto</b>Kurye</span>
+        {% if  user.groups.all.0.name == 'Admin' %}
+            <a href="{% url 'kurye:admin-dashboard' %}" class="logo">
+        {% elif user.groups.all.0.name == 'Kullanıcı' %}
+            <a href="{% url 'kurye:kullanıcı-dashboard' %}" class="logo">
+        {% else %}
+            <a href="{% url 'kurye:kurye-dashboard' %}" class="logo">
+        {% endif %}
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>M</b>T</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>Moto</b>Kurye</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -64,132 +73,39 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">5</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">5 okunmamış mesajınız var</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li><!-- start message -->
-                                        <a href="#">
-                                            <div class="pull-left">
-                                                <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle"
-                                                     alt="User Image">
-                                            </div>
-                                            <h4>
-                                                Makro Market
-                                                <small><i class="fa fa-clock-o"></i> 5 Dakika</small>
-                                            </h4>
-                                            <p>Müşteri aradı neredesin ? </p>
-                                        </a>
-                                    </li>
-                                    <!-- end message -->
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-                                                <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle"
-                                                     alt="User Image">
-                                            </div>
-                                            <h4>
-                                                Makro Market
-                                                <small><i class="fa fa-clock-o"></i> 5 Dakika</small>
-                                            </h4>
-                                            <p>Müşteri aradı neredesin ? </p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-                                                <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle"
-                                                     alt="User Image">
-                                            </div>
-                                            <h4>
-                                                Makro Market
-                                                <small><i class="fa fa-clock-o"></i> 5 Dakika</small>
-                                            </h4>
-                                            <p>Müşteri aradı neredesin ? </p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-                                                <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle"
-                                                     alt="User Image">
-                                            </div>
-                                            <h4>
-                                                Makro Market
-                                                <small><i class="fa fa-clock-o"></i> 5 Dakika</small>
-                                            </h4>
-                                            <p>Müşteri aradı neredesin ? </p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="pull-left">
-                                                <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle"
-                                                     alt="User Image">
-                                            </div>
-                                            <h4>
-                                                Makro Market
-                                                <small><i class="fa fa-clock-o"></i> 5 Dakika</small>
-                                            </h4>
-                                            <p>Müşteri aradı neredesin ? </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="#">Tüm Mesajlar</a></li>
-                        </ul>
-                    </li>
                     <!-- Notifications: style can be found in dropdown.less -->
-                    <li class="dropdown notifications-menu">
+                    {% if user.groups.all.0.name == 'Admin' %}
+                        <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">5</span>
+                            <span class="label label-warning">{{ count }}</span>
                         </a>
+
                         <ul class="dropdown-menu">
-                            <li class="header">5 okunmamış bildirimin var</li>
+                            <li class="header">{{ count }} Bildiriminiz var.</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-aqua"></i>1484 Nolu Yeni Sipariş Eklendi
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-warning text-yellow"></i> 24554 nolu sipariş teslim edildi
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-red"></i> 2 adet yeni teslimatın var
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-warning text-yellow"></i> 24554 nolu sipariş teslim edildi
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-warning text-yellow"></i> 24554 nolu sipariş teslim edildi
-                                        </a>
-                                    </li>
+
+                                    {% for notification in notification %}
+                                        <li>
+                                            <i class="fa fa-exclamation"
+                                               style="margin:10px;"></i>{{ notification.message }}
+                                        </li>
+                                    {% endfor %}
+
+
                                 </ul>
                             </li>
-                            <li class="footer"><a href="#">Tüm Bildirimleri Göster</a></li>
+                            <li class="footer"><a href="{% url 'kurye:bildirimler' %}">View all</a></li>
+
                         </ul>
+                    {% endif %}
                     </li>
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/media/profile/2_4Y0kkpm.jpg" class="user-image" alt="OXIT BİLİŞİM"
+                            <img src="/media/{{ user.profile.profileImage }}" class="user-image" alt="OXIT BİLİŞİM"
                                  style=" width: 30px;height: 30px;">
                             <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }} <i
                                     class="fa fa-chevron-down" aria-hidden="true"></i></span>
@@ -197,7 +113,7 @@
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle" alt="OXIT BİLİŞİM">
+                                <img src="/media/{{ user.profile.profileImage }}" class="img-circle" alt="OXIT BİLİŞİM">
 
                                 <p>
                                     {{ user.first_name }} {{ user.last_name }}
@@ -205,14 +121,16 @@
                                     <small>
 
                                         {{ user.email }} <br>
-                                        Katılım Tarihi: {{ user.profileuser.creationDate }}</small>
+                                        Katılım Tarihi: {{ user.profile.creationDate }}</small>
                                 </p>
                             </li>
 
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#"
-                                       class="btn btn-default btn-flat"> <i class="fa fa-user" aria-hidden="true"></i>
+
+                                    <a href="{% url 'kurye:profil' %}" class="btn btn-default btn-flat"> <i
+                                            class="fa fa-user"
+                                            aria-hidden="true"></i>
                                         Profil Bilgisi</a>
                                 </div>
                                 <div class="pull-right">
@@ -235,7 +153,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="/media/profile/2_4Y0kkpm.jpg" class="img-circle" alt="User Image"
+                    <img src="/media/{{ user.profile.profileImage }}" class="img-circle" alt="User Image"
                          style=" width: 50px;height: 50px;">
 
                 </div>
@@ -314,14 +232,33 @@
 
                         {% if menu.is_parent %}
                             {% if menu.name != "Anasayfa" %}
-                                <li class="treeview ">
-                                <a href="#">
-                                    <i class=" {{ menu.fa_icon }}"></i>
-                                    <span>{{ menu.name }}</span>
-                                    <span class="pull-right-container">
+
+                                {% if menu.id is self.id %}
+
+                                    <li class="treeview active menu-open ">
+                                        <a href="#">
+                                            <i class=" {{ menu.fa_icon }}"></i>
+                                            <span>{{ menu.name }}</span>
+                                            <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
-                                </a>
+                                        </a>
+                                        {% else %}
+
+
+                                    <li class="treeview ">
+
+                                    <a href="#">
+                                        <i class=" {{ menu.fa_icon }}"></i>
+                                        <span>{{ menu.name }}</span>
+                                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                    </a>
+
+
+
+                                {% endif %}
                             {% endif %}
 
                         {% endif %}
@@ -335,11 +272,19 @@
                             {% if menu.name != "Anasayfa" %}
                                 {% if menusub.parent.id is menu.id %}
 
-                                    <li>
-                                        <a href="{% url menusub.url %}"><i
-                                                class=" {{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
+                                    {% if menusub.url == url %}
 
+                                        <li class="active">
+                                            <a href="{% url menusub.url %}"><i
+                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{% url menusub.url %}"><i
+                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                        </li>
+
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
@@ -350,7 +295,7 @@
 
                 {% elif user.groups.all.0.name == 'Kurye' %}
                     <li class=" ">
-                        <a href="{% url "kurye:kurye-dashboard" %}">
+                        <a href="{% url "kurye:kurye atanan gorevler" %}">
                             <i class="fa fa-home"></i>
                             <span>Anasayfa</span>
                             <span class="pull-right-container">
@@ -359,17 +304,36 @@
                         </a></li>
                     {% for menu in couriermenus %}
 
-
                         {% if menu.is_parent %}
                             {% if menu.name != "Anasayfa" %}
-                                <li class="treeview ">
-                                <a href="#">
-                                    <i class=" {{ menu.fa_icon }}"></i>
-                                    <span>{{ menu.name }}</span>
-                                    <span class="pull-right-container">
+                                {% if menu.id is self.id %}
+
+                                    <li class="treeview active menu-open ">
+                                        <a href="#">
+                                            <i class=" {{ menu.fa_icon }}"></i>
+                                            <span>{{ menu.name }}</span>
+                                            <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
-                                </a>
+                                        </a>
+                                        {% else %}
+
+
+                                    <li class="treeview ">
+
+                                    <a href="#">
+                                        <i class=" {{ menu.fa_icon }}"></i>
+                                        <span>{{ menu.name }}</span>
+                                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                    </a>
+
+
+
+                                {% endif %}
+
+
                             {% endif %}
 
                         {% endif %}
@@ -383,10 +347,19 @@
                             {% if menu.name != "Anasayfa" %}
                                 {% if menusub.parent.id is menu.id %}
 
-                                    <li>
-                                        <a href="{% url menusub.url %}"><i
-                                                class=" {{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
+                                    {% if menusub.url == url %}
+
+                                        <li class="active">
+                                            <a href="{% url menusub.url %}"><i
+                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{% url menusub.url %}"><i
+                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                        </li>
+
+                                    {% endif %}
 
                                 {% endif %}
                             {% endif %}
@@ -398,35 +371,6 @@
 
                 {% endif %}
 
-                <li class="treeview ">
-                    <a href="#">
-                        <i class="fa fa-user-plus"></i>
-                        <span>Hesap Ayarları</span>
-                        <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <a href=""><i
-                                    class="fa fa-key"></i> Şifre</a>
-                        </li>
-                    </ul>
-
-
-                </li>
-
-                <li class="">
-                    <a href="">
-                        <i class="fa fa-credit-card"></i>
-                        <span>Ödeme Yöntemleri</span>
-
-                    </a>
-
-
-                </li>
-
-
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -435,6 +379,8 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {% block content %}
+
+
 
 
 
@@ -483,6 +429,9 @@
 <script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
 <script src="{% static 'bower_components/chart.js/Chart.js' %}"></script>
 <script src="{% static 'dist/js/demo.js' %}"></script>
+<script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+
 
 </body>
 </html>

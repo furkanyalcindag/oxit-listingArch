@@ -1,139 +1,275 @@
 {% extends 'base_layout.html' %}
-{% load staticfiles %}
+
 {% block content %}
 
-    <!-- Content Header (Page header) -->
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+    <!-- success modal -->
+    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">İşlem Başarılı</h4>
+                </div>
+                <div class="modal-body successModal">
+                    ...
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-danger"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Uyarı</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Silmek istediğinizden emin misiniz?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                            data-dismiss="modal">Evet
+                    </button>
+                    <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
     <section class="content-header">
         <h1>
-            Atanan Görevlerim
+            Aktif Görevler
 
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+        </ol>
 
     </section>
-
-    <!-- Main content -->
     <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
 
-
-                <div class="box">
-
-                    <div class="box-body">
-                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="dataTables_length" id="example1_length"><label> <select
-                                            name="example1_length" aria-controls="example1"
-                                            class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> Sonuç Gösteriliyor.</label></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div id="example1_filter" class="dataTables_filter"><label>Ara:<input type="search"
-                                                                                                          class="form-control input-sm"
-                                                                                                          placeholder=""
-                                                                                                          aria-controls="example1"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <table id="example1" class="table table-bordered table-striped dataTable no-footer"
-                                           role="grid" aria-describedby="example1_info">
-                                        <thead>
-                                        <tr role="row">
-                                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                                colspan="1" aria-sort="ascending"
-                                                aria-label="No: activate to sort column descending"
-                                                style="width: 83.4px;">No
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                colspan="1" aria-label="Durum: activate to sort column ascending"
-                                                style="width: 265px;">Durum
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                colspan="1" aria-label="Adres: activate to sort column ascending"
-                                                style="width: 249px;">Adres
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                colspan="1"
-                                                aria-label="Oluşturulma Tarihi: activate to sort column ascending"
-                                                style="width: 297.8px;">Oluşturulma Tarihi
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                                colspan="1" aria-label="Güncelle: activate to sort column ascending"
-                                                style="width: 165.2px;">Güncelle
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        {% for task in tasks %}
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1">1</td>
-
-                                                <td><select class="form-control input-sm">
-                                                    <option value="0">Atandı</option>
-                                                    <option value="1">Yolda</option>
-                                                    <option value="2">Teslim Edildi</option>
-                                                    <option value="3">Teslim Edilmedi</option>
-
-
-                                                </select>
-                                                </td>
-
-                                                <td>{{ task.request.receiver.address }}</td>
-                                                <td>04/04/2020 16:45</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-block btn-success">Güncelle
-                                                    </button>
-                                                </td>
-
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"> 1
-                                        ile 3 Arası Sonuç Gösteriliyor. Toplam Sonuç : 3
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                                        <ul class="pagination">
-                                            <li class="paginate_button previous disabled" id="example1_previous"><a
-                                                    href="#" aria-controls="example1" data-dt-idx="0" tabindex="0">Önceki</a>
-                                            </li>
-                                            <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                                  data-dt-idx="1" tabindex="0">1</a>
-                                            </li>
-                                            <li class="paginate_button next disabled" id="example1_next"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="2"
-                                                                                                            tabindex="0">Sonraki</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <!-- /.col -->
-        </div>
         <!-- /.row -->
-    </section>
-    <!-- /.content -->
+        <!-- Main row -->
+        <div class="row">
 
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <br>
+                            <table id="kurye" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+
+                                    <th>#</th>
+                                    <th></th>
+                                    <th>Durum Seç</th>
+                                    <th>Açıklama Ekle</th>
+                                    <th>Adres</th>
+                                    <th>Çıkış Tarihi</th>
+                                    <th>Çıkış Zamanı</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for task in tasks %}
+
+                                    <tr role="row" class="odd">
+
+                                        <form method="post" role="form">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="{{ task.pk }}" name="task">
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>
+                                                <button type="submit" class="btn btn-success">Güncelle
+                                                </button>
+
+                                            </td>
+
+                                            <td>
+                                                <select style="width: 100%" name="situation">
+
+                                                    {% for situation in task_situations %} }
+
+
+                                                        {% if task.activeTask == situation.name %}
+                                                            <option
+                                                                    selected>{{ situation.name }}</option>
+                                                        {% else %}
+                                                            {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
+                                                            {% else %}
+                                                                <option>{{ situation.name }}</option>
+                                                            {% endif %}
+                                                        {% endif %}
+
+
+
+                                                    {% endfor %}
+
+
+                                                </select></td>
+                                            <td><input
+                                                    value="{% if task.description %}{{ task.description }} {% endif %}"
+                                                    type="text" class="form-control" name="description"
+                                                    placeholder="Açıklama"></td>
+                                            <td>{{ task.request.receiver.address }}</td>
+                                            <td>{{ task.request.exitDate }}</td>
+                                            <td>{{ task.request.exitTime }}</td>
+
+                                        </form>
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <!-- /.row (main row) -->
+
+    </section>
+
+    <script>
+        $(function () {
+            $('#kurye').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+
+        })
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+
+    </script>
+
+
+
+    <script>       function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });</script>
 {% endblock %}
+

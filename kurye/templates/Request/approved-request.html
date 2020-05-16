@@ -92,12 +92,42 @@
         <!-- /.modal-dialog -->
     </div>
 
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Talep</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="content-header">
         <h1>
-            Onaylanmış Talepler
+            {{ obj.name }}
 
         </h1>
+      <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
 
     </section>
     <section class="content">
@@ -107,7 +137,7 @@
         <div class="row">
 
 
-            <section class="col-lg-12 ">
+            <section class="col-lg-12">
 
 
                 <div class="box-body">
@@ -115,29 +145,33 @@
 
                     <div class="box box-primary">
                         <br>
-                        <table id="approvedrequest" class="table table-bordered table-hover">
+                        <table id="approvedrequest" class="display responsive nowrap" cellspacing="0" width="100%">
                             <thead>
                             <tr>
 
-                                 <th>#</th>
+                                <th>#</th>
                                 <th>Firma</th>
-                                <th>Müşteri</th>
+                                <th>Müşteri Ad Soyad</th>
                                 <th>Talep Tarihi</th>
-                                <th>Onaylanma Tarihi</th>
+                                <th>Adres</th>
+                                <th>Detay</th>
 
 
                             </tr>
                             </thead>
                             <tbody>
 
-                           {% if approved_requests.all %}
+                            {% if approved_requests.all %}
                                 {% for request in approved_requests %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ request.company.companyName }}</td>
                                         <td>{{ request.receiver.customer }}</td>
-                                        <td>{{ request.creationDate }}</td>
-                                        <td>{{ request.modificationDate }}</td>
+
+                                        <td>{{ request.exitDate }} - {{ request.exitTime }}</td>
+                                        <td>{{ request.receiver.address }}</td>
+                                        <td><a class="btn" onclick="getRequest({{ request.pk }})"><span
+                                                class="label label-primary">Göster</span></a></td>
 
 
                                     </tr>
@@ -176,6 +210,56 @@
         })
     </script>
 
+    <script>    function getRequest(id) {
+        debugger;
 
+        var html = '';
+        $.get(" {% url "kurye:talep getir" pk=12121   %}".replace(/12121/, id.toString()))
+            .done(function (response) {
+                var request = response.request[0];
+
+
+                html = '<div class="box-body table-responsive no-padding">';
+                html += ' <table class="table table-hover">';
+                html += ' <tbody><tr>';
+                html += '<th>Müşteri Ad Soyad</th><th>Müşteri Adres</th><th>Müşteri Telefon</th><th>Firma</th><th>Ödenecek Ücret</th><th>Ödeme Yöntemi</th></tr><tr>';
+                html += '<td>' + request.request.receiver.customer + '</td><td>' + request.request.receiver.address + '</td><td>' + request.request.receiver.phone + '</td><td>' + request.request.company.companyName + '</td><td>' + request.request.totalPrice + '₺</td><td>' + request.request.payment_type + '</td>';
+                html += '</tr></tbody></table></div>';
+
+                $(".bodys").html(html);
+
+            });
+
+        $('.bd-example-modal-lg').modal('show');
+
+
+        $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+            // put your default event here
+            $(".bodys").html("");
+        });
+
+
+    }
+
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+        hour = d.getHours();
+        minute = d.getMinutes();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        date = [day, month, year].join('.');
+        time = [hour, minute].join(':');
+
+
+        return [date, time].join('-');
+    }</script>
 {% endblock %}
 

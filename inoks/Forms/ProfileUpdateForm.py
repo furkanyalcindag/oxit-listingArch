@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from inoks.models import Profile
+from inoks.models.Profile import Profile
 
 CHOICES_WITH_BLANK = (
     ('', '--------'),

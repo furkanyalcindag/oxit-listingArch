@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from kurye.models import District
+from kurye.models.District import District
 
 
 class DistrictSerializer(serializers.ModelSerializer):

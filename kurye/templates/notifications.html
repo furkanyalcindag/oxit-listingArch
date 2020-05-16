@@ -1,0 +1,180 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+    <!-- success modal -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <h1>
+            Bildirimler
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a>Bildirimler</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <br>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="checks" id="checks">
+                                <button type="submit" class="btn btn-default btn-sm pull-right-container"><i
+                                        class="fa fa-trash-o"> Bildirimleri Sil</i>
+                                </button>
+                            </form>
+                            <table id="notification" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+
+                                    <th>No</th>
+                                    <th>Durumu</th>
+                                    <th>Müşteri Ad Soyad</th>
+                                    <th>Kurye</th>
+                                    <th>Detay</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if notifications %}
+                                    {% for notification in notifications %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td><input id="{{ forloop.counter }}" type="checkbox"
+                                                       name="check_list[]"
+                                                       value="{{ notification.id }}" onclick="checkbox()">
+                                            </td>
+                                            <td class="mailbox-name"> {{ notification.key }}</td>
+                                            <td class="mailbox-messages"><b>{{ notification.message }}</b></td>
+                                            <td class="mailbox-date">{{ notification.creationDate }}</td>
+
+
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <!-- /.row (main row) -->
+
+    </section>
+
+    <script>
+        $(function () {
+            $('#notification').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+
+        })
+    </script>
+ <script>
+        function checkbox() {
+
+            var checkboxes = document.getElementsByName('check_list[]');
+            var vals = "";
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                if (checkboxes[i].checked) {
+                    vals += "," + checkboxes[i].value;
+                }
+            }
+            if (vals) vals = vals.substring(1);
+
+            document.getElementById("checks").value = vals;
+
+        }
+    </script>
+
+{% endblock %}
+

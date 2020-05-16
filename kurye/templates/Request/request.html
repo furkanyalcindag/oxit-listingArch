@@ -2,57 +2,6 @@
 {% block content %}
 
     {% load mathfilters %}
-
-    <style>
-        #cover-spin {
-            position: fixed;
-            width: 100%;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.7);
-            z-index: 9999;
-            display: none;
-        }
-
-        @-webkit-keyframes spin {
-            from {
-                -webkit-transform: rotate(0deg);
-            }
-            to {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        #cover-spin::after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 48%;
-            top: 40%;
-            width: 40px;
-            height: 40px;
-            border-style: solid;
-            border-color: black;
-            border-top-color: transparent;
-            border-width: 4px;
-            border-radius: 50%;
-            -webkit-animation: spin .8s linear infinite;
-            animation: spin .8s linear infinite;
-        }
-    </style>
-
-
     {% if messages %}
         {% for message in messages %}
 
@@ -97,9 +46,19 @@
 
 
     {% endif %}
+    <section class="content-header">
+        <h1>
+            {{ obj.name }}
 
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
     <section class="content">
-        <div id="cover-spin"></div>
 
 
         <div class="row">
@@ -112,66 +71,63 @@
 
 
                     <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"> Talepler</h3>
-                        </div>
+                        <div class="box-body">
 
-
-                        <table id="tum" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Firma</th>
-                                <th>Alıcı Ad Soyad</th>
-                                <th>Alıcı Telefon</th>
-                                <th>İl/İlçe</th>
-                                <th>Alıcı Adres</th>
-                                <th>Ödeme Yöntemi</th>
-                                <th>Toplam Tutar</th>
-                                <th>Çıkış Tarihi</th>
-                                <th>Çıkış Saati</th>
-                                <th>Kurye</th>
-
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for request in requests %}
-
+                            <table id="talep" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
                                 <tr>
-
-
-                                    <td>{{ forloop.counter }} </td>
-                                    <td>{{ request.company.companyName }}</td>
-                                    <td>{{ request.receiver.customer }}</td>
-                                    <td>{{ request.receiver.phone }}</td>
-                                    <td>{{ request.receiver.district }}/{{ request.receiver.city }} </td>
-                                    <td>{{ request.receiver.address }}</td>
-                                    <td>{{ request.payment_type }}</td>
-                                    <td>{{ request.totalPrice }}</td>
-                                    <td>{{ request.exitDate }}</td>
-                                    <td>{{ request.exitTime }}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <form action="{% url 'kurye:gorev ata' request.pk %}" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" value="{{ courier.pk }}" name="courier">
-                                                <button class="btn btn-success"
-                                                        type="submit">
-                                                    <i class="fa fa-align-left"></i>Kurye Ata
-                                                </button>
-
-                                            </form>
-                                        </div>
-                                    </td>
+                                    <th>No</th>
+                                    <th>Firma</th>
+                                    <th>Alıcı Ad Soyad</th>
+                                    <th>Alıcı Telefon</th>
+                                    <th>İl/İlçe</th>
+                                    <th>Alıcı Adres</th>
+                                    <th>Ödeme Yöntemi</th>
+                                    <th>Toplam Tutar</th>
+                                    <th>Çıkış Tarihi</th>
+                                    <th>Çıkış Saati</th>
+                                    <th>Kurye</th>
 
 
                                 </tr>
-                            {% endfor %}
+                                </thead>
+                                <tbody>
+                                {% for request in requests %}
 
-                            </tbody>
-                        </table>
+                                    <tr>
 
+
+                                        <td>{{ forloop.counter }} </td>
+                                        <td>{{ request.company.companyName }}</td>
+                                        <td>{{ request.receiver.customer }}</td>
+                                        <td>{{ request.receiver.phone }}</td>
+                                        <td>{{ request.receiver.district }}/{{ request.receiver.city }} </td>
+                                        <td>{{ request.receiver.address }}</td>
+                                        <td>{{ request.payment_type }}</td>
+                                        <td>{{ request.totalPrice }}</td>
+                                        <td>{{ request.exitDate }}</td>
+                                        <td>{{ request.exitTime }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <form action="{% url 'kurye:gorev ata' request.pk %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" value="{{ courier.pk }}" name="courier">
+                                                    <button class="btn btn-success"
+                                                            type="submit">
+                                                        <i class="fa fa-align-left"></i>Kurye Ata
+                                                    </button>
+
+                                                </form>
+                                            </div>
+                                        </td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                     <!-- /.box -->
@@ -185,7 +141,19 @@
         <!-- /.row (main row) -->
 
     </section>
+    <script>
+        $(function () {
+            $('#talep').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
 
+        })
+    </script>
     <script>
 
 

@@ -95,9 +95,15 @@
 
     <section class="content-header">
         <h1>
-            Kuryeler
+            {{ obj.name }}
 
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
 
     </section>
     <section class="content">
@@ -114,35 +120,42 @@
 
 
                     <div class="box box-primary">
-                        <br>
-                        <table id="company" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-
-                                <th>#</th>
-                                <th>Ad Soyad</th>
-                                <th>Telefon Numarası</th>
-                                <th>Firma Adı</th>
-                                <th>Adres</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for company in companies %}
+                        <div class="box-body">
+                            <br>
+                            <table id="company" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
                                 <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ company.profile.user.first_name }} {{ company.profile.user.last_name }}</td>
-                                    <td>{{ company.profile.mobilePhone }}</td>
-                                    <td>{{ company.companyName }}</td>
-                                    <td>{{ company.profile.address }}</td>
 
+                                    <th>#</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Telefon Numarası</th>
+                                    <th>Email</th>
+                                    <th>Firma Adı</th>
+                                    <th>Vergi Numarası</th>
+                                    <th>Vergi Dairesi</th>
+                                    <th>Adres</th>
                                 </tr>
-                            {% endfor %}
+                                </thead>
+                                <tbody>
+
+                                {% for company in companies %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ company.profile.user.first_name }} {{ company.profile.user.last_name }}</td>
+                                        <td>{{ company.profile.mobilePhone }}</td>
+                                        <td>{{ company.profile.user.email }}</td>
+                                        <td>{{ company.companyName }}</td>
+                                        <td>{{ company.taxNumber }}</td>
+                                        <td>{{ company.taxName }}</td>
+                                        <td>{{ company.profile.address }}</td>
+
+                                    </tr>
+                                {% endfor %}
 
 
-                            </tbody>
-                        </table>
-
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                     <!-- /.box -->

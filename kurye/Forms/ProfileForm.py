@@ -22,7 +22,7 @@ class ProfileForm(ModelForm):
             'address': forms.Textarea(
                 attrs={'class': 'form-control ', 'placeholder': 'Adres', 'rows': '4'}),
             'mobilePhone': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': '(0xxx) xxx xxxx', 'required': 'required',}),
+                attrs={'class': 'form-control ', 'placeholder': '(0xxx) xxx xxxx', 'required': 'required'}),
             'phone': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': '(0xxx) xx xx',
                        'maxlength': '10', 'minlength': '10'}),

@@ -11,5 +11,5 @@ class Courier(models.Model):
     isActive = models.BooleanField(default=True)
 
     def __str__(self):
-        return '%s %s %s %s' % (self.courier.profile.user.first_name, self.courier.profile.user.first_name, '-',
-                                self.courier.profile.mobilePhone)
+        return '%s %s %s %s' % (self.courier.user.first_name, self.courier.user.last_name, '-',
+                                self.courier.mobilePhone)
