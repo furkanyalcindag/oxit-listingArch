@@ -7,37 +7,34 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import resolve
 from rest_framework.decorators import api_view
-
-from kurye.models.Company import Company
 from kurye.models.MenuAdmin import MenuAdmin
-from kurye.models.Profile import Profile
+from kurye.models.Notification import Notification
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.models.TaskSituations import TaskSituations
 from kurye.models.Courier import Courier
 from kurye.models.Task import Task
 from kurye.models.Request import Request
 from kurye.serializers.TaskSerializer import TaskSerializer
-
-
-
-
-
-
-
-#admin Talepler
 from kurye.services import general_methods
 
 
+# admin Talepler
 def requests(request, pk):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    tasks = Task.objects.filter(isComplete=True)
+
     courier = Courier.objects.get(pk=pk)
     request1 = Request.objects.filter(isApprove=True)
-    return render(request, 'Request/request.html', {'requests': request1, 'courier': courier})
+    task = []
+    request_array = []
+    for request2 in request1:
+        tasks = TaskSituationTask.objects.filter(task__request=request2).filter(isActive=True)
+        if tasks.count() == 0:
+            request_array.append(request2)
+    return render(request, 'Request/request.html', {'requests': request_array, 'courier': courier})
 
 
 # görev atama kurye seçiliyor
@@ -52,7 +49,7 @@ def add_task(request, pk):
     task.save()
 
     if request.method == 'POST':
-        situation = TaskSituationTask(task=task, task_situation=TaskSituations.objects.get(name='Atandı'),
+        situation = TaskSituationTask(task=task, task_situation=TaskSituations.objects.get(name='Kurye Atandı'),
                                       isActive=True)
         situation.save()
 
@@ -63,6 +60,11 @@ def add_task(request, pk):
         task.save()
         courier.isActive = 'False'
         courier.save()
+
+        notification = Notification.objects.filter(message__icontains='Talep No: ' + str(request1.pk)).filter(
+            key__icontains='Talep')
+        for notification in notification:
+            notification.delete()
 
         subject, from_email, to = 'MotoKurye Görev Bilgileri', 'burcu.dogan@oxityazilim.com', courier.courier.user.email
         text_content = 'Görev Bilgileri'
@@ -81,7 +83,7 @@ def add_task(request, pk):
     return render(request, 'Task/add-task.html', {'request': request1, })
 
 
-#admin Tamamlanan Görevler
+# admin Tamamlanan Görevler
 @login_required
 def return_completed_task(request):
     perm = general_methods.control_access(request)
@@ -99,7 +101,7 @@ def return_completed_task(request):
                   {'task': tasks})
 
 
-#ADMİN İptal Edilen Görevler
+# ADMİN İptal Edilen Görevler
 @login_required
 def return_canceled_task(request):
     perm = general_methods.control_access(request)
@@ -117,7 +119,7 @@ def return_canceled_task(request):
                   {'tasks': tasks})
 
 
-#Admin Biten Görevler
+# Admin Biten Görevler
 @login_required
 def return_ending_task(request):
     perm = general_methods.control_access(request)
@@ -136,7 +138,7 @@ def return_ending_task(request):
                   {'tasks': tasks})
 
 
-#Admin Aktif Görevler
+# Admin Aktif Görevler
 @login_required
 def return_active_task(request):
     perm = general_methods.control_access(request)
@@ -150,7 +152,7 @@ def return_active_task(request):
     url = app_name + ':' + url_name
     obj = MenuAdmin.objects.get(url=url)
     tasks = TaskSituationTask.objects.filter(isActive=True).filter(
-        Q(task_situation__name='Atandı') | Q(task_situation__name='Yolda'))
+        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Yolda'))
     return render(request, 'Task/active-task.html',
                   {'tasks': tasks})
 
@@ -194,5 +196,3 @@ def assign_courier(request):
         return redirect('accounts:login')
     couriers = Courier.objects.all().order_by('modificationDate')
     return render(request, 'Task/assign-courier.html', {'couriers': couriers})
-
-

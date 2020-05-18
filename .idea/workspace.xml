@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7f3fd45-0ec7-48c5-879b-204c263758eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/kurye/Forms/ProfileUpdateForm.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/Forms/UserUpdateForm.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/kurye/migrations/0001_initial.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/kurye/migrations/0002_auto_20200512_1426.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/kurye/migrations/0003_auto_20200512_1734.py" afterDir="false" />
@@ -15,91 +13,52 @@
       <change afterPath="$PROJECT_DIR$/kurye/migrations/0009_requestsituations_isvisibility.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/kurye/migrations/0010_tasksituations_isvisibility.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/kurye/migrations/0011_notification.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kurye/migrations/0012_auto_20200518_1156.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/kurye/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/models/RequestSituationRequest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/models/TaskSituationTask.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/serializers/CourierSerializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/serializers/RequestSituationSerializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/serializers/TaskSerializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Company/company-ending-requests.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Company/company-requests.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Courier/courier-ending-tasks.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Courier/courier-tasks.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Task/active-task.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Task/assign-courier.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Task/cancel-tasks.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/Task/ending-task.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/User/add-admin.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/User/kullanici-bilgileri.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/User/kullanici-sifre-guncelle.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kurye/templates/notifications.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/profile/corporate_kB6e8aN.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/profile/logo.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/profile/logo_K4bAWMG.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/profile/logo_KZ5jeBE.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/profile/logo_thqGHue.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/registration/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inoks/Forms/ProfileUpdateForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/inoks/Forms/ProfileUpdateForm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/Forms/CompanyForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Forms/CompanyForm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/Forms/CustomerForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Forms/CustomerForm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/Forms/ProfileForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Forms/ProfileForm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/Forms/RequestForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Forms/RequestForm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/Forms/TaskUpdateForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Forms/TaskUpdateForm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/Views/CityViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Views/CityViews.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/Views/CourierViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Views/CourierViews.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/Forms/UserForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Forms/UserForm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/Views/DashboardViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Views/DashboardViews.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/Views/RequestViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Views/RequestViews.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/Views/TaskViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Views/TaskViews.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/Views/UserViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/Views/UserViews.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/models/Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/Company.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/models/Courier.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/Courier.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/models/District.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/District.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/models/Customer.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/Customer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/models/Request.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/Request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/models/RequestSituations.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/RequestSituations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/models/Task.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/Task.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/models/TaskSituationActive.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/models/TaskSituations.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/TaskSituations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/serializers/DistrictSerializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/serializers/DistrictSerializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/services/general_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/services/general_methods.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Company/add-company.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Company/add-company.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Company/company-ending-requests.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Company/company-ending-requests.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Company/company-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Company/company-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Company/company-requests.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Company/company-requests.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Courier/add-courier.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Courier/add-courier.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Courier/courier-ending-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Courier/courier-ending-tasks.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Courier/courier-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Courier/courier-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Courier/courier-task-update.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Courier/courier-task-update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Courier/courier-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Courier/courier-tasks.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/CustomerCompany/add-customer.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/CustomerCompany/add-customer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/CustomerCompany/customer-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/CustomerCompany/customer-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Request/approved-request.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Request/approved-request.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/templates/Request/completed-requests.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/completed-tasks.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Request/new-user-add-request.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Request/new-user-add-request.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Request/pending-requests.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Request/pending-requests.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Request/registered-user-add-request.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Request/registered-user-add-request.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Request/request.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Request/request.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Task/active-task.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/active-task.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Task/active-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/active-tasks.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/Task/add-task.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/add-task.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Task/assign-courier.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/assign-courier.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Task/cancel-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/cancel-tasks.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Task/completed-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/completed-tasks.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/Task/ending-task.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/Task/ending-task.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/dashboard/admin-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/dashboard/admin-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kurye/templates/dashboard/courier-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/dashboard/courier-dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/templates/dashboard/user-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/dashboard/user-dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kurye/templates/notifications.html" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/templates/notifications.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kurye/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/kurye/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/settings/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/settings/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/settings/dev.py" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/settings/dev.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/select2/select2.full.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/select2/select2.full.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/bootstrap/less/code.less" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/bootstrap/less/code.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/bootstrap/less/mixins/vendor-prefixes.less" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/bootstrap/less/mixins/vendor-prefixes.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/datatables.net/js/jquery.dataTables.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/datatables.net/js/jquery.dataTables.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/fullcalendar/dist/fullcalendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/fullcalendar/dist/fullcalendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/jquery-sparkline/dist/jquery.sparkline.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/jquery-sparkline/dist/jquery.sparkline.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/jquery-sparkline/src/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/jquery-sparkline/src/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/select2/dist/js/select2.full.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/select2/dist/js/select2.full.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/select2/dist/js/select2.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/select2/dist/js/select2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/bower_components/select2/src/js/select2/selection/single.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/bower_components/select2/src/js/select2/selection/single.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/dist/css/AdminLTE.css" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/dist/css/AdminLTE.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/dist/css/alt/AdminLTE-without-plugins.css" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/dist/css/alt/AdminLTE-without-plugins.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-slider/bootstrap-slider.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-slider/bootstrap-slider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/templates/base_layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/templates/base_layout.html" afterDir="false" />
     </list>
     <list id="1a3e1ac9-5d8a-4168-acce-89a160210a06" name="ignored" comment="" />
@@ -344,7 +303,10 @@
       <workItem from="1589530592063" duration="22674000" />
       <workItem from="1589619785730" duration="29413000" />
       <workItem from="1589650983449" duration="9556000" />
-      <workItem from="1589663394960" duration="3463000" />
+      <workItem from="1589663394960" duration="4045000" />
+      <workItem from="1589667523247" duration="139000" />
+      <workItem from="1589668211106" duration="33000" />
+      <workItem from="1589788690359" duration="25378000" />
     </task>
     <task id="LOCAL-00001" summary="aasasasa">
       <created>1566145297658</created>
@@ -423,7 +385,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589202082755</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Kullanıcı,müşteri,Kurye Ekleme/listeleme ,&#10;kullanıcı kurye talebi oluşturma/onaylama,&#10;Kuryeye Görev Atama">
+      <created>1589667048588</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1589667048588</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -474,22 +443,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kurye/Views/TaskViews.py</url>
-          <line>132</line>
+          <line>134</line>
           <option name="timeStamp" value="174" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kurye/Views/UserViews.py</url>
-          <line>302</line>
-          <option name="timeStamp" value="188" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
-          <line>112</line>
-          <option name="timeStamp" value="190" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
-          <line>127</line>
+          <line>126</line>
           <option name="timeStamp" value="191" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -498,14 +457,39 @@
           <option name="timeStamp" value="196" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
-          <line>269</line>
-          <option name="timeStamp" value="227" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kurye/Views/CourierViews.py</url>
           <line>146</line>
           <option name="timeStamp" value="237" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="243" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="244" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kurye/Views/TaskViews.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="252" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
+          <line>283</line>
+          <option name="timeStamp" value="258" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
+          <line>292</line>
+          <option name="timeStamp" value="259" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kurye/Views/RequestViews.py</url>
+          <line>288</line>
+          <option name="timeStamp" value="260" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/kurye/templates/Request/pending-requests.html</url>

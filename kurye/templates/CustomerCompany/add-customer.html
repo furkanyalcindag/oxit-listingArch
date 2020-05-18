@@ -3,6 +3,24 @@
 {% block content %}
 
 
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+           {{ obj.name }}
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+
     {% if messages %}
         {% for message in messages %}
 
@@ -47,24 +65,6 @@
 
 
     {% endif %}
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-           {{ obj.name }}
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
-        </ol>
-
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <!-- Small boxes (Stat box) -->
-
-
         <div class="row">
             <div class="col-lg-12 col-xs-12">
                 <div class="box box-primary">

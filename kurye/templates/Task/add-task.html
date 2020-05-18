@@ -2,7 +2,22 @@
 {% load  static %}
 
 {% block content %}
-    {% if messages %}
+
+    <section class="content-header">
+        <h1>
+            Kurye Seç
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">Kurye Seç</a></li>
+
+        </ol>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        {% if messages %}
         {% for message in messages %}
 
 
@@ -46,20 +61,6 @@
 
 
     {% endif %}
-    <section class="content-header">
-        <h1>
-            Kurye Seç
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">Kurye Seç</a></li>
-
-        </ol>
-
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
         <div class="row">
             <div class="col-xs-12">
 

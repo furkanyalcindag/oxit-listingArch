@@ -1,29 +1,20 @@
 import datetime
-from os import uname_result
-
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q
-from django.http import JsonResponse
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect
-from rest_framework.decorators import api_view
-
 from kurye.models.Company import Company
+from kurye.models.Customer import Customer
 from kurye.models.Notification import Notification
 from kurye.models.Profile import Profile
-
-from kurye.models.Courier import Courier
 from kurye.models.Request import Request
 from kurye.models.Task import Task
 from kurye.models.TaskSituationTask import TaskSituationTask
-
-
-# Admin İşlemleri
 from kurye.services import general_methods
 
 
+# Admin İşlemleri
 def return_admin_dashboard(request):
     perm = general_methods.control_access(request)
 
@@ -34,7 +25,8 @@ def return_admin_dashboard(request):
                :6]
     completed_task = Task.objects.filter(isComplete=True)
     assigned_task = TaskSituationTask.objects.filter(
-        Q(task_situation__name='Atandı') | Q(task_situation__name='Yolda')).filter(isActive=True)
+        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Yolda')).filter(isActive=True)
+
     canceled_task = TaskSituationTask.objects.filter(task_situation__name='İptal Edildi').filter(isActive=True)
 
     unending_task = Task.objects.filter(isComplete=False)
@@ -62,6 +54,16 @@ def return_company_dashboard(request):
     user = request.user
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
+    arrayCustomers = []
+
+    active_customers = Request.objects.values('receiver__customer').annotate(
+        count=Count('receiver__customer')).order_by('-count')[:5]
+    for customer in active_customers:
+        customerDict = dict()
+        customerDict['customer'] = Customer.objects.get(customer=customer['receiver__customer'])
+        customerDict['count'] = customer['count']
+        arrayCustomers.append(customerDict)
+
     requests = Request.objects.filter(company=company)
     tasks = []
     canceled_tasks = []
@@ -69,7 +71,8 @@ def return_company_dashboard(request):
     unsuccessful_tasks = []
 
     for request1 in requests:
-        task = TaskSituationTask.objects.filter(task__request=request1).filter(isActive=True)
+        task = TaskSituationTask.objects.filter(task__request=request1).filter(isActive=True).order_by('creationDate')[
+               :10]
         canceled_task = TaskSituationTask.objects.filter(task__request=request1).filter(isActive=True).filter(
             task_situation__name='İptal Edildi')
         completed_task = TaskSituationTask.objects.filter(task__request=request1).filter(isActive=True).filter(
@@ -84,9 +87,11 @@ def return_company_dashboard(request):
             completed_tasks.append(completed_task)
         if unsuccessful_task.count() > 0:
             unsuccessful_tasks.append(unsuccessful_task)
+
     return render(request, 'dashboard/user-dashboard.html',
                   {'tasks': tasks, 'canceled_tasks': canceled_tasks, 'completed_tasks': completed_tasks,
-                   'unsuccessful_tasks': unsuccessful_tasks,'requests':requests})
+                   'unsuccessful_tasks': unsuccessful_tasks, 'requests': requests, 'active_customers': arrayCustomers,
+                   })
 
 
 # Kurye İşlemleri

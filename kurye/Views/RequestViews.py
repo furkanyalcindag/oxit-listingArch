@@ -6,14 +6,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from rest_framework.decorators import api_view
-
 from kurye.Forms.CustomerForm import CustomerForm
-from kurye.Forms.ProfileForm import ProfileForm
 from kurye.Forms.RegisteredUserRequestForm import RegisteredUserRequestForm
 from kurye.Forms.RequestForm import RequestForm
-from kurye.Forms.UserForm import UserForm
 from kurye.models.Notification import Notification
 from kurye.models.Profile import Profile
 from kurye.models.Company import Company
@@ -23,7 +19,6 @@ from kurye.models.RequestSituationRequest import RequestSituationRequest
 from kurye.models.RequestSituations import RequestSituations
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.models.TaskSituations import TaskSituations
-from kurye.serializers.RequestSerializer import RequestSerializer
 from kurye.serializers.RequestSituationSerializer import RequestSituationSerializer
 from kurye.services import general_methods
 from kurye.services.general_methods import activeRequest
@@ -40,7 +35,7 @@ def new_user_add_request(request):
     customer_form = CustomerForm()
     user = request.user
     profile = Profile.objects.get(user=user)
-    company = Company.objects.filter(profile=profile)
+    company = Company.objects.get(profile=profile)
 
     if request.method == 'POST':
         request_form = RequestForm(request.POST)
@@ -53,7 +48,10 @@ def new_user_add_request(request):
                                 phone=customer_form.cleaned_data['phone'],
                                 city=customer_form.cleaned_data['city'],
                                 district=customer_form.cleaned_data['district'],
+
                                 )
+            customer.save()
+            customer.company = company
             customer.save()
 
             request1 = Request(receiver=customer,
@@ -70,23 +68,24 @@ def new_user_add_request(request):
                                                 request_situation=RequestSituations.objects.get(name='Onaylandı'),
                                                 isActive=True)
             situation.save()
-            request1.company = company[0]
+            request1.company = company
             request1.save()
 
             subject, from_email, to = '' + request1.company.companyName + ' Talep Bilgileri', 'burcu.dogan@oxityazilim.com', user.email
             text_content = 'Talep Bilgileri'
-            html_content = '<p><strong>Talep No: </strong>' + request1.pk + '</p>'
+            html_content = '<p><strong>Talep No: </strong>' + str(request1.pk) + '</p>'
             html_content = html_content + '<p> <strong>Adres:</strong>' + request1.receiver.address + '</p>'
             html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + request1.receiver.customer + '</p>'
-            html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + request1.totalPrice + '₺</p>'
+            html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(request1.totalPrice) + '₺</p>'
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
             notification = Notification()
             notification.key = 'Talep'
-            notification.message = '' + request1.company.companyName + ' adlı kullanıcı ' + str(
-                request1.exitDate) + '-' + str(request1.exitTime) + ' tarihinde kurye talep etti.'
+            notification.message = '' + request1.company.companyName + ' adlı kullanıcı  ' + str(
+                request1.exitDate) + '   ' + str(request1.exitTime) + ' tarihinde kurye talep etti.Talep No: ' + str(
+                request1.pk) + ''
             notification.save()
 
             messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur')
@@ -145,8 +144,9 @@ def registered_user_add_request(request):
 
             notification = Notification()
             notification.key = 'Talep'
-            notification.message = '' + request1.company.companyName + ' adlı kullanıcı' + str(
-                request1.exitDate) + '-' + str(request1.exitTime) + ' tarihinde kurye talep etti.'
+            notification.message = '' + request1.company.companyName + ' adlı kullanıcı ' + str(
+                request1.exitDate) + '   ' + str(request1.exitTime) + ' tarihinde kurye talep etti. Talep No: ' + str(
+                request1.pk) + ''
             notification.save()
 
             messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur')
@@ -190,11 +190,15 @@ def return_approved_requests(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    approved_requests = Request.objects.filter(isApprove=True).order_by('creationDate')
-    request_situations = RequestSituations.objects.all()
-
+    request1 = Request.objects.filter(isApprove=True)
+    task = []
+    request_array = []
+    for request2 in request1:
+        tasks = TaskSituationTask.objects.filter(task__request=request2).filter(isActive=True)
+        if tasks.count() == 0:
+            request_array.append(request2)
     return render(request, 'Request/approved-request.html',
-                  {'approved_requests': approved_requests, 'request_situations': request_situations})
+                  {'approved_requests': request_array})
 
 
 # Talep Onayla
@@ -253,7 +257,7 @@ def return_company_requests(request):
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
 
-    tasks = TaskSituationTask.objects.filter(task__request__company_id=company.id)
+    tasks = TaskSituationTask.objects.filter(task__request__company_id=company.id).filter(isActive=True)
 
     return render(request, 'Company/company-requests.html',
                   {'tasks': tasks})
@@ -269,7 +273,7 @@ def cancel_requests(request, pk):
         return redirect('accounts:login')
     request1 = Request.objects.get(pk=pk)
     courier_company = User.objects.get(groups__name="Admin")
-    task = TaskSituationTask.objects.filter(task__request=request1).filter(task_situation__name="Atandı").filter(
+    task = TaskSituationTask.objects.filter(task__request=request1).filter(task_situation__name="Kurye Atandı").filter(
         isActive=True)
 
     if task:
@@ -287,7 +291,7 @@ def cancel_requests(request, pk):
         cancel_request.save()
 
         for task in task:
-            task.isActive = False
+
             task.task_situation = TaskSituations.objects.get(name="İptal Edildi")
             task.save()
 
@@ -305,7 +309,7 @@ def cancel_requests(request, pk):
 
         notification = Notification()
         notification.key = 'İptal Olan Talep'
-        notification.message = '' + request1.company.companyName + 'adlı kullanıcı' + request1.pk + ' nolu talebi iptal etti'
+        notification.message = '' + request1.company.companyName + ' adlı kullanıcı ' + str(request1.pk) + ' nolu talebi iptal etti'
         notification.save()
 
         messages.success(request, 'Talebiniz İptal Edildi')

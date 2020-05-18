@@ -278,17 +278,19 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ task.task.pk }}</td>
                                         <td>{{ task.task.request.company.companyName }}</td>
-                                        <td>{{ task.task.courier.courier.user.fist_name }} {{ task.task.courier.courier.user.last_name }}</td>
-                                        {% if task.task_situation.name == 'Atandı' %}
-                                            <td><span class="label label-primary">Atandı</span></td>
+                                        <td>{{ task.task.courier.courier.user.first_name }} {{ task.task.courier.courier.user.last_name }}</td>
+                                        {% if task.task_situation.name == 'Kurye Atandı' %}
+                                            <td><span class="label label-primary"> Kurye Atandı</span></td>
                                         {% elif task.task_situation.name == 'Yolda' %}
                                             <td><span class="label label-warning">Yolda</span></td>
                                         {% elif task.task_situation.name == 'Teslim Edildi' %}
                                             <td><span class="label label-success">Teslim Edildi</span></td>
                                         {% elif task.task_situation.name == 'Teslim Edilemedi' %}
                                             <td><span class="label label-danger">Teslim Edilemedi</span></td>
-                                        {% else %}
-                                            <td><span class="label label-info">Teslim Edilemedi</span></td>
+                                        {% elif task.task_situation.name == 'İptal Edildi' %}
+                                            <td><span class="label label-danger">İptal Edildi</span></td>
+                                        {% elif task.task_situation.name == 'Tamamlandı' %}
+                                            <td><span class="label label-danger">Tamamlandı</span></td>
 
 
                                         {% endif %}
@@ -327,12 +329,9 @@
                                 {% for courier in couriers %}
                                     <li>
 
-                                        <a href="#"><img src="/media/{{ courier.profileImage }}"
-                                                         style=" width: 50px;height: 50px;"
-                                        /></a>
-
-                                        <a class="users-list-name">{{ courier.user.first_name }} {{ courier.user.last_name }}</a>
-                                        <span class="users-list-date">Bugün</span>
+                                        <img src="/media/{{ courier.profileImage }}"
+                                                         style=" width: 50px;height: 50px;"/>
+                                        <p class="users-list-name">{{ courier.user.first_name }} {{ courier.user.last_name }}</p>
                                     </li>
                                 {% endfor %}
                             {% endif %}

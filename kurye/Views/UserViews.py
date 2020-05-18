@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group, User
 from django.urls import resolve
@@ -17,11 +18,11 @@ from kurye.Forms.UserUpdateForm import UserUpdateForm
 from kurye.models.Courier import Courier
 from kurye.models.Customer import Customer
 from kurye.models.Company import Company
-from kurye.models.MenuAdmin import MenuAdmin
 from kurye.models.Profile import Profile
 from kurye.services import general_methods
 
 
+# Profile
 @login_required
 def users_information(request):
     perm = general_methods.control_access(request)
@@ -65,7 +66,8 @@ def users_information(request):
                    'company_form': company_form})
 
 
-# Kurye Ekleme
+# Admin Kurye Ekleme
+@login_required
 def add_courier(request):
     perm = general_methods.control_access(request)
 
@@ -148,6 +150,8 @@ def user_change_password(request):
     return render(request, 'User/kullanici-sifre-guncelle.html', {'form': form})
 
 
+# Kullanıcı Müşteri Ekle
+@login_required
 def add_customer(request):
     perm = general_methods.control_access(request)
 
@@ -155,6 +159,9 @@ def add_customer(request):
         logout(request)
         return redirect('accounts:login')
     customer_form = CustomerForm()
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    company = Company.objects.get(profile=profile)
 
     if request.method == 'POST':
 
@@ -162,7 +169,7 @@ def add_customer(request):
 
         if customer_form.is_valid():
 
-            customer = Customer(customer=customer_form.cleaned_data['customer'],
+            customer = Customer(company=company, customer=customer_form.cleaned_data['customer'],
                                 address=customer_form.cleaned_data['address'],
                                 phone=customer_form.cleaned_data['phone'],
                                 city=customer_form.cleaned_data['city'],
@@ -182,16 +189,23 @@ def add_customer(request):
                   {'customer_form': customer_form})
 
 
+# KULLANICIYA AİT Müşteri Listesi
+@login_required
 def customer_list(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    customers = Customer.objects.all()
-    return render(request, 'CustomerCompany/customer-list.html', {'customers': customers})
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    company = Company.objects.get(profile=profile)
+    customers_of_company = Customer.objects.filter(company=company)
+    return render(request, 'CustomerCompany/customer-list.html', {'customers': customers_of_company})
 
 
+# Kullanıcı EKLE
+@login_required
 def add_company(request):
     perm = general_methods.control_access(request)
 
@@ -232,7 +246,6 @@ def add_company(request):
                               district=profile_form.cleaned_data['district'],
 
                               )
-            profile.isContract = profile_form.cleaned_data['isContract']
             profile.isActive = True
             profile.save()
             company = Company(profile=profile, companyName=company_form.cleaned_data['companyName'],
@@ -251,7 +264,7 @@ def add_company(request):
 
             messages.success(request, 'Kullanıcı Başarıyla Kayıt Edilmiştir.')
 
-            return redirect('kurye:kullanıcı-firma ekle')
+            return redirect('kurye:kullanıcı firma ekle')
 
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz')
@@ -260,6 +273,7 @@ def add_company(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'company_form': company_form})
 
 
+# Admin Ekle
 def add_admin(request):
     perm = general_methods.control_access(request)
 
@@ -300,7 +314,6 @@ def add_admin(request):
                               district=profile_form.cleaned_data['district'],
 
                               )
-            profile.isContract = profile_form.cleaned_data['isContract']
             profile.isActive = True
             profile.save()
             company = Company(profile=profile, companyName=company_form.cleaned_data['companyName'],
@@ -328,11 +341,31 @@ def add_admin(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'company_form': company_form})
 
 
+# Admin Kullanıcı Listesi
+@login_required
 def company_list(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    companies = Company.objects.all()
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    company = Company.objects.get(profile=profile)
+    companies = Company.objects.all().filter(~Q(profile_id=profile.pk))
     return render(request, 'Company/company-list.html', {'companies': companies})
+
+
+# Kullanıcı Müşteri Silme
+@login_required
+def customer_delete(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+
+    customer = Customer.objects.get(pk=pk)
+    customer.delete()
+    messages.success(request, 'Müşteri Başarıyla Silindi')
+    return redirect('kurye:musteri listesi')

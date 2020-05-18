@@ -2,50 +2,6 @@
 
 {% block content %}
 
-    {% if messages %}
-        {% for message in messages %}
-
-
-            {% if message.tags == 'warning' %}
-
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-        {% endfor %}
-
-
-    {% endif %}
     <!-- success modal -->
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
          aria-hidden="true">
@@ -80,6 +36,50 @@
     </section>
     <section class="content">
 
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
@@ -91,24 +91,26 @@
                 <div class="box-body">
 
                     <div class="box box-primary">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="checks" id="checks">
+                            <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
+                                    class="btn btn-danger btn-sm pull-left"><i
+                                    class="fa fa-trash-o"> Seçilenleri Sil</i>
+                            </button>
+                        </form>
                         <div class="box-body">
                             <br>
-                            <form method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="checks" id="checks">
-                                <button type="submit" class="btn btn-default btn-sm pull-right-container"><i
-                                        class="fa fa-trash-o"> Bildirimleri Sil</i>
-                                </button>
-                            </form>
+
                             <table id="notification" class="display responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
 
                                     <th>No</th>
-                                    <th>Durumu</th>
-                                    <th>Müşteri Ad Soyad</th>
-                                    <th>Kurye</th>
-                                    <th>Detay</th>
+                                    <th>Seç</th>
+                                    <th>Başlık</th>
+                                    <th>Mesaj</th>
+                                    <th>Tarih</th>
 
 
                                 </tr>
@@ -122,6 +124,7 @@
                                                        name="check_list[]"
                                                        value="{{ notification.id }}" onclick="checkbox()">
                                             </td>
+
                                             <td class="mailbox-name"> {{ notification.key }}</td>
                                             <td class="mailbox-messages"><b>{{ notification.message }}</b></td>
                                             <td class="mailbox-date">{{ notification.creationDate }}</td>
@@ -159,7 +162,7 @@
 
         })
     </script>
- <script>
+    <script>
         function checkbox() {
 
             var checkboxes = document.getElementsByName('check_list[]');

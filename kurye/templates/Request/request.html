@@ -2,64 +2,64 @@
 {% block content %}
 
     {% load mathfilters %}
-    {% if messages %}
-        {% for message in messages %}
-
-
-            {% if message.tags == 'warning' %}
-
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-        {% endfor %}
-
-
-    {% endif %}
     <section class="content-header">
         <h1>
-            {{ obj.name }}
+            Talep Seç
 
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a href="">Görev </a></li>
+            <li><a href="">Görev Ata</a></li>
         </ol>
 
     </section>
     <section class="content">
 
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
 
         <div class="row">
 
@@ -77,6 +77,9 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Talep Seç</th>
+                                    <th>Kurye</th>
+
                                     <th>Firma</th>
                                     <th>Alıcı Ad Soyad</th>
                                     <th>Alıcı Telefon</th>
@@ -86,7 +89,7 @@
                                     <th>Toplam Tutar</th>
                                     <th>Çıkış Tarihi</th>
                                     <th>Çıkış Saati</th>
-                                    <th>Kurye</th>
+                                    <th>Açıklama</th>
 
 
                                 </tr>
@@ -94,10 +97,31 @@
                                 <tbody>
                                 {% for request in requests %}
 
+
                                     <tr>
 
 
                                         <td>{{ forloop.counter }} </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <form action="{% url 'kurye:gorev ata' request.pk %}"
+                                                      method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" value="{{ courier.pk }}"
+                                                           name="courier">
+                                                    <button class="btn btn-sm btn-success"
+                                                            type="submit" style="width: 70px">
+                                                        <i class="fa fa-check"> </i>
+                                                    </button>
+
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ courier.courier.user.first_name }} {{ courier.courier.user.last_name }}
+
+                                        </td>
+
                                         <td>{{ request.company.companyName }}</td>
                                         <td>{{ request.receiver.customer }}</td>
                                         <td>{{ request.receiver.phone }}</td>
@@ -108,21 +132,17 @@
                                         <td>{{ request.exitDate }}</td>
                                         <td>{{ request.exitTime }}</td>
                                         <td>
-                                            <div class="btn-group">
-                                                <form action="{% url 'kurye:gorev ata' request.pk %}" method="post">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" value="{{ courier.pk }}" name="courier">
-                                                    <button class="btn btn-success"
-                                                            type="submit">
-                                                        <i class="fa fa-align-left"></i>Kurye Ata
-                                                    </button>
-
-                                                </form>
-                                            </div>
+                                            {% if request.description %}
+                                                {{ request.description }}
+                                            {% else %}
+                                                Açıklama Yapılmadı
+                                            {% endif %}
                                         </td>
 
 
                                     </tr>
+
+
                                 {% endfor %}
 
                                 </tbody>

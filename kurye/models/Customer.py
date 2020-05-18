@@ -1,6 +1,7 @@
 from django.db import models
 
 from kurye.models.City import City
+from kurye.models.Company import Company
 
 
 class Customer(models.Model):
@@ -12,6 +13,7 @@ class Customer(models.Model):
     district = models.CharField(max_length=250, null=True, blank=True, verbose_name='İlçe')
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return '%s %s %s' % (self.customer, '-', self.phone)

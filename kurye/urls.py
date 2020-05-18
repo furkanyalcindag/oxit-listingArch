@@ -22,6 +22,7 @@ urlpatterns = [
     # Müşteri Firma
     url(r'add-customer/$', UserViews.add_customer, name='musteri ekle'),
     url(r'customer-list/$', UserViews.customer_list, name='musteri listesi'),
+    url(r'customer-delete/(?P<pk>\d+)$', UserViews.customer_delete, name='musteri-sil'),
 
     # İlçe
     url(r'ilce-getir/$', CityViews.get_districts, name="ilce-getir"),
@@ -31,7 +32,7 @@ urlpatterns = [
     url(r'company-list/$', UserViews.company_list, name='kullanıcı listesi'),
 
     # Görev
-    url(r'pending-requests/(?P<pk>\d+)$', TaskViews.requests, name='talepler'),
+    url(r'select-request/(?P<pk>\d+)$', TaskViews.requests, name='talepler'),
     url(r'add-task/(?P<pk>\d+)$', TaskViews.add_task, name='gorev ata'),
     url(r'completed-task/$', TaskViews.return_completed_task, name='tamamlanan gorevler'),
     url(r'active-task/$', TaskViews.return_active_task, name='aktif gorevler'),

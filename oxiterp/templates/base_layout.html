@@ -97,7 +97,8 @@
 
                                 </ul>
                             </li>
-                            <li class="footer"><a href="{% url 'kurye:bildirimler' %}">View all</a></li>
+                            <li class="footer"><a href="{% url 'kurye:bildirimler' %}"><strong>Hepsini Gör</strong></a>
+                            </li>
 
                         </ul>
                     {% endif %}
@@ -176,20 +177,35 @@
                         </a></li>
 
                     {% for menu in usermenus %}
-
-
                         {% if menu.is_parent %}
 
                             {% if menu.name != "Anasayfa" %}
-                                <li class="treeview ">
-                                <a href="{% url 'kurye:kullanıcı-dashboard' %}">
-                                    <i class=" {{ menu.fa_icon }}"></i>
-                                    <span>{{ menu.name }}</span>
-                                    <span class="pull-right-container">
+                                {% if menu.id is self.id %}
+
+                                    <li class="treeview active menu-open ">
+                                        <a href="#">
+                                            <i class=" {{ menu.fa_icon }}"></i>
+                                            <span>{{ menu.name }}</span>
+                                            <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
-                                </a>
+                                        </a>
+                                        {% else %}
 
+
+                                    <li class="treeview ">
+
+                                    <a href="#">
+                                        <i class=" {{ menu.fa_icon }}"></i>
+                                        <span>{{ menu.name }}</span>
+                                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                    </a>
+
+
+
+                                {% endif %}
                             {% endif %}
                         {% endif %}
 
@@ -201,11 +217,19 @@
 
                             {% if menusub.parent.id is menu.id %}
 
-                                <li>
-                                    <a href="{% url menusub.url %}"><i
-                                            class=" {{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                </li>
+                                {% if menusub.url == url %}
 
+                                    <li class="active">
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
+
+                                {% endif %}
                             {% endif %}
 
                         {% endfor %}
@@ -228,8 +252,6 @@
                             </span>
                         </a></li>
                     {% for menu in adminmenus %}
-
-
                         {% if menu.is_parent %}
                             {% if menu.name != "Anasayfa" %}
 

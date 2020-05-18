@@ -11,5 +11,6 @@ class Company(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 
+
     def __str__(self):
         return '%d %s %s' % (self.id, '-', self.companyName)

@@ -7,18 +7,26 @@ from kurye.models.City import City
 
 class Request(models.Model):
     TRANSFER = 'Kredi Kartı'
-    EFT = 'Havale/EFT'
+    NAKIT = 'Nakit'
+    MULTINET = 'Mutinet'
+    SODEXO = 'Sodexo'
+    TICKET = 'Ticket'
+    RESTONET = 'Restonet'
     PAYMENT_CHOICES = (
 
         (TRANSFER, 'Kredi Kartı'),
-        (EFT, 'Havale/EFT')
+        (NAKIT, 'Nakit'),
+        (MULTINET, 'Mutinet'),
+        (SODEXO, 'Sodexo'),
+        (TICKET, 'Ticket'),
+        (RESTONET, 'Restonet')
     )
 
     receiver = models.ForeignKey(Customer, blank=True, on_delete=models.CASCADE, verbose_name='Alıcı')
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='İl', null=True, blank=True)
     district = models.TextField(blank=True, null=True, verbose_name='İlçe')
     payment_type = models.CharField(max_length=128, verbose_name='Ödeme Türü', choices=PAYMENT_CHOICES,
-                                    default=TRANSFER)
+                                    default=NAKIT)
     exitTime = models.TimeField(blank=True, verbose_name='Çıkış zamanı')
     exitDate = models.DateField(blank=True, verbose_name='Çıkış Tarihi')
     totalPrice = models.DecimalField(max_digits=8, decimal_places=2, null=True, default=True,

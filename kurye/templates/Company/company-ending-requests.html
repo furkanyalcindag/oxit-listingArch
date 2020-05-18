@@ -2,6 +2,47 @@
 
 {% block content %}
 
+    <!-- success modal -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Tamamlanan Görevler</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <h1>
+            {{ obj.name }}
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
     {% if messages %}
         {% for message in messages %}
 
@@ -46,47 +87,6 @@
 
 
     {% endif %}
-    <!-- success modal -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
-         aria-labelledby="myLargeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-
-
-            <div class="modal-content" style="height:fit-content">
-
-                <div class="modal-header" style="background-color:#3c8dbc ">
-                    <font color="white">Tamamlanan Görevler</font>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body bodys bodys-1234">
-
-                </div>
-
-                <div class="modal-footer footer-1234 ">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <section class="content-header">
-        <h1>
-            {{ obj.name }}
-        </h1>
-
-        <ol class="breadcrumb">
-            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
-        </ol>
-
-    </section>
-    <section class="content">
 
         <!-- /.row -->
         <!-- Main row -->

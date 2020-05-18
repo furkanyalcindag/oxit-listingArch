@@ -4,50 +4,7 @@
 {% block content %}
 
 
-    {% if messages %}
-        {% for message in messages %}
 
-
-            {% if message.tags == 'warning' %}
-
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-        {% endfor %}
-
-
-    {% endif %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -64,7 +21,50 @@
     <!-- Main content -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
+        {% if messages %}
+            {% for message in messages %}
 
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
 
         <div class="row">
             <div class="col-lg-12 col-xs-12">
@@ -81,15 +81,19 @@
 
                                     <div class="form-group">
 
-                                        <label for="">Teslim Alacak Kişi</label>
+                                        <label>Teslim Alacak Kişi</label>
                                         {{ customer_form.customer }}
-
-
                                     </div>
 
                                     <div class="form-group">
                                         <label>{{ customer_form.phone.label }}</label>
                                         {{ customer_form.phone }}
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{ customer_form.email.label }}</label>
+                                        {{ customer_form.email }}
 
                                     </div>
 
