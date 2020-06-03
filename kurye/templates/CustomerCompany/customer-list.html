@@ -84,13 +84,13 @@
                                 <th>Telefon Numarası</th>
                                 <th>E-mail</th>
                                 <th>Adres</th>
-                                <th>Sil</th>
+                                <th style="text-align: center;">Düzenle/Sil</th>
                             </tr>
                             </thead>
                             <tbody>
 
                             {% for customer in customers %}
-                                <tr>
+                                <tr >
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ customer.customer }} </td>
                                     <td>{{ customer.phone }}</td>
@@ -100,7 +100,11 @@
                                         <td>Belirtilmedi</td>
                                     {% endif %}
                                     <td>{{ customer.address }}</td>
-                                    <td>
+                                    <td style="text-align: center;" >
+                                        <a href="{% url 'kurye:musteri-guncelle' customer.pk %}" class="btn btn-warning"
+                                           type="button">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
                                         <a href="{% url 'kurye:musteri-sil' customer.pk %}" class="btn btn-danger"
                                            type="button">
                                             <i class="fa fa-close"></i>

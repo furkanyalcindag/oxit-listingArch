@@ -2,40 +2,19 @@
 
 {% block content %}
 
-    <!-- success modal -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-
-
-            <div class="modal-content" style="height:fit-content">
-
-                <div class="modal-header" style="background-color:#3c8dbc ">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body bodys">
-                    ...
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <section class="content-header">
         <h1>
-            Bildirimler
+            {{ obj.name }}
+
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a>Bildirimler</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
         </ol>
 
     </section>
     <section class="content">
-
         {% if messages %}
             {% for message in messages %}
 
@@ -91,58 +70,54 @@
                 <div class="box-body">
 
                     <div class="box box-primary">
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="checks" id="checks">
-                            <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
-                                    class="btn btn-danger btn-sm pull-left"><i
-                                    class="fa fa-trash-o"> Seçilenleri Sil</i>
-                            </button>
-                        </form>
-                        <div class="box-body">
-                            <br>
 
-                            <table id="notification" class="display responsive nowrap" cellspacing="0" width="100%">
+                        <div class="box-body">
+
+                            <form method="post" action="{% url 'kurye:bildirimler' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="checks" id="checks">
+                                <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
+                                        class="btn btn-danger btn-sm pull-left"><i
+                                        class="fa fa-trash-o"> Seçilenleri Sil</i>
+                                </button>
+                            </form>
+                            <br>
+                            <table id="notification" class="table  table-bordered display responsive nowrap "
+                                   cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Sil/Okundu Yap</th>
 
-                                    <th>No</th>
-                                    <th>Seç</th>
+
                                     <th>Başlık</th>
-                                    <th>Mesaj</th>
+                                    <th>İçerik</th>
                                     <th>Tarih</th>
 
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if notifications %}
-                                    {% for notification in notifications %}
-                                        <tr>
-                                            <td>{{ forloop.counter }}</td>
-                                            <td><input id="{{ forloop.counter }}" type="checkbox"
-                                                       name="check_list[]"
-                                                       value="{{ notification.id }}" onclick="checkbox()">
-                                            </td>
-
-                                            <td class="mailbox-name"> {{ notification.key }}</td>
-                                            <td class="mailbox-messages"><b>{{ notification.message }}</b></td>
-                                            <td class="mailbox-date">{{ notification.creationDate }}</td>
 
 
-                                        </tr>
-                                    {% endfor %}
-                                {% endif %}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+
+                                </tr>
+
+
                                 </tbody>
                             </table>
-
                         </div>
-                    </div>
 
+
+                    </div>
 
                 </div>
             </section>
-
 
         </div>
         <!-- /.row (main row) -->
@@ -152,21 +127,100 @@
     <script>
         $(function () {
             $('#notification').DataTable({
-                'paging': true,
-                'lengthChange': true,
-                'searching': true,
-                'ordering': true,
-                'info': true,
-                'autoWidth': true
+
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "ordering": false,
+
+                "ajax": {
+                    "url": "{% url 'kurye:api-notifications' %}",
+                    "type": "POST"
+                },
+                "columns": [
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            console.log(full.content);
+                            let html;
+                            html = '<td><input style="margin-left:10px;"  type="checkbox"  name="check_list[]" onclick="checkbox()" value="' + full.id + '"></td>';
+                            if (full.isRead === false) {
+                                html += '<td><button style="margin-left:30px; onclick="isRead(' + full.id + ')" type="submit" class="btn btn-sm btn-success"><i class="fa fa-check"></i></button></td>';
+                            }
+
+                            return html
+
+                        }
+                    },
+                    {"data": "key"},
+                    {"data": "message"},
+                    {"data": "creationDate"},
+
+
+                ],
+
+
             })
 
-        })
+        });
+
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [day, month, year].join('.');
+        }
+    </script>
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
     </script>
     <script>
         function checkbox() {
 
-            var checkboxes = document.getElementsByName('check_list[]');
-            var vals = "";
+
             for (var i = 0, n = checkboxes.length; i < n; i++) {
                 if (checkboxes[i].checked) {
                     vals += "," + checkboxes[i].value;
@@ -176,6 +230,24 @@
 
             document.getElementById("checks").value = vals;
 
+        }
+
+
+        function isRead(notification_id) {
+            debugger;
+            $.ajax({
+                url: "{% url 'kurye:bildirim-okundu-yap' %}",
+                type: "post", // or "get"
+                data: {
+                    notification_id: notification_id,
+
+                },
+                success: function (result) {
+
+                    window.location.replace("{% url "kurye:bildirimler" %}");
+
+                }
+            });
         }
     </script>
 

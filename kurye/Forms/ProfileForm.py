@@ -16,7 +16,7 @@ class ProfileForm(ModelForm):
 
         fields = (
             'profileImage', 'address', 'mobilePhone', 'tc', 'city',
-            'district', 'phone')
+            'district', 'phone','neighborhood')
         widgets = {
             'address': forms.Textarea(
                 attrs={'class': 'form-control ', 'placeholder': 'Adres', 'rows': '4'}),
@@ -36,7 +36,9 @@ class ProfileForm(ModelForm):
 
             'district': forms.Select(choices=CHOICES_WITH_BLANK,
                                      attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                            'style': 'width: 100%; ', 'id': 'ilce_id'}
-                                     )
+                                            'style': 'width: 100%; ', 'id': 'ilce_id', "onchange": "mahalleGetir()"}),
+            'neighborhood_name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Mahalle', 'id': 'neighborhood_id'
+                       }),
 
         }

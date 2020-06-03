@@ -56,57 +56,56 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+
         </ol>
 
     </section>
     <section class="content">
 
-    {% if messages %}
-        {% for message in messages %}
+        {% if messages %}
+            {% for message in messages %}
 
 
-            {% if message.tags == 'warning' %}
+                {% if message.tags == 'warning' %}
 
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
 
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
 
 
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    </div>
+
+                {% endif %}
 
 
-                </div>
+                {% if message.tags == 'success' %}
 
-            {% endif %}
-        {% endfor %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
 
 
-    {% endif %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
@@ -159,8 +158,7 @@
 
 
                                                         {% if task.activeTask == situation.name %}
-                                                            <option
-                                                                    selected>{{ situation.name }}</option>
+                                                            <option selected>{{ situation.name }}</option>
                                                         {% else %}
                                                             {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
                                                             {% else %}
@@ -173,11 +171,13 @@
                                                     {% endfor %}
 
 
-                                                </select></td>
+                                                </select>
+                                            </td>
                                             <td><input
                                                     value="{% if task.description %}{{ task.description }} {% endif %}"
                                                     type="text" class="form-control" name="description"
-                                                    placeholder="Açıklama"></td>
+                                                    placeholder="Açıklama">
+                                            </td>
                                             <td>{{ task.request.receiver.address }}</td>
                                             <td>{{ task.request.exitDate }}</td>
                                             <td>{{ task.request.exitTime }}</td>

@@ -35,6 +35,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'bower_components/morris.js/morris.css' %}">
 
 </head>
 
@@ -45,6 +48,7 @@
 
 
 <body class="skin-red sidebar-mini">
+
 <div class="preloader"></div>
 
 <div class="wrapper">
@@ -78,11 +82,11 @@
                         <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">{{ count }}</span>
+                            <span class="label label-warning">{{ count_not }}</span>
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li class="header">{{ count }} Bildiriminiz var.</li>
+                            <li class="header" style="color: #003eff">{{ count_not }} bildiriminiz var</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
@@ -90,8 +94,10 @@
                                     {% for notification in notification %}
                                         <li>
                                             <i class="fa fa-exclamation"
-                                               style="margin:10px;"></i>{{ notification.message }}
+                                               style="color:red"></i> &nbsp;{{ notification.message }}
+
                                         </li>
+                                        <hr>
                                     {% endfor %}
 
 
@@ -167,34 +173,12 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 {% if  user.groups.all.0.name == 'Kullanıcı' %}
-                    <li class=" ">
-                        <a href="{% url 'kurye:kullanıcı-dashboard' %}">
-                            <i class="fa fa-home"></i>
-                            <span>Anasayfa</span>
-                            <span class="pull-right-container">
-
-                            </span>
-                        </a></li>
-
                     {% for menu in usermenus %}
                         {% if menu.is_parent %}
 
-                            {% if menu.name != "Anasayfa" %}
-                                {% if menu.id is self.id %}
+                            {% if menu.id is self.id %}
 
-                                    <li class="treeview active menu-open ">
-                                        <a href="#">
-                                            <i class=" {{ menu.fa_icon }}"></i>
-                                            <span>{{ menu.name }}</span>
-                                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                        </a>
-                                        {% else %}
-
-
-                                    <li class="treeview ">
-
+                                <li class="treeview active menu-open ">
                                     <a href="#">
                                         <i class=" {{ menu.fa_icon }}"></i>
                                         <span>{{ menu.name }}</span>
@@ -202,19 +186,27 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                                     </a>
+                                    {% else %}
+
+
+                                <li class="treeview ">
+
+                                <a href="#">
+                                    <i class=" {{ menu.fa_icon }}"></i>
+                                    <span>{{ menu.name }}</span>
+                                    <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                </a>
 
 
 
-                                {% endif %}
                             {% endif %}
                         {% endif %}
 
                     <ul class="treeview-menu">
 
                         {% for menusub in usermenus %}
-
-
-
                             {% if menusub.parent.id is menu.id %}
 
                                 {% if menusub.url == url %}
@@ -239,37 +231,11 @@
                     {% endfor %}
 
 
-
-
                 {% elif user.groups.all.0.name == 'Admin' %}
-
-                    <li class=" ">
-                        <a href="{% url "kurye:admin-dashboard" %}">
-                            <i class="fa fa-home"></i>
-                            <span>Anasayfa</span>
-                            <span class="pull-right-container">
-
-                            </span>
-                        </a></li>
                     {% for menu in adminmenus %}
                         {% if menu.is_parent %}
-                            {% if menu.name != "Anasayfa" %}
-
-                                {% if menu.id is self.id %}
-
-                                    <li class="treeview active menu-open ">
-                                        <a href="#">
-                                            <i class=" {{ menu.fa_icon }}"></i>
-                                            <span>{{ menu.name }}</span>
-                                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                        </a>
-                                        {% else %}
-
-
-                                    <li class="treeview ">
-
+                            {% if menu.id is self.id %}
+                                <li class="treeview active menu-open ">
                                     <a href="#">
                                         <i class=" {{ menu.fa_icon }}"></i>
                                         <span>{{ menu.name }}</span>
@@ -277,36 +243,41 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                                     </a>
+                                    {% else %}
 
+                                <li class="treeview ">
 
+                                <a href="#">
+                                    <i class=" {{ menu.fa_icon }}"></i>
+                                    <span>{{ menu.name }}</span>
+                                    <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                </a>
 
-                                {% endif %}
                             {% endif %}
 
                         {% endif %}
-
 
                     <ul class="treeview-menu">
 
                         {% for menusub in adminmenus %}
 
 
-                            {% if menu.name != "Anasayfa" %}
-                                {% if menusub.parent.id is menu.id %}
+                            {% if menusub.parent.id is menu.id %}
 
-                                    {% if menusub.url == url %}
+                                {% if menusub.url == url %}
 
-                                        <li class="active">
-                                            <a href="{% url menusub.url %}"><i
-                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                        </li>
-                                    {% else %}
-                                        <li>
-                                            <a href="{% url menusub.url %}"><i
-                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                        </li>
+                                    <li class="active">
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
 
-                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
@@ -316,33 +287,13 @@
                     {% endfor %}
 
                 {% elif user.groups.all.0.name == 'Kurye' %}
-                    <li class=" ">
-                        <a href="{% url "kurye:kurye atanan gorevler" %}">
-                            <i class="fa fa-home"></i>
-                            <span>Anasayfa</span>
-                            <span class="pull-right-container">
 
-                            </span>
-                        </a></li>
                     {% for menu in couriermenus %}
 
                         {% if menu.is_parent %}
-                            {% if menu.name != "Anasayfa" %}
-                                {% if menu.id is self.id %}
+                            {% if menu.id is self.id %}
 
-                                    <li class="treeview active menu-open ">
-                                        <a href="#">
-                                            <i class=" {{ menu.fa_icon }}"></i>
-                                            <span>{{ menu.name }}</span>
-                                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                        </a>
-                                        {% else %}
-
-
-                                    <li class="treeview ">
-
+                                <li class="treeview active menu-open ">
                                     <a href="#">
                                         <i class=" {{ menu.fa_icon }}"></i>
                                         <span>{{ menu.name }}</span>
@@ -350,13 +301,24 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                                     </a>
+                                    {% else %}
 
 
+                                <li class="treeview ">
 
-                                {% endif %}
+                                <a href="#">
+                                    <i class=" {{ menu.fa_icon }}"></i>
+                                    <span>{{ menu.name }}</span>
+                                    <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                </a>
+
 
 
                             {% endif %}
+
+
 
                         {% endif %}
 
@@ -366,24 +328,22 @@
                         {% for menusub in couriermenus %}
 
 
-                            {% if menu.name != "Anasayfa" %}
-                                {% if menusub.parent.id is menu.id %}
+                            {% if menusub.parent.id is menu.id %}
 
-                                    {% if menusub.url == url %}
+                                {% if menusub.url == url %}
 
-                                        <li class="active">
-                                            <a href="{% url menusub.url %}"><i
-                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                        </li>
-                                    {% else %}
-                                        <li>
-                                            <a href="{% url menusub.url %}"><i
-                                                    class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                        </li>
-
-                                    {% endif %}
+                                    <li class="active">
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
 
                                 {% endif %}
+
                             {% endif %}
                         {% endfor %}
 
@@ -423,7 +383,7 @@
 
 </div>
 
-
+<script src="{% static 'alert/sweetalert.min.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'bower_components/select2/dist/js/select2.full.min.js' %}"></script>
 <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
@@ -453,7 +413,19 @@
 <script src="{% static 'dist/js/demo.js' %}"></script>
 <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
+<script src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
+<script src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'bower_components/Flot/jquery.flot.js' %}"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="{% static 'bower_components/Flot/jquery.flot.resize.js' %}"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="{% static 'bower_components/Flot/jquery.flot.pie.js' %}"></script>
+<!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
+<script src="{% static 'bower_components/Flot/jquery.flot.categories.js' %}"></script>
 
 
 </body>
+
 </html>

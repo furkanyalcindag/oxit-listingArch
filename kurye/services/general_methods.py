@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.models import Group, User, Permission
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
 from django.urls import resolve
 
+from kurye.models.Log import Log
+from kurye.models.Profile import Profile
 from kurye.models.Notification import Notification
 from kurye.models.RequestSituationRequest import RequestSituationRequest
 from kurye.models.Task import Task
@@ -12,6 +15,7 @@ from kurye.models.MenuCourier import MenuCourier
 from kurye.models.Request import Request
 from kurye.models.RequestSituations import RequestSituations
 from kurye.models.TaskSituationTask import TaskSituationTask
+from kurye.models.TaskSituations import TaskSituations
 
 
 def activeMenu(request):
@@ -52,18 +56,18 @@ def activeMenu(request):
 
 
 def getUserMenu(request):
-    usermenus = MenuUser.objects.all().order_by('id')
+    usermenus = MenuUser.objects.all().order_by('order')
 
     return {'usermenus': usermenus}
 
 
 def getAdminMenu(request):
-    adminmenus = MenuAdmin.objects.all().order_by('id')
+    adminmenus = MenuAdmin.objects.all().order_by('order')
     return {'adminmenus': adminmenus}
 
 
 def getCourierMenu(request):
-    couriermenus = MenuCourier.objects.all().order_by('id')
+    couriermenus = MenuCourier.objects.all().order_by('order')
     return {'couriermenus': couriermenus}
 
 
@@ -97,7 +101,6 @@ def control_access(request):
     return is_exist
 
 
-
 def show_urls(urllist, depth=0):
     urls = []
 
@@ -114,6 +117,7 @@ def show_urls(urllist, depth=0):
 
     return urls
 
+
 def existMail(mail):
     users = User.objects.filter(email=mail)
     if len(users) == 0:
@@ -123,6 +127,55 @@ def existMail(mail):
 
 
 def notifications(request):
-    notification = Notification.objects.order_by('creationDate')[:10]
-    count = Notification.objects.all().count()
-    return {'notification': notification, 'count': count}
+    notification = Notification.objects.filter(isRead=False).order_by('creationDate')[:10]
+    count = Notification.objects.filter(isRead=False).count()
+    return {'notification': notification, 'count_not': count}
+
+
+# Görevi İptal Et
+def make_cancel_task(request, pk):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    groups = Group.objects.filter(user=user)
+    active_task = Task.objects.get(pk=pk)
+
+    task_situation = TaskSituationTask.objects.filter(task_id=active_task.pk).filter(isActive=True)
+
+    for task in task_situation:
+        task.isActive = False
+        task.save()
+
+    cancel_task = TaskSituationTask(task=active_task, task_situation=TaskSituations.objects.get(name="İptal Edildi"),
+                                    isActive=True)
+
+    cancel_task.save()
+
+    log_content = '<p><strong style="color:red">' + groups[
+        0].name + '</strong><strong style="color:red">' + active_task.pk + ' </strong> nolu görevi iptal etti.</p>'
+
+    save_log(profile.pk, log_content)
+
+    subject, from_email, to = 'MotoKurye Görev Bilgileri', 'burcu.dogan@oxityazilim.com', cancel_task.task.courier.courier.user.email
+    text_content = 'Görev Bilgileri'
+    html_content = '<p> <strong>Görev No: </strong>' + str(cancel_task.task.pk) + ' nolu göreviniz iptal edilmiştir</p>'
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+    return cancel_task
+
+
+def save_log(profile_id, content):
+    profile = Profile.objects.get(pk=profile_id)
+    log = Log()
+    log.profile = profile
+    log.content = content
+    log.save()
+    return log
+
+
+def return_month(month_number):
+    month = ["OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM",
+             "ARALIK"]
+
+    return month[int(month_number) - 1]

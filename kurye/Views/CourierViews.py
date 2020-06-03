@@ -1,12 +1,12 @@
 import datetime
 from django.contrib import messages
 from django.contrib.auth import logout
+from django.contrib.auth.models import Group
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-from kurye.Forms.TaskUpdateForm import TaskUpdateForm
 from kurye.models.Notification import Notification
 from kurye.models.Profile import Profile
 from kurye.models.Task import Task
@@ -14,12 +14,11 @@ from kurye.models.Courier import Courier
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.models.TaskSituations import TaskSituations
 from kurye.serializers.CourierSerializer import CourierSerializer
+from kurye.services import general_methods
+from kurye.services.general_methods import save_log
 
 
 # atanmış görevleri güncelleme
-from kurye.services import general_methods
-
-
 def assigned_task(request):
     perm = general_methods.control_access(request)
 
@@ -27,13 +26,15 @@ def assigned_task(request):
         logout(request)
         return redirect('accounts:login')
     user = request.user
+    groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
     courier = Courier.objects.get(courier=profile)
     tasks = Task.objects.filter(courier=courier)
 
-    for task in tasks:
-        task.activeTask = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)[0].task_situation.name
 
+    for task in tasks:
+        task.activeTask = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)[
+                0].task_situation.name
 
     if request.method == 'POST':
 
@@ -61,6 +62,14 @@ def assigned_task(request):
             task.deliveryDate = datetime.datetime.today().date()
             task.deliveryTime = datetime.datetime.today().time()
             task.save()
+            courier.isActive = True
+            courier.save()
+
+        log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                      groups[0].name + ', ' + str(
+            pk) + '</strong> nolu görevin durumunu <strong style="color:red"> ' + new_active.task_situation.name + '</strong> olarak  güncelledi</p>'
+
+        save_log(profile.pk, log_content)
 
         subject, from_email, to = '' + task.request.company.companyName + ' Talep Durum Bilgisi', 'burcu.dogan@oxityazilim.com', user.email
         text_content = 'Talep Durumu'
@@ -84,7 +93,7 @@ def assigned_task(request):
 
         notification = Notification()
         notification.key = 'Kurye Gorev Durumu'
-        notification.message = '' + task.courier.courier.user.first_name + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
+        notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
         notification.save()
         messages.success(request, 'Görev Durumu Güncellendi.')
         return redirect("kurye:kurye atanan gorevler")

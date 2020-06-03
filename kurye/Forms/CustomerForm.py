@@ -13,7 +13,7 @@ class CustomerForm(ModelForm):
     class Meta:
         model = Customer
 
-        fields = ('customer', 'address', 'phone', 'city', 'district', 'email')
+        fields = ('customer', 'address', 'phone', 'city', 'district', 'email', 'neighborhood',)
         widgets = {
             'customer': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Ad Soyad', 'rows': '2', 'required': 'required'}),
@@ -26,10 +26,13 @@ class CustomerForm(ModelForm):
             'city': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',
                        'style': 'width: 100%; ', "onChange": 'ilceGetir()'}),
-
             'district': forms.Select(choices=CHOICES_WITH_BLANK,
                                      attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                            'style': 'width: 100%; ', 'id': 'ilce_id', }
-                                     )
+                                            'style': 'width: 100%; ', 'id': 'ilce_id', "onChange": 'mahalleGetir()', }),
+            'neighborhood': forms.Select(
+                attrs={'class': 'form-control select2 select2-hidden-accessible ',
+                       'style': 'width: 100%; ',
+                       'placeholder': 'Mahalle', 'id': 'neighborhood_id',
+                       }),
 
         }

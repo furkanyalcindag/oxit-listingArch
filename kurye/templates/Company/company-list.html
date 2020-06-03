@@ -2,54 +2,6 @@
 
 {% block content %}
 
-
-    <!-- success modal -->
-    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">İşlem Başarılı</h4>
-                </div>
-                <div class="modal-body successModal">
-                    ...
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-danger"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Uyarı</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Silmek istediğinizden emin misiniz?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
-                            data-dismiss="modal">Evet
-                    </button>
-                    <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-
     <section class="content-header">
         <h1>
             {{ obj.name }}
@@ -61,53 +13,52 @@
             <li><a href="">{{ obj.name }}</a></li>
         </ol>
 
-
     </section>
     <section class="content">
-  {% if messages %}
-        {% for message in messages %}
+        {% if messages %}
+            {% for message in messages %}
 
 
-            {% if message.tags == 'warning' %}
+                {% if message.tags == 'warning' %}
 
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
 
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
 
 
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    </div>
+
+                {% endif %}
 
 
-                </div>
+                {% if message.tags == 'success' %}
 
-            {% endif %}
-        {% endfor %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
 
 
-    {% endif %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
@@ -118,47 +69,46 @@
 
                 <div class="box-body">
 
-
                     <div class="box box-primary">
+
                         <div class="box-body">
+
+
                             <br>
-                            <table id="company" class="display responsive nowrap" cellspacing="0" width="100%">
+                            <table id="company" class="table  table-bordered display responsive nowrap "
+                                   cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
 
-                                    <th>#</th>
-                                    <th>Ad Soyad</th>
-                                    <th>Telefon Numarası</th>
-                                    <th>Email</th>
+
+                                    <th>Firma Sahibi Adı</th>
+
+                                    <th>Firma Sahibi Soyadı</th>
                                     <th>Firma Adı</th>
                                     <th>Vergi Numarası</th>
                                     <th>Vergi Dairesi</th>
-                                    <th>Adres</th>
+
+
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                {% for company in companies %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ company.profile.user.first_name }} {{ company.profile.user.last_name }}</td>
-                                        <td>{{ company.profile.mobilePhone }}</td>
-                                        <td>{{ company.profile.user.email }}</td>
-                                        <td>{{ company.companyName }}</td>
-                                        <td>{{ company.taxNumber }}</td>
-                                        <td>{{ company.taxName }}</td>
-                                        <td>{{ company.profile.address }}</td>
 
-                                    </tr>
-                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
 
 
                                 </tbody>
                             </table>
                         </div>
 
+
                     </div>
-                    <!-- /.box -->
 
 
                 </div>
@@ -173,17 +123,69 @@
     <script>
         $(function () {
             $('#company').DataTable({
-                'paging': true,
-                'lengthChange': true,
-                'searching': true,
-                'ordering': true,
-                'info': true,
-                'autoWidth': true
+
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "ordering": false,
+                "ajax": {
+                    "url": "{% url 'kurye:api-company-list' %}",
+                    "type": "POST"
+                },
+                "columns": [
+
+                    {"data": "profile.user.first_name"},
+                    {"data": "profile.user.last_name"},
+                    {"data": "companyName"},
+                    {"data": "taxNumber"},
+                    {"data": "taxName"},
+
+
+                ]
+
             })
 
         })
     </script>
 
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
 
 {% endblock %}
 

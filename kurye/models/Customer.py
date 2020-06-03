@@ -2,6 +2,7 @@ from django.db import models
 
 from kurye.models.City import City
 from kurye.models.Company import Company
+from kurye.models.Neighborhood import Neighborhood
 
 
 class Customer(models.Model):
@@ -11,6 +12,8 @@ class Customer(models.Model):
     email = models.CharField(max_length=250, null=True, blank=True, verbose_name='Email')
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True, verbose_name='İl')
     district = models.CharField(max_length=250, null=True, blank=True, verbose_name='İlçe')
+    neighborhood = models.TextField(null=True, blank=True,
+                                    verbose_name='Mahalle')
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)

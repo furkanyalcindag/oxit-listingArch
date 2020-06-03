@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.db import models
 
+from kurye.models.Neighborhood import Neighborhood
 from kurye.models.City import City
 
 
@@ -14,6 +15,8 @@ class Profile(models.Model):
     address = models.TextField(blank=True, null=True, verbose_name='Adres')
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True,
                              verbose_name='İl')
+    neighborhood = models.ForeignKey(Neighborhood, on_delete=models.CASCADE, verbose_name='Mahalle', null=True,
+                                    blank=True)
     birthDate = models.DateField(null=True, blank=True, verbose_name='Doğum Tarihi')
     district = models.TextField(blank=True, null=True, verbose_name='İlçe')
     isContract = models.BooleanField(default=False)
@@ -23,4 +26,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return '%s %s %s %s' % (self.mobilePhone, '-', self.user.first_name, self.user.last_name)
-

@@ -133,8 +133,23 @@
                                         <div class="col-lg-4 col-xs-12">
 
                                             <div class="form-group">
-                                                <label>{{ customer_form.city.label }}</label>
-                                                {{ customer_form.city }}
+                                                <label for="">İl</label>
+                                                <select style="width: 100%"
+                                                        class="form-control select2 select2-hidden-accessible"
+                                                        name="city" id="id_city"
+                                                        onChange="ilceGetir()">
+                                                    {% for city in cities %}
+                                                        {% if city.pk == 44 %}
+                                                            <option selected
+                                                                    value="{{ city.pk }}">{{ city.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ city.pk }}">{{ city.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                </select>
+
+
                                             </div>
 
                                         </div>
@@ -144,6 +159,14 @@
                                                 {{ customer_form.district }}
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-4 col-xs-12">
+                                            <div class="form-group">
+                                                <label>{{ customer_form.neighborhood.label }}</label>
+                                                {{ customer_form.neighborhood }}
+                                            </div>
+                                        </div>
+
 
                                     </div>
 
@@ -206,7 +229,6 @@
     </section>
     <!-- /.content -->
 
-
     <script>
         $(function () {
             $('.select2').select2();
@@ -228,8 +250,9 @@
     </script>
     <script>
 
+
         function ilceGetir() {
-            debugger;
+
             var e = document.getElementById("id_city");
             var il_id = e.options[e.selectedIndex].value;
             $.ajax({
@@ -241,7 +264,7 @@
 
                 },
                 success: function (result) {
-                    debugger;
+
 
                     let select = document.getElementById("ilce_id");
 
@@ -256,12 +279,43 @@
             });
         }
 
+        function mahalleGetir() {
+
+            var e = document.getElementById("ilce_id");
+            var ilce_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'kurye:mahalle-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    ilce_id: ilce_id,
+
+                },
+                success: function (result) {
+
+
+                    let select = document.getElementById("neighborhood_id");
+
+                    select.options[select.options.length] = new Option('Text 1', 'Value1');
+
+                    $('#neighborhood_id').empty();
+
+                    for (let i = 0; i < result.neighborhoods.length; i++) {
+                        select.options[select.options.length] = new Option(result.neighborhoods[i].neighborhood_name, result.neighborhoods[i].neighborhood_name);
+                    }
+                }
+            });
+        }
+
         $(document).ready(function () {
 
 
             ilceGetir();
             //console.log($('#ilce_id').select2('data'))
             $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'
+            mahalleGetir();
+            //console.log($('#ilce_id').select2('data'))
+            $('#mahalle_id').val('{{mahalle}}').trigger('change'); // Select the option with a value of '1'
 
 
         });
@@ -299,5 +353,4 @@
             }
         });
     </script>
-
 {% endblock %}

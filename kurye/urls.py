@@ -1,6 +1,8 @@
 from django.conf.urls import url
 
-from kurye.Views import DashboardViews, UserViews, CityViews, TaskViews, RequestViews, CourierViews
+from kurye.Views import DashboardViews, UserViews, CityViews, TaskViews, RequestViews, CourierViews, APIViews, LogView, \
+    ReportViews, EarningPaymentsViews
+from kurye.models import EarningPayments
 
 app_name = 'kurye'
 
@@ -9,27 +11,37 @@ urlpatterns = [
     # Dashboard
     url(r'dashboard/admin-dashboard/$', DashboardViews.return_admin_dashboard, name='admin-dashboard'),
     url(r'dashboard/company-dashboard/$', DashboardViews.return_company_dashboard, name='kullanıcı-dashboard'),
-    url(r'dashboard/courier-dashboard/$', CourierViews.assigned_task, name='kurye-dashboard'),
+    url(r'dashboard/courier-dashboard/$', DashboardViews.return_courier_dashboard, name='kurye-dashboard'),
 
     # Kurye
     url(r'Courier/add-courier/$', UserViews.add_courier, name='kurye ekle'),
     url(r'Courier/courier-list/$', CourierViews.courier_list, name='kurye listesi'),
     url(r'Courier/assigned-tasks-list/$', CourierViews.assigned_task, name='kurye atanan gorevler'),
+    url(r'Courier/update-task/$', CourierViews.assigned_task, name='kurye-gorev-guncelle'),
     url(r'Courier/ending-tasks/$', CourierViews.courier_ending_tasks, name='kurye tamamlanan gorevler'),
     url(r'Courier/tasks/$', CourierViews.courier_tasks, name='kurye gorevler'),
     url(r'getCourier/(?P<pk>\d+)$', CourierViews.getCourier, name='kurye getir'),
 
-    # Müşteri Firma
+    # Kullanıcının Müşterileri
     url(r'add-customer/$', UserViews.add_customer, name='musteri ekle'),
     url(r'customer-list/$', UserViews.customer_list, name='musteri listesi'),
     url(r'customer-delete/(?P<pk>\d+)$', UserViews.customer_delete, name='musteri-sil'),
+    url(r'customer-update/(?P<pk>\d+)$', UserViews.update_customer, name='musteri-guncelle'),
 
-    # İlçe
+    # İlçe/Mahalle
     url(r'ilce-getir/$', CityViews.get_districts, name="ilce-getir"),
+    url(r'mahalle-getir/$', CityViews.get_neighborhood, name="mahalle-getir"),
+
+    # Mahalle Ekle
+    url(r'add-neighborhood/$', CityViews.add_neighborhood, name="mahalle-ekle"),
+    url(r'neighborhood-update/(?P<pk>\d+)$', CityViews.update_neighborhood, name='mahalle-fiyati-guncelle'),
+    url(r'neighborhoods/$', CityViews.neighborhoods, name='mahalleler'),
+
+    url(r'get-neighborhoods-api/$', APIViews.GetNeighborhood.as_view(), name='api-neighborhoods-list'),
 
     # Kullanıcı Firma
     url(r'add-company/$', UserViews.add_company, name='kullanıcı firma ekle'),
-    url(r'company-list/$', UserViews.company_list, name='kullanıcı listesi'),
+    # url(r'company-list/$', UserViews.company_list, name='kullanıcı listesi'),
 
     # Görev
     url(r'select-request/(?P<pk>\d+)$', TaskViews.requests, name='talepler'),
@@ -39,6 +51,7 @@ urlpatterns = [
     url(r'canceled-tasks/$', TaskViews.return_canceled_task, name='kullanıcı iptal edilen gorevler'),
     url(r'getTask/(?P<pk>\d+)$', TaskViews.getTask, name='gorev getir'),
     url(r'assign-courier/$', TaskViews.assign_courier, name='kurye sec'),
+    url(r'assign-task-other-courier/(?P<pk>\d+)$', TaskViews.other_assign_courier_task, name='yeniden-kurye-ata'),
 
     # Talep
     url(r'request/add-request/$', RequestViews.new_user_add_request, name='yeni kullanıcıyla talep olustur'),
@@ -63,7 +76,27 @@ urlpatterns = [
     # Profil
     url(r'profile/$', UserViews.users_information, name='profil'),
 
-    #bildirim
-    url(r'bildirimler', DashboardViews.notification, name='bildirimler'),
+    # Bildirim
+    url(r'get-notifications-api/$', APIViews.GetNotification.as_view(), name='api-notifications'),
+    url(r'bildirimler/$', DashboardViews.admin_notification, name='bildirimler'),
+    url(r'make-read-notification/$', DashboardViews.read_notification, name='bildirim-okundu-yap'),
+
+    url(r'api-get-logs/$', APIViews.GetLogs.as_view(), name='api-logs'),
+    url(r'logs/$', LogView.logs, name='log'),
+
+    url(r'api-get-company-list/$', APIViews.GetCompany.as_view(), name='api-company-list'),
+    url(r'company-list/$', UserViews.companies, name='kullanıcı listesi'),
+
+    url(r'report/$', ReportViews.request_report, name='talep-raporları'),
+    url(r'api-get-request-report/$', APIViews.GetRequestReport.as_view(), name='api-talep-rapor'),
+
+    # Ödeme
+    url(r'courier-payments/$', EarningPaymentsViews.courier_payment, name='kurye-odemeleri'),
+    url(r'pay-premium-courier/(?P<pk>\d+)$', EarningPaymentsViews.pay_premium_courier, name='kurye-prim-ode'),
+    url(r'company-payments/$', EarningPaymentsViews.company_earning_info, name='kullanici-odemeleri'),
+    url(r'company-paid/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.pay_payment_company, name='kullanici-odendi-yap'),
+    url(r'payment-company/$', EarningPaymentsViews.payment_company, name='kullanici-payment'),
+    url(r'undo-payment-company/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.undo_payment_company, name='kullanici-odenmedi-yap'),
+    url(r'payment-company-undo/$', EarningPaymentsViews.payment_company_undo, name='kullanici-odeme-geri-al'),
 
 ]

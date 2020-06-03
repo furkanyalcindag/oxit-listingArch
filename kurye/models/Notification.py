@@ -6,6 +6,7 @@ class Notification(models.Model):
     message = models.TextField(verbose_name='Bildirim İçeriği', null=True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True)
     modificationDate = models.DateTimeField(auto_now=True)
+    isRead = models.BooleanField(default=False)
 
     def __str__(self):
         return '%s %s %s' % (self.key, '-', self.message,)

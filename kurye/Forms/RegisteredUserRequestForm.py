@@ -15,7 +15,7 @@ class RegisteredUserRequestForm(ModelForm):
 
         fields = (
             'receiver', 'city', 'district', 'exitTime', 'exitDate', 'totalPrice',
-            'payment_type', 'description')
+            'payment_type', 'description', 'neighborhood')
         widgets = {
             'receiver': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible ', 'style': 'width: 100%;',
@@ -27,6 +27,7 @@ class RegisteredUserRequestForm(ModelForm):
                                      attrs={'class': 'form-control select2 select2-hidden-accessible',
                                             'style': 'width: 100%; ', 'id': 'ilce_id'}
                                      ),
+            'neighborhood': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Mahalle', 'rows': '2'}),
 
             'exitDate': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
 

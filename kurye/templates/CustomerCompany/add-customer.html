@@ -7,12 +7,22 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-           {{ obj.name }}
+            {% if obj.name == 'Müşteri Ekle' %}
+                {{ obj.name }}
+            {% else %}
+                Müşteri Güncelle
+            {% endif %}
         </h1>
         <ol class="breadcrumb">
+
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            {% if obj.name == 'Müşteri Ekle' %}
+                <li><a href="">{{ parent.name }}</a></li>
+                <li><a href="">{{ obj.name }}</a></li>
+            {% else %}
+                <li><a href="">Müşteri</a></li>
+                <li><a href="">Müşteri Güncelle</a></li>
+            {% endif %}
         </ol>
 
     </section>
@@ -21,50 +31,50 @@
     <section class="content">
         <!-- Small boxes (Stat box) -->
 
-    {% if messages %}
-        {% for message in messages %}
+        {% if messages %}
+            {% for message in messages %}
 
 
-            {% if message.tags == 'warning' %}
+                {% if message.tags == 'warning' %}
 
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
 
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
 
 
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    </div>
+
+                {% endif %}
 
 
-                </div>
+                {% if message.tags == 'success' %}
 
-            {% endif %}
-        {% endfor %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
 
 
-    {% endif %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
         <div class="row">
             <div class="col-lg-12 col-xs-12">
                 <div class="box box-primary">
@@ -105,16 +115,36 @@
                                         <div class="col-lg-4 col-xs-12">
 
                                             <div class="form-group">
-                                                <label>{{ customer_form.city.label }}</label>
-                                                {{ customer_form.city }}
-                                            </div>
+                                                <label for="">İl</label>
+                                                <select style="width: 100%"
+                                                        class="form-control select2 select2-hidden-accessible"
+                                                        name="city" id="id_city"
+                                                        onChange="ilceGetir()">
+                                                    {% for city in cities %}
+                                                        {% if city.pk == 44 %}
+                                                            <option selected
+                                                                    value="{{ city.pk }}">{{ city.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ city.pk }}">{{ city.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
 
+                                                </select>
+
+
+                                            </div>
 
                                         </div>
                                         <div class="col-lg-4 col-xs-12">
                                             <div class="form-group">
                                                 <label>{{ customer_form.district.label }}</label>
                                                 {{ customer_form.district }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-xs-12">
+                                            <div class="form-group">
+                                                <label>{{ customer_form.neighborhood.label }}</label>
+                                                {{ customer_form.neighborhood }}
                                             </div>
                                         </div>
 
@@ -170,7 +200,7 @@
 
 
         function ilceGetir() {
-            debugger;
+
             var e = document.getElementById("id_city");
             var il_id = e.options[e.selectedIndex].value;
             $.ajax({
@@ -197,12 +227,44 @@
             });
         }
 
-        $(document).ready(function () {
+        function mahalleGetir() {
 
+            var e = document.getElementById("ilce_id");
+            var ilce_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'kurye:mahalle-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    ilce_id: ilce_id,
+
+                },
+                success: function (result) {
+
+
+                    let select = document.getElementById("neighborhood_id");
+
+                    select.options[select.options.length] = new Option('Text 1', 'Value1');
+
+                    $('#neighborhood_id').empty();
+
+                    for (let i = 0; i < result.neighborhoods.length; i++) {
+                        select.options[select.options.length] = new Option(result.neighborhoods[i].neighborhood_name, result.neighborhoods[i].neighborhood_name);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
 
             ilceGetir();
             //console.log($('#ilce_id').select2('data'))
             $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'
+
+            mahalleGetir();
+             debugger;
+            //console.log($('#ilce_id').select2('data'))
+            $('#neighborhood_id').val('{{mahalle}}').trigger('change'); // Select the option with a value of '1'
 
 
         });

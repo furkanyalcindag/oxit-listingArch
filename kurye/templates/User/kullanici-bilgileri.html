@@ -1,53 +1,14 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    {% if messages %}
-        {% for message in messages %}
 
-
-            {% if message.tags == 'warning' %}
-
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-
-
-                </div>
-
-            {% endif %}
-        {% endfor %}
-
-
-    {% endif %}
     <section class="content-header">
         <h1>
             {{ obj.name }}
+            {% for log in a %}
+                {{ log.content }}
+            {% endfor %}
+
 
         </h1>
         <ol class="breadcrumb">
@@ -60,7 +21,50 @@
 
 
     <section class="content">
+        {% if messages %}
+            {% for message in messages %}
 
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
 
         <!-- /.row -->
         <!-- Main row -->
@@ -85,8 +89,9 @@
 
 
                                         <div class="form-group">
-                                            <label>{{ profile_form.profileImage.label }}</label>
-
+                                            <label>{{ profile_form.profileImage.label }} :</label>
+                                            <img src="/media/{{ profile_image }}" class="user-image" alt="OXIT BİLİŞİM"
+                                                 style=" width: 70px;height: 70px;"><br>
                                             {{ profile_form.profileImage }}
                                             <small>Profil resminizi temizleyin ya da değiştirin.İkisini aynı anda
                                                 seçmeyin</small>

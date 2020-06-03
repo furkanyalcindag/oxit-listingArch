@@ -80,7 +80,7 @@
             {{ obj.name }}
 
         </h1>
-      <ol class="breadcrumb">
+        <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
             <li><a href="">{{ parent.name }}</a></li>
             <li><a href="">{{ obj.name }}</a></li>
@@ -88,50 +88,50 @@
 
     </section>
     <section class="content">
-{% if messages %}
-        {% for message in messages %}
+        {% if messages %}
+            {% for message in messages %}
 
 
-            {% if message.tags == 'warning' %}
+                {% if message.tags == 'warning' %}
 
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
 
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
 
 
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    </div>
+
+                {% endif %}
 
 
-                </div>
+                {% if message.tags == 'success' %}
 
-            {% endif %}
-        {% endfor %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
 
 
-    {% endif %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
@@ -162,21 +162,25 @@
                             </thead>
                             <tbody>
 
-                                {% for request in approved_requests %}
-                                    <tr>
-                                        <td>{{ request.pk }}</td>
-                                        <td>{{ request.company.companyName }}</td>
-                                        <td>{{ request.receiver.customer }}</td>
+                            {% for request in approved_requests %}
+                                <tr>
+                                    <td>{{ request.pk }}</td>
+                                    <td>{{ request.company.companyName }}</td>
+                                    <td>{{ request.receiver.customer }}</td>
 
-                                        <td>{{ request.exitDate }} - {{ request.exitTime }}</td>
-                                        <td>{{ request.receiver.address }}</td>
+                                    <td>{{ request.exitDate }} - {{ request.exitTime }}</td>
+                                    <td>{{ request.receiver.address }}</td>
+                                    {% if request.description %}
                                         <td>{{ request.description }}</td>
-                                        <td><a class="btn" onclick="getRequest({{ request.pk }})"><span
-                                                class="label label-primary">Göster</span></a></td>
+                                    {% else %}
+                                        <td>Açıklama Yapılmadı</td>
+                                    {% endif %}
+                                    <td><a class="btn" onclick="getRequest({{ request.pk }})"><span
+                                            class="label label-primary">Göster</span></a></td>
 
 
-                                    </tr>
-                                {% endfor %}
+                                </tr>
+                            {% endfor %}
 
 
                             </tbody>

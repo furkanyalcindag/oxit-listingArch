@@ -5,25 +5,26 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group, User
-from django.urls import resolve
-
 from accounts.forms import ResetPassword
 from kurye.Forms.CompanyForm import CompanyForm
 from kurye.Forms.CustomerForm import CustomerForm
+from kurye.Forms.CustomerUpdateForm import CustomerUpdateForm
 from kurye.Forms.ProfileUpdateForm import ProfileUpdateForm
-
 from kurye.Forms.UserForm import UserForm
 from kurye.Forms.ProfileForm import ProfileForm
 from kurye.Forms.UserUpdateForm import UserUpdateForm
+from kurye.models import Neighborhood
+from kurye.models.City import City
 from kurye.models.Courier import Courier
 from kurye.models.Customer import Customer
 from kurye.models.Company import Company
 from kurye.models.Profile import Profile
 from kurye.services import general_methods
+from kurye.services.general_methods import save_log
 
 
-# Profile
 @login_required
+# Profile
 def users_information(request):
     perm = general_methods.control_access(request)
 
@@ -40,7 +41,6 @@ def users_information(request):
     if groups[0].name == 'Admin' or groups[0].name == 'Kullanıcı':
         company = Company.objects.get(profile=profile)
         company_form = CompanyForm(request.POST or None, instance=company)
-
     if request.method == 'POST':
 
         if user_form.is_valid() and profile_form.is_valid():
@@ -55,6 +55,11 @@ def users_information(request):
 
             messages.success(request, 'Profil Bilgileriniz Başarıyla Güncellenmiştir.')
 
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı ' + \
+                          groups[0].name + ' profilini günceledi</p>'
+
+            save_log(profile.pk, log_content)
+
             return redirect('kurye:profil')
 
         else:
@@ -63,7 +68,7 @@ def users_information(request):
 
     return render(request, 'User/kullanici-bilgileri.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'ilce': profile.district,
-                   'company_form': company_form})
+                   'company_form': company_form, 'profile_image': profile.profileImage})
 
 
 # Admin Kurye Ekleme
@@ -76,6 +81,8 @@ def add_courier(request):
         return redirect('accounts:login')
     profile_form = ProfileForm()
     user_form = UserForm()
+    current_user = request.user
+    current_profile = Profile.objects.get(user=current_user)
 
     if request.method == 'POST':
 
@@ -108,6 +115,10 @@ def add_courier(request):
 
             courier.save()
 
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">Kurye</strong> eklendi.</p>'
+
+            save_log(current_profile.pk, log_content)
+
             subject, from_email, to = 'MotoKurye Kurye Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', user2.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
             html_content = '<p> <strong>Site adresi:</strong><a href="http://127.0.0.1:8000/">MotoKurye.net</a></p>'
@@ -128,18 +139,28 @@ def add_courier(request):
                   {'user_form': user_form, 'profile_form': profile_form})
 
 
+@login_required()
 def user_change_password(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    user = request.user
+    current_profile = Profile.objects.get(user=user)
+    groups = Group.objects.filter(user=user)
     if request.method == 'POST':
         form = ResetPassword(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Şifreniz başarıyla değiştirilmiştir.')
+
+            log_content = '<p><strong style="color:red">' + current_profile.user.first_name + ' ' + current_profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                          groups[0].name + '</strong> şifresini güncelledi.</p>'
+
+            save_log(current_profile.pk, log_content)
+
             return redirect('kurye:profil')
         else:
             for error in form.errors.keys():
@@ -160,11 +181,13 @@ def add_customer(request):
         return redirect('accounts:login')
     customer_form = CustomerForm()
     user = request.user
+    groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
-
+    cities = City.objects.all()
     if request.method == 'POST':
-
+        city_id = request.POST['city']
+        city = City.objects.get(pk=city_id)
         customer_form = CustomerForm(request.POST)
 
         if customer_form.is_valid():
@@ -172,11 +195,17 @@ def add_customer(request):
             customer = Customer(company=company, customer=customer_form.cleaned_data['customer'],
                                 address=customer_form.cleaned_data['address'],
                                 phone=customer_form.cleaned_data['phone'],
-                                city=customer_form.cleaned_data['city'],
+                                city=city,
                                 district=customer_form.cleaned_data['district'],
-                                email=customer_form.cleaned_data['email']
+                                email=customer_form.cleaned_data['email'],
+                                neighborhood=customer_form.cleaned_data['neighborhood'],
                                 )
             customer.save()
+
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                          groups[0].name + ', ' + customer.customer + '</strong> adında müşteri ekledi.</p>'
+
+            save_log(profile.pk, log_content)
 
             messages.success(request, 'Müşteri Başarıyla Kayıt Edilmiştir.')
 
@@ -186,7 +215,51 @@ def add_customer(request):
             messages.warning(request, 'Alanları Kontrol Ediniz')
 
     return render(request, 'CustomerCompany/add-customer.html',
-                  {'customer_form': customer_form})
+                  {'customer_form': customer_form, 'cities': cities})
+
+
+# Kullanıcı Müşteri Güncelle
+@login_required
+def update_customer(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    user = request.user
+    groups = Group.objects.filter(user=user)
+    profile = Profile.objects.get(user=user)
+    company = Company.objects.get(profile=profile)
+    customer = Customer.objects.get(pk=pk)
+    customer_form = CustomerUpdateForm(request.POST or None, instance=customer)
+    cities = City.objects.all()
+    neighborhood_id = customer.neighborhood
+    neighborhood = Neighborhood.objects.get(neighborhood_name=neighborhood_id)
+
+    if request.method == 'POST':
+        if customer_form.is_valid():
+
+            city_id = request.POST['city']
+            city = City.objects.get(pk=city_id)
+
+            customer_form.save()
+
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                          groups[
+                              0].name + ', ' + customer.customer + '</strong> adında müşteri bilgilerini güncelledi.</p>'
+
+            save_log(profile.pk, log_content)
+
+            messages.success(request, 'Müşteri Bilgileri Başarıyla Kayıt Edilmiştir.')
+
+            return redirect('kurye:musteri listesi')
+
+        else:
+            messages.warning(request, 'Alanları Kontrol Ediniz')
+
+    return render(request, 'CustomerCompany/add-customer.html',
+                  {'customer_form': customer_form, 'cities': cities, 'ilce': customer.district,
+                   'mahalle': neighborhood.neighborhood_name})
 
 
 # KULLANICIYA AİT Müşteri Listesi
@@ -215,6 +288,8 @@ def add_company(request):
     profile_form = ProfileForm()
     user_form = UserForm()
     company_form = CompanyForm()
+    user = request.user
+    current_profile = Profile.objects.get(user=user)
 
     if request.method == 'POST':
 
@@ -244,6 +319,7 @@ def add_company(request):
                               city=profile_form.cleaned_data['city'],
                               phone=profile_form.cleaned_data['phone'],
                               district=profile_form.cleaned_data['district'],
+                              neighborhood=profile_form.cleaned_data['neighborhood']
 
                               )
             profile.isActive = True
@@ -252,6 +328,10 @@ def add_company(request):
                               taxName=company_form.cleaned_data['taxName'],
                               taxNumber=company_form.cleaned_data['taxNumber'], )
             company.save()
+
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">Kullanıcı </strong> eklendi.</p>'
+
+            save_log(current_profile.pk, log_content)
 
             subject, from_email, to = 'MotoKurye Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', user2.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
@@ -270,7 +350,8 @@ def add_company(request):
             messages.warning(request, 'Alanları Kontrol Ediniz')
 
     return render(request, 'Company/add-company.html',
-                  {'user_form': user_form, 'profile_form': profile_form, 'company_form': company_form})
+                  {'user_form': user_form, 'profile_form': profile_form, 'company_form': company_form,
+                   'ilce': current_profile.district, 'mahalle': current_profile.neighborhood})
 
 
 # Admin Ekle
@@ -364,8 +445,19 @@ def customer_delete(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-
+    user = request.user
+    profile = Profile.objects.get(user=user)
     customer = Customer.objects.get(pk=pk)
     customer.delete()
+
+    log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">Kullanıcı, ' + customer.customer + ' </strong> adlı Müşteriyi ekledi.</p>'
+
+    save_log(profile.pk, log_content)
+
     messages.success(request, 'Müşteri Başarıyla Silindi')
     return redirect('kurye:musteri listesi')
+
+
+# kullanıcılar datatable
+def companies(request):
+    return render(request, 'Company/company-list.html')

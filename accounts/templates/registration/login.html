@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OXIT</title>
+    <title>OXIT BİLİŞİM TEKNOLOJİLERİ </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -30,14 +30,18 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition login-page" style="background-color: #ffffff">
+<body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>OXIT</b></a>
+        <a href="#"> <img src="/media/logo.png" alt="OXIT LOGO"></a>
+        <br>
+        <p>Müşteri Destek Paneli</p>
+
+
     </div>
     <!-- /.login-logo -->
-    <div class="login-box-body" style="background:#c8c5c5">
-        <p class="login-box-msg">Hoşgeldiniz</p>
+    <div class="login-box-body">
+
 
         {% if messages %}
 
@@ -66,40 +70,37 @@
 
             {% csrf_token %}
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="Mail Adresi" name="username">
+                <input style="border-radius: 10px" type="text" class="form-control" placeholder="Mail Adresi" name="username">
 
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
 
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Şifre" name="password">
+                <input style="border-radius: 10px" type="password" class="form-control" placeholder="Şifre" name="password">
 
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
 
             <div class="row">
-                <div class="col-xs-4">
-                    <div class="checkbox icheck">
-                        <input style="margin-left: 0px;" type="checkbox" name="beni-hatirla">
-                        <label style="margin-left: 15px;">
-                            Beni Hatırla
-                        </label>
 
-                    </div>
+
+                <div class="col-xs-6">
+                    <br>
+                    <a href="/forgot" class="text-center">Şifremi Unuttum</a><br>
                 </div>
-                <!-- /.col -->
 
-                <div class="col-xs-4">
+                <div class="col-xs-6">
 
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Giriş Yap</button>
+                    <button style=" float: right;    margin-top: 10px;" type="submit" class="btn btn-primary ">Giriş
+                        Yap
+                    </button>
                 </div>
+
+
                 <!-- /.col -->
             </div>
         </form>
-
-
-        <a href="{% url 'accounts:forgot' %}" class="text-center">Şifremi Unuttum</a><br>
 
 
     </div>
@@ -110,7 +111,7 @@
 <!-- jQuery 3 -->
 <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
 <script>

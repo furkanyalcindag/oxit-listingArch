@@ -9,7 +9,8 @@ class Courier(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     isActive = models.BooleanField(default=True)
+    type = models.CharField(max_length=250, null=True, blank=True, verbose_name='Kurye Tipi')
+
 
     def __str__(self):
-        return '%s %s %s %s' % (self.courier.user.first_name, self.courier.user.last_name, '-',
-                                self.courier.mobilePhone)
+        return '%s %s %s %s' % (self.type, 'Kurye - ', self.courier.user.first_name, self.courier.user.last_name)
