@@ -202,19 +202,16 @@
                                             <div class="btn-group">
                                                 <a class="btn btn-success"
                                                    onclick="activeDeactive({{ profile.pk }})"><i
-                                                        class="fa fa-check"></i>  </a>
+                                                        class="fa fa-check"></i> </a>
 
                                                 <a class="btn btn-info" onclick="getPendingProfile({{ profile.pk }})"><i
-                                                        class="fa fa-align-left"></i>  </a>
+                                                        class="fa fa-align-left"></i> </a>
 
                                                 <a class="btn btn-danger"
                                                    data-toggle="modal" onclick=deletePendingProfile({{ profile.pk }})><i
-                                                        class="fa fa-trash"></i>  </a>
+                                                        class="fa fa-trash"></i> </a>
                                             </div>
                                         </td>
-
-
-
 
 
                                     </tr>
@@ -261,7 +258,7 @@
     <script>
         function deletePendingProfile(id) {
 
-          $(".deneme22").on("shown.bs.modal", function (e) {
+            $(".deneme22").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
                     $.ajax({
                         url: "{% url "inoks:bekleyen-kullanicilar-sil" pk=212121223232323232 %}".replace(/212121223232323232/, id.toString()),
@@ -289,7 +286,7 @@
                         }
                     });
                 });
-           }).modal('show');
+            }).modal('show');
             $('#btn-close-2').click(function () {
                 $('#modal-danger-2').modal('hide');
             });
@@ -306,30 +303,30 @@
 
 
         function activeDeactive(user_id, is_true) {
- $(".deneme23").on("shown.bs.modal", function (e) {
+            $(".deneme23").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
-            $.ajax({
-                url: "{% url 'inoks:kullanici-onayla' %}",
-                type: "post", // or "get"
-                data: {
-                    user_id: user_id,
-                    is_true: is_true
-                },
-                success: function (result) {
+                    $.ajax({
+                        url: "{% url 'inoks:kullanici-onayla' %}",
+                        type: "post", // or "get"
+                        data: {
+                            user_id: user_id,
+                            is_true: is_true
+                        },
+                        success: function (result) {
 
-                    if (result.status == 'Success') {
-                        swal("Başarılı", "Bekleyen Kullanıcı Başarıyla güncellendi.", "success");
-                        window.location.replace("{% url "inoks:bekleyen-kullanicilar" %}");
+                            if (result.status == 'Success') {
+                                swal("Başarılı", "Bekleyen Kullanıcı Başarıyla güncellendi.", "success");
+                                window.location.replace("{% url "inoks:bekleyen-kullanicilar" %}");
 
 
-                    } else {
-                        swal("Başarılı", result.messages, "error");
-                    }
-                }
-            });
-         });
+                            } else {
+                                swal("Başarılı", result.messages, "error");
+                            }
+                        }
+                    });
+                });
 
-    }).modal('show');
+            }).modal('show');
             $('#btn-close').click(function () {
                 $('#modal-danger').modal('hide');
             });
@@ -386,19 +383,20 @@
 
     <script>
 
-function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
 
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
 
-    return [day, month, year].join('.');
-}
+            return [day, month, year].join('.');
+        }
+
         function getPendingProfile(id) {
 
             var html = '';
@@ -406,11 +404,11 @@ function formatDate(date) {
                 .done(function (response) {
 
                     var profile = response.profile[0];
-                     profile.creationDate=formatDate(profile.creationDate);
+                    profile.creationDate = formatDate(profile.creationDate);
                     html += ' <div class="box-body box-profile">';
                     html += ' <img class="profile-user-img img-responsive img-circle" style="width: 100px; height: 100px;" src="' + profile.profileImage + '" alt="User profile picture">';
                     html += '<h3 class="profile-username text-center">' + profile.user.first_name + ' ' + profile.user.last_name + '</h3>';
-                    html += '<!-- <p class="text-muted text-center" >'  + profile.sponsor + '</p> -->';
+                    html += '<!-- <p class="text-muted text-center" >' + profile.sponsor + '</p> -->';
                     html += ' <ul class="list-group list-group-unbordered">';
                     html += '<div class="row">';
                     html += '<div class="col-md-6">';
@@ -428,7 +426,7 @@ function formatDate(date) {
                     html += '<b>İlçe</b> <a class="pull-right">' + profile.district + '</a></li></div>';
 
                     html += '<div class="col-md-6" style="border-left: thin solid #000000">';
-                     html += ' <li class="list-group-item">';
+                    html += ' <li class="list-group-item">';
                     html += '<b>Sponsor</b> <a class="pull-right">' + profile.sponsor.id + '</a></li>';
                     html += ' <li class="list-group-item">';
                     html += '<b>Başvuru Tarihi</b> <a class="pull-right">' + profile.creationDate + '</a></li>';
@@ -439,7 +437,7 @@ function formatDate(date) {
                     html += ' <li class="list-group-item">';
                     html += '<b>Eğitim Düzeyi </b> <a class="pull-right">' + profile.educationLevel + '</a></li>';
                     html += ' <li class="list-group-item">';
-                    html += '<b>Doğum Tarihi</b> <a class="pull-right">' + profile.birthDate + '</a></li></div>' ;
+                    html += '<b>Doğum Tarihi</b> <a class="pull-right">' + profile.birthDate + '</a></li></div>';
 
                     html += '<div class="col-md-12" >';
 
@@ -447,8 +445,7 @@ function formatDate(date) {
                     html += '<b>Adres</b> <a class="pull-right">' + profile.address + '</a></li></div>'
 
 
-
-                        '</div></ul>';
+                    '</div></ul>';
 
 
                     $(".bodys").html(html);
