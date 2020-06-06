@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from kurye.Forms.CustomerForm import CustomerForm
 from kurye.Forms.RegisteredUserRequestForm import RegisteredUserRequestForm
 from kurye.Forms.RequestForm import RequestForm
+from kurye.models import Neighborhood
 from kurye.models.City import City
 from kurye.models.Notification import Notification
 from kurye.models.Profile import Profile
@@ -58,7 +59,12 @@ def new_user_add_request(request):
             customer.save()
             customer.company = company
             customer.save()
-            price = customer.neighborhood.price  # Mahalleye göre fiyat
+            price = ""
+            neighborhood_name = customer.neighborhood
+            neighborhood = Neighborhood.objects.filter(neighborhood_name=neighborhood_name)
+            for neighborhood in neighborhood:
+                price = neighborhood.price
+            # Mahalleye göre fiyat
 
             request1 = Request(receiver=customer,
                                payment_type=request_form.cleaned_data['payment_type'],
@@ -99,7 +105,7 @@ def new_user_add_request(request):
                 request1.pk) + ''
             notification.save()
 
-            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur')
+            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur.Kısa Sürede Kurye görevlendirilecektir.')
             return redirect('kurye:yeni kullanıcıyla talep olustur')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz.')
@@ -125,8 +131,9 @@ def registered_user_add_request(request):
 
         if request_form.is_valid():
 
-            customer = Customer.objects.get(pk=request_form.receiver.pk)
-            price = customer.neighborhood.price  # Mahalleye göre fiyat
+            customer = Customer.objects.get(pk=request_form.cleaned_data['receiver'].pk)
+            neighborhood = Neighborhood.objects.get(neighborhood_name=customer.neighborhood)
+            price = neighborhood.price  # Mahalleye göre fiyat
 
             request1 = Request(
                 receiver=request_form.cleaned_data['receiver'],
@@ -170,7 +177,7 @@ def registered_user_add_request(request):
                 request1.pk) + ''
             notification.save()
 
-            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur')
+            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur.Kısa Sürede Kurye görevlendirilecektir.')
             return redirect('kurye:kayıtlı kullanıcıyla talep olustur')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz.')

@@ -9,14 +9,22 @@
                 {{ log.content }}
             {% endfor %}
 
-
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            {% if  user.groups.all.0.name == 'Admin' %}
+                <li><a href="{% url 'kurye:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+
+            {% elif user.groups.all.0.name == 'Kullanıcı' %}
+                <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+
+            {% else %}
+                <li><a href="{% url 'kurye:kurye-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+
+            {% endif %}
+
             <li><a href="">{{ parent.name }}</a></li>
             <li><a href="">{{ obj.name }}</a></li>
         </ol>
-
     </section>
 
 
@@ -85,7 +93,7 @@
                                     {% csrf_token %}
 
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
 
 
                                         <div class="form-group">
@@ -122,12 +130,7 @@
                                             <label> {{ profile_form.address.label }}</label>
                                             {{ profile_form.address }}
                                         </div>
-
-
-                                    </div>
-                                    {% if user.groups.all.0.name == 'Admin' or  user.groups.all.0.name == 'Kullanıcı' %}
-                                        <div class="col-md-6" style="margin-top: 105px">
-
+                                        {% if user.groups.all.0.name == 'Admin' or  user.groups.all.0.name == 'Kullanıcı' %}
 
                                             <div class="form-group">
                                                 <label>{{ company_form.companyName.label }}</label>
@@ -143,8 +146,11 @@
                                             </div>
 
 
-                                        </div>
-                                    {% endif %}
+
+                                        {% endif %}
+
+                                    </div>
+
 
                                 </div>
                                 <!-- /.box-body -->

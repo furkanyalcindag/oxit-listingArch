@@ -64,7 +64,7 @@ def add_task(request, pk):
 
         task.courier = courier
         task.save()
-        courier.isActive = 'False'
+        courier.isActive = False
         courier.save()
 
         notification = Notification.objects.filter(message__icontains='Talep No: ' + str(request1.pk)).filter(
@@ -216,6 +216,7 @@ def assign_courier(request):
     return render(request, 'Task/assign-courier.html', {'couriers': couriers})
 
 
+# Yeniden Kurye
 def other_assign_courier_task(request, pk):
     perm = general_methods.control_access(request)
 
@@ -233,12 +234,15 @@ def other_assign_courier_task(request, pk):
         id = request.POST['courier']
 
         courier = Courier.objects.get(pk=id)
+        
+        active_courier = task.courier
+
+        active_courier.isActive = True
 
         active_task = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)
 
         for active in active_task:
             active.isActive = False
-            active.task.courier.isActive = False
             active.save()
 
         task.courier = courier
@@ -261,7 +265,8 @@ def other_assign_courier_task(request, pk):
 
         notification = Notification()
         notification.key = 'Yeniden Görevlendirme'
-        notification.message = '' + task.pk + ' nolu göreve yeni kurye atandı.Kurye : ' + courier.courier.user.first_name + ' ' + courier.courier.user.last_name + ''
+        notification.message = '' + str(
+            task.pk) + ' nolu göreve yeni kurye atandı.Kurye : ' + courier.courier.user.first_name + ' ' + courier.courier.user.last_name + ''
         notification.save()
 
         subject, from_email, to = 'MotoKurye Görev Bilgileri', 'burcu.dogan@oxityazilim.com', courier.courier.user.email

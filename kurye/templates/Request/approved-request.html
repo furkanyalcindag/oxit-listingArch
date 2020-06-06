@@ -144,53 +144,56 @@
 
 
                     <div class="box box-primary">
-                        <br>
-                        <table id="approvedrequest" class="display responsive nowrap" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
+                        <div class="box-body">
 
-                                <th>Talep No</th>
-                                <th>Firma</th>
-                                <th>Müşteri Ad Soyad</th>
-                                <th>Talep Tarihi</th>
-                                <th>Adres</th>
-                                <th>Açıklama</th>
-                                <th>Detay</th>
-
-
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for request in approved_requests %}
+                            <br>
+                            <table id="approvedrequest" class="display responsive nowrap" cellspacing="0" width="100%">
+                                <thead>
                                 <tr>
-                                    <td>{{ request.pk }}</td>
-                                    <td>{{ request.company.companyName }}</td>
-                                    <td>{{ request.receiver.customer }}</td>
 
-                                    <td>{{ request.exitDate }} - {{ request.exitTime }}</td>
-                                    <td>{{ request.receiver.address }}</td>
-                                    {% if request.description %}
-                                        <td>{{ request.description }}</td>
-                                    {% else %}
-                                        <td>Açıklama Yapılmadı</td>
-                                    {% endif %}
-                                    <td><a class="btn" onclick="getRequest({{ request.pk }})"><span
-                                            class="label label-primary">Göster</span></a></td>
+                                    <th>Talep No</th>
+                                    <th>Firma</th>
+                                    <th>Müşteri Ad Soyad</th>
+                                    <th>Talep Tarihi</th>
+                                    <th>Adres</th>
+                                    <th>Açıklama</th>
+                                    <th>Detay</th>
 
 
                                 </tr>
-                            {% endfor %}
+                                </thead>
+                                <tbody>
+
+                                {% for request in approved_requests %}
+                                    <tr>
+                                        <td>{{ request.pk }}</td>
+                                        <td>{{ request.company.companyName }}</td>
+                                        <td>{{ request.receiver.customer }}</td>
+
+                                        <td>{{ request.exitDate }} - {{ request.exitTime }}</td>
+                                        <td>{{ request.receiver.address }}</td>
+                                        {% if request.description %}
+                                            <td>{{ request.description }}</td>
+                                        {% else %}
+                                            <td>Açıklama Yapılmadı</td>
+                                        {% endif %}
+                                        <td><a class="btn" onclick="getRequest({{ request.pk }})"><span
+                                                class="label label-primary">Göster</span></a></td>
 
 
-                            </tbody>
-                        </table>
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <!-- /.box -->
 
 
                     </div>
-                    <!-- /.box -->
-
-
                 </div>
             </section>
 

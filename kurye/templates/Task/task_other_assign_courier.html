@@ -61,23 +61,20 @@
 
         {% endif %}
 
-        <strong>Görev Numarası:</strong> {{ task.pk }}
-        <strong> <br> Talep No: </strong> {{ task.request.pk }}<br>
-
-        <strong>Adres: </strong> {{ task.request.receiver.address }}
-        <strong> <br> Müşteri: </strong> {{ task.request.receiver.customer }}
-
 
         <div class="row">
 
-
             <section class="col-lg-12 ">
 
-
                 <div class="box-body">
+                    <strong>Görev Numarası:</strong> {{ task.pk }}
+                    <strong> <br> Talep No: </strong> {{ task.request.pk }}<br>
 
+                    <strong>Adres: </strong> {{ task.request.receiver.address }}
+                    <strong> <br> Müşteri: </strong> {{ task.request.receiver.customer }}
 
                     <div class="box box-primary">
+
                         <div class="box-body">
                             <table id="yenidenkuryeata" class="display responsive nowrap" cellspacing="0"
                                    width="100%">

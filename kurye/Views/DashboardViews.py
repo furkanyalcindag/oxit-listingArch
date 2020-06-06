@@ -233,11 +233,11 @@ def return_company_dashboard(request):
     requests = Request.objects.filter(company=company)
     requests_count = Request.objects.filter(company=company).count()
     task = []
-    canceled_task = []
-    completed_task = []
-    successful_task = []
-    unsuccessful_task = []
-    active_task = []
+    canceled_task = 0
+    completed_task = 0
+    successful_task = 0
+    unsuccessful_task = 0
+    active_task = 0
     for request1 in requests:
         if TaskSituationTask.objects.filter(task__request_id=request1.pk).count() > 0:
             task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).order_by(
