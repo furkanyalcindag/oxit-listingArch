@@ -3,7 +3,50 @@
 {% block content %}
 
     <!-- success modal -->
+    <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Uyarı</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="content"></p>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                            data-dismiss="modal">Evet
+                    </button>
+                    <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">İşlem Başarılı</h4>
+                </div>
+                <div class="modal-body successModal">
+                    ...
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
     <section class="content-header">
 
@@ -74,56 +117,59 @@
 
 
                     <div class="box box-primary">
-                        <br>
-                        <table id="customer" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-
-                                <th>#</th>
-                                <th>Ad Soyad</th>
-                                <th>Telefon Numarası</th>
-                                <th>E-mail</th>
-                                <th>Adres</th>
-                                <th style="text-align: center;">Düzenle/Sil</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            {% for customer in customers %}
-                                <tr >
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ customer.customer }} </td>
-                                    <td>{{ customer.phone }}</td>
-                                    {% if  customer.email %}
-                                        <td>{{ customer.email }}</td>
-                                    {% else %}
-                                        <td>Belirtilmedi</td>
-                                    {% endif %}
-                                    <td>{{ customer.address }}</td>
-                                    <td style="text-align: center;" >
-                                        <a href="{% url 'kurye:musteri-guncelle' customer.pk %}" class="btn btn-warning"
-                                           type="button">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                        <a href="{% url 'kurye:musteri-sil' customer.pk %}" class="btn btn-danger"
-                                           type="button">
-                                            <i class="fa fa-close"></i>
-                                        </a>
-
-                                    </td>
+                        <div class="box-body">
 
 
+                            <table id="customer" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+
+                                    <th>#</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Telefon Numarası</th>
+                                    <th>E-mail</th>
+                                    <th>Adres</th>
+                                    <th style="text-align: center;">Düzenle/Sil</th>
                                 </tr>
-                            {% endfor %}
+                                </thead>
+                                <tbody>
 
-                            </tbody>
-                        </table>
+                                {% for customer in customers %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ customer.customer }} </td>
+                                        <td>{{ customer.phone }}</td>
+                                        {% if  customer.email %}
+                                            <td>{{ customer.email }}</td>
+                                        {% else %}
+                                            <td>Belirtilmedi</td>
+                                        {% endif %}
+                                        <td>{{ customer.address }}</td>
+                                        <td style="text-align: center;">
+                                            <a href="{% url 'kurye:musteri-guncelle' customer.pk %}"
+                                               class="btn btn-warning"
+                                               type="button">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <button type="submit"
+                                                    onclick="customer_pasif({{ customer.pk }})"
+                                                    class="btn  btn-danger">Sil
+                                            </button>
 
+                                        </td>
+
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <!-- /.box -->
 
                     </div>
-                    <!-- /.box -->
-
-
                 </div>
             </section>
 
@@ -144,9 +190,86 @@
                 'autoWidth': true
             })
 
-        })
+        });
+
+
+        function customer_pasif(customer_id) {
+            debugger;
+            let html = 'Müşteri Silinsin mi?';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'kurye:musteri-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            customer_id: customer_id,
+
+
+                        },
+                        success: function (result) {
+
+                            html = 'Müşteri Silindi';
+
+                            $(".successModal").html(html);
+                            $('#modal-success').on("shown.bs.modal", function (e) {
+                                $(".btn-ok").click(function () {
+
+                                    window.location.replace("{% url "kurye:musteri listesi" %}");
+
+                                });
+
+                            }).modal('show');
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
     </script>
 
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
 
 {% endblock %}
 

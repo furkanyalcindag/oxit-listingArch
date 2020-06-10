@@ -1,19 +1,18 @@
-import json
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-
 from kurye.Forms.NeighborhoodUpdateForm import NeighborhoodUpdateForm
 from kurye.Forms.NeighborhoodForm import NeighborhoodForm
 from kurye.models import Neighborhood
 from kurye.models.City import City
 from kurye.models.District import District
+from kurye.models.Profile import Profile
 from kurye.serializers.DistrictSerializer import DistrictSerializer
 from kurye.serializers.NeighborhoodSerializer import NeighborhoodSerializer
 from kurye.services import general_methods
+from kurye.services.general_methods import save_log
 
 
 @api_view(http_method_names=['POST'])
@@ -65,6 +64,8 @@ def add_neighborhood(request):
         return redirect('accounts:login')
     cities = City.objects.all()
     form = NeighborhoodForm()
+    user = request.user
+    profile = Profile.objects.get(user=user)
 
     if request.method == 'POST':
         form = NeighborhoodForm(request.POST)
@@ -77,6 +78,9 @@ def add_neighborhood(request):
                                         neighborhood_name=form.cleaned_data['neighborhood_name'],
                                         price=form.cleaned_data['price'])
             neighborhood.save()
+            log_content = '<p><strong style="color:red">' + neighborhood.neighborhood_name + ' </strong>  Mahallesi eklendi.</p>'
+
+            save_log(profile.pk, log_content)
             messages.success(request, 'Mahalle bilgileri başarılıyla kayıt edildi.')
         else:
             messages.warning(request, 'Alanları kontrol ediniz.')
@@ -91,6 +95,8 @@ def update_neighborhood(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    user = request.user
+    profile = Profile.objects.get(user=user)
     cities = City.objects.all()
     neighborhood = Neighborhood.objects.get(pk=pk)
     form = NeighborhoodUpdateForm(request.POST or None, instance=neighborhood)
@@ -102,10 +108,13 @@ def update_neighborhood(request, pk):
         city = City.objects.get(pk=city_id)
         if form.is_valid():
 
-            neighborhood = Neighborhood(city=city, district=form.cleaned_data['district'],
+            neighborhood2 = Neighborhood(city=city, district=form.cleaned_data['district'],
                                         neighborhood_name=form.cleaned_data['neighborhood_name'],
                                         price=form.cleaned_data['price'])
-            neighborhood.save()
+            neighborhood2.save()
+            log_content = '<p><strong style="color:red">' + neighborhood2.neighborhood_name + ' </strong>  mahallesi güncellendi.</p>'
+
+            save_log(profile.pk, log_content)
             messages.success(request, 'Mahalle bilgileri başarılıyla güncellendi.')
         else:
             messages.warning(request, 'Alanları kontrol ediniz.')
@@ -120,5 +129,5 @@ def neighborhoods(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    # neighborhoods = Neighborhood.objects.all()
+
     return render(request, 'neighborhood-list.html', )

@@ -18,16 +18,18 @@ class NeighborhoodForm(ModelForm):
         widgets = {
 
             'city': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                        'style': 'width: 100%; ', "onChange": 'ilceGetir()'}),
+                                        'style': 'width: 100%; ', "onChange": 'ilceGetir()', 'required': 'required'}),
 
             'district': forms.Select(choices=CHOICES_WITH_BLANK,
                                      attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                            'style': 'width: 100%; ', 'id': 'ilce_id', "onchange": "mahalleGetir()"}),
+                                            'style': 'width: 100%; ', 'id': 'ilce_id', "onchange": "mahalleGetir()",
+                                            'required': 'required'}),
             'neighborhood_name': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Mahalle', 'id': 'neighborhood_id'
+                attrs={'class': 'form-control', 'placeholder': 'Mahalle', 'id': 'neighborhood_id',
+                       'required': 'required'
                        }),
             'price': forms.NumberInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Mahalleye göre fiyat (₺)',
+                attrs={'class': 'form-control ', 'placeholder': 'Mahalleye göre fiyat (₺)', 'required': 'required'
                        }),
 
         }

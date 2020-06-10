@@ -5457,11 +5457,11 @@ table.text-center th {
 
 .bg-purple-gradient {
     background: #605ca8 !important;
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #605ca8), color-stop(1, #9491c4)) !important;
-    background: -ms-linear-gradient(bottom, #605ca8, #9491c4) !important;
-    background: -moz-linear-gradient(center bottom, #605ca8 0, #9491c4 100%) !important;
-    background: -o-linear-gradient(#9491c4, #605ca8) !important;
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#9491c4', endColorstr='#605ca8', GradientType=0) !important;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #605ca8), color-stop(1, #1304ff)) !important;
+    background: -ms-linear-gradient(bottom, #605ca8, #1304ff) !important;
+    background: -moz-linear-gradient(center bottom, #605ca8 0, #1304ff 100%) !important;
+    background: -o-linear-gradient(#1304ff, #605ca8) !important;
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#1304ff', endColorstr='#605ca8', GradientType=0) !important;
     color: #fff
 }
 

@@ -18,21 +18,22 @@ class CustomerForm(ModelForm):
             'customer': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Ad Soyad', 'rows': '2', 'required': 'required'}),
             'email': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Email', 'rows': '2', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Email', 'rows': '2'}),
             'address': forms.Textarea(
                 attrs={'class': 'form-control', 'placeholder': 'Açık Adres', 'rows': '2', 'required': 'required'}),
             'phone': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Cep Telefonu', 'required': 'required'}),
             'city': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',
-                       'style': 'width: 100%; ', "onChange": 'ilceGetir()'}),
+                       'style': 'width: 100%; ', "onChange": 'ilceGetir()', 'required': 'required'}),
             'district': forms.Select(choices=CHOICES_WITH_BLANK,
                                      attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                            'style': 'width: 100%; ', 'id': 'ilce_id', "onChange": 'mahalleGetir()', }),
+                                            'style': 'width: 100%; ', 'id': 'ilce_id', "onChange": 'mahalleGetir()',
+                                            'required': 'required'}),
             'neighborhood': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible ',
                        'style': 'width: 100%; ',
-                       'placeholder': 'Mahalle', 'id': 'neighborhood_id',
+                       'placeholder': 'Mahalle', 'id': 'neighborhood_id', 'required': 'required'
                        }),
 
         }

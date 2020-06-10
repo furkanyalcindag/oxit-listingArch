@@ -8,7 +8,7 @@ from kurye.models.TaskSituations import TaskSituations
 class TaskSituationTask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
     task_situation = models.ForeignKey(TaskSituations, on_delete=models.CASCADE, null=True, blank=True)
-    isActive = models.BooleanField(default=False)
+    isActive = models.BooleanField(default=True)
     creationDate = models.DateTimeField(verbose_name='Kayıt Tarihi', default=timezone.now)
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 

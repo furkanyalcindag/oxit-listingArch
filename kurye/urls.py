@@ -25,8 +25,13 @@ urlpatterns = [
     # Kullanıcının Müşterileri
     url(r'add-customer/$', UserViews.add_customer, name='musteri ekle'),
     url(r'customer-list/$', UserViews.customer_list, name='musteri listesi'),
-    url(r'customer-delete/(?P<pk>\d+)$', UserViews.customer_delete, name='musteri-sil'),
+    url(r'customer-delete/$', UserViews.customer_delete, name='musteri-sil'),
     url(r'customer-update/(?P<pk>\d+)$', UserViews.update_customer, name='musteri-guncelle'),
+
+    # Personel (admin)
+    url(r'add-personal/$', UserViews.add_personal, name='personel-ekle'),
+    url(r'personal-list/$', UserViews.personel_list, name='personel-listesi'),
+    url(r'personal-delete/(?P<pk>\d+)$', UserViews.personal_delete, name='personel-sil'),
 
     # İlçe/Mahalle
     url(r'ilce-getir/$', CityViews.get_districts, name="ilce-getir"),
@@ -41,17 +46,21 @@ urlpatterns = [
 
     # Kullanıcı Firma
     url(r'add-company/$', UserViews.add_company, name='kullanıcı firma ekle'),
-    # url(r'company-list/$', UserViews.company_list, name='kullanıcı listesi'),
 
     # Görev
     url(r'select-request/(?P<pk>\d+)$', TaskViews.requests, name='talepler'),
     url(r'add-task/(?P<pk>\d+)$', TaskViews.add_task, name='gorev ata'),
     url(r'completed-task/$', TaskViews.return_completed_task, name='tamamlanan gorevler'),
+    url(r'completed-task-api/$', APIViews.GetCompletedTask.as_view(), name='gorevler-api'),
+
     url(r'active-task/$', TaskViews.return_active_task, name='aktif gorevler'),
     url(r'canceled-tasks/$', TaskViews.return_canceled_task, name='kullanıcı iptal edilen gorevler'),
+    url(r'cancel-tasks-api/$', APIViews.GetCanceledTask.as_view(), name='iptal-edilen-gorevler-api'),
+
     url(r'getTask/(?P<pk>\d+)$', TaskViews.getTask, name='gorev getir'),
     url(r'assign-courier/$', TaskViews.assign_courier, name='kurye sec'),
     url(r'assign-task-other-courier/(?P<pk>\d+)$', TaskViews.other_assign_courier_task, name='yeniden-kurye-ata'),
+    url(r'timeline-tasks/$', ReportViews.task_timeline, name='gorev-timeline'),
 
     # Talep
     url(r'request/add-request/$', RequestViews.new_user_add_request, name='yeni kullanıcıyla talep olustur'),
@@ -67,6 +76,8 @@ urlpatterns = [
     url(r'User/ending-tasks/$', RequestViews.return_company_ending_tasks, name='kullanıcının biten talepleri'),
     url(r'User/cancel-task/(?P<pk>\d+)$', RequestViews.cancel_requests, name='kullanıcı talabi iptal et'),
     url(r'User/complete-task/(?P<pk>\d+)$', TaskViews.taskComplete, name="görevi bitir"),
+    url(r'User/all-requests/$', RequestViews.company_all_requests, name='kullanici-talepleri'),
+
     url(r'getRequest/(?P<pk>\d+)$', RequestViews.getRequest, name='talep getir'),
 
     # Admin ekle
@@ -94,9 +105,11 @@ urlpatterns = [
     url(r'courier-payments/$', EarningPaymentsViews.courier_payment, name='kurye-odemeleri'),
     url(r'pay-premium-courier/(?P<pk>\d+)$', EarningPaymentsViews.pay_premium_courier, name='kurye-prim-ode'),
     url(r'company-payments/$', EarningPaymentsViews.company_earning_info, name='kullanici-odemeleri'),
-    url(r'company-paid/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.pay_payment_company, name='kullanici-odendi-yap'),
+    url(r'company-paid/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.pay_payment_company,
+        name='kullanici-odendi-yap'),
     url(r'payment-company/$', EarningPaymentsViews.payment_company, name='kullanici-payment'),
-    url(r'undo-payment-company/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.undo_payment_company, name='kullanici-odenmedi-yap'),
+    url(r'undo-payment-company/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.undo_payment_company,
+        name='kullanici-odenmedi-yap'),
     url(r'payment-company-undo/$', EarningPaymentsViews.payment_company_undo, name='kullanici-odeme-geri-al'),
 
 ]

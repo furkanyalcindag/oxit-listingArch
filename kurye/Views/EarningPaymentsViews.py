@@ -1,23 +1,17 @@
 import calendar
 import datetime
 from decimal import Decimal
-
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
-from django.db.models import Count, Sum
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from unicodedata import decimal
-
-from kurye.models import Settings, Neighborhood, EarningPayments
+from kurye.models import Settings, EarningPayments
 from kurye.models.Company import Company
 from kurye.models.Courier import Courier
-from kurye.models.EarningCompany import EarningCompany
-from kurye.models.Request import Request
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.services import general_methods
-from kurye.services.general_methods import return_month
+
 
 
 def courier_payment(request):
@@ -38,12 +32,6 @@ def courier_payment(request):
         year = int(request.POST['yil'])
         date = request.POST['yil'] + '-' + request.POST['ay']
         num_days = calendar.monthrange(year, month)[1]
-
-        datetime_start = datetime.datetime(int(request.POST['yil']), int(request.POST['ay']), 1, 0, 0)
-        datetime_end = datetime.datetime(int(request.POST['yil']), int(request.POST['ay']), num_days, 23, 59)
-
-        # if (datetime_current - datetime_start).days >= calendar.monthrange(year, month)[1]:
-        # if EarningPayments.objects.filter(earning_date=date).count() < TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').filter(creationDate__range=(datetime_start, datetime_end)).count():
 
         array = []
         for courier in couriers:
@@ -82,13 +70,6 @@ def courier_payment(request):
                 courier_dict['situation'] = 'Ödenmedi'
             array_courier.append(courier_dict)
 
-        # earning = EarningPayments(courier=courier.courier, paymentTotal=prim, earning_date=date,task_count=courier_task.count())
-        # earning.save()
-
-        # earning_couriers = EarningPayments.objects.filter(earning_date=date)
-    # else:
-    # earning_couriers = EarningPayments.objects.filter(earning_date=date)
-
     return render(request, 'Earning/courier_payments.html',
                   {'tasks': array_courier, 'date': date, 'year': year, 'month': month})
 
@@ -117,69 +98,6 @@ def pay_premium_courier(request, pk):
         earning_courier.save()
 
     return redirect('kurye:kurye-odemeleri')
-
-
-def company_earning(request):
-    perm = general_methods.control_access(request)
-
-    if not perm:
-        logout(request)
-        return redirect('accounts:login')
-    array_company = []
-    datetime_current = datetime.datetime.today()
-
-    year = datetime_current.year
-    month = datetime_current.month
-    date = str(year) + '-' + str(month)
-
-    datetime_current = datetime.datetime.today()
-    year = datetime_current.year
-    month = datetime_current.month
-    today = str(year) + '-' + return_month(month)
-    num_days = calendar.monthrange(year, month)[1]
-    group = Group.objects.filter(name='Kullanıcı')
-    earning_companies = ""
-
-    if request.method == 'POST':
-
-        date = request.POST['yil'] + '-' + request.POST['ay']
-        datetime_start = datetime.datetime(int(request.POST['yil']), int(request.POST['ay']), 1, 0, 0)
-
-        datetime_end = datetime.datetime(int(request.POST['yil']), int(request.POST['ay']), num_days, 23, 59)
-
-        companies = TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').filter(
-            creationDate__range=(datetime_start, datetime_end)).values(
-            'task__request__company',
-            'task__request__neighborhood').annotate(
-            count=Count('task__request__neighborhood'))
-
-        task_company = TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').filter(
-            creationDate__range=(datetime_start, datetime_end)).values(
-            'task__request__company').annotate(
-            count=Count('task__request__company'))
-
-        if (datetime_current - datetime_start).days >= calendar.monthrange(year, month)[1]:
-            if EarningCompany.objects.filter(earning_date=date).count() != task_company.count():
-
-                for x in companies:
-                    company = Company.objects.get(pk=int(x['task__request__company']))
-                    neighborhood = Neighborhood.objects.get(pk=int(x['task__request__neighborhood']))
-                    payment_amount = neighborhood.price * int(x['count'])
-                    if EarningCompany.objects.filter(company=company.profile).count() > 0:
-                        earning_company = EarningCompany.objects.filter(company=company.profile)[0]
-                        earning_company.paymentTotal = earning_company.paymentTotal + payment_amount
-                        earning_company.task_count = earning_company.task_count + int(x['count'])
-                        earning_company.save()
-                    else:
-                        earning = EarningCompany(company=company.profile, paymentTotal=payment_amount,
-                                                 earning_date=date,
-                                                 task_count=int(x['count']))
-                        earning.save()
-            earning_companies = EarningCompany.objects.filter(earning_date=date)
-    else:
-        earning_companies = EarningCompany.objects.filter(earning_date=date)
-
-    return render(request, 'Earning/company_earning.html')
 
 
 def company_earning_info(request):

@@ -1,3 +1,4 @@
+import datetime
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -40,12 +41,14 @@ def new_user_add_request(request):
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
     cities = City.objects.all()
+    today = datetime.date.today()
 
     if request.method == 'POST':
         request_form = RequestForm(request.POST)
         customer_form = CustomerForm(request.POST)
         city_id = request.POST['city']
         city = City.objects.get(pk=city_id)
+
         if request_form.is_valid() and customer_form.is_valid():
 
             customer = Customer(customer=customer_form.cleaned_data['customer'],
@@ -69,12 +72,18 @@ def new_user_add_request(request):
             request1 = Request(receiver=customer,
                                payment_type=request_form.cleaned_data['payment_type'],
                                totalPrice=request_form.cleaned_data['totalPrice'],
-                               exitDate=request_form.cleaned_data['exitDate'],
                                exitTime=request_form.cleaned_data['exitTime'],
                                description=request_form.cleaned_data['description'],
                                request_price=price
                                )
             request1.save()
+
+            if request_form.cleaned_data['exitDate']:
+                request1.exitDate = request_form.cleaned_data['exitDate']
+                request1.save()
+            else:
+                request1.exitDate = datetime.datetime.now()
+                request1.save()
 
             situation = RequestSituationRequest(request=request1,
                                                 request_situation=RequestSituations.objects.get(name='Onaylandı'),
@@ -105,12 +114,12 @@ def new_user_add_request(request):
                 request1.pk) + ''
             notification.save()
 
-            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur.Kısa Sürede Kurye görevlendirilecektir.')
+            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur. En Kısa Sürede Kurye görevlendirilecektir.')
             return redirect('kurye:yeni kullanıcıyla talep olustur')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz.')
     return render(request, 'Request/new-user-add-request.html',
-                  {'request_form': request_form, 'customer_form': customer_form, 'cities': cities})
+                  {'request_form': request_form, 'customer_form': customer_form, 'cities': cities, 'today': today})
 
 
 # Kayıtlı müşteriyle Talep oluşturma
@@ -125,27 +134,35 @@ def registered_user_add_request(request):
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
     company = Company.objects.filter(profile=profile)
+    today = datetime.date.today()
+    receivers = Customer.objects.filter(company_id=company[0].pk).filter(isActive=True)
 
     if request.method == 'POST':
         request_form = RegisteredUserRequestForm(request.POST)
 
         if request_form.is_valid():
 
-            customer = Customer.objects.get(pk=request_form.cleaned_data['receiver'].pk)
+            customer = Customer.objects.get(pk=int(request.POST['receiver']))
             neighborhood = Neighborhood.objects.get(neighborhood_name=customer.neighborhood)
             price = neighborhood.price  # Mahalleye göre fiyat
 
             request1 = Request(
-                receiver=request_form.cleaned_data['receiver'],
+                exitTime=request_form.cleaned_data['exitTime'],
+                receiver=customer,
                 payment_type=request_form.cleaned_data['payment_type'],
                 totalPrice=request_form.cleaned_data['totalPrice'],
-                exitDate=request_form.cleaned_data['exitDate'],
-                exitTime=request_form.cleaned_data['exitTime'],
                 description=request_form.cleaned_data['description'],
                 request_price=price,
 
             )
             request1.save()
+
+            if request_form.cleaned_data['exitDate']:
+                request1.exitDate = request_form.cleaned_data['exitDate']
+                request1.save()
+            else:
+                request1.exitDate = datetime.datetime.now()
+                request1.save()
 
             situation = RequestSituationRequest(request=request1,
                                                 request_situation=RequestSituations.objects.get(name='Onaylandı'),
@@ -181,8 +198,9 @@ def registered_user_add_request(request):
             return redirect('kurye:kayıtlı kullanıcıyla talep olustur')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz.')
+
     return render(request, 'Request/registered-user-add-request.html',
-                  {'request_form': request_form})
+                  {'request_form': request_form, 'today': today, 'receivers': receivers})
 
 
 # Bekleyen Talepler
@@ -295,10 +313,28 @@ def return_company_requests(request):
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
 
-    tasks = TaskSituationTask.objects.filter(task__request__company_id=company.id).filter(isActive=True)
+    tasks = TaskSituationTask.objects.filter(task__request__company_id=company.id).order_by(
+        '-creationDate')
 
     return render(request, 'Company/company-requests.html',
                   {'tasks': tasks})
+
+
+# Kullanıcının Talepleri
+@login_required
+def company_all_requests(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    company = Company.objects.get(profile=profile)
+
+    all_requests = RequestSituationRequest.objects.filter(request__company_id=company.pk).order_by('-creationDate')
+
+    return render(request, 'Company/company-all-requests.html', {'requests': all_requests})
 
 
 # Kullanıcı Talebi İptal Et
@@ -379,7 +415,7 @@ def return_company_ending_tasks(request):
 
     tasks = TaskSituationTask.objects.filter(task__request__company_id=company.pk).filter(
         Q(task_situation__name='Teslim Edildi') | Q(task_situation__name='Teslim Edilemedi')).filter(
-        task__isComplete=False)
+        task__isComplete=False).filter(isActive=True)
 
     return render(request, 'Company/company-ending-requests.html',
                   {'tasks': tasks})

@@ -18,6 +18,7 @@ from kurye.models.City import City
 from kurye.models.Courier import Courier
 from kurye.models.Customer import Customer
 from kurye.models.Company import Company
+from kurye.models.Personal import Personal
 from kurye.models.Profile import Profile
 from kurye.services import general_methods
 from kurye.services.general_methods import save_log
@@ -250,7 +251,7 @@ def update_customer(request, pk):
 
             save_log(profile.pk, log_content)
 
-            messages.success(request, 'Müşteri Bilgileri Başarıyla Kayıt Edilmiştir.')
+            messages.success(request, 'Müşteri Bilgileri Başarıyla Güncellenmiştir.')
 
             return redirect('kurye:musteri listesi')
 
@@ -260,6 +261,92 @@ def update_customer(request, pk):
     return render(request, 'CustomerCompany/add-customer.html',
                   {'customer_form': customer_form, 'cities': cities, 'ilce': customer.district,
                    'mahalle': neighborhood.neighborhood_name})
+
+
+# PERSONEL EKLE (Admin)
+@login_required
+def add_personal(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+
+    user_form = UserForm()
+    profile_form = ProfileForm()
+    cities = City.objects.all()
+    current_user = request.user
+    profile = Profile.objects.get(user=current_user)
+    company = Company.objects.get(profile_id=profile.pk)
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(request.POST, request.FILES)
+
+        data = request.POST.copy()
+        data['username'] = data['email']
+        user_form = UserForm(data)
+
+        if user_form.is_valid():
+
+            user = user_form.save(commit=False)
+            group = Group.objects.get(name='Personel')
+            user2 = user_form.save()
+            password = User.objects.make_random_password()
+            user.set_password(password)
+            user2.groups.add(group)
+            user.is_active = True
+            user.username = user.email
+            user.save()
+
+            profile_personel = Profile(user=user, profileImage=profile_form.cleaned_data['profileImage'],
+                                       mobilePhone=profile_form.cleaned_data['mobilePhone'])
+            profile_personel.isActive = True
+            profile_personel.save()
+
+            personal = Personal(profile=profile_personel, company=company)
+            personal.save()
+
+            log_content = '<p> Admin <strong style="color:red">' + user.first_name + ' ' + user.last_name + '</strong> adında personel ekledi.</p>'
+
+            save_log(profile.pk, log_content)
+
+            messages.success(request, 'Personel Bilgileri Başarıyla Kayıt Edilmiştir.')
+
+            return redirect('kurye:personel-listesi')
+
+        else:
+            messages.warning(request, 'Alanları Kontrol Ediniz')
+
+    return render(request, 'User/add-personal.html',
+                  {'user_form': user_form, 'profile_form': profile_form})
+
+
+# Personel Listesi (Admin)
+def personel_list(request):
+    personals = Personal.objects.filter(profile__isActive=True).filter(profile__user__groups__name='Personel')
+    return render(request, 'User/personal-list.html', {'personals': personals})
+
+
+@login_required
+def personal_delete(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    personal = Personal.objects.get(pk=pk)
+    personal.profile.isActive = False
+    personal.profile.save()
+
+    log_content = '<p><strong style="color:red">' + user.first_name + ' ' + user.last_name + '</strong> adlı <strong style="color:red">Admin, ' + personal.profile.user.first_name + ' ' + personal.profile.user.last_name + ' </strong> adlı personeli, personellerinden kaldırdı.</p>'
+
+    save_log(profile.pk, log_content)
+
+    messages.success(request, 'Personel Başarıyla Silindi')
+    return redirect('kurye:personel-listesi')
 
 
 # KULLANICIYA AİT Müşteri Listesi
@@ -273,7 +360,7 @@ def customer_list(request):
     user = request.user
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
-    customers_of_company = Customer.objects.filter(company=company)
+    customers_of_company = Customer.objects.filter(isActive=True).filter(company_id=company.pk)
     return render(request, 'CustomerCompany/customer-list.html', {'customers': customers_of_company})
 
 
@@ -439,22 +526,25 @@ def company_list(request):
 
 # Kullanıcı Müşteri Silme
 @login_required
-def customer_delete(request, pk):
+def customer_delete(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    user = request.user
-    profile = Profile.objects.get(user=user)
-    customer = Customer.objects.get(pk=pk)
-    customer.delete()
+    if request.POST:
+        pk = request.POST['customer_id']
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        customer = Customer.objects.get(pk=pk)
+        customer.isActive = False
+        customer.save()
 
-    log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">Kullanıcı, ' + customer.customer + ' </strong> adlı Müşteriyi ekledi.</p>'
+        log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">Kullanıcı, ' + customer.customer + ' </strong> adlı Müşteriyi sildi.</p>'
 
-    save_log(profile.pk, log_content)
+        save_log(profile.pk, log_content)
 
-    messages.success(request, 'Müşteri Başarıyla Silindi')
+        messages.success(request, 'Müşteri Başarıyla Silindi')
     return redirect('kurye:musteri listesi')
 
 

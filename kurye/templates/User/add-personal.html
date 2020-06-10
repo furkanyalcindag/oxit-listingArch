@@ -1,26 +1,21 @@
 {% extends 'base_layout.html' %}
-{% load staticfiles %}
 {% block content %}
 
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             {{ obj.name }}
 
         </h1>
+        </h1>
         <ol class="breadcrumb">
-            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="{% url 'kurye:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
             <li><a href="">{{ parent.name }}</a></li>
             <li><a href="">{{ obj.name }}</a></li>
         </ol>
 
-
     </section>
 
-    <!-- Main content -->
     <section class="content">
-        <!-- Small boxes (Stat box) -->
-
         {% if messages %}
             {% for message in messages %}
 
@@ -66,53 +61,50 @@
 
         {% endif %}
 
+
         <div class="row">
 
             <div class="col-lg-12 col-xs-12">
                 <div class="box box-primary">
 
-                    <!-- /.box-header -->
-                    <!-- form start -->
+
 
                     <form role="form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="box-body">
 
-                            <div class="form-group">
-                                <label>{{ profile_form.profileImage.label }}</label>
-                                {{ profile_form.profileImage }}
-                            </div>
+                            <div class="col-lg-8 col-xs-12">
 
-                            <div class="form-group">
-                                <label>{{ user_form.first_name.label }}</label> <span
-                                            style="color: red">*</span>
-                                {{ user_form.first_name }}
-                                <!-- /.input group -->
-                            </div>
-                            <div class="form-group">
-                                <label> {{ user_form.last_name.label }}</label> <span
-                                            style="color: red">*</span>
-                                {{ user_form.last_name }}
-                            </div>
+                                <div class="form-group">
+                                    <label>{{ profile_form.profileImage.label }}</label>
+                                    {{ profile_form.profileImage }}
+                                </div>
 
-                            <div class="form-group">
-                                <label> {{ profile_form.mobilePhone.label }}</label> <span
-                                            style="color: red">*</span>
-                                {{ profile_form.mobilePhone }}
-                            </div>
-                            <div class="form-group">
-                                <label for="acc-email">E-Posta</label> <span
-                                            style="color: red">*</span>
-                                {{ user_form.email }}
-                            </div>
-                            <div class="form-group">
-                                <label> {{ profile_form.tc.label }}</label> <span
-                                            style="color: red">*</span>
-                                {{ profile_form.tc }}
-                            </div>
+                                <div class="form-group">
+                                    <label>{{ user_form.first_name.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ user_form.first_name }}
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label> {{ user_form.last_name.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ user_form.last_name }}
+                                </div>
 
+                                <div class="form-group">
+                                    <label> {{ profile_form.mobilePhone.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ profile_form.mobilePhone }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="acc-email">E-Posta</label> <span
+                                        style="color: red">*</span>
+                                    {{ user_form.email }}
+                                </div>
+
+                            </div>
                         </div>
-                        <!-- /.box-body -->
                         <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
                             Zorunludur.</small>
                         <div class="box-footer">
@@ -131,7 +123,4 @@
 
     </section>
     <!-- /.content -->
-
-
-
 {% endblock %}

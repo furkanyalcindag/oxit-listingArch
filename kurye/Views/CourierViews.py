@@ -31,10 +31,9 @@ def assigned_task(request):
     courier = Courier.objects.get(courier=profile)
     tasks = Task.objects.filter(courier=courier)
 
-
     for task in tasks:
         task.activeTask = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)[
-                0].task_situation.name
+            0].task_situation.name
 
     if request.method == 'POST':
 
@@ -42,7 +41,12 @@ def assigned_task(request):
 
         task = Task.objects.get(pk=int(pk))
 
-        task.description = request.POST['description']
+        if request.POST['description']:
+
+            task.description = request.POST['description']
+        else:
+            task.description = "Açıklama Yapılmadı"
+
         task.save()
 
         active = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)
@@ -93,6 +97,7 @@ def assigned_task(request):
 
         notification = Notification()
         notification.key = 'Kurye Gorev Durumu'
+        notification.user = request.user
         notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
         notification.save()
         messages.success(request, 'Görev Durumu Güncellendi.')

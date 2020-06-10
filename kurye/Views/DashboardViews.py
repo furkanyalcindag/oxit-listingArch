@@ -8,8 +8,6 @@ from django.contrib.auth.models import User
 from django.db.models import Q, Count, Sum
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from rest_framework.decorators import api_view
-
 from kurye.models import Settings, EarningPayments
 from kurye.models.Company import Company
 from kurye.models.Courier import Courier
@@ -19,8 +17,8 @@ from kurye.models.Profile import Profile
 from kurye.models.Request import Request
 from kurye.models.Task import Task
 from kurye.models.TaskSituationTask import TaskSituationTask
-from kurye.serializers.NotificationSerializer import NotificationSerializer
 from kurye.services import general_methods
+from kurye.services.general_methods import save_log
 
 
 # Admin İşlemleri
@@ -90,7 +88,6 @@ def return_admin_dashboard(request):
     couriers = Profile.objects.filter(user__is_active=True).filter(user__groups__name='Kurye').order_by('creationDate')[
                :6]
 
-    # active_courier = Courier.objects.values('isActive').annotate(count=Count('isActive'))
 
     active_courier = TaskSituationTask.objects.values('task__courier').annotate(count=Count('task__courier')).filter(
         task_situation__name='Teslim Edildi').order_by('-count')[:6]
@@ -104,20 +101,23 @@ def return_admin_dashboard(request):
 
     completed_task = Task.objects.filter(isComplete=True)
     active_task = TaskSituationTask.objects.filter(
-        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Yolda')).filter(isActive=True)
+        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+            task_situation__name='Paket Teslimi İçin Yolda')).filter(isActive=True)
 
     canceled_task = TaskSituationTask.objects.filter(task_situation__name='İptal Edildi').filter(isActive=True)
 
     delivered_task = TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').count()
     assigned_task = TaskSituationTask.objects.filter(task_situation__name='Kurye Atandı').count()
-    on_the_road_task = TaskSituationTask.objects.filter(task_situation__name='Yolda').count()
+    on_the_road_task = TaskSituationTask.objects.filter(Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+        task_situation__name='Paket Teslimi İçin Yolda')).count()
 
     undeliverable_task = TaskSituationTask.objects.filter(task_situation__name='Teslim Edilemedi').count()
 
     unending_task = Task.objects.filter(isComplete=False)
 
     d = datetime.datetime.today() - datetime.timedelta(hours=0, minutes=10)
-    online = User.objects.filter(last_login__gt=d).count()
+
+    online = User.objects.filter(is_superuser=False).filter(last_login__gt=d).count()
 
     all_user = Company.objects.all().filter(profile__isActive=True).count()
 
@@ -146,7 +146,6 @@ def return_admin_dashboard(request):
             report_year['date'] = x['creationDate__month']
             report_year['year'] = x['creationDate__year']
             array_report_courierCount.append(report_year)
-
 
     return render(request, 'dashboard/admin-dashboard.html',
                   {'couriers': couriers, 'completed_task': completed_task.count(),
@@ -178,6 +177,7 @@ def return_company_dashboard(request):
     dif_year = int(today) - int(start_date.value)
     array_report_year = []
     array_report_company = []
+    array_earning_company = []
     for x in range(dif_year + 1):
 
         report_year_request = Request.objects.filter(company__profile=profile).values('creationDate__year',
@@ -199,10 +199,22 @@ def return_company_dashboard(request):
 
         for x in report_company_earning:
             report_year = dict()
-            report_year['sum'] = int(x['sum'])
+            report_year['sum'] = float(x['sum'])
             report_year['date'] = x['task__request__creationDate__month']
             report_year['year'] = x['task__request__creationDate__year']
             array_report_company.append(report_year)
+
+        report_earning_company = TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').filter(
+            task__request__company_id=company.pk).values(
+            'creationDate__year', 'creationDate__month').annotate(
+            sum=Sum('task__request__request_price'))
+
+        for y in report_earning_company:
+            report_year = dict()
+            report_year['total'] = int(y['sum'])
+            report_year['date'] = y['creationDate__month']
+            report_year['year'] = y['creationDate__year']
+            array_earning_company.append(report_year)
 
     start_delta = datetime.datetime.now() - datetime.timedelta(days=7)
 
@@ -253,14 +265,16 @@ def return_company_dashboard(request):
             successful_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).filter(
                 task_situation__name='Teslim Edildi').count()
             active_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).filter(
-                Q(task_situation__name='Kurye Atandı') | Q(task_situation__name=' Kurye Yolda')).count()
+                Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+                    task_situation__name='Paket Teslimi İçin Yolda')).count()
 
     return render(request, 'dashboard/user-dashboard.html',
                   {'tasks': task, 'canceled_tasks': canceled_task, 'completed_tasks': completed_task,
                    'unsuccessful_tasks': unsuccessful_task, 'requests': requests_count,
                    'active_customers': arrayCustomers, 'array_report_week': array_report_week,
                    'array_report_year': array_report_year, 'successful_tasks': successful_task,
-                   'active_requests': active_task, 'array_report_company': array_report_company
+                   'active_requests': active_task, 'array_report_company': array_report_company,
+                   'array_earning_company': array_earning_company
                    })
 
 
@@ -322,7 +336,8 @@ def return_courier_dashboard(request):
     successful_task = TaskSituationTask.objects.filter(task__courier_id=courier.pk).filter(isActive=True).filter(
         task_situation__name='Teslim Edildi').count()
     active_task = TaskSituationTask.objects.filter(task__courier_id=courier.pk).filter(isActive=True).filter(
-        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name=' Kurye Yolda')).count()
+        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+            task_situation__name='Paket Teslimi İçin Yolda')).count()
 
     return render(request, 'dashboard/courier-dashboard.html',
                   {'tasks': task, 'canceled_tasks': canceled_task, 'completed_tasks': completed_task,
@@ -340,7 +355,7 @@ def admin_notification(request):
         return redirect('accounts:login')
     notification = Notification.objects.all()
     count = Notification.objects.all().count()
-
+    profile = Profile.objects.get(user=request.user)
     if request.method == 'POST':
 
         check_list = request.POST['checks'].split(',')
@@ -348,6 +363,11 @@ def admin_notification(request):
         for check in check_list:
             notification = Notification.objects.get(pk=int(check))
             notification.delete()
+
+        log_content = '<p><b style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</b>  ID : <strong style="color:red">' + str(
+            check_list) + ' </strong> bildirimleri sildi.</p>'
+
+        save_log(profile.pk, log_content)
         messages.success(request, 'Bildirimler Silindi')
 
         return redirect('kurye:bildirimler')
@@ -366,6 +386,7 @@ def read_notification(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    profile = Profile.objects.get(user=request.user)
     if request.POST:
         try:
 
@@ -373,6 +394,10 @@ def read_notification(request):
             notification = Notification.objects.get(pk=notification_id)
             notification.isRead = True
             notification.save()
+
+            log_content = '<p>Bildirim : <strong style="color:red">--' + notification.message + ' </strong> Okundu.</p>'
+
+            save_log(profile.pk, log_content)
 
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 

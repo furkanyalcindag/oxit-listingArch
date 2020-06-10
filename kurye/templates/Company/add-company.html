@@ -1,14 +1,13 @@
 {% extends 'base_layout.html' %}
 {% block content %}
 
-
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             {{ obj.name }}
 
         </h1>
-        </h1>
+
         <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
             <li><a href="">{{ parent.name }}</a></li>
@@ -19,7 +18,6 @@
 
     <!-- Main content -->
     <section class="content">
-        <!-- Small boxes (Stat box) -->
 
         {% if messages %}
             {% for message in messages %}
@@ -69,8 +67,6 @@
         <div class="row">
             <div class="col-lg-12 col-xs-12">
                 <div class="box box-primary">
-
-                    <!-- /.box-header -->
                     <!-- form start -->
                     <form role="form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -80,26 +76,26 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label>{{ profile_form.profileImage.label }}</label>
-                                        {{ profile_form.profileImage }}
+                                         {{ profile_form.profileImage }}
                                     </div>
 
                                     <div class="form-group">
                                         <label>{{ user_form.first_name.label }}</label>
-                                        {{ user_form.first_name }}
+                                        <span style="color: red">*</span> {{ user_form.first_name }}
                                         <!-- /.input group -->
                                     </div>
                                     <div class="form-group">
                                         <label> {{ user_form.last_name.label }}</label>
-                                        {{ user_form.last_name }}
+                                        <span style="color: red">*</span> {{ user_form.last_name }}
                                     </div>
 
                                     <div class="form-group">
                                         <label> {{ profile_form.mobilePhone.label }}</label>
-                                        {{ profile_form.mobilePhone }}
+                                        <span style="color: red">*</span>{{ profile_form.mobilePhone }}
                                     </div>
                                     <div class="form-group">
                                         <label for="acc-email">E-Posta</label>
-                                        {{ user_form.email }}
+                                        <span style="color: red">*</span>{{ user_form.email }}
                                     </div>
 
                                 </div>
@@ -112,15 +108,15 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label>{{ company_form.companyName.label }}</label>
-                                        {{ company_form.companyName }}
+                                        <span style="color: red">*</span> {{ company_form.companyName }}
                                     </div>
                                     <div class="form-group">
                                         <label>{{ company_form.taxName.label }}</label>
-                                        {{ company_form.taxName }}
+                                        <span style="color: red">*</span>{{ company_form.taxName }}
                                     </div>
                                     <div class="form-group">
                                         <label>{{ company_form.taxNumber.label }}</label>
-                                        {{ company_form.taxNumber }}
+                                        <span style="color: red">*</span> {{ company_form.taxNumber }}
                                     </div>
                                     <div class="form-group">
                                         <label> {{ profile_form.phone.label }}</label>
@@ -138,9 +134,10 @@
 
 
                             <div class="col-lg-12 col-xs-12">
+                                <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
+                                    Zorunludur.</small>
 
                                 <div class="box-footer">
-
 
                                     <button type="submit" class="btn btn-primary">Ekle</button>
                                 </div>
@@ -162,7 +159,6 @@
 
     </section>
     <!-- /.content -->
-
 
 
 {% endblock %}

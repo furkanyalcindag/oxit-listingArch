@@ -81,12 +81,12 @@
 
                                     <div class="form-group">
 
-                                        <label>Teslim Alacak Kişi</label>
+                                        <label>Teslim Alacak Kişi</label><span style="color: red">*</span>
                                         {{ customer_form.customer }}
                                     </div>
 
                                     <div class="form-group">
-                                        <label>{{ customer_form.phone.label }}</label>
+                                        <label>{{ customer_form.phone.label }}</label><span style="color: red">*</span>
                                         {{ customer_form.phone }}
 
                                     </div>
@@ -102,7 +102,7 @@
                                         <div class="col-lg-6 col-xs-12">
 
                                             <div class="form-group">
-                                                <label>{{ request_form.totalPrice.label }}</label>
+                                                <label>{{ request_form.totalPrice.label }}</label><span style="color: red">*</span>
                                                 {{ request_form.totalPrice }}
 
                                             </div>
@@ -110,7 +110,7 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-12">
                                             <div class="form-group">
-                                                <label>{{ request_form.payment_type.label }}</label>
+                                                <label>{{ request_form.payment_type.label }}</label><span style="color: red">*</span>
 
                                                 {{ request_form.payment_type }}
                                                 <!-- /.input group -->
@@ -133,7 +133,7 @@
                                         <div class="col-lg-4 col-xs-12">
 
                                             <div class="form-group">
-                                                <label for="">İl</label>
+                                                <label for="">İl</label><span style="color: red">*</span>
                                                 <select style="width: 100%"
                                                         class="form-control select2 select2-hidden-accessible"
                                                         name="city" id="id_city"
@@ -154,7 +154,7 @@
 
                                         </div>
                                         <div class="col-lg-4 col-xs-12">
-                                            <div class="form-group">
+                                            <div class="form-group"><span style="color: red">*</span>
                                                 <label>{{ customer_form.district.label }}</label>
                                                 {{ customer_form.district }}
                                             </div>
@@ -162,7 +162,7 @@
 
                                         <div class="col-lg-4 col-xs-12">
                                             <div class="form-group">
-                                                <label>{{ customer_form.neighborhood.label }}</label>
+                                                <label>{{ customer_form.neighborhood.label }}</label><span style="color: red">*</span>
                                                 {{ customer_form.neighborhood }}
                                             </div>
                                         </div>
@@ -171,7 +171,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>Teslim Alacak Açık Adres</label>
+                                        <label>Teslim Alacak Açık Adres</label><span style="color: red">*</span>
                                         {{ customer_form.address }}
                                     </div>
 
@@ -190,7 +190,7 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-12">
                                             <div class="form-group">
-                                                <label>{{ request_form.exitTime.label }}</label>
+                                                <label>{{ request_form.exitTime.label }}</label><span style="color: red">*</span>
 
                                                 <div class="input-group">
                                                     {{ request_form.exitTime }}
@@ -208,17 +208,15 @@
                             </div>
 
                         </div>
+                        <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
+                            Zorunludur.</small>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
 
-
-                        <!-- /.box-body -->
-
+                    </form>
                 </div>
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Ekle</button>
-                </div>
-                </form>
             </div>
-
 
         </div>
 

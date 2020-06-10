@@ -43,50 +43,50 @@
 
     </section>
     <section class="content">
-    {% if messages %}
-        {% for message in messages %}
+        {% if messages %}
+            {% for message in messages %}
 
 
-            {% if message.tags == 'warning' %}
+                {% if message.tags == 'warning' %}
 
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
 
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
 
 
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    </div>
+
+                {% endif %}
 
 
-                </div>
+                {% if message.tags == 'success' %}
 
-            {% endif %}
-        {% endfor %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
 
 
-    {% endif %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
 
         <!-- /.row -->
         <!-- Main row -->
@@ -107,11 +107,15 @@
                                 <thead>
                                 <tr>
 
-                                    <th>No</th>
+                                    <th>Talep No</th>
+                                     <th>Durumu</th>
+                                    <th>Onayla</th>
                                     <th>Müşteri Ad Soyad</th>
-                                    <th>Teslim Tarihi</th>
-                                    <th>Durumu</th>
-                                    <th>Onayla/Detay</th>
+                                    <th>Adres</th>
+                                    <th>Kurye</th>
+                                    <th>Talep Tarih/Zaman</th>
+                                    <th>Teslim Edilen Zaman</th>
+
 
 
                                 </tr>
@@ -122,19 +126,21 @@
                                     <tr>
 
 
-                                        <td>{{ forloop.counter }} </td>
-                                        <td>{{ task.task.request.receiver.customer }}</td>
-                                        <td>{{ task.creationDate }}</td>
+                                        <td>{{ task.task.request.pk }} </td>
                                         <td><span class="label label-warning">{{ task.task_situation.name }}</span></td>
                                         <td>
 
-                                            <a
-                                                    href="{% url 'kurye:görevi bitir' task.task.pk %}"> <span
+                                            <a href="{% url 'kurye:görevi bitir' task.task.pk %}"> <span
                                                     class="label label-danger">Görevi Tamamla</span></a>
-                                            <a class="btn" onclick="getTask({{ task.task.pk }})"><span
-                                                    class="label label-primary">Detay</span></a>
+
 
                                         </td>
+
+                                        <td>{{ task.task.request.receiver.customer }}</td>
+                                        <td>{{ task.task.request.receiver.address }}</td>
+                                        <td>{{ task.task.courier.courier.user.first_name }} {{ task.task.courier.courier.user.last_name }}</td>
+                                        <td>{{ task.task.request.exitDate }} - {{ task.task.request.exitTime }}</td>
+                                        <td>{{ task.creationDate }}</td>
 
                                     </tr>
 

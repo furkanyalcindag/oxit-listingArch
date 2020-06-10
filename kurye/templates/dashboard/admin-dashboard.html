@@ -243,6 +243,265 @@
             <!-- ./col -->
         </div>
         <!-- aylık kurye primleri -->
+        <!-- Aylık Talep tablosu-->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Aylık Talep Edilen Kurye Grafiği</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                    class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body chart-responsive">
+                        <div class="chart" id="line-chart"
+                             style="height: 200px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                            <svg height="300" version="1.1" width="594.6" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 style="overflow: hidden; position: relative; left: -0.6px; top: -0.4px;">
+                                <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with
+                                    Raphaël 2.3.0
+                                </desc>
+                                <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
+                                <text x="49.21875" y="261.375" text-anchor="end" font-family="sans-serif"
+                                      font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0
+                                    </tspan>
+                                </text>
+                                <path fill="none" stroke="#aaaaaa" d="M61.71875,261.375H569.6"
+                                      stroke-width="0.5"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                <text x="49.21875" y="202.28125" text-anchor="end" font-family="sans-serif"
+                                      font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">5,000
+                                    </tspan>
+                                </text>
+                                <path fill="none" stroke="#aaaaaa" d="M61.71875,202.28125H569.6"
+                                      stroke-width="0.5"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                <text x="49.21875" y="143.1875" text-anchor="end" font-family="sans-serif"
+                                      font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">10,000
+                                    </tspan>
+                                </text>
+                                <path fill="none" stroke="#aaaaaa" d="M61.71875,143.1875H569.6"
+                                      stroke-width="0.5"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                <text x="49.21875" y="84.09375" text-anchor="end" font-family="sans-serif"
+                                      font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">15,000
+                                    </tspan>
+                                </text>
+                                <path fill="none" stroke="#aaaaaa" d="M61.71875,84.09375H569.6"
+                                      stroke-width="0.5"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                <text x="49.21875" y="25" text-anchor="end" font-family="sans-serif"
+                                      font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">20,000
+                                    </tspan>
+                                </text>
+                                <path fill="none" stroke="#aaaaaa" d="M61.71875,25H569.6" stroke-width="0.5"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                <text x="476.43743766138425" y="273.875" text-anchor="middle"
+                                      font-family="sans-serif" font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal" transform="matrix(1,0,0,1,0,6.8125)">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2013
+                                    </tspan>
+                                </text>
+                                <text x="250.56386670295177" y="273.875" text-anchor="middle"
+                                      font-family="sans-serif" font-size="12px" stroke="none" fill="#888888"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
+                                      font-weight="normal" transform="matrix(1,0,0,1,0,6.8125)">
+                                    <tspan dy="4.3984375"
+                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012
+                                    </tspan>
+                                </text>
+                                <path fill="none" stroke="#3c8dbc"
+                                      d="M61.71875,229.86621250000002C75.90656224684827,229.5352875,104.28218674054477,231.85987500778594,118.46999898739304,228.5425125C132.6642397853273,225.22364688278594,161.0527213811959,204.79004267015708,175.24696217913018,203.3213C189.29334630208598,201.8678567326571,217.38611454799758,219.65840898160334,231.43249867095338,216.85376875C245.47245424282315,214.05041210660335,273.5523653865627,183.6859716579367,287.5923209584325,180.88931250000002C301.7801332052808,178.0632013454367,330.15575769897725,191.42343932969987,344.34356994582555,194.3626875C358.53781074375985,197.30326745469986,386.9262923396284,218.3728184554974,401.1205331375627,204.408625C415.1669172605185,190.5898918929974,443.25968550643006,91.94842800812717,457.3060696293859,83.23098125000001C471.1917399751911,74.61327644562718,498.9630806668017,125.362570587646,512.848751012607,135.06801875000002C527.0365632594552,144.984650275146,555.4121877531518,155.0564796875,569.6,161.7193"
+                                      stroke-width="3"
+                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                                <circle cx="61.71875" cy="229.86621250000002" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="118.46999898739304" cy="228.5425125" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="175.24696217913018" cy="203.3213" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="231.43249867095338" cy="216.85376875" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="287.5923209584325" cy="180.88931250000002" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="344.34356994582555" cy="194.3626875" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="401.1205331375627" cy="204.408625" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="457.3060696293859" cy="83.23098125000001" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="512.848751012607" cy="135.06801875000002" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="569.6" cy="161.7193" r="4" fill="#3c8dbc" stroke="#ffffff"
+                                        stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="512.848751012607" cy="135.06801875000002" r="4" fill="#3c8dbc"
+                                        stroke="#ffffff" stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                                <circle cx="569.6" cy="161.7193" r="4" fill="#3c8dbc" stroke="#ffffff"
+                                        stroke-width="1"
+                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                            </svg>
+                            <div class="morris-hover morris-default-style"
+                                 style="left: 132.222px; top: 136px; display: none;">
+                                <div class="morris-hover-row-label">2011 Q3</div>
+                                <div class="morris-hover-point" style="color: #3c8dbc">
+                                    Item 1:
+                                    4,912
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+        <!--Donut Charts -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Görev Bilgileri</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                    class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <canvas id="pieChart" style="height: 200px; width: 594px;"></canvas>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <!-- Bar chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bar-chart-o"></i>
+
+                        <h3 class="box-title">Haftalık Talep Edilen Kurye Tablosu</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                    class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="bar-chart" style="height: 275px;"></div>
+                    </div>
+                    <!-- /.box-body-->
+
+                    <!-- /.box -->
+
+
+                </div>
+            </div>
+        </div>
+        <!--end donutCharts -->
+
+
+        <!--Haftalık Talep Edilen Kurye -->
+        <div class="row">
+
+            <div class="col-lg-6">
+                <!-- Bar chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bar-chart-o"></i>
+
+                        <h3 class="box-title">Aylık Çalışan Kurye Tablosu </h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                    class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="bar-chart-courier" style="height: 200px;"></div>
+                    </div>
+                    <!-- /.box-body-->
+
+                    <!-- /.box -->
+
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- Bar chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bar-chart-o"></i>
+
+                        <h3 class="box-title">Aylık Firma Tablosu</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                    class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="bar-chart-company" style="height: 200px;"></div>
+                    </div>
+                    <!-- /.box-body-->
+
+                    <!-- /.box -->
+
+
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="box box-primary">
@@ -392,264 +651,6 @@
                 </div>
             </div>
         </div>
-        <!--Donut Charts -->
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Görev Bilgileri</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                    class="fa fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <canvas id="pieChart" style="height: 200px; width: 594px;" height="371"
-                                width="742"></canvas>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-
-            </div>
-            <div class="col-lg-6">
-                <!-- Bar chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <i class="fa fa-bar-chart-o"></i>
-
-                        <h3 class="box-title">Haftalık Talep Edilen Kurye Tablosu</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                    class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div id="bar-chart" style="height: 200px;"></div>
-                    </div>
-                    <!-- /.box-body-->
-
-                    <!-- /.box -->
-
-
-                </div>
-            </div>
-        </div>
-        <!--end donutCharts -->
-
-        <!-- Yıllık Talep tablosu-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Yıllık Talep Edilen Kurye Tablosu</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                    class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body chart-responsive">
-                        <div class="chart" id="line-chart"
-                             style="height: 200px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-                            <svg height="300" version="1.1" width="594.6" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink"
-                                 style="overflow: hidden; position: relative; left: -0.6px; top: -0.4px;">
-                                <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with
-                                    Raphaël 2.3.0
-                                </desc>
-                                <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
-                                <text x="49.21875" y="261.375" text-anchor="end" font-family="sans-serif"
-                                      font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0
-                                    </tspan>
-                                </text>
-                                <path fill="none" stroke="#aaaaaa" d="M61.71875,261.375H569.6"
-                                      stroke-width="0.5"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                <text x="49.21875" y="202.28125" text-anchor="end" font-family="sans-serif"
-                                      font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">5,000
-                                    </tspan>
-                                </text>
-                                <path fill="none" stroke="#aaaaaa" d="M61.71875,202.28125H569.6"
-                                      stroke-width="0.5"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                <text x="49.21875" y="143.1875" text-anchor="end" font-family="sans-serif"
-                                      font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">10,000
-                                    </tspan>
-                                </text>
-                                <path fill="none" stroke="#aaaaaa" d="M61.71875,143.1875H569.6"
-                                      stroke-width="0.5"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                <text x="49.21875" y="84.09375" text-anchor="end" font-family="sans-serif"
-                                      font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">15,000
-                                    </tspan>
-                                </text>
-                                <path fill="none" stroke="#aaaaaa" d="M61.71875,84.09375H569.6"
-                                      stroke-width="0.5"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                <text x="49.21875" y="25" text-anchor="end" font-family="sans-serif"
-                                      font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">20,000
-                                    </tspan>
-                                </text>
-                                <path fill="none" stroke="#aaaaaa" d="M61.71875,25H569.6" stroke-width="0.5"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                <text x="476.43743766138425" y="273.875" text-anchor="middle"
-                                      font-family="sans-serif" font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal" transform="matrix(1,0,0,1,0,6.8125)">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2013
-                                    </tspan>
-                                </text>
-                                <text x="250.56386670295177" y="273.875" text-anchor="middle"
-                                      font-family="sans-serif" font-size="12px" stroke="none" fill="#888888"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-                                      font-weight="normal" transform="matrix(1,0,0,1,0,6.8125)">
-                                    <tspan dy="4.3984375"
-                                           style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012
-                                    </tspan>
-                                </text>
-                                <path fill="none" stroke="#3c8dbc"
-                                      d="M61.71875,229.86621250000002C75.90656224684827,229.5352875,104.28218674054477,231.85987500778594,118.46999898739304,228.5425125C132.6642397853273,225.22364688278594,161.0527213811959,204.79004267015708,175.24696217913018,203.3213C189.29334630208598,201.8678567326571,217.38611454799758,219.65840898160334,231.43249867095338,216.85376875C245.47245424282315,214.05041210660335,273.5523653865627,183.6859716579367,287.5923209584325,180.88931250000002C301.7801332052808,178.0632013454367,330.15575769897725,191.42343932969987,344.34356994582555,194.3626875C358.53781074375985,197.30326745469986,386.9262923396284,218.3728184554974,401.1205331375627,204.408625C415.1669172605185,190.5898918929974,443.25968550643006,91.94842800812717,457.3060696293859,83.23098125000001C471.1917399751911,74.61327644562718,498.9630806668017,125.362570587646,512.848751012607,135.06801875000002C527.0365632594552,144.984650275146,555.4121877531518,155.0564796875,569.6,161.7193"
-                                      stroke-width="3"
-                                      style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                                <circle cx="61.71875" cy="229.86621250000002" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="118.46999898739304" cy="228.5425125" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="175.24696217913018" cy="203.3213" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="231.43249867095338" cy="216.85376875" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="287.5923209584325" cy="180.88931250000002" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="344.34356994582555" cy="194.3626875" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="401.1205331375627" cy="204.408625" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="457.3060696293859" cy="83.23098125000001" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="512.848751012607" cy="135.06801875000002" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="569.6" cy="161.7193" r="4" fill="#3c8dbc" stroke="#ffffff"
-                                        stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="512.848751012607" cy="135.06801875000002" r="4" fill="#3c8dbc"
-                                        stroke="#ffffff" stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                                <circle cx="569.6" cy="161.7193" r="4" fill="#3c8dbc" stroke="#ffffff"
-                                        stroke-width="1"
-                                        style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                            </svg>
-                            <div class="morris-hover morris-default-style"
-                                 style="left: 132.222px; top: 136px; display: none;">
-                                <div class="morris-hover-row-label">2011 Q3</div>
-                                <div class="morris-hover-point" style="color: #3c8dbc">
-                                    Item 1:
-                                    4,912
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-            </div>
-        </div>
-        <!--Haftalık Talep Edilen Kurye -->
-        <div class="row">
-
-            <div class="col-lg-6">
-                <!-- Bar chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <i class="fa fa-bar-chart-o"></i>
-
-                        <h3 class="box-title">Aylık Çalışan Kurye Tablosu </h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                    class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div id="bar-chart-courier" style="height: 200px;"></div>
-                    </div>
-                    <!-- /.box-body-->
-
-                    <!-- /.box -->
-
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <!-- Bar chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <i class="fa fa-bar-chart-o"></i>
-
-                        <h3 class="box-title">Aylık Kullanıcı Tablosu</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                    class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i
-                                    class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div id="bar-chart-company" style="height: 200px;"></div>
-                    </div>
-                    <!-- /.box-body-->
-
-                    <!-- /.box -->
-
-
-                </div>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-lg-4 col-xs-12">
@@ -721,7 +722,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Görev Numarası</th>
-                                    <th>Kullanıcı</th>
+                                    <th>Firma</th>
                                     <th>Kurye</th>
                                     <th>Durumu</th>
 
@@ -735,17 +736,23 @@
                                         <td>{{ task.task.request.company.companyName }}</td>
                                         <td>{{ task.task.courier.courier.user.first_name }} {{ task.task.courier.courier.user.last_name }}</td>
                                         {% if task.task_situation.name == 'Kurye Atandı' %}
-                                            <td><span class="label label-primary"> Kurye Atandı</span></td>
-                                        {% elif task.task_situation.name == 'Yolda' %}
-                                            <td><span class="label label-warning">Yolda</span></td>
+                                            <td><span class="label label-primary"> {{ task.task_situation.name }}</span>
+                                            </td>
+                                        {% elif task.task_situation.name == 'Paket Alımı İçin Yolda' or task.task_situation.name == 'Paket Teslimi İçin Yolda' %}
+                                            <td><span class="label label-warning">{{ task.task_situation.name }}</span>
+                                            </td>
                                         {% elif task.task_situation.name == 'Teslim Edildi' %}
-                                            <td><span class="label label-success">Teslim Edildi</span></td>
+                                            <td><span class="label label-success">{{ task.task_situation.name }}</span>
+                                            </td>
                                         {% elif task.task_situation.name == 'Teslim Edilemedi' %}
-                                            <td><span class="label label-danger">Teslim Edilemedi</span></td>
+                                            <td><span class="label label-danger">{{ task.task_situation.name }}</span>
+                                            </td>
                                         {% elif task.task_situation.name == 'İptal Edildi' %}
-                                            <td><span class="label label-danger">İptal Edildi</span></td>
+                                            <td><span class="label label-danger">{{ task.task_situation.name }}</span>
+                                            </td>
                                         {% elif task.task_situation.name == 'Tamamlandı' %}
-                                            <td><span class="label label-danger">Tamamlandı</span></td>
+                                            <td><span class="label label-danger">{{ task.task_situation.name }}</span>
+                                            </td>
 
 
                                         {% endif %}

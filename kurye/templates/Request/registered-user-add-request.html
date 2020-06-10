@@ -18,50 +18,50 @@
     <!-- Main content -->
     <section class="content">
         <!-- Small boxes (Stat box) -->
-    {% if messages %}
-        {% for message in messages %}
+        {% if messages %}
+            {% for message in messages %}
 
 
-            {% if message.tags == 'warning' %}
+                {% if message.tags == 'warning' %}
 
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
-
-
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
 
-                </div>
-
-            {% endif %}
-
-
-            {% if message.tags == 'success' %}
-
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
 
 
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    </div>
+
+                {% endif %}
 
 
-                </div>
+                {% if message.tags == 'success' %}
 
-            {% endif %}
-        {% endfor %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
 
 
-    {% endif %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
 
         <div class="row">
             <div class="col-lg-12 col-xs-12">
@@ -77,8 +77,20 @@
 
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <label>{{ request_form.receiver.label }}</label>
-                                        {{ request_form.receiver }}
+                                        <label>{{ request_form.receiver.label }}</label> <span
+                                            style="color: red">*</span>
+                                        <select style="width: 100%"
+                                                class="form-control select2 select2-hidden-accessible"
+                                                name="receiver" id="receiver">
+                                            {% for receiver in receivers %}
+                                                {% if receiver.isActive %}
+                                                    <option  value="{{ receiver.pk }}">{{ receiver }}</option>
+
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </select>
+
 
                                     </div>
 
@@ -88,7 +100,8 @@
 
                                             <div class="form-group">
                                                 <div class="form-group">
-                                                    <label>{{ request_form.totalPrice.label }}</label>
+                                                    <label>{{ request_form.totalPrice.label }}</label> <span
+                                                        style="color: red">*</span>
                                                     {{ request_form.totalPrice }}
 
                                                 </div>
@@ -98,7 +111,8 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-12">
                                             <div class="form-group">
-                                                <label>{{ request_form.payment_type.label }}</label>
+                                                <label>{{ request_form.payment_type.label }}</label> <span
+                                                    style="color: red">*</span>
                                                 {{ request_form.payment_type }}
                                                 <!-- /.input group -->
                                             </div>
@@ -108,6 +122,8 @@
 
 
                                 </div>
+                                <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
+                                    Zorunludur.</small>
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-primary">Ekle</button>
                                 </div>
@@ -117,55 +133,49 @@
                             <div class="col-lg-6 col-xs-12">
 
                                 <div class="box-body">
-
-
                                     <div class="form-group">
                                         <label>{{ request_form.description.label }}</label>
                                         {{ request_form.description }}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-xs-12">
 
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xs-12">
 
-                                        <div class="form-group">
-                                            <label>{{ request_form.exitDate.label }}</label>
-                                            {{ request_form.exitDate }}
-                                        </div>
-
-
-                                    </div>
-                                    <div class="col-lg-6 col-xs-12">
-                                        <div class="form-group">
-                                            <label>{{ request_form.exitTime.label }}</label>
-
-                                            <div class="input-group">
-                                                {{ request_form.exitTime }}
-
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
-                                                </div>
+                                            <div class="form-group">
+                                                <label>{{ request_form.exitDate.label }}</label>
+                                                {{ request_form.exitDate }}
                                             </div>
-                                            <!-- /.input group -->
-                                        </div>
-                                    </div>
 
+
+                                        </div>
+                                        <div class="col-lg-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label>{{ request_form.exitTime.label }}</label> <span
+                                                    style="color: red">*</span>
+
+                                                <div class="input-group">
+                                                    {{ request_form.exitTime }}
+
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
+
                             </div>
 
+
+                            <!-- /.box-body -->
+
                         </div>
-
-
-                        <!-- /.box-body -->
-
+                    </form>
                 </div>
-                </form>
             </div>
-
-
-        </div>
-
-
         </div>
 
 
@@ -194,7 +204,6 @@
     <script>
 
         function ilceGetir() {
-            debugger;
             var e = document.getElementById("id_city");
             var il_id = e.options[e.selectedIndex].value;
             $.ajax({
@@ -206,7 +215,6 @@
 
                 },
                 success: function (result) {
-                    debugger;
 
                     let select = document.getElementById("ilce_id");
 
@@ -222,8 +230,6 @@
         }
 
         $(document).ready(function () {
-
-
             ilceGetir();
             //console.log($('#ilce_id').select2('data'))
             $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'

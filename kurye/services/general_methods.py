@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import logout
 from django.contrib.auth.models import Group, User, Permission
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
@@ -127,8 +128,16 @@ def existMail(mail):
 
 
 def notifications(request):
-    notification = Notification.objects.filter(isRead=False).order_by('creationDate')[:10]
-    count = Notification.objects.filter(isRead=False).count()
+    notification = ""
+    count = 0
+
+    if not request.user.is_anonymous:
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        notification = Notification.objects.filter(profile=profile).filter(isRead=False).order_by('-creationDate')[:10]
+        count = Notification.objects.filter(profile=profile).filter(isRead=False).count()
+    else:
+        logout(request)
     return {'notification': notification, 'count_not': count}
 
 

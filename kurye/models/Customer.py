@@ -17,6 +17,7 @@ class Customer(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
+    isActive = models.BooleanField(default=True)
 
     def __str__(self):
         return '%s %s %s' % (self.customer, '-', self.phone)

@@ -1,9 +1,6 @@
 {% extends 'base_layout.html' %}
 {% load staticfiles %}
 {% block content %}
-
-
-
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -90,11 +87,11 @@
 
                                     <div class="form-group">
                                         <label> {{ customer_form.customer.label }}</label>
-                                        {{ customer_form.customer }}
+                                        <span style="color: red">*</span> {{ customer_form.customer }}
                                     </div>
                                     <div class="form-group">
                                         <label> {{ customer_form.phone.label }}</label>
-                                        {{ customer_form.phone }}
+                                        <span style="color: red">*</span> {{ customer_form.phone }}
                                     </div>
                                     <div class="form-group">
                                         <label>{{ customer_form.email.label }}</label>
@@ -115,7 +112,7 @@
                                         <div class="col-lg-4 col-xs-12">
 
                                             <div class="form-group">
-                                                <label for="">İl</label>
+                                                <label for="">İl</label><span style="color: red">*</span>
                                                 <select style="width: 100%"
                                                         class="form-control select2 select2-hidden-accessible"
                                                         name="city" id="id_city"
@@ -138,13 +135,13 @@
                                         <div class="col-lg-4 col-xs-12">
                                             <div class="form-group">
                                                 <label>{{ customer_form.district.label }}</label>
-                                                {{ customer_form.district }}
+                                                <span style="color: red">*</span> {{ customer_form.district }}
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-xs-12">
                                             <div class="form-group">
                                                 <label>{{ customer_form.neighborhood.label }}</label>
-                                                {{ customer_form.neighborhood }}
+                                                <span style="color: red">*</span> {{ customer_form.neighborhood }}
                                             </div>
                                         </div>
 
@@ -152,7 +149,9 @@
 
 
                                     <div class="form-group">
-                                        <label>{{ customer_form.address.label }}</label>
+
+                                        <label>{{ customer_form.address.label }}</label> <span
+                                            style="color: red">*</span>
                                         {{ customer_form.address }}
                                     </div>
 
@@ -162,6 +161,8 @@
                             </div>
 
                         </div>
+                     <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
+                                    Zorunludur.</small>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Ekle</button>
                         </div>
@@ -262,7 +263,7 @@
             $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'
 
             mahalleGetir();
-             debugger;
+            debugger;
             //console.log($('#ilce_id').select2('data'))
             $('#neighborhood_id').val('{{mahalle}}').trigger('change'); // Select the option with a value of '1'
 

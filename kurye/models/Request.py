@@ -1,4 +1,7 @@
+import datetime
+
 from django.db import models
+from django.utils import timezone
 
 from kurye.models.Company import Company
 from kurye.models.Customer import Customer
@@ -30,8 +33,8 @@ class Request(models.Model):
                                      blank=True)
     payment_type = models.CharField(max_length=128, verbose_name='Ödeme Türü', choices=PAYMENT_CHOICES,
                                     default=NAKIT)
-    exitTime = models.TimeField(blank=True, verbose_name='Çıkış zamanı')
-    exitDate = models.DateField(blank=True, verbose_name='Çıkış Tarihi')
+    exitTime = models.TimeField(null=True,blank=True, verbose_name='Çıkış zamanı')
+    exitDate = models.DateField(blank=True, verbose_name='Çıkış Tarihi', default=datetime.date.today())
     totalPrice = models.DecimalField(max_digits=8, decimal_places=2, null=True, default=True,
                                      verbose_name='Sipariş Tutarı')
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')

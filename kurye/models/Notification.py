@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
+
+from kurye.models.Profile import Profile
 
 
 class Notification(models.Model):
@@ -6,6 +9,7 @@ class Notification(models.Model):
     message = models.TextField(verbose_name='Bildirim İçeriği', null=True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True)
     modificationDate = models.DateTimeField(auto_now=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
     isRead = models.BooleanField(default=False)
 
     def __str__(self):

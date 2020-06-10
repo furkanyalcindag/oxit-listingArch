@@ -2,38 +2,30 @@ from django import apps
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from kurye.models import Neighborhood
 from kurye.models.Log import Log
 from kurye.models.Company import Company
 from kurye.models.LogAPIObject import LogAPIObject
 from kurye.models.Notification import Notification
 from kurye.models.Profile import Profile
-from kurye.models.Request import Request
-from kurye.models.Task import Task
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.serializers.CompanySerializer import CompanyResponseSerializer
 from kurye.serializers.GenericSerializer import DataTableSerializer
-from kurye.serializers.LogSerializer import LogSerializer, LogResponseSerializer
-from kurye.serializers.NeighborhoodSerializer import NeighborhoodSerializer, NeighborhoodResponseSerializer
+from kurye.serializers.LogSerializer import LogResponseSerializer
+from kurye.serializers.NeighborhoodSerializer import NeighborhoodResponseSerializer
 from kurye.serializers.NotificationSerializer import NotificationResponseSerializer
 from kurye.serializers.TaskSerializer import TaskResponseSerializer
-
-'''  order: asc
-    start: 20
-    length: 10 '''
 
 
 class GetLogs(APIView):
 
     def post(self, request, format=None):
-        array_category = []
         draw = request.data['draw']
         start = request.data['start']
         length = request.data['length']
         end = int(start) + int(length)
 
-        logs = Log.objects.filter(content__contains=request.data['search[value]']).order_by('id')[
+        logs = Log.objects.filter(content__contains=request.data['search[value]']).order_by('-creationDate')[
                int(request.data['start']):end]
         filteredTotal = Log.objects.filter(content__contains=request.data['search[value]']).count()
         logApiObject = LogAPIObject()
@@ -52,7 +44,6 @@ class GetLogs(APIView):
 class GetCompany(APIView):
 
     def post(self, request, format=None):
-        array_category = []
         draw = request.data['draw']
         start = request.data['start']
         length = request.data['length']
@@ -85,19 +76,21 @@ class GetCompany(APIView):
 class GetNotification(APIView):
 
     def post(self, request, format=None):
-        array_category = []
         draw = request.data['draw']
         start = request.data['start']
         length = request.data['length']
         end = int(start) + int(length)
 
-        notification_total = Notification.objects.all().count()
+        user = request.user
+        profile = Profile.objects.get(user=user)
 
-        notifications = Notification.objects.filter(
-            message__icontains=request.data['search[value]']).order_by('isRead')[
+        notification_total = Notification.objects.filter(profile=profile).count()
+
+        notifications = Notification.objects.filter(profile=profile).filter(
+            message__icontains=request.data['search[value]']).order_by('-creationDate')[
                         int(start):end]
 
-        filteredTotal = Notification.objects.filter(
+        filteredTotal = Notification.objects.filter(profile=profile).filter(
             message__icontains=request.data['search[value]']).count()
 
         logApiObject = LogAPIObject()
@@ -116,7 +109,6 @@ class GetNotification(APIView):
 class GetRequestReport(APIView):
 
     def post(self, request, format=None):
-        array_category = []
         draw = request.data['draw']
         start = request.data['start']
         length = request.data['length']
@@ -147,10 +139,79 @@ class GetRequestReport(APIView):
         return Response(serializer.data)
 
 
+class GetCanceledTask(APIView):
+
+    def post(self, request, format=None):
+        draw = request.data['draw']
+        start = request.data['start']
+        length = request.data['length']
+        end = int(start) + int(length)
+
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        company = Company.objects.get(profile=profile)
+
+        tasks = TaskSituationTask.objects.filter(isActive=True).filter(task_situation__name='İptal Edildi').filter(
+            task__request__receiver__customer__icontains=request.data['search[value]']).order_by(
+            '-creationDate')[
+                int(start):end]
+
+        task_all = TaskSituationTask.objects.filter(isActive=True).filter(task_situation__name='İptal Edildi').count()
+
+        filteredTotal = TaskSituationTask.objects.filter(
+            task__request__receiver__customer__icontains=request.data['search[value]']).count()
+
+        logApiObject = LogAPIObject()
+        logApiObject.data = tasks
+        logApiObject.draw = int(request.POST['draw'])
+        logApiObject.recordsTotal = int(task_all)
+        logApiObject.recordsFiltered = int(filteredTotal)
+
+        serializer_context = {
+            'request': request,
+        }
+        serializer = TaskResponseSerializer(logApiObject, context=serializer_context)
+        return Response(serializer.data)
+
+
+class GetCompletedTask(APIView):
+
+    def post(self, request, format=None):
+        draw = request.data['draw']
+        start = request.data['start']
+        length = request.data['length']
+        end = int(start) + int(length)
+
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        company = Company.objects.get(profile=profile)
+
+        tasks = TaskSituationTask.objects.all().filter(
+            task__request__company__companyName__icontains=request.data['search[value]']).order_by(
+            '-creationDate')[
+                int(start):end]
+
+        task_all = TaskSituationTask.objects.all().count()
+
+        filteredTotal = TaskSituationTask.objects.filter(
+            task__request__company__companyName__icontains=request.data['search[value]']).count()
+
+        logApiObject = LogAPIObject()
+        logApiObject.data = tasks
+        logApiObject.draw = int(request.POST['draw'])
+        logApiObject.recordsTotal = int(task_all)
+        logApiObject.recordsFiltered = int(filteredTotal)
+
+        serializer_context = {
+            'request': request,
+        }
+        serializer = TaskResponseSerializer(logApiObject, context=serializer_context)
+        return Response(serializer.data)
+
+
 class GetNeighborhood(APIView):
 
     def post(self, request, format=None):
-        array_category = []
         draw = request.data['draw']
         start = request.data['start']
         length = request.data['length']
@@ -180,7 +241,6 @@ class GetDataGeneric(APIView):
     def post(self, request, format=None):
         log = apps.apps.get_model('kurye', 'Log')
 
-        array_category = []
         draw = request.data['draw']
         start = request.data['start']
         length = request.data['length']

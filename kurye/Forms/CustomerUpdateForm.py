@@ -18,7 +18,7 @@ class CustomerUpdateForm(ModelForm):
             'customer': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Ad Soyad', 'rows': '2', 'required': 'required'}),
             'email': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Email', 'rows': '2', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Email', 'rows': '2'}),
             'address': forms.Textarea(
                 attrs={'class': 'form-control', 'placeholder': 'Açık Adres', 'rows': '2', 'required': 'required'}),
             'phone': forms.TextInput(
