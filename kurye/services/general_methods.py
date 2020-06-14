@@ -5,6 +5,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
 from django.urls import resolve
 
+from kurye.models.Company import Company
 from kurye.models.Log import Log
 from kurye.models.Profile import Profile
 from kurye.models.Notification import Notification
@@ -188,3 +189,5 @@ def return_month(month_number):
              "ARALIK"]
 
     return month[int(month_number) - 1]
+
+

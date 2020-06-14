@@ -152,7 +152,6 @@
                                                         style="width: 50%;"
                                                         name="yil" id='year'>
                                                     <option value=''>Yıl</option>
-                                                    <option value='2019'>2019</option>
                                                     <option value='2020'>2020</option>
                                                     <option value='2021'>2021</option>
 
@@ -198,22 +197,27 @@
                                         {% if task.situation == 'Ödenmedi' %}
 
                                             <td>
-
-                                                <button style="width: 90px;" type="submit"
-                                                        onclick="pay_payment({{ task.company.pk }},{{ year }},{{ month }})"
-                                                        class="btn btn-sm btn-danger">Ödendi Yap
-                                                </button>
-
+                                                {% if user.groups.all.0.name == 'Admin' %}
+                                                    <button style="width: 90px;" type="submit"
+                                                            onclick="pay_payment({{ task.company.pk }},{{ year }},{{ month }})"
+                                                            class="btn btn-sm btn-success">Ödendi Yap
+                                                    </button>
+                                                    {% else %}
+                                                   {{ task.situation}}
+                                                {% endif %}
                                             </td>
 
                                         {% else %}
                                             <td>
+                                                {% if user.groups.all.0.name == 'Admin' %}
 
-                                                <button style="width: 90px;" type="submit"
-                                                        onclick="undo_payment_company({{ task.company.pk }},{{ year }},{{ month }})"
-                                                        class="btn btn-sm btn-success">Ödenmedi Yap
-                                                </button>
-
+                                                    <button style="width: 90px;" type="submit"
+                                                            onclick="undo_payment_company({{ task.company.pk }},{{ year }},{{ month }})"
+                                                            class="btn btn-sm btn-danger">Ödenmedi Yap
+                                                    </button>
+                                                    {% else %}
+                                                    {{ task.situation }}
+                                                {% endif %}
 
                                             </td>
                                             <td></td>

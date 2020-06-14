@@ -9,7 +9,7 @@ class RequestSituationRequest(models.Model):
     request = models.ForeignKey(Request, on_delete=models.CASCADE, null=True, blank=True)
     request_situation = models.ForeignKey(RequestSituations, on_delete=models.CASCADE, null=True, blank=True)
     isActive = models.BooleanField(default=False)
-    creationDate = models.DateTimeField(verbose_name='Kayıt Tarihi', default=timezone.now)
+    creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 
     def __str__(self):

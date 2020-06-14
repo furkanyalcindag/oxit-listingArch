@@ -76,10 +76,9 @@
                             <table id="talep" class="display responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>Talep No</th>
                                     <th>Talep Seç</th>
                                     <th>Kurye</th>
-
                                     <th>Firma</th>
                                     <th>Alıcı Ad Soyad</th>
                                     <th>Alıcı Telefon</th>
@@ -101,7 +100,7 @@
                                     <tr>
 
 
-                                        <td>{{ forloop.counter }} </td>
+                                        <td>{{ request.pk }} </td>
                                         <td>
                                             <div class="btn-group">
                                                 <form action="{% url 'kurye:gorev ata' request.pk %}"

@@ -14,8 +14,8 @@ class Profile(models.Model):
     address = models.TextField(blank=True, null=True, verbose_name='Adres')
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True,
                              verbose_name='İl')
-    neighborhood = models.ForeignKey(Neighborhood, on_delete=models.CASCADE, verbose_name='Mahalle', null=True,
-                                     blank=True)
+    neighborhood = models.TextField(null=True, blank=True,
+                                    verbose_name='Mahalle')
     birthDate = models.DateField(null=True, blank=True, verbose_name='Doğum Tarihi')
     district = models.TextField(blank=True, null=True, verbose_name='İlçe')
     isContract = models.BooleanField(default=False)

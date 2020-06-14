@@ -51,73 +51,81 @@ def new_user_add_request(request):
 
         if request_form.is_valid() and customer_form.is_valid():
 
-            customer = Customer(customer=customer_form.cleaned_data['customer'],
-                                address=customer_form.cleaned_data['address'],
-                                phone=customer_form.cleaned_data['phone'],
-                                city=city,
-                                district=customer_form.cleaned_data['district'],
-                                neighborhood=customer_form.cleaned_data['neighborhood']
+            if request_form.cleaned_data['exitDate'] < datetime.date.today():
+                messages.warning(request, 'Geçmiş Tarihli Talep Oluşturamazsınız.')
+                return redirect('kurye:yeni kullanıcıyla talep olustur')
+            elif request_form.cleaned_data['exitTime'] > datetime.datetime.now().time():
+                customer = Customer(customer=customer_form.cleaned_data['customer'],
+                                    address=customer_form.cleaned_data['address'],
+                                    phone=customer_form.cleaned_data['phone'],
+                                    city=city,
+                                    district=customer_form.cleaned_data['district'],
+                                    neighborhood=customer_form.cleaned_data['neighborhood']
+                                    )
+                customer.save()
+                customer.company = company
+                customer.save()
+                price = ""
+                neighborhood_name = customer.neighborhood
+                neighborhood = Neighborhood.objects.filter(neighborhood_name=neighborhood_name)
+                for neighborhood in neighborhood:
+                    price = neighborhood.price
+                # Mahalleye göre fiyat
 
-                                )
-            customer.save()
-            customer.company = company
-            customer.save()
-            price = ""
-            neighborhood_name = customer.neighborhood
-            neighborhood = Neighborhood.objects.filter(neighborhood_name=neighborhood_name)
-            for neighborhood in neighborhood:
-                price = neighborhood.price
-            # Mahalleye göre fiyat
-
-            request1 = Request(receiver=customer,
-                               payment_type=request_form.cleaned_data['payment_type'],
-                               totalPrice=request_form.cleaned_data['totalPrice'],
-                               exitTime=request_form.cleaned_data['exitTime'],
-                               description=request_form.cleaned_data['description'],
-                               request_price=price
-                               )
-            request1.save()
-
-            if request_form.cleaned_data['exitDate']:
-                request1.exitDate = request_form.cleaned_data['exitDate']
-                request1.save()
-            else:
-                request1.exitDate = datetime.datetime.now()
+                request1 = Request(receiver=customer,
+                                   payment_type=request_form.cleaned_data['payment_type'],
+                                   totalPrice=request_form.cleaned_data['totalPrice'],
+                                   exitTime=request_form.cleaned_data['exitTime'],
+                                   description=request_form.cleaned_data['description'],
+                                   request_price=price
+                                   )
                 request1.save()
 
-            situation = RequestSituationRequest(request=request1,
-                                                request_situation=RequestSituations.objects.get(name='Onaylandı'),
-                                                isActive=True)
-            situation.save()
-            request1.company = company
-            request1.save()
+                if request_form.cleaned_data['exitDate']:
+                    request1.exitDate = request_form.cleaned_data['exitDate']
+                    request1.save()
+                else:
+                    request1.exitDate = datetime.datetime.now()
+                    request1.save()
 
-            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
-                          groups[0].name + ', ' + str(request1.pk) + '</strong> nolu talebi oluşturdu</p>'
+                situation = RequestSituationRequest(request=request1,
+                                                    request_situation=RequestSituations.objects.get(name='Onaylandı'),
+                                                    isActive=True)
+                situation.save()
+                request1.company = company
+                request1.save()
 
-            save_log(profile.pk, log_content)
+                log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                              groups[0].name + ', ' + str(request1.pk) + '</strong> nolu talebi oluşturdu</p>'
 
-            subject, from_email, to = '' + request1.company.companyName + ' Talep Bilgileri', 'burcu.dogan@oxityazilim.com', user.email
-            text_content = 'Talep Bilgileri'
-            html_content = '<p><strong>Talep No: </strong>' + str(request1.pk) + '</p>'
-            html_content = html_content + '<p> <strong>Adres:</strong>' + request1.receiver.address + '</p>'
-            html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + request1.receiver.customer + '</p>'
-            html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(request1.totalPrice) + '₺</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+                save_log(profile.pk, log_content)
 
-            notification = Notification()
-            notification.key = 'Talep'
-            notification.message = '' + request1.company.companyName + ' adlı kullanıcı  ' + str(
-                request1.exitDate) + '   ' + str(request1.exitTime) + ' tarihinde kurye talep etti.Talep No: ' + str(
-                request1.pk) + ''
-            notification.save()
+                subject, from_email, to = '' + request1.company.companyName + ' Talep Bilgileri', 'burcu.dogan@oxityazilim.com', user.email
+                text_content = 'Talep Bilgileri'
+                html_content = '<p><strong>Talep No: </strong>' + str(request1.pk) + '</p>'
+                html_content = html_content + '<p> <strong>Adres:</strong>' + request1.receiver.address + '</p>'
+                html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + request1.receiver.customer + '</p>'
+                html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(
+                    request1.totalPrice) + '₺</p>'
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
 
-            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur. En Kısa Sürede Kurye görevlendirilecektir.')
-            return redirect('kurye:yeni kullanıcıyla talep olustur')
+                notification = Notification()
+                notification.key = 'Talep'
+                notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
+                notification.message = '' + request1.company.companyName + ' adlı kullanıcı  ' + str(
+                    request1.exitDate) + '   ' + str(
+                    request1.exitTime) + ' tarihinde kurye talep etti.Talep No: ' + str(
+                    request1.pk) + ''
+                notification.save()
+
+                messages.success(request,
+                                 'Talebiniz Başarıyla Oluşturulmuştur. En Kısa Sürede Kurye görevlendirilecektir.')
+                return redirect('kurye:yeni kullanıcıyla talep olustur')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz.')
+
     return render(request, 'Request/new-user-add-request.html',
                   {'request_form': request_form, 'customer_form': customer_form, 'cities': cities, 'today': today})
 
@@ -136,71 +144,83 @@ def registered_user_add_request(request):
     company = Company.objects.filter(profile=profile)
     today = datetime.date.today()
     receivers = Customer.objects.filter(company_id=company[0].pk).filter(isActive=True)
-
+    date = datetime.date.today()
     if request.method == 'POST':
         request_form = RegisteredUserRequestForm(request.POST)
 
         if request_form.is_valid():
 
-            customer = Customer.objects.get(pk=int(request.POST['receiver']))
-            neighborhood = Neighborhood.objects.get(neighborhood_name=customer.neighborhood)
-            price = neighborhood.price  # Mahalleye göre fiyat
+            if request_form.cleaned_data['exitDate'] < datetime.date.today():
+                messages.warning(request, 'Geçmiş Tarihli Talep Oluşturamazsınız.')
 
-            request1 = Request(
-                exitTime=request_form.cleaned_data['exitTime'],
-                receiver=customer,
-                payment_type=request_form.cleaned_data['payment_type'],
-                totalPrice=request_form.cleaned_data['totalPrice'],
-                description=request_form.cleaned_data['description'],
-                request_price=price,
+            elif request_form.cleaned_data['exitTime'] > datetime.datetime.now().time():
 
-            )
-            request1.save()
+                customer = Customer.objects.get(pk=int(request.POST['receiver']))
+                neighborhood = Neighborhood.objects.get(neighborhood_name=customer.neighborhood)
+                price = neighborhood.price  # Mahalleye göre fiyat
 
-            if request_form.cleaned_data['exitDate']:
-                request1.exitDate = request_form.cleaned_data['exitDate']
+                request1 = Request(
+                    exitTime=request_form.cleaned_data['exitTime'],
+                    receiver=customer,
+                    payment_type=request_form.cleaned_data['payment_type'],
+                    totalPrice=request_form.cleaned_data['totalPrice'],
+                    description=request_form.cleaned_data['description'],
+                    request_price=price,
+
+                )
                 request1.save()
+
+                if request_form.cleaned_data['exitDate']:
+                    request1.exitDate = request_form.cleaned_data['exitDate']
+                    request1.save()
+                else:
+                    request1.exitDate = datetime.datetime.now()
+                    request1.save()
+
+                situation = RequestSituationRequest(request=request1,
+                                                    request_situation=RequestSituations.objects.get(name='Onaylandı'),
+                                                    isActive=True)
+                situation.save()
+
+                request1.company = company[0]
+                request1.save()
+
+                log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                              groups[0].name + ', ' + str(request1.pk) + '</strong> nolu talebi oluşturdu</p>'
+
+                save_log(profile.pk, log_content)
+
+                subject, from_email, to = '' + request1.company.companyName + ' Talep Bilgileri', 'burcu.dogan@oxityazilim.com', user.email
+                text_content = 'Talep Bilgileri'
+                html_content = '<p><strong>Talep No: </strong>' + str(request1.pk) + '</p>'
+                html_content = html_content + '<p> <strong>Adres:</strong>' + request1.receiver.address + '</p>'
+                html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + request1.receiver.customer + '</p>'
+                html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(
+                    request1.totalPrice) + '₺</p>'
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+
+                notification = Notification()
+                notification.key = 'Talep'
+                notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
+                notification.message = '' + request1.company.companyName + ' adlı kullanıcı ' + str(
+                    request1.exitDate) + '   ' + str(
+                    request1.exitTime) + ' tarihinde kurye talep etti. Talep No: ' + str(
+                    request1.pk) + ''
+                notification.save()
+
+                messages.success(request,
+                                 'Talebiniz Başarıyla Oluşturulmuştur.En Kısa Sürede Kurye görevlendirilecektir.')
+                return redirect('kurye:kayıtlı kullanıcıyla talep olustur')
             else:
-                request1.exitDate = datetime.datetime.now()
-                request1.save()
+                messages.warning(request, 'Bugün İçin Çıkış Zamanını Mevcut Saat Aralığında Seçiniz.')
 
-            situation = RequestSituationRequest(request=request1,
-                                                request_situation=RequestSituations.objects.get(name='Onaylandı'),
-                                                isActive=True)
-            situation.save()
-
-            request1.company = company[0]
-            request1.save()
-
-            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
-                          groups[0].name + ', ' + str(request1.pk) + '</strong> nolu talebi oluşturdu</p>'
-
-            save_log(profile.pk, log_content)
-
-            subject, from_email, to = '' + request1.company.companyName + ' Talep Bilgileri', 'burcu.dogan@oxityazilim.com', user.email
-            text_content = 'Talep Bilgileri'
-            html_content = '<p><strong>Talep No: </strong>' + str(request1.pk) + '</p>'
-            html_content = html_content + '<p> <strong>Adres:</strong>' + request1.receiver.address + '</p>'
-            html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + request1.receiver.customer + '</p>'
-            html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(request1.totalPrice) + '₺</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
-
-            notification = Notification()
-            notification.key = 'Talep'
-            notification.message = '' + request1.company.companyName + ' adlı kullanıcı ' + str(
-                request1.exitDate) + '   ' + str(request1.exitTime) + ' tarihinde kurye talep etti. Talep No: ' + str(
-                request1.pk) + ''
-            notification.save()
-
-            messages.success(request, 'Talebiniz Başarıyla Oluşturulmuştur.Kısa Sürede Kurye görevlendirilecektir.')
-            return redirect('kurye:kayıtlı kullanıcıyla talep olustur')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz.')
 
     return render(request, 'Request/registered-user-add-request.html',
-                  {'request_form': request_form, 'today': today, 'receivers': receivers})
+                  {'request_form': request_form, 'today': today, 'receivers': receivers, 'date': date})
 
 
 # Bekleyen Talepler
@@ -240,8 +260,11 @@ def return_approved_requests(request):
     task = []
     request_array = []
     for request2 in request1:
-        tasks = TaskSituationTask.objects.filter(task__request=request2).filter(isActive=True)
-        if tasks.count() == 0:
+        requestt = RequestSituationRequest.objects.filter(isActive=True).filter(request=request2).filter(
+            ~Q(request_situation__name='İptal Edildi'))
+        tasks = TaskSituationTask.objects.filter(task__request=request2).filter(
+            ~Q(task_situation__name='İptal Edildi')).filter(isActive=True)
+        if tasks.count() == 0 and requestt.count() > 0:
             request_array.append(request2)
     return render(request, 'Request/approved-request.html',
                   {'approved_requests': request_array})
@@ -313,7 +336,7 @@ def return_company_requests(request):
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
 
-    tasks = TaskSituationTask.objects.filter(task__request__company_id=company.id).order_by(
+    tasks = TaskSituationTask.objects.filter(isActive=True).filter(task__request__company_id=company.id).order_by(
         '-creationDate')
 
     return render(request, 'Company/company-requests.html',
@@ -331,10 +354,14 @@ def company_all_requests(request):
     user = request.user
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
-
+    requests = []
     all_requests = RequestSituationRequest.objects.filter(request__company_id=company.pk).order_by('-creationDate')
+    for request1 in all_requests:
+        task = TaskSituationTask.objects.filter(task__request__company=company).filter(task__request=request1.request)
+        if task.count() <= 0:
+            requests.append(request1)
 
-    return render(request, 'Company/company-all-requests.html', {'requests': all_requests})
+    return render(request, 'Company/company-all-requests.html', {'requests': requests})
 
 
 # Kullanıcı Talebi İptal Et
@@ -354,7 +381,7 @@ def cancel_requests(request, pk):
     task = TaskSituationTask.objects.filter(task__request=request1).filter(task_situation__name="Kurye Atandı").filter(
         isActive=True)
 
-    if task:
+    if task.count() <= 0:
 
         active_request = RequestSituationRequest.objects.filter(request=request1).filter(isActive=True)
 
@@ -390,6 +417,7 @@ def cancel_requests(request, pk):
         msg.send()
 
         notification = Notification()
+        notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
         notification.key = 'İptal Olan Talep'
         notification.message = '' + request1.company.companyName + ' adlı kullanıcı ' + str(
             request1.pk) + ' nolu talebi iptal etti'
@@ -397,8 +425,8 @@ def cancel_requests(request, pk):
 
         messages.success(request, 'Talebiniz İptal Edildi')
     else:
-        messages.warning(request, 'Talebinize ait kurye görevlendirilmiştir.Talebiniz iptal edilememektedir')
-    return redirect("kurye:kullanıcı aktif talepleri")
+        messages.warning(request, 'Talebiniz iptal edilememektedir.')
+    return redirect("kurye:kullanici-talepleri")
 
 
 # Kullanıcının Tamamlayacağı Talepler

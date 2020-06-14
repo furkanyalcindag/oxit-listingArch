@@ -3,78 +3,25 @@
 {% block content %}
 
 
-    <!-- success modal -->
-    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
+    <div class="modal fade bd-example-modal-lg" id="modal-default" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">İşlem Başarılı</h4>
+                    <h4 class="modal-title">Talep Durum Diyagramı</h4>
                 </div>
-                <div class="modal-body successModal">
+                <div class="modal-body bodys">
                     ...
                 </div>
                 <div class="modal-footer">
-
-                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Kapat</button>
                 </div>
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
-
-    <div class="modal modal-danger fade in deneme22" tabindex="-1" role="dialog" id="modal-danger"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Uyarı</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Silmek istediğinizden emin misiniz?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
-                            data-dismiss="modal">Evet
-                    </button>
-                    <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
-         aria-labelledby="myLargeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-
-
-            <div class="modal-content" style="height:fit-content">
-
-                <div class="modal-header" style="background-color:#3c8dbc ">
-                    <font color="white">Talepler</font>
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body bodys bodys-1234">
-
-                </div>
-
-                <div class="modal-footer footer-1234 ">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <section class="content-header">
         <h1>
             {{ obj.name }}
@@ -152,6 +99,7 @@
                                 <tr style="text-align: center">
 
                                     <th>Talep No</th>
+                                    <th></th>
                                     <th>İptal Et</th>
                                     <th>Durumu</th>
                                     <th>Müşteri</th>
@@ -170,6 +118,12 @@
                                 {% for task in tasks %}
                                     <tr style="text-align: center">
                                         <td>{{ task.task.request.pk }} </td>
+                                        <td>
+                                            <button type="button" onclick="getTaskDetail({{ task.task.pk }})"
+                                                    class="btn btn-info">Detay
+                                            </button>
+                                        </td>
+
 
                                         {% if  task.task_situation.name == 'Kurye Atandı' %}
                                             <td>
@@ -300,7 +254,74 @@
 
             return [date, time].join('-');
         }
+
+
+        function getTaskDetail(id) {
+
+            var html = '';
+            $.get(" {% url "kurye:gorev-durum-detaylari-timeline" pk=12121   %}".replace(/12121/, id.toString()))
+                .done(function (response) {
+                    debugger;
+                    var task = response.task;
+
+                    html = '<ul class="timeline">';
+                    for (let i = 0; i < task.length; i++) {
+
+                        html += '<li><i class="fa fa-clock-o bg-green"></i>';
+                        html += '<div class="timeline-item">';
+
+                        html += '<span class="time"><i class="fa fa-clock-o"></i>' + formatDate(task[i].creationDate) + '</span>';
+                        html += '<h3 class="timeline-header"><a>Görev No: ' + task[i].task.id + ' </a>';
+                        if (task[i].task_situation.name === 'İptal Edildi' || task[i].task_situation.name === 'Teslim Edilemedi')
+                            html += '<span class="label label-danger"> ' + task[i].task_situation.name + '</span> </h3>';
+                        else if (task[i].task_situation.name === 'Kurye Atandı')
+                            html += '<span class="label label-warning"> ' + task[i].task_situation.name + '</span> </h3>';
+                        else if (task[i].task_situation.name === 'Paket Teslimi İçin Yolda' || task[i].task_situation.name === 'Paket Alımı İçin Yolda')
+                            html += '<span class="label label-info"> ' + task[i].task_situation.name + '</span> </h3>';
+                        else if (task[i].task_situation.name === 'Teslim Edildi')
+                            html += '<span class="label label-primary"> ' + task[i].task_situation.name + '</span> </h3>';
+                        else
+                            html += '<span class="label label-success"> ' + task[i].task_situation.name + '</span> </h3>';
+                        html += '<div class="timeline-body">';
+                        html += '<b>Talep No : ' + task[i].task.request.id + ' </b><br>';
+                        html += '<b>Kurye : </b> ' + task[i].task.courier.courier.user.first_name + ' ' + task[i].task.courier.courier.user.last_name + '<br>';
+                        html += '<b>Müşteri : </b> ' + task[i].task.request.receiver.customer + '<br>';
+                        html += '<b>Görev Durumu Güncelleme Zamanı : </b>' + formatDate(task[i].creationDate) + ' <br>';
+                        html += '<b>Paket Alım Zamanı : </b>' + task[i].task.request.exitDate + '-' + task[i].task.request.exitTime + '<br>';
+                        if (task[i].task.request.description) {
+                            html += '<b>Talep Açıklaması : </b>' + task[i].task.request.description + '<br>';
+                        } else
+                            html += '<b>Talep Açıklaması : </b>Açıklama Yapılmadı<br>';
+
+                        if (task[i].task.description) {
+                            html += '<b>Kurye Açıklaması : </b>' + task[i].task.description + '<br>';
+                        } else
+                            html += '<b>Kurye Açıklaması : </b>Açıklama Yapılmadı<br>';
+
+
+                    }
+                    html += '<li> <i class="fa fa-clock-o bg-gray"></i></li></ul>';
+
+                    $(".bodys").html(html);
+
+                });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }
+
     </script>
+
+
+
+
 
 {% endblock %}
 

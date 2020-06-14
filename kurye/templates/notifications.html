@@ -80,14 +80,13 @@
 
                         <div class="box-body">
 
-                            <form method="post" action="{% url 'kurye:bildirimler' %}">
-                                {% csrf_token %}
+
                                 <input type="hidden" name="checks" id="checks">
                                 <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
-                                        class="btn btn-danger btn-sm pull-left"><i
+                                        class="btn btn-danger btn-sm pull-left" onclick="deleteNotifications()"><i
                                         class="fa fa-trash-o"> Seçilenleri Sil</i>
                                 </button>
-                            </form>
+
                             <br>
                             <table id="notification" class="table  table-bordered display responsive nowrap "
                                    cellspacing="0" width="100%">
@@ -97,6 +96,7 @@
                                     <th>Başlık</th>
                                     <th>İçerik</th>
                                     <th>Tarih</th>
+                                    <th>Zaman</th>
 
 
                                 </tr>
@@ -105,6 +105,7 @@
 
 
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -136,7 +137,7 @@
                 "processing": true,
                 "serverSide": true,
                 "paging": true,
-                "ordering": false,
+                "ordering": true,
 
                 "ajax": {
                     "url": "{% url 'kurye:api-notifications' %}",
@@ -149,6 +150,7 @@
                             let html;
                             html = '<td><input style="margin-left:10px;"  type="checkbox"  name="check_list[]" onclick="checkbox()" value="' + full.id + '"></td>';
                             if (full.isRead === false) {
+
                                 html += '<td><button style="margin-left:30px;" onclick="isRead(' + full.id + ')" type="submit" class="btn btn-sm btn-success"><i class="fa fa-check"></i></button></td>';
                             }
 
@@ -158,7 +160,31 @@
                     },
                     {"data": "key"},
                     {"data": "message"},
-                    {"data": "creationDate"},
+                    {
+                        "data": null,
+
+                        "render": function (data, type, full, meta, row) {
+
+
+                            return formatDate(full.creationDate)
+
+                        }
+
+
+                    },
+                    {
+                        "data": null,
+
+                        "render": function (data, type, full, meta, row) {
+
+                            var d = new Date(full.creationDate);
+
+                            return d.getHours() + ':' + d.getMinutes()
+
+                        }
+
+
+                    },
 
 
                 ],
@@ -174,6 +200,7 @@
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
                 year = d.getFullYear();
+            time = d.getTime();
 
             if (month.length < 2)
                 month = '0' + month;
@@ -247,6 +274,24 @@
                 data: {
                     notification_id: notification_id,
 
+                },
+                success: function (result) {
+
+                    window.location.replace("{% url "kurye:bildirimler" %}");
+
+                }
+            });
+        }
+
+        function deleteNotifications() {
+            let notifications = document.getElementById('checks').value;
+            debugger;
+            $.ajax({
+                url: "{% url 'kurye:bildirimleri-sil' %}",
+                type: "post", // or "get"
+                async: true,
+                data: {
+                    checks: notifications,
                 },
                 success: function (result) {
 

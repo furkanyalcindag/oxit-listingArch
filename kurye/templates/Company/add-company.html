@@ -1,6 +1,6 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-
+    {% load static %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -71,12 +71,12 @@
                     <form role="form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-6 col-xs-12">
+                            <div class="col-lg-4 col-xs-12">
 
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label>{{ profile_form.profileImage.label }}</label>
-                                         {{ profile_form.profileImage }}
+                                        {{ profile_form.profileImage }}
                                     </div>
 
                                     <div class="form-group">
@@ -91,11 +91,43 @@
 
                                     <div class="form-group">
                                         <label> {{ profile_form.mobilePhone.label }}</label>
-                                        <span style="color: red">*</span>{{ profile_form.mobilePhone }}
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                            {{ profile_form.mobilePhone }}
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="acc-email">E-Posta</label>
                                         <span style="color: red">*</span>{{ user_form.email }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">İl</label><span style="color: red">*</span>
+                                        <select style="width: 100%"
+                                                class="form-control select2 select2-hidden-accessible"
+                                                name="city" id="id_city"
+                                                onChange="ilceGetir()">
+                                            {% for city in cities %}
+                                                {% if city.pk == 44 %}
+                                                    <option selected
+                                                            value="{{ city.pk }}">{{ city.name }}</option>
+                                                {% else %}
+                                                    <option value="{{ city.pk }}">{{ city.name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </select>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{{ profile_form.district.label }}</label>
+                                        <span style="color: red">*</span> {{ profile_form.district }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{{ profile_form.neighborhood.label }}</label>
+                                        <span style="color: red">*</span> {{ profile_form.neighborhood }}
                                     </div>
 
                                 </div>
@@ -103,7 +135,7 @@
                             </div>
 
 
-                            <div class="col-lg-6 col-xs-12">
+                            <div class="col-lg-4 col-xs-12">
 
                                 <div class="box-body">
                                     <div class="form-group">
@@ -120,7 +152,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label> {{ profile_form.phone.label }}</label>
-                                        {{ profile_form.phone }}
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                            {{ profile_form.phone }}
+                                        </div>
+
+
                                     </div>
                                     <div class="form-group">
                                         <label>{{ profile_form.address.label }}</label>
@@ -158,7 +197,130 @@
 
 
     </section>
-    <!-- /.content -->
+
+    <script>
+        $(function () {
+            $('.select2').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+    <script>
+        function ilceGetir() {
+
+            var e = document.getElementById("id_city");
+            var il_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'kurye:ilce-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    il_id: il_id,
+
+                },
+                success: function (result) {
+
+
+                    let select = document.getElementById("ilce_id");
+
+                    select.options[select.options.length] = new Option('Text 1', 'Value1');
+
+                    $('#ilce_id').empty();
+
+                    for (let i = 0; i < result.ilceler.length; i++) {
+                        select.options[select.options.length] = new Option(result.ilceler[i].name, result.ilceler[i].name);
+                    }
+                }
+            });
+        }
+
+        function mahalleGetir() {
+
+            var e = document.getElementById("ilce_id");
+            var ilce_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'kurye:mahalle-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    ilce_id: ilce_id,
+
+                },
+                success: function (result) {
+
+
+                    let select = document.getElementById("neighborhood_id");
+
+                    select.options[select.options.length] = new Option('Text 1', 'Value1');
+
+                    $('#neighborhood_id').empty();
+
+                    for (let i = 0; i < result.neighborhoods.length; i++) {
+                        select.options[select.options.length] = new Option(result.neighborhoods[i].neighborhood_name, result.neighborhoods[i].neighborhood_name);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            debugger;
+            ilceGetir();
+            //console.log($('#ilce_id').select2('data'))
+            $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'
+
+            mahalleGetir();
+
+            //console.log($('#ilce_id').select2('data'))
+            $('#neighborhood_id').val('{{mahalle}}').trigger('change'); // Select the option with a value of '1'
+
+
+        });
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });</script>
 
 
 {% endblock %}
+

@@ -31,16 +31,13 @@ def return_admin_dashboard(request):
     today = datetime.date.today().year
     start_date = Settings.objects.get(name='start_report_year')
     datetime_current = datetime.datetime.today()
-    year = datetime_current.year
-    month = datetime_current.month
-    num_days = calendar.monthrange(year, month)[1]
 
-    start = datetime.datetime.now() - datetime.timedelta(days=num_days)
-
-    # Ay-Yıl Kurye Prim Tablosu
     dif_year = int(today) - int(start_date.value)
     array_earning_courier = []
-    total = 0
+    array_report_year = []
+    array_report_week = []
+    array_report_courierCount = []
+    array_report_companyCount = []
     for x in range(dif_year + 1):
 
         report_earning_courier = EarningPayments.objects.values('earning_date', 'creationDate__month').annotate(
@@ -53,41 +50,55 @@ def return_admin_dashboard(request):
             report_year['year'] = y['earning_date'].split('-')[0]
             array_earning_courier.append(report_year)
 
-    array_report_year = []
-    for x in range(dif_year + 1):
-
         report_year_request = Request.objects.values('creationDate__year', 'creationDate__month').order_by(
             'creationDate__month').annotate(count=Count('creationDate__year'))
 
-        for x in report_year_request:
+        for y in report_year_request:
             report_year = dict()
-            report_year['count'] = x['count']
-            report_year['date'] = x['creationDate__month']
-            report_year['year'] = x['creationDate__year']
+            report_year['count'] = y['count']
+            report_year['date'] = y['creationDate__month']
+            report_year['year'] = y['creationDate__year']
             array_report_year.append(report_year)
 
-    start_delta = datetime.datetime.now() - datetime.timedelta(days=7)
+        start_delta = datetime.datetime.now() - datetime.timedelta(days=7)
+        report_week_request = Request.objects.filter(creationDate__lte=datetime.datetime.now(),
+                                                     creationDate__gte=start_delta).values('creationDate__year',
+                                                                                           'creationDate__month',
+                                                                                           'creationDate__day', ).order_by(
+            'creationDate__day').annotate(count=Count('creationDate__day'))
+        for y in report_week_request:
+            report_week = dict()
+            report_week['year'] = y['creationDate__year']
+            report_week['month'] = y['creationDate__month']
+            report_week['day'] = y['creationDate__day']
+            report_week['count'] = y['count']
+            array_report_week.append(report_week)
 
-    report_week_request = Request.objects.filter(creationDate__lte=datetime.datetime.now(),
-                                                 creationDate__gte=start_delta).values('creationDate__year',
-                                                                                       'creationDate__month',
-                                                                                       'creationDate__day', ).order_by(
-        'creationDate__day').annotate(count=Count('creationDate__day'))
+        report_count_courier = Courier.objects.filter(courier__isActive=True).values('creationDate__year',
+                                                                                     'creationDate__month').order_by(
+            'creationDate__month').annotate(count=Count('creationDate__month'))
+        report_count_company = Company.objects.filter(profile__isActive=True).filter(
+            ~Q(profile=Profile.objects.get(user=request.user))).values('creationDate__year',
+                                                                       'creationDate__month').order_by(
+            'creationDate__month').annotate(count=Count('creationDate__month'))
 
-    array_report_week = []
-    for x in report_week_request:
-        report_week = dict()
-        report_week['year'] = x['creationDate__year']
-        report_week['month'] = x['creationDate__month']
-        report_week['day'] = x['creationDate__day']
-        report_week['count'] = x['count']
-        array_report_week.append(report_week)
+        for y in report_count_company:
+            report_year = dict()
+            report_year['count'] = y['count']
+            report_year['date'] = y['creationDate__month']
+            report_year['year'] = y['creationDate__year']
+            array_report_companyCount.append(report_year)
 
-    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+        for y in report_count_courier:
+            report_year = dict()
+            report_year['count'] = y['count']
+            report_year['date'] = y['creationDate__month']
+            report_year['year'] = y['creationDate__year']
+            array_report_courierCount.append(report_year)
 
-    couriers = Profile.objects.filter(user__is_active=True).filter(user__groups__name='Kurye').order_by('creationDate')[
+    couriers = Profile.objects.filter(isActive=True).filter(user__is_active=True).filter(
+        user__groups__name='Kurye').order_by('creationDate')[
                :6]
-
 
     active_courier = TaskSituationTask.objects.values('task__courier').annotate(count=Count('task__courier')).filter(
         task_situation__name='Teslim Edildi').order_by('-count')[:6]
@@ -107,9 +118,10 @@ def return_admin_dashboard(request):
     canceled_task = TaskSituationTask.objects.filter(task_situation__name='İptal Edildi').filter(isActive=True)
 
     delivered_task = TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').count()
-    assigned_task = TaskSituationTask.objects.filter(task_situation__name='Kurye Atandı').count()
-    on_the_road_task = TaskSituationTask.objects.filter(Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
-        task_situation__name='Paket Teslimi İçin Yolda')).count()
+    assigned_task = TaskSituationTask.objects.filter(isActive=True).filter(task_situation__name='Kurye Atandı').count()
+    on_the_road_task = TaskSituationTask.objects.filter(isActive=True).filter(
+        Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+            task_situation__name='Paket Teslimi İçin Yolda')).count()
 
     undeliverable_task = TaskSituationTask.objects.filter(task_situation__name='Teslim Edilemedi').count()
 
@@ -121,31 +133,7 @@ def return_admin_dashboard(request):
 
     all_user = Company.objects.all().filter(profile__isActive=True).count()
 
-    all_tasks = TaskSituationTask.objects.all().filter(isActive=True).order_by('modificationDate')[:6]
-
-    array_report_courierCount = []
-    array_report_companyCount = []
-
-    for x in range(dif_year + 1):
-
-        report_count_courier = Courier.objects.values('creationDate__year', 'creationDate__month').order_by(
-            'creationDate__month').annotate(count=Count('creationDate__month'))
-        report_count_company = Company.objects.values('creationDate__year', 'creationDate__month').order_by(
-            'creationDate__month').annotate(count=Count('creationDate__month'))
-
-        for x in report_count_company:
-            report_year = dict()
-            report_year['count'] = x['count']
-            report_year['date'] = x['creationDate__month']
-            report_year['year'] = x['creationDate__year']
-            array_report_companyCount.append(report_year)
-
-        for x in report_count_courier:
-            report_year = dict()
-            report_year['count'] = x['count']
-            report_year['date'] = x['creationDate__month']
-            report_year['year'] = x['creationDate__year']
-            array_report_courierCount.append(report_year)
+    all_tasks = TaskSituationTask.objects.filter(isActive=True).order_by('modificationDate')[:6]
 
     return render(request, 'dashboard/admin-dashboard.html',
                   {'couriers': couriers, 'completed_task': completed_task.count(),
@@ -153,7 +141,7 @@ def return_admin_dashboard(request):
                    'unending_task': unending_task, 'canceled_task': canceled_task.count(), 'online': online,
                    'all_user': all_user, 'all_tasks': all_tasks, 'delivered_task': delivered_task,
                    'undeliverable_task': undeliverable_task, 'on_the_road_task': on_the_road_task,
-                   'assigned_task': assigned_task, 'active_courier': active_courier, 'courierss': courierss,
+                   'assigned_task': assigned_task, 'courierss': courierss,
                    'array_report_year': array_report_year, 'array_report_week': array_report_week,
                    'array_earning_couriers': array_earning_courier, 'array_courierCount': array_report_courierCount,
                    'array_companyCount': array_report_companyCount})
@@ -245,29 +233,25 @@ def return_company_dashboard(request):
     requests = Request.objects.filter(company=company)
     requests_count = Request.objects.filter(company=company).count()
     task = []
-    canceled_task = 0
-    completed_task = 0
-    successful_task = 0
-    unsuccessful_task = 0
-    active_task = 0
-    for request1 in requests:
-        if TaskSituationTask.objects.filter(task__request_id=request1.pk).count() > 0:
-            task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).order_by(
-                'creationDate')[
-                   :10]
-            canceled_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).filter(
-                task_situation__name='İptal Edildi').count()
-            completed_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).filter(
-                task_situation__name='Tamamlandı').count()
-            unsuccessful_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(
-                isActive=True).filter(
-                task_situation__name='Teslim Edilemedi').count()
-            successful_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).filter(
-                task_situation__name='Teslim Edildi').count()
-            active_task = TaskSituationTask.objects.filter(task__request=requests[0]).filter(isActive=True).filter(
-                Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
-                    task_situation__name='Paket Teslimi İçin Yolda')).count()
 
+    canceled_task = TaskSituationTask.objects.filter(isActive=True).filter(
+        task_situation__name='İptal Edildi').count()
+    completed_task = TaskSituationTask.objects.filter(isActive=True).filter(
+        task_situation__name='Tamamlandı').count()
+    unsuccessful_task = TaskSituationTask.objects.filter(
+        isActive=True).filter(
+        task_situation__name='Teslim Edilemedi').count()
+    successful_task = TaskSituationTask.objects.filter(isActive=True).filter(
+        task_situation__name='Teslim Edildi').count()
+    active_task = TaskSituationTask.objects.filter(isActive=True).filter(
+        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+            task_situation__name='Paket Teslimi İçin Yolda')).count()
+
+    if TaskSituationTask.objects.filter(task__request__company_id=company.pk).count() > 0:
+        task = TaskSituationTask.objects.filter(task__request__company_id=company.pk).filter(
+            isActive=True).order_by(
+            'creationDate')[
+               :10]
     return render(request, 'dashboard/user-dashboard.html',
                   {'tasks': task, 'canceled_tasks': canceled_task, 'completed_tasks': completed_task,
                    'unsuccessful_tasks': unsuccessful_task, 'requests': requests_count,
@@ -296,7 +280,7 @@ def return_courier_dashboard(request):
     array_report_year = []
     for x in range(dif_year + 1):
 
-        report_year_request = TaskSituationTask.objects.filter(task__courier=courier).values('creationDate__year',
+        report_year_request = TaskSituationTask.objects.filter(isActive=True).filter(task__courier=courier).values('creationDate__year',
                                                                                              'creationDate__month').order_by(
             'creationDate__month').annotate(count=Count('creationDate__year'))
 
@@ -309,7 +293,7 @@ def return_courier_dashboard(request):
 
     start_delta = datetime.datetime.now() - datetime.timedelta(days=7)
 
-    report_week_request = TaskSituationTask.objects.filter(task__courier=courier).filter(
+    report_week_request = TaskSituationTask.objects.filter(task__courier=courier).filter(isActive=True).filter(
         creationDate__lte=datetime.datetime.now(),
         creationDate__gte=start_delta).values('creationDate__year',
                                               'creationDate__month',
@@ -347,31 +331,35 @@ def return_courier_dashboard(request):
                    'active_requests': active_task, })
 
 
-def admin_notification(request):
+def delete_notification(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    notification = Notification.objects.all()
-    count = Notification.objects.all().count()
     profile = Profile.objects.get(user=request.user)
-    if request.method == 'POST':
+    if request.POST:
+        try:
 
-        check_list = request.POST['checks'].split(',')
+            check_list = request.POST['checks'].split(',')
 
-        for check in check_list:
-            notification = Notification.objects.get(pk=int(check))
-            notification.delete()
+            for check in check_list:
+                notification = Notification.objects.get(pk=int(check))
+                notification.delete()
 
-        log_content = '<p><b style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</b>  ID : <strong style="color:red">' + str(
-            check_list) + ' </strong> bildirimleri sildi.</p>'
+            log_content = '<p><b style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</b>  ID : <strong style="color:red">' + str(
+                check_list) + ' </strong> bildirimleri sildi.</p>'
 
-        save_log(profile.pk, log_content)
-        messages.success(request, 'Bildirimler Silindi')
+            save_log(profile.pk, log_content)
 
-        return redirect('kurye:bildirimler')
-    return render(request, 'notifications.html', {'notifications': notification, 'count': count})
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+
 
 
 # bildirim datatable
@@ -395,7 +383,7 @@ def read_notification(request):
             notification.isRead = True
             notification.save()
 
-            log_content = '<p>Bildirim : <strong style="color:red">--' + notification.message + ' </strong> Okundu.</p>'
+            log_content = '<p>Bildirim : <strong style="color:red"> ' + notification.message + ' </strong> Okundu.</p>'
 
             save_log(profile.pk, log_content)
 

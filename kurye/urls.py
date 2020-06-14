@@ -2,7 +2,6 @@ from django.conf.urls import url
 
 from kurye.Views import DashboardViews, UserViews, CityViews, TaskViews, RequestViews, CourierViews, APIViews, LogView, \
     ReportViews, EarningPaymentsViews
-from kurye.models import EarningPayments
 
 app_name = 'kurye'
 
@@ -21,6 +20,8 @@ urlpatterns = [
     url(r'Courier/ending-tasks/$', CourierViews.courier_ending_tasks, name='kurye tamamlanan gorevler'),
     url(r'Courier/tasks/$', CourierViews.courier_tasks, name='kurye gorevler'),
     url(r'getCourier/(?P<pk>\d+)$', CourierViews.getCourier, name='kurye getir'),
+    url(r'courier-delete/$', UserViews.courier_delete, name='kurye-sil'),
+    url(r'courier-update/(?P<pk>\d+)$', UserViews.update_courier, name='kurye-guncelle'),
 
     # Kullanıcının Müşterileri
     url(r'add-customer/$', UserViews.add_customer, name='musteri ekle'),
@@ -31,7 +32,7 @@ urlpatterns = [
     # Personel (admin)
     url(r'add-personal/$', UserViews.add_personal, name='personel-ekle'),
     url(r'personal-list/$', UserViews.personel_list, name='personel-listesi'),
-    url(r'personal-delete/(?P<pk>\d+)$', UserViews.personal_delete, name='personel-sil'),
+    url(r'personal-delete/$', UserViews.personal_delete, name='personel-sil'),
 
     # İlçe/Mahalle
     url(r'ilce-getir/$', CityViews.get_districts, name="ilce-getir"),
@@ -46,6 +47,9 @@ urlpatterns = [
 
     # Kullanıcı Firma
     url(r'add-company/$', UserViews.add_company, name='kullanıcı firma ekle'),
+    url(r'update-company/(?P<pk>\d+)$', UserViews.update_company, name='kullanıcı-firma-guncelle'),
+
+    url(r'delete-company/$', UserViews.company_delete, name='kullanıcı-firma-sil'),
 
     # Görev
     url(r'select-request/(?P<pk>\d+)$', TaskViews.requests, name='talepler'),
@@ -54,13 +58,14 @@ urlpatterns = [
     url(r'completed-task-api/$', APIViews.GetCompletedTask.as_view(), name='gorevler-api'),
 
     url(r'active-task/$', TaskViews.return_active_task, name='aktif gorevler'),
-    url(r'canceled-tasks/$', TaskViews.return_canceled_task, name='kullanıcı iptal edilen gorevler'),
-    url(r'cancel-tasks-api/$', APIViews.GetCanceledTask.as_view(), name='iptal-edilen-gorevler-api'),
+    url(r'tasks-canceled/$', TaskViews.return_canceled_task, name='kullanıcı iptal edilen gorevler'),
+    url(r'cancel-tasks-api/$', APIViews.GetCanceledTask.as_view(), name='api-iptal-edilen-gorevler'),
 
     url(r'getTask/(?P<pk>\d+)$', TaskViews.getTask, name='gorev getir'),
     url(r'assign-courier/$', TaskViews.assign_courier, name='kurye sec'),
     url(r'assign-task-other-courier/(?P<pk>\d+)$', TaskViews.other_assign_courier_task, name='yeniden-kurye-ata'),
-    url(r'timeline-tasks/$', ReportViews.task_timeline, name='gorev-timeline'),
+    url(r'task-detail/(?P<pk>\d+)$', TaskViews.getTaskDetail, name='gorev-durum-detaylari-timeline'),
+    url(r'detail/(?P<pk>\d+)(?P<id>\d+)$', TaskViews.getDetailTaskCourier, name='gorev-detay-kurye'),
 
     # Talep
     url(r'request/add-request/$', RequestViews.new_user_add_request, name='yeni kullanıcıyla talep olustur'),
@@ -89,7 +94,9 @@ urlpatterns = [
 
     # Bildirim
     url(r'get-notifications-api/$', APIViews.GetNotification.as_view(), name='api-notifications'),
-    url(r'bildirimler/$', DashboardViews.admin_notification, name='bildirimler'),
+    url(r'notifications/$', DashboardViews.notifications, name='bildirimler'),
+    url(r'delete-notifications/$', DashboardViews.delete_notification, name='bildirimleri-sil'),
+
     url(r'make-read-notification/$', DashboardViews.read_notification, name='bildirim-okundu-yap'),
 
     url(r'api-get-logs/$', APIViews.GetLogs.as_view(), name='api-logs'),
@@ -105,11 +112,16 @@ urlpatterns = [
     url(r'courier-payments/$', EarningPaymentsViews.courier_payment, name='kurye-odemeleri'),
     url(r'pay-premium-courier/(?P<pk>\d+)$', EarningPaymentsViews.pay_premium_courier, name='kurye-prim-ode'),
     url(r'company-payments/$', EarningPaymentsViews.company_earning_info, name='kullanici-odemeleri'),
+    url(r'Company/company-payment/$', EarningPaymentsViews.company_payments, name='kullanicinin-odemeleri'),
+
     url(r'company-paid/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.pay_payment_company,
         name='kullanici-odendi-yap'),
     url(r'payment-company/$', EarningPaymentsViews.payment_company, name='kullanici-payment'),
     url(r'undo-payment-company/(?P<pk>\d+)(?P<year>\d+)(?P<month>\d+)$', EarningPaymentsViews.undo_payment_company,
         name='kullanici-odenmedi-yap'),
     url(r'payment-company-undo/$', EarningPaymentsViews.payment_company_undo, name='kullanici-odeme-geri-al'),
+
+    url(r'prim-limit-list/$', CourierViews.prim_limit_list, name='prim-limit-listesi'),
+    url(r'prim-limit-update/(?P<pk>\d+)$', CourierViews.update_courier_prim_limit, name='prim-limit-guncelle'),
 
 ]

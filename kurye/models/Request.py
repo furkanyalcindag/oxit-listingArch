@@ -33,7 +33,7 @@ class Request(models.Model):
                                      blank=True)
     payment_type = models.CharField(max_length=128, verbose_name='Ödeme Türü', choices=PAYMENT_CHOICES,
                                     default=NAKIT)
-    exitTime = models.TimeField(null=True,blank=True, verbose_name='Çıkış zamanı')
+    exitTime = models.TimeField(null=True, blank=True, verbose_name='Çıkış zamanı')
     exitDate = models.DateField(blank=True, verbose_name='Çıkış Tarihi', default=datetime.date.today())
     totalPrice = models.DecimalField(max_digits=8, decimal_places=2, null=True, default=True,
                                      verbose_name='Sipariş Tutarı')

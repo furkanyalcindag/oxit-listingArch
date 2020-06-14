@@ -1,12 +1,15 @@
 import datetime
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
+
+from kurye.Forms.SettingCourierPrimForm import SettingCourierPrimForm
+from kurye.models import Settings
 from kurye.models.Notification import Notification
 from kurye.models.Profile import Profile
 from kurye.models.Task import Task
@@ -32,8 +35,9 @@ def assigned_task(request):
     tasks = Task.objects.filter(courier=courier)
 
     for task in tasks:
-        task.activeTask = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)[
-            0].task_situation.name
+        if TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True).count() > 0:
+            task.activeTask = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)[
+                0].task_situation.name
 
     if request.method == 'POST':
 
@@ -96,17 +100,24 @@ def assigned_task(request):
         msg.send()
 
         notification = Notification()
-        notification.key = 'Kurye Gorev Durumu'
-        notification.user = request.user
+        notification.key = 'Kurye Gorev Durumu Güncelleme'
+        notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
         notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
         notification.save()
+
+        notification = Notification()
+        notification.key = 'Kurye Gorev Durumu Güncelleme'
+        notification.profile = task.request.company.profile
+        notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
+        notification.save()
+
         messages.success(request, 'Görev Durumu Güncellendi.')
         return redirect("kurye:kurye atanan gorevler")
 
     task_situations = TaskSituations.objects.all()
 
     return render(request, 'Courier/courier-task-update.html',
-                  {'tasks': tasks, 'task_situations': task_situations})
+                  {'tasks': tasks, 'task_situations': task_situations, 'courier': courier.pk})
 
 
 def courier_ending_tasks(request):
@@ -120,7 +131,8 @@ def courier_ending_tasks(request):
     courier = Courier.objects.get(courier=profile)
 
     ending_tasks = TaskSituationTask.objects.filter(task__courier=courier).filter(isActive=True).filter(
-        Q(task_situation__name='Teslim Edildi') | Q(task_situation__name='Teslim Edilemedi'))
+        Q(task_situation__name='Teslim Edildi') | Q(task_situation__name='Teslim Edilemedi') | Q(
+            task_situation__name='Tamamlandı') | Q(task_situation__name='İptal Edildi'))
 
     return render(request, 'Courier/courier-ending-tasks.html', {'ending_tasks': ending_tasks})
 
@@ -135,8 +147,9 @@ def courier_tasks(request):
     profile = Profile.objects.get(user=user)
     courier = Courier.objects.get(courier=profile)
 
-    tasks = TaskSituationTask.objects.filter(task__courier=courier).filter(isActive=True).exclude(
-        task_situation__name='Teslim Edildi').exclude(task_situation__name='Teslim Edilemedi')
+    tasks = TaskSituationTask.objects.filter(task__courier=courier).filter(isActive=True).filter(
+        Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
+            task_situation__name='Paket Teslimi İçin Yolda'))
 
     return render(request, 'Courier/courier-tasks.html', {'tasks': tasks})
 
@@ -147,7 +160,7 @@ def courier_list(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    couriers = Courier.objects.all()
+    couriers = Courier.objects.filter(courier__isActive=True)
     return render(request, 'Courier/courier-list.html', {'couriers': couriers})
 
 
@@ -165,3 +178,28 @@ def getCourier(request, pk):
     responseData['courier'] = data.data
     responseData['courier'][0]
     return JsonResponse(responseData, safe=True)
+
+
+def update_courier_prim_limit(request, pk):
+    setting = Settings.objects.get(pk=pk)
+    form = SettingCourierPrimForm(request.POST or None, instance=setting)
+    today = datetime.date.today()
+    start_month=today -datetime.timedelta(days=30)
+
+    if request.method == 'POST':
+        if start_month.day == 1:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Değerler Güncellendi.')
+
+                return redirect('kurye:prim-limit-listesi')
+        else:
+            messages.warning(request,'Güncellemelerinizi Her ayın Başında Yapabilirsiniz.')
+    return render(request, 'Courier/courier-limit-prim.html', {'form': form})
+
+
+def prim_limit_list(request):
+    settings = Settings.objects.filter(
+        Q(name='motorlu_kurye_prim') | Q(name='motorsuz_kurye_prim') | Q(name='motorlu_kurye_limit') | Q(
+            name='motorsuz_kurye_limit'))
+    return render(request, 'Courier/prim-limit-list.html', {'settings': settings})

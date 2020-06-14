@@ -677,9 +677,9 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ courier.courier.courier.user.first_name }} {{ courier.courier.courier.user.last_name }}</td>
                                         {% if courier.courier.isActive  == 'False' %}
-                                            <td><span class="label label-danger"> Görevi Yok</span></td>
+                                            <td><span class="label label-success"> Görevi Yok</span></td>
                                         {% else %}
-                                            <td><span class="label label-success"> Görevde</span></td>
+                                            <td><span class="label label-danger"> Görevde</span></td>
                                         {% endif %}
 
                                         <td style="text-align: center">
@@ -828,7 +828,7 @@
 
 
                 {
-                    value: {{ assigned_task }},
+                    value: {{ active_task }},
                     color: '#6c50ff',
                     highlight: '#6c50ff',
                     label: 'Aktif Görev'

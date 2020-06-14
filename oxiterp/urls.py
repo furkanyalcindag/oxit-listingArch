@@ -15,15 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.urls import path, re_path
 from django.conf.urls import url, include
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -31,8 +33,7 @@ urlpatterns = [
     path('kurye/', include('kurye.urls')),
 ]
 
+#handler404 = 'kurye.Views.Errors.error_404_view'
+
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-

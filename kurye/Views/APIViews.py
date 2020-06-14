@@ -51,13 +51,13 @@ class GetCompany(APIView):
 
         user = request.user
         profile = Profile.objects.get(user=user)
-        companiess = Company.objects.all().filter(~Q(profile_id=profile.pk)).count()
+        companiess = Company.objects.filter(profile__isActive=True).filter(~Q(profile_id=profile.pk)).count()
 
-        companies = Company.objects.filter(~Q(profile_id=profile.pk)).filter(
+        companies = Company.objects.filter(profile__isActive=True).filter(~Q(profile_id=profile.pk)).filter(
             companyName__icontains=request.data['search[value]']).order_by('id')[
                     int(start):end]
 
-        filteredTotal = Company.objects.filter(~Q(profile_id=profile.pk)).filter(
+        filteredTotal = Company.objects.filter(profile__isActive=True).filter(~Q(profile_id=profile.pk)).filter(
             companyName__icontains=request.data['search[value]']).count()
 
         logApiObject = LogAPIObject()
@@ -149,16 +149,15 @@ class GetCanceledTask(APIView):
 
         user = request.user
         profile = Profile.objects.get(user=user)
-        company = Company.objects.get(profile=profile)
 
-        tasks = TaskSituationTask.objects.filter(isActive=True).filter(task_situation__name='İptal Edildi').filter(
+        tasks = TaskSituationTask.objects.filter(task_situation__name='İptal Edildi').filter(
             task__request__receiver__customer__icontains=request.data['search[value]']).order_by(
             '-creationDate')[
                 int(start):end]
 
-        task_all = TaskSituationTask.objects.filter(isActive=True).filter(task_situation__name='İptal Edildi').count()
+        task_all = TaskSituationTask.objects.filter(task_situation__name='İptal Edildi').count()
 
-        filteredTotal = TaskSituationTask.objects.filter(
+        filteredTotal = TaskSituationTask.objects.filter(task_situation__name='İptal Edildi').filter(
             task__request__receiver__customer__icontains=request.data['search[value]']).count()
 
         logApiObject = LogAPIObject()
@@ -186,14 +185,14 @@ class GetCompletedTask(APIView):
         profile = Profile.objects.get(user=user)
         company = Company.objects.get(profile=profile)
 
-        tasks = TaskSituationTask.objects.all().filter(
+        tasks = TaskSituationTask.objects.filter(task_situation__name='Tamamlandı').filter(
             task__request__company__companyName__icontains=request.data['search[value]']).order_by(
             '-creationDate')[
                 int(start):end]
 
-        task_all = TaskSituationTask.objects.all().count()
+        task_all = TaskSituationTask.objects.filter(task_situation__name='Tamamlandı').count()
 
-        filteredTotal = TaskSituationTask.objects.filter(
+        filteredTotal = TaskSituationTask.objects.filter(task_situation__name='Tamamlandı').filter(
             task__request__company__companyName__icontains=request.data['search[value]']).count()
 
         logApiObject = LogAPIObject()

@@ -85,17 +85,14 @@
         <!-- Main row -->
         <div class="row">
 
-
             <section class="col-lg-12 ">
 
-
                 <div class="box-body">
-
 
                     <div class="box box-primary">
                         <div class="box-body">
                             <br>
-                            <table id="canceltasks" class="display responsive nowrap" cellspacing="0" width="100%">
+                            <table class="display responsive nowrap" cellspacing="0" width="100%" id="taskcanceled">
                                 <thead>
                                 <tr>
 
@@ -147,16 +144,16 @@
         $(function () {
 
 
-            $('#canceltasks').DataTable({
+            $('#taskcanceled').DataTable({
 
 
                 "processing": true,
                 "serverSide": true,
                 "paging": true,
-                "ordering": false,
+                "ordering": true,
 
                 "ajax": {
-                    "url": "{% url 'kurye:iptal-edilen-gorevler-api' %}",
+                    "url": "{% url 'kurye:api-iptal-edilen-gorevler' %}",
                     "type": "POST"
                 },
                 "columns": [
@@ -165,11 +162,19 @@
                     {"data": "task.request.totalPrice"},
                     {"data": "task.request.receiver.address"},
                     {"data": "task.request.company.companyName"},
-                    {"data": null,
+                    {
+                        "data": null,
                         render: function (data, type, row) {
                             return row.task.courier.courier.user.first_name + ' ' + row.task.courier.courier.user.last_name;
-                        }},
-                    {"data": "creationDate"},
+                        },
+                    },
+                    {
+                        "data": null,
+
+                        render: function (data, type, row) {
+                            return formatDate(row.creationDate)
+                        },
+                    },
 
 
                 ]

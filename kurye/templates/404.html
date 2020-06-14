@@ -1,0 +1,27 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="error-page">
+
+            <div class="error-content">
+                <h3><i class="fa fa-warning text-yellow"></i> Oops! Aradığınız Sayfa Bulunamadı.</h3>
+
+                <p>
+                    Aradığınız sayfayı bulamadık. Bu arada,
+                    {% if  user.groups.all.0.name == 'Admin' %}
+                        <a href="{% url 'kurye:admin-dashboard' %}" class="logo">
+                    {% elif user.groups.all.0.name == 'Kullanıcı' %}
+                        <a href="{% url 'kurye:kullanıcı-dashboard' %}" class="logo">
+                    {% else %}
+                        <a href="{% url 'kurye:kurye-dashboard' %}" class="logo">
+                    {% endif %}
+                    Anasayfaya</a> dönebilirsiniz.
+                </p>
+            </div>
+            <!-- /.error-content -->
+        </div>
+        <!-- /.error-page -->
+    </section>
+{% endblock %}

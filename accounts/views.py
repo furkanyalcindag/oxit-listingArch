@@ -63,11 +63,11 @@ def forgot(request):
             # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
             user = obj.save()
             html_content = ''
-            subject, from_email, to = 'MotoKurye Bilgi Sistemi Kullanıcı Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
+            subject, from_email, to = 'GVERCİN Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>MotoKurye</p>'
-            html_content = html_content + '<p><strong>Kullanıcı Adı:</strong>' + obj.username + '</p>'
-            html_content = html_content + '<p><strong>Şifre:</strong>' + password + '</p>'
+            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>GVERCİN</p>'
+            html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
+            html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
@@ -239,4 +239,3 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
-

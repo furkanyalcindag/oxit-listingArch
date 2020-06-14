@@ -6,7 +6,7 @@ from kurye.models.Company import Company
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ['profile', 'companyName', 'taxNumber', 'taxName']
+        fields = ['id', 'profile', 'companyName', 'taxNumber', 'taxName']
         depth = 4
 
 

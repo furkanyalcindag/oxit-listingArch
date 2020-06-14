@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
+
+from kurye.models.Company import Company
 from kurye.models.Profile import Profile
 from kurye.models.Notification import Notification
 from kurye.models.TaskSituationTask import TaskSituationTask
@@ -101,7 +103,7 @@ def add_task(request, pk):
 
         messages.success(request,
                          'Görev ' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' a Atandı.')
-        return redirect('kurye:kurye listesi')
+        return redirect('kurye:kurye sec')
 
     return render(request, 'Task/add-task.html', {'request': request1, })
 
@@ -125,7 +127,6 @@ def return_canceled_task(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    # tasks = TaskSituationTask.objects.filter(isActive=True).filter(task_situation__name='İptal Edildi')
     return render(request, 'Task/cancel-tasks.html', )
 
 
@@ -170,6 +171,7 @@ def taskComplete(request, pk):
         return redirect('accounts:login')
     user = request.user
     profile = Profile.objects.get(user=user)
+    company = Company.objects.get(profile_id=profile.pk)
     groups = Group.objects.filter(user=user)
     task = Task.objects.get(pk=pk)
 
@@ -190,7 +192,7 @@ def taskComplete(request, pk):
     notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
     notification.key = 'Görev Tamamlama'
     notification.message = '' + str(
-        task.request.pk) + 'nolu talebi ' + user.first_name + ' ' + user.last_name + ' tamamladı.'
+        task.request.pk) + ' nolu talebi ' + user.first_name + ' ' + user.last_name + '-' + company.companyName + ' tamamladı.'
     notification.save()
 
     log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
@@ -248,8 +250,10 @@ def other_assign_courier_task(request, pk):
 
         active_courier = task.courier
 
-        active_courier.isActive = True
-        active_courier.save()
+        if TaskSituationTask.objects.filter(~Q(task_id=task.pk)).filter(task__courier=active_courier).filter(
+                isActive=True).count() <= 0:
+            active_courier.isActive = True
+            active_courier.save()
 
         active_task = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)
 
@@ -301,5 +305,32 @@ def other_assign_courier_task(request, pk):
 
         messages.success(request,
                          'Görev ' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' a Atandı.')
+        return redirect('kurye:kurye sec')
 
     return render(request, 'Task/task_other_assign_courier.html', {'couriers': couriers, 'task': task})
+
+
+@api_view()
+def getTaskDetail(request, pk):
+    task = TaskSituationTask.objects.filter(task_id=pk).order_by('creationDate')
+
+    data = TaskSerializer(task, many=True)
+
+    responseData = {}
+    responseData['task'] = data.data
+    responseData['task'][0]
+    return JsonResponse(responseData, safe=True)
+
+
+
+
+@api_view()
+def getDetailTaskCourier(request, pk):
+    task = TaskSituationTask.objects.filter(task_id=pk).order_by('creationDate')
+
+    data = TaskSerializer(task, many=True)
+
+    responseData = {}
+    responseData['task'] = data.data
+    responseData['task'][0]
+    return JsonResponse(responseData, safe=True)

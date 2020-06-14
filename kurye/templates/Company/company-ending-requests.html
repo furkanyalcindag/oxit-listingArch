@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <!-- success modal -->
+
     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
          aria-labelledby="myLargeModalLabel"
          aria-hidden="true">
@@ -108,14 +108,13 @@
                                 <tr>
 
                                     <th>Talep No</th>
-                                     <th>Durumu</th>
+                                    <th>Durumu</th>
                                     <th>Onayla</th>
                                     <th>Müşteri Ad Soyad</th>
                                     <th>Adres</th>
                                     <th>Kurye</th>
                                     <th>Talep Tarih/Zaman</th>
                                     <th>Teslim Edilen Zaman</th>
-
 
 
                                 </tr>
@@ -131,7 +130,7 @@
                                         <td>
 
                                             <a href="{% url 'kurye:görevi bitir' task.task.pk %}"> <span
-                                                    class="label label-danger">Görevi Tamamla</span></a>
+                                                    class="label label-success">Görevi Tamamla</span></a>
 
 
                                         </td>
