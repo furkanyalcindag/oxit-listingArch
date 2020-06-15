@@ -1,3 +1,4 @@
+import calendar
 import datetime
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -184,17 +185,20 @@ def update_courier_prim_limit(request, pk):
     setting = Settings.objects.get(pk=pk)
     form = SettingCourierPrimForm(request.POST or None, instance=setting)
     today = datetime.date.today()
-    start_month=today -datetime.timedelta(days=30)
+
+    x = datetime.datetime(int(today.year), int(today.month), 1)
+    days_in_month = calendar.monthrange(x.year, x.month)[1]
+    start_date = x + datetime.timedelta(days=days_in_month)
 
     if request.method == 'POST':
-        if start_month.day == 1:
+        if start_date - x == days_in_month:
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Değerler Güncellendi.')
 
                 return redirect('kurye:prim-limit-listesi')
         else:
-            messages.warning(request,'Güncellemelerinizi Her ayın Başında Yapabilirsiniz.')
+            messages.warning(request, 'Güncellemelerinizi Her ayın Başında Yapabilirsiniz.')
     return render(request, 'Courier/courier-limit-prim.html', {'form': form})
 
 
