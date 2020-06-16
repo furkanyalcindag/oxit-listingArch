@@ -288,11 +288,11 @@
             debugger;
             $.ajax({
                 url: "{% url 'kurye:bildirimleri-sil' %}",
-                type: "post", // or "get"
-                async: true,
+                type: "POST", // or "get"
                 data: {
                     checks: notifications,
                 },
+                 cache: false,
                 success: function (result) {
 
                     window.location.replace("{% url "kurye:bildirimler" %}");

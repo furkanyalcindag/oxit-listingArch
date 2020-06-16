@@ -39,16 +39,17 @@ def return_admin_dashboard(request):
     array_report_courierCount = []
     array_report_companyCount = []
     for x in range(dif_year + 1):
+        if EarningPayments.objects.values('earning_date', 'creationDate__month').annotate(
+                sum=Sum('paymentTotal')).count() > 0:
+            report_earning_courier = EarningPayments.objects.values('earning_date', 'creationDate__month').annotate(
+                sum=Sum('paymentTotal'))
 
-        report_earning_courier = EarningPayments.objects.values('earning_date', 'creationDate__month').annotate(
-            sum=Sum('paymentTotal'))
-
-        for y in report_earning_courier:
-            report_year = dict()
-            report_year['total'] = int(y['sum'])
-            report_year['date'] = y['earning_date'].split('-')[1]
-            report_year['year'] = y['earning_date'].split('-')[0]
-            array_earning_courier.append(report_year)
+            for y in report_earning_courier:
+                report_year = dict()
+                report_year['total'] = int(y['sum'])
+                report_year['date'] = y['earning_date'].split('-')[1]
+                report_year['year'] = y['earning_date'].split('-')[0]
+                array_earning_courier.append(report_year)
 
         report_year_request = Request.objects.values('creationDate__year', 'creationDate__month').order_by(
             'creationDate__month').annotate(count=Count('creationDate__year'))
@@ -280,8 +281,9 @@ def return_courier_dashboard(request):
     array_report_year = []
     for x in range(dif_year + 1):
 
-        report_year_request = TaskSituationTask.objects.filter(isActive=True).filter(task__courier=courier).values('creationDate__year',
-                                                                                             'creationDate__month').order_by(
+        report_year_request = TaskSituationTask.objects.filter(isActive=True).filter(task__courier=courier).values(
+            'creationDate__year',
+            'creationDate__month').order_by(
             'creationDate__month').annotate(count=Count('creationDate__year'))
 
         for x in report_year_request:
@@ -357,9 +359,6 @@ def delete_notification(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
-
-
-
 
 
 # bildirim datatable

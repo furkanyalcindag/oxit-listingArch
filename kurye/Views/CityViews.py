@@ -102,20 +102,22 @@ def update_neighborhood(request, pk):
     form = NeighborhoodUpdateForm(request.POST or None, instance=neighborhood)
 
     if request.method == 'POST':
-        form = NeighborhoodForm(request.POST)
 
         city_id = request.POST['city']
         city = City.objects.get(pk=city_id)
         if form.is_valid():
 
-            neighborhood2 = Neighborhood(city=city, district=form.cleaned_data['district'],
-                                        neighborhood_name=form.cleaned_data['neighborhood_name'],
-                                        price=form.cleaned_data['price'])
-            neighborhood2.save()
-            log_content = '<p><strong style="color:red">' + neighborhood2.neighborhood_name + ' </strong>  mahallesi güncellendi.</p>'
+            neighborhood.city = city
+            neighborhood.neighborhood_name = form.cleaned_data['neighborhood_name']
+            neighborhood.price = form.cleaned_data['price']
+            neighborhood.district = form.cleaned_data['district']
+            neighborhood.save()
+            log_content = '<p><strong style="color:red">' + neighborhood.neighborhood_name + ' </strong>  mahallesi güncellendi.</p>'
 
             save_log(profile.pk, log_content)
+
             messages.success(request, 'Mahalle bilgileri başarılıyla güncellendi.')
+            return redirect('kurye:mahalle-ekle')
         else:
             messages.warning(request, 'Alanları kontrol ediniz.')
 

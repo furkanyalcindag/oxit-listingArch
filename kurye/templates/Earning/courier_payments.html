@@ -192,34 +192,32 @@
 
                                 {% for task in tasks %}
                                     <tr>
-
                                         <td>{{ forloop.counter }} </td>
                                         <td>{{ task.courier.courier.user.first_name }} {{ task.courier.courier.user.last_name }}</td>
                                         <td style="text-align: center">{{ task.prim | floatformat:2 }} ₺</td>
                                         <td style="text-align: center">{{ task.count }}</td>
                                         <td>{{ task.date }}</td>
-                                        {% if task.situation == 'Ödenmedi' %}
+                                            {% if task.situation == 'Ödenmedi'  %}
 
-                                            <td>
-                                                <form action="{% url 'kurye:kurye-prim-ode' task.courier.pk %}"
-                                                      method="post">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" value="{{ year }}" name="year">
-                                                    <input type="hidden" value="{{ month }}" name="month">
-                                                    <input type="hidden" value="{{ task.prim }}" name="prim">
-                                                    <button style="width: 80px;" type="submit" class="btn btn-sm btn-danger">Ödeme Yap
+                                                <td>
+                                                    <form action="{% url 'kurye:kurye-prim-ode' task.courier.pk %}"
+                                                          method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" value="{{ year }}" name="year">
+                                                        <input type="hidden" value="{{ month }}" name="month">
+                                                        <input type="hidden" value="{{ task.prim }}" name="prim">
+                                                        <button style="width: 80px;" type="submit" class="btn btn-sm btn-success">Ödeme Yap
+                                                        </button>
+                                                    </form>
+                                                </td>
+
+                                            {% else %}
+                                                <td>
+                                                    <button style="width: 80px;" type="button" class="btn btn-sm btn-success">Ödendi
                                                     </button>
-                                                </form>
-                                            </td>
-
-                                        {% else %}
-                                            <td>
-                                                <button style="width: 80px;" type="button" class="btn btn-sm btn-success">Ödendi
-                                                </button>
-                                            </td>
-                                            <td></td>
-                                        {% endif %}
-
+                                                </td>
+                                                <td></td>
+                                            {% endif %}
 
                                     </tr>
 

@@ -85,7 +85,7 @@ def assigned_task(request):
         html_content = '<p><strong>Talep No: </strong>' + str(task.request.pk) + '</p>'
         html_content = html_content + '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
         html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
-        html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '₺</p>'
+        html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '</p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
@@ -95,7 +95,7 @@ def assigned_task(request):
         html_content = '<p><strong>Talep No: </strong>' + str(task.request.pk) + '</p>'
         html_content = html_content + '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
         html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
-        html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '₺</p>'
+        html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '</p>'
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
