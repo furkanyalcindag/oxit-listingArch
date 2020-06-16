@@ -28,7 +28,7 @@
 
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="{% url 'kurye:kurye-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
 
         </ol>
 
@@ -98,13 +98,19 @@
                                 <tr>
 
                                     <th>Görev No</th>
-                                    <th></th>
+                                    <th>Talep No</th>
+                                    <th>Güncelle</th>
                                     <th>Durum Seç</th>
                                     <th>Açıklama Ekle</th>
+                                    <th>Müşteri</th>
                                     <th>Müşteri Adres</th>
+                                    <th>Firma</th>
+                                    <th>Firma Adresi</th>
+                                    <th>Sipariş Tutarı</th>
+                                    <th>Ödeme Yöntemi</th>
+                                    <th>Talep Açıklaması</th>
                                     <th>Talep Çıkış Tarihi</th>
                                     <th>Talep Çıkış Zamanı</th>
-
 
 
                                 </tr>
@@ -112,62 +118,69 @@
                                 <tbody>
 
                                 {% for task in tasks %}
-
-                                    <tr role="row" class="odd">
-                                        {% if task.activeTask == 'Tamamlandı' or task.activeTask == 'Teslim Edildi' or task.activeTask == 'Teslim Edilemedi' or task.activeTask == 'İptal Edildi' %}
-                                        {% else %}
-                                            <form method="post" role="form">
-                                                {% csrf_token %}
-                                                <input type="hidden" value="{{ task.pk }}" name="task">
-                                                <td>{{ task.pk }}</td>
-                                                <td>
-
-                                                    <button type="submit" class="btn btn-success">Güncelle
-                                                    </button>
+                                    <form method="post" role="form">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ task.task.pk }}" name="task">
 
 
-                                                </td>
+                                        <tr>
 
-                                                <td>
-                                                    <select style="width: 100%" name="situation">
 
-                                                        {% for situation in task_situations %} }
+                                            <td>{{ task.task.pk }}</td>
+                                            <td>{{ task.task.request.pk }}</td>
+                                            <td>
 
-                                                            {% if task.activeTask == situation.name %}
-                                                                <option selected>{{ situation.name }}</option>
+                                                <button type="submit" class="btn btn-success">Güncelle
+                                                </button>
+
+                                            </td>
+
+                                            <td>
+                                                <select size="1" name="situation">
+
+                                                    {% for situation in task_situations %} }
+                                                        {% if task.task_situation.name == situation.name %}
+                                                            <option selected>{{ situation.name }}</option>
+                                                        {% else %}
+                                                            {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
                                                             {% else %}
-                                                                {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
-                                                                {% else %}
-                                                                    <option>{{ situation.name }}</option>
-                                                                {% endif %}
+                                                                <option>{{ situation.name }}</option>
                                                             {% endif %}
+                                                        {% endif %}
 
 
 
-                                                        {% endfor %}
+                                                    {% endfor %}
 
 
-                                                    </select>
-                                                </td>
+                                                </select>
+                                            </td>
 
 
-                                                <td>
-                                                    <input
-                                                            value=""
-                                                            type="text" class="form-control" name="description"
-                                                            placeholder="Açıklama">
+                                            <td>
+                                                <input
+                                                        value=""
+                                                        type="text" class="form-control" name="description"
+                                                        placeholder="Açıklama">
+
+                                            </td>
+                                            <td>{{ task.task.request.receiver.customer }}</td>
+                                            <td>{{ task.task.request.receiver.address }}</td>
+                                            <td>{{ task.task.request.company.companyName }}</td>
+                                            <td>{{ task.task.request.company.profile.address }}</td>
+                                            <td>{{ task.task.request.totalPrice }}</td>
+                                            <td>{{ task.task.request.payment_type }}</td>
+                                            {% if task.task.request.description %}
+                                                <td>{{ task.task.request.description }}</td>
+                                            {% else %}
+                                                <td>Açıklama Yapılmadı</td>
+                                            {% endif %}
+                                            <td>{{ task.task.request.exitDate }}</td>
+                                            <td>{{ task.task.request.exitTime }}</td>
 
 
-                                                </td>
-                                                <td>{{ task.request.receiver.address }}</td>
-                                                <td>{{ task.request.exitDate }}</td>
-                                                <td>{{ task.request.exitTime }}</td>
-
-
-                                            </form>
-                                        {% endif %}
-                                    </tr>
-
+                                        </tr>
+                                    </form>
                                 {% endfor %}
 
 
@@ -195,7 +208,8 @@
                 'searching': true,
                 'ordering': true,
                 'info': true,
-                'autoWidth': true
+                'autoWidth': true,
+
             })
 
         })
@@ -255,8 +269,6 @@
             }
         }
     });
-
-
 
 
     </script>

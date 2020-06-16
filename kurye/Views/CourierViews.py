@@ -29,93 +29,90 @@ def assigned_task(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    task_situations = TaskSituations.objects.all()
     user = request.user
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
     courier = Courier.objects.get(courier=profile)
-    tasks = Task.objects.filter(courier=courier)
-
-    for task in tasks:
-        if TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True).count() > 0:
-            task.activeTask = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)[
-                0].task_situation.name
+    tasks = TaskSituationTask.objects.filter(
+        Q(task_situation__name='Paket Alımı İçin Yolda') | Q(task_situation__name='Paket Teslimi İçin Yolda') | Q(
+            task_situation__name='Kurye Atandı')).filter(task__courier=courier).filter(isActive=True)
 
     if request.method == 'POST':
-
-        pk = request.POST['task']
-
-        task = Task.objects.get(pk=int(pk))
-
-        if request.POST['description']:
-
-            task.description = request.POST['description']
-        else:
-            task.description = "Açıklama Yapılmadı"
-
-        task.save()
-
-        active = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)
-
-        for active in active:
-            active.isActive = False
-            active.save()
-
         situation = TaskSituations.objects.get(name=request.POST['situation'])
-        new_active = TaskSituationTask(task=task,
-                                       task_situation=TaskSituations.objects.get(
-                                           pk=situation.pk),
-                                       isActive=True)
-        new_active.save()
+        pk = request.POST['task']
+        task = Task.objects.get(pk=int(pk))
+        active = TaskSituationTask.objects.filter(task_id=task.pk).filter(isActive=True)
+        if situation.name != active.task_situation.name:
 
-        if new_active.task_situation.name == 'Teslim Edildi' or new_active.task_situation.name == 'Teslim Edilemedi':
-            task.deliveryDate = datetime.datetime.today().date()
-            task.deliveryTime = datetime.datetime.today().time()
+            if request.POST['description']:
+
+                task.description = request.POST['description']
+            else:
+                task.description = "Açıklama Yapılmadı"
+
             task.save()
-            courier.isActive = True
-            courier.save()
 
-        log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
-                      groups[0].name + ', ' + str(
-            pk) + '</strong> nolu görevin durumunu <strong style="color:red"> ' + new_active.task_situation.name + '</strong> olarak  güncelledi</p>'
+            for active in active:
+                active.isActive = False
+                active.save()
 
-        save_log(profile.pk, log_content)
+            new_active = TaskSituationTask(task=task,
+                                           task_situation=TaskSituations.objects.get(
+                                               pk=situation.pk),
+                                           isActive=True)
+            new_active.save()
 
-        subject, from_email, to = '' + task.request.company.companyName + ' Talep Durum Bilgisi', 'burcu.dogan@oxityazilim.com', user.email
-        text_content = 'Talep Durumu'
-        html_content = '<p><strong>Talep No: </strong>' + str(task.request.pk) + '</p>'
-        html_content = html_content + '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
-        html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
-        html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '</p>'
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+            if new_active.task_situation.name == 'Teslim Edildi' or new_active.task_situation.name == 'Teslim Edilemedi':
+                task.deliveryDate = datetime.datetime.today().date()
+                task.deliveryTime = datetime.datetime.today().time()
+                task.save()
+                courier.isActive = True
+                courier.save()
 
-        subject, from_email, to = '' + task.request.company.companyName + ' Talep Durum Bilgisi', 'burcu.dogan@oxityazilim.com', task.request.company.profile.user.email
-        text_content = 'Talep Durumu'
-        html_content = '<p><strong>Talep No: </strong>' + str(task.request.pk) + '</p>'
-        html_content = html_content + '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
-        html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
-        html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '</p>'
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                          groups[0].name + ', ' + str(
+                pk) + '</strong> nolu görevin durumunu <strong style="color:red"> ' + new_active.task_situation.name + '</strong> olarak  güncelledi</p>'
 
-        notification = Notification()
-        notification.key = 'Kurye Gorev Durumu Güncelleme'
-        notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
-        notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
-        notification.save()
+            save_log(profile.pk, log_content)
 
-        notification = Notification()
-        notification.key = 'Kurye Gorev Durumu Güncelleme'
-        notification.profile = task.request.company.profile
-        notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
-        notification.save()
+            subject, from_email, to = '' + task.request.company.companyName + ' Talep Durum Bilgisi', 'burcu.dogan@oxityazilim.com', user.email
+            text_content = 'Talep Durumu'
+            html_content = '<p><strong>Talep No: </strong>' + str(task.request.pk) + '</p>'
+            html_content = html_content + '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
+            html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
+            html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '</p>'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
-        messages.success(request, 'Görev Durumu Güncellendi.')
-        return redirect("kurye:kurye atanan gorevler")
+            subject, from_email, to = '' + task.request.company.companyName + ' Talep Durum Bilgisi', 'burcu.dogan@oxityazilim.com', task.request.company.profile.user.email
+            text_content = 'Talep Durumu'
+            html_content = '<p><strong>Talep No: </strong>' + str(task.request.pk) + '</p>'
+            html_content = html_content + '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
+            html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
+            html_content = html_content + '<p><strong>Talep Durumu: </strong>' + new_active.task_situation.name + '</p>'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
-    task_situations = TaskSituations.objects.all()
+            notification = Notification()
+            notification.key = 'Kurye Gorev Durumu Güncelleme'
+            notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
+            notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
+            notification.save()
+
+            notification = Notification()
+            notification.key = 'Kurye Gorev Durumu Güncelleme'
+            notification.profile = task.request.company.profile
+            notification.message = '' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görev durumunu ' + new_active.task_situation.name + ' olarak güncellemiştir.'
+            notification.save()
+
+            messages.success(request, 'Görev Durumu Güncellendi.')
+            return redirect("kurye:kurye atanan gorevler")
+        else:
+            messages.success(request, 'Şuanki Durumdan Farklı Bir Durum Seçin.')
+            return redirect("kurye:kurye atanan gorevler")
 
     return render(request, 'Courier/courier-task-update.html',
                   {'tasks': tasks, 'task_situations': task_situations, 'courier': courier.pk})

@@ -166,6 +166,7 @@ def update_courier(request, pk):
     courier_form = CourierForm(request.POST or None, instance=courier)
     user = request.user
     current_profile = Profile.objects.get(user=user)
+    company=Company.objects.get(profile=current_profile)
 
     if request.method == 'POST':
 
@@ -284,6 +285,7 @@ def update_customer(request, pk):
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
     customer = Customer.objects.get(pk=pk)
+
     customer_form = CustomerUpdateForm(request.POST or None, instance=customer)
     cities = City.objects.all()
     neighborhood_id = customer.neighborhood
@@ -291,28 +293,30 @@ def update_customer(request, pk):
 
     if request.method == 'POST':
         if customer_form.is_valid():
+            if customer.company.profile == profile:
 
-            city_id = request.POST['city']
-            city = City.objects.get(pk=city_id)
+                city_id = request.POST['city']
+                city = City.objects.get(pk=city_id)
 
-            customer_form.save()
+                customer_form.save()
 
-            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
-                          groups[
-                              0].name + ', ' + customer.customer + '</strong> adında müşteri bilgilerini güncelledi.</p>'
+                log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
+                              groups[
+                                  0].name + ', ' + customer.customer + '</strong> adında müşteri bilgilerini güncelledi.</p>'
 
-            save_log(profile.pk, log_content)
+                save_log(profile.pk, log_content)
 
-            messages.success(request, 'Müşteri Bilgileri Başarıyla Güncellenmiştir.')
+                messages.success(request, 'Müşteri Bilgileri Başarıyla Güncellenmiştir.')
 
-            return redirect('kurye:musteri listesi')
-
+                return redirect('kurye:musteri listesi')
+            else:
+                messages.warning(request, 'Güncelleştirme Yapamazsınız.')
         else:
             messages.warning(request, 'Alanları Kontrol Ediniz')
 
     return render(request, 'CustomerCompany/add-customer.html',
                   {'customer_form': customer_form, 'cities': cities, 'ilce': customer.district,
-                   'mahalle': neighborhood.neighborhood_name})
+                   'mahalle': customer.neighborhood})
 
 
 # PERSONEL EKLE (Admin)

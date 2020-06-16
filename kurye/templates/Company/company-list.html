@@ -215,7 +215,9 @@
                             let html;
                             document.getElementById('id').value = full.id;
                             let url = "{% url 'kurye:kullanıcı-firma-guncelle' 0 %}";
+                            debugger;
                             url = url.replace(0, full.id);
+                            url = encodeURIComponent(url);
                             html = '<td><button class="btn btn-danger"  type="submit"  onclick="company_pasif(' + full.id + ')">Sil</button>';
                             html += '<a style="margin:5px;" href="' + url + '" class="btn btn-primary"  type="button">Düzenle</a></td>';
 
