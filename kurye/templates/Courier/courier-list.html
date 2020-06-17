@@ -219,18 +219,17 @@
                         },
                         success: function (result) {
 
-                            html = 'Kurye Başarıyla Silindi';
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Kurye Silindi", "success");
+                                window.location.replace("{% url "kurye:kurye listesi" %}");
 
-                            $(".successModal").html(html);
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
 
-                                    window.location.replace("{% url "kurye:kurye listesi" %}");
-
-                                });
-
-                            }).modal('show');
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
                         }
+
+
                     });
                 });
 

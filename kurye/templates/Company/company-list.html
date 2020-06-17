@@ -251,17 +251,14 @@
                         },
                         success: function (result) {
 
-                            html = 'Firma Başarıyla Silindi';
+                            if (result.status == 'Success') {
+                                swal("Başarılı", "Firma Başarıyla Silindi", "success");
+                                window.location.replace("{% url "kurye:kullanıcı listesi" %}");
 
-                            $(".successModal").html(html);
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
 
-                                    window.location.replace("{% url "kurye:kullanıcı listesi" %}");
-
-                                });
-
-                            }).modal('show');
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
                         }
                     });
                 });

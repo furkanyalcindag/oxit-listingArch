@@ -1,23 +1,30 @@
 {% extends 'base_layout.html' %}
+{% load staticfiles %}
 {% block content %}
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Firma Güncelle
+
+            Kurye Güncelleme
+
 
         </h1>
-
         <ol class="breadcrumb">
+
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">Firma</a></li>
-            <li><a href="">Firma Düzenle</a></li>
+
+            <li><a href="">Kurye</a></li>
+            <li><a href="">Kurye Düzenle</a></li>
+
         </ol>
+
 
     </section>
 
     <!-- Main content -->
     <section class="content">
+        <!-- Small boxes (Stat box) -->
 
         {% if messages %}
             {% for message in messages %}
@@ -65,116 +72,98 @@
         {% endif %}
 
         <div class="row">
+
             <div class="col-lg-12 col-xs-12">
                 <div class="box box-primary">
+
+                    <!-- /.box-header -->
                     <!-- form start -->
+
                     <form role="form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-4 col-xs-12">
+                        <div class="box-body">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>{{ profile_form.profileImage.label }}</label>
+                                    {{ profile_form.profileImage }}
+                                </div>
 
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label>{{ profile_form.profileImage.label }}</label>
-                                        {{ profile_form.profileImage }}
-                                    </div>
+                                <div class="form-group">
+                                    <label>{{ user_form.first_name.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ user_form.first_name }}
+                                    <!-- /.input group -->
+                                </div>
+                                <div class="form-group">
+                                    <label> {{ user_form.last_name.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ user_form.last_name }}
+                                </div>
 
-                                    <div class="form-group">
-                                        <label>{{ user_form.first_name.label }}</label>
-                                        <span style="color: red">*</span> {{ user_form.first_name }}
-                                        <!-- /.input group -->
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ user_form.last_name.label }}</label>
-                                        <span style="color: red">*</span> {{ user_form.last_name }}
-                                    </div>
+                                <div class="form-group">
+                                    <label> {{ profile_form.mobilePhone.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ profile_form.mobilePhone }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="acc-email">E-Posta</label> <span
+                                        style="color: red">*</span>
+                                    {{ user_form.email }}
+                                </div>
+                                <div class="form-group">
+                                    <label> {{ profile_form.tc.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ profile_form.tc }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label> {{ courier_form.type.label }}</label> <span
+                                        style="color: red">*</span>
+                                    {{ courier_form.type }}
+                                </div>
+                                <div class="form-group">
+                                    <label>Açık Adres</label><span style="color: red">*</span>
+                                    {{ profile_form.address }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="">İl</label><span style="color: red">*</span>
+                                    <select style="width: 100%"
+                                            class="form-control select2 select2-hidden-accessible"
+                                            name="city" id="id_city"
+                                            onChange="ilceGetir()">
+                                        {% for city in cities %}
+                                            {% if city.pk == 44 %}
+                                                <option selected
+                                                        value="{{ city.pk }}">{{ city.name }}</option>
+                                            {% else %}
+                                                <option value="{{ city.pk }}">{{ city.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
 
-                                    <div class="form-group">
-                                        <label> {{ profile_form.mobilePhone.label }}</label>
-                                        <span style="color: red">*</span>{{ profile_form.mobilePhone }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="acc-email">E-Posta</label>
-                                        <span style="color: red">*</span>{{ user_form.email }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">İl</label><span style="color: red">*</span>
-                                        <select style="width: 100%"
-                                                class="form-control select2 select2-hidden-accessible"
-                                                name="city" id="id_city"
-                                                onChange="ilceGetir()">
-                                            {% for city in cities %}
-                                                {% if city.pk == 44 %}
-                                                    <option selected
-                                                            value="{{ city.pk }}">{{ city.name }}</option>
-                                                {% else %}
-                                                    <option value="{{ city.pk }}">{{ city.name }}</option>
-                                                {% endif %}
-                                            {% endfor %}
+                                    </select>
 
-                                        </select>
-
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ profile_form.district.label }}</label>
-                                        <span style="color: red">*</span> {{ profile_form.district }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ profile_form.neighborhood.label }}</label>
-                                        <span style="color: red">*</span> {{ profile_form.neighborhood }}
-                                    </div>
-
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ profile_form.district.label }}</label>
+                                    <span style="color: red">*</span> {{ profile_form.district }}
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ profile_form.neighborhood.label }}</label>
+                                    <span style="color: red">*</span> {{ profile_form.neighborhood }}
                                 </div>
 
                             </div>
-
-
-                            <div class="col-lg-4 col-xs-12">
-
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label>{{ company_form.companyName.label }}</label>
-                                        <span style="color: red">*</span> {{ company_form.companyName }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ company_form.taxName.label }}</label>
-                                        <span style="color: red">*</span>{{ company_form.taxName }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ company_form.taxNumber.label }}</label>
-                                        <span style="color: red">*</span> {{ company_form.taxNumber }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label> {{ profile_form.phone.label }}</label>
-                                        {{ profile_form.phone }}
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ profile_form.address.label }}</label>
-                                        {{ profile_form.address }}
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-lg-12 col-xs-12">
-                                <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
-                                    Zorunludur.</small>
-
-                                <div class="box-footer">
-
-                                    <button type="submit" class="btn btn-primary">Kaydet</button>
-                                </div>
-
-                            </div>
-
-                            <!-- /.box-body -->
 
                         </div>
+                        <!-- /.box-body -->
+                        <small style="margin-left: 5px;"><span style="color: red">(*)</span> Olan Alanlar
+                            Zorunludur.</small>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
                     </form>
+
                 </div>
 
 
@@ -269,7 +258,7 @@
             $('#ilce_id').val('{{ilce}}').trigger('change'); // Select the option with a value of '1'
 
             mahalleGetir();
-            debugger;
+
             //console.log($('#ilce_id').select2('data'))
             $('#neighborhood_id').val('{{mahalle}}').trigger('change'); // Select the option with a value of '1'
 

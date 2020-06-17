@@ -166,7 +166,7 @@ def update_courier(request, pk):
     courier_form = CourierForm(request.POST or None, instance=courier)
     user = request.user
     current_profile = Profile.objects.get(user=user)
-    company=Company.objects.get(profile=current_profile)
+    company = Company.objects.get(profile=current_profile)
 
     if request.method == 'POST':
 
@@ -188,7 +188,7 @@ def update_courier(request, pk):
             messages.warning(request, 'Alanları Kontrol Ediniz')
     cities = City.objects.all()
 
-    return render(request, 'Courier/add-courier.html',
+    return render(request, 'Courier/update-courier.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'courier_form': courier_form,
                    'ilce': courier.courier.district, 'mahalle': courier.courier.neighborhood, 'cities': cities})
 
@@ -658,18 +658,23 @@ def personal_delete(request):
         logout(request)
         return redirect('accounts:login')
     if request.POST:
-        pk = request.POST['personal_id']
-        user = request.user
-        profile = Profile.objects.get(user=user)
-        personal = Personal.objects.get(pk=pk)
-        personal.profile.isActive = False
-        personal.profile.save()
+        try:
+            pk = request.POST['personal_id']
+            user = request.user
+            profile = Profile.objects.get(user=user)
+            personal = Personal.objects.get(pk=pk)
+            personal.profile.isActive = False
+            personal.profile.save()
 
-        log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong>  <strong style="color:red"> , ' + personal.profile.user.first_name + '' + personal.profile.user.last_name + ' </strong> adlı personeli sildi.</p>'
+            log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong>  <strong style="color:red"> , ' + personal.profile.user.first_name + '' + personal.profile.user.last_name + ' </strong> adlı personeli sildi.</p>'
 
-        save_log(profile.pk, log_content)
+            save_log(profile.pk, log_content)
 
-    return redirect('kurye:personel-listesi')
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
 
 
 @login_required

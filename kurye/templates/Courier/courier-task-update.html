@@ -118,69 +118,72 @@
                                 <tbody>
 
                                 {% for task in tasks %}
-                                    <form method="post" role="form">
-                                        {% csrf_token %}
-                                        <input type="hidden" value="{{ task.task.pk }}" name="task">
 
 
-                                        <tr>
+                                    <tr>
+
+                                        <td>{{ task.task.pk }}</td>
+                                        <td>{{ task.task.request.pk }}</td>
+
+                                        <td>
+
+                                            <button type="submit" class="btn btn-success"
+                                                    onclick="task_update({{ task.task.id }} ,  document.getElementById('situation').value,document.getElementById('description').value)">
+                                                Güncelle
+                                            </button>
+
+                                        </td>
 
 
-                                            <td>{{ task.task.pk }}</td>
-                                            <td>{{ task.task.request.pk }}</td>
-                                            <td>
+                                        <td>
 
-                                                <button type="submit" class="btn btn-success">Güncelle
-                                                </button>
+                                            <select size="1" name="situation" id="situation">
 
-                                            </td>
-
-                                            <td>
-                                                <select size="1" name="situation">
-
-                                                    {% for situation in task_situations %} }
-                                                        {% if task.task_situation.name == situation.name %}
-                                                            <option selected>{{ situation.name }}</option>
+                                                {% for situation in task_situations %} }
+                                                    {% if task.task_situation.name == situation.name %}
+                                                        <option selected>{{ situation.name }}</option>
+                                                    {% else %}
+                                                        {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
                                                         {% else %}
-                                                            {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
-                                                            {% else %}
-                                                                <option>{{ situation.name }}</option>
-                                                            {% endif %}
+                                                            <option>{{ situation.name }}</option>
                                                         {% endif %}
+                                                    {% endif %}
 
 
 
-                                                    {% endfor %}
+                                                {% endfor %}
 
 
-                                                </select>
-                                            </td>
+                                            </select>
+                                        </td>
 
 
-                                            <td>
-                                                <input
-                                                        value=""
-                                                        type="text" class="form-control" name="description"
-                                                        placeholder="Açıklama">
+                                        <td>
+                                            <input
+                                                    value=""
+                                                    type="text" class="form-control" name="description"
+                                                    id="description"
+                                                    placeholder="Açıklama">
 
-                                            </td>
-                                            <td>{{ task.task.request.receiver.customer }}</td>
-                                            <td>{{ task.task.request.receiver.address }}</td>
-                                            <td>{{ task.task.request.company.companyName }}</td>
-                                            <td>{{ task.task.request.company.profile.address }}</td>
-                                            <td>{{ task.task.request.totalPrice }}</td>
-                                            <td>{{ task.task.request.payment_type }}</td>
-                                            {% if task.task.request.description %}
-                                                <td>{{ task.task.request.description }}</td>
-                                            {% else %}
-                                                <td>Açıklama Yapılmadı</td>
-                                            {% endif %}
-                                            <td>{{ task.task.request.exitDate }}</td>
-                                            <td>{{ task.task.request.exitTime }}</td>
+                                        </td>
+
+                                        <td>{{ task.task.request.receiver.customer }}</td>
+                                        <td>{{ task.task.request.receiver.address }}</td>
+                                        <td>{{ task.task.request.company.companyName }}</td>
+                                        <td>{{ task.task.request.company.profile.address }}</td>
+                                        <td>{{ task.task.request.totalPrice }}</td>
+                                        <td>{{ task.task.request.payment_type }}</td>
+                                        {% if task.task.request.description %}
+                                            <td>{{ task.task.request.description }}</td>
+                                        {% else %}
+                                            <td>Açıklama Yapılmadı</td>
+                                        {% endif %}
+                                        <td>{{ task.task.request.exitDate }}</td>
+                                        <td>{{ task.task.request.exitTime }}</td>
 
 
-                                        </tr>
-                                    </form>
+                                    </tr>
+
                                 {% endfor %}
 
 
@@ -231,8 +234,35 @@
             $('.timepicker').timepicker({
                 showInputs: false
             })
-        })
+        });
 
+
+        function task_update(task_id, situation, description) {
+            debugger;
+
+
+            $.ajax({
+                url: "{% url 'kurye:gorev-guncelle' %}",
+                type: "POST", // or "get"
+                data: {
+                    task: task_id,
+                    situation: situation,
+                    description: description,
+                },
+                success: function (result) {
+
+                    if (result.status == 'Success') {
+                        swal("Başarılı", " Durum Güncellendi.", "success");
+                        window.location.replace("{% url "kurye:kurye-gorev-guncelle" %}");
+
+
+                    } else {
+                        swal("Başarılı", result.messages, "error");
+                    }
+                }
+
+            });
+        }
     </script>
 
 

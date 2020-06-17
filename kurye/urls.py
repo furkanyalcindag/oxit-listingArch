@@ -16,7 +16,9 @@ urlpatterns = [
     url(r'Courier/add-courier/$', UserViews.add_courier, name='kurye ekle'),
     url(r'Courier/courier-list/$', CourierViews.courier_list, name='kurye listesi'),
     url(r'Courier/assigned-tasks-list/$', CourierViews.assigned_task, name='kurye atanan gorevler'),
-    url(r'Courier/update-task/$', CourierViews.assigned_task, name='kurye-gorev-guncelle'),
+    url(r'update-task/$', CourierViews.updateTask, name='gorev-guncelle'),
+
+    url(r'Courier/task-update/$', CourierViews.assigned_task, name='kurye-gorev-guncelle'),
     url(r'Courier/ending-tasks/$', CourierViews.courier_ending_tasks, name='kurye tamamlanan gorevler'),
     url(r'Courier/tasks/$', CourierViews.courier_tasks, name='kurye gorevler'),
     url(r'getCourier/(?P<pk>\d+)$', CourierViews.getCourier, name='kurye getir'),
@@ -95,7 +97,7 @@ urlpatterns = [
     # Bildirim
     url(r'get-notifications-api/$', APIViews.GetNotification.as_view(), name='api-notifications'),
     url(r'notifications/$', DashboardViews.notifications, name='bildirimler'),
-    url(r'delete-notifications/$', DashboardViews.delete_notification, name='bildirimleri-sil'),
+    url(r'notifications-delete/$', DashboardViews.delete_notification, name='bildirimleri-sil'),
 
     url(r'make-read-notification/$', DashboardViews.read_notification, name='bildirim-okundu-yap'),
 

@@ -49,7 +49,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-.
+    .
     <section class="content-header">
 
         <h1>
@@ -197,17 +197,14 @@
                         },
                         success: function (result) {
 
-                            html = 'Personel Başarıyla Silindi';
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Personel Silindi", "success");
+                                window.location.replace("{% url "kurye:personel-listesi" %}");
 
-                            $(".successModal").html(html);
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
 
-                                    window.location.replace("{% url "kurye:personel-listesi" %}");
-
-                                });
-
-                            }).modal('show');
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
                         }
                     });
                 });

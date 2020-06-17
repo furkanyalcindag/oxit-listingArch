@@ -81,11 +81,11 @@
                         <div class="box-body">
 
 
-                                <input type="hidden" name="checks" id="checks">
-                                <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
-                                        class="btn btn-danger btn-sm pull-left" onclick="deleteNotifications()"><i
-                                        class="fa fa-trash-o"> Seçilenleri Sil</i>
-                                </button>
+                            <input type="hidden" name="checks" id="checks">
+                            <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
+                                    class="btn btn-danger btn-sm pull-left" onclick="deleteNotifications()"><i
+                                    class="fa fa-trash-o"> Seçilenleri Sil</i>
+                            </button>
 
                             <br>
                             <table id="notification" class="table  table-bordered display responsive nowrap "
@@ -275,10 +275,16 @@
                     notification_id: notification_id,
 
                 },
-                success: function (result) {
+               success: function (result) {
 
-                    window.location.replace("{% url "kurye:bildirimler" %}");
+                    if (result.status == 'Success') {
+                        swal("Başarılı", " Okundu.", "success");
+                        window.location.replace("{% url "kurye:bildirimler" %}");
 
+
+                    } else {
+                        swal("Başarılı", result.messages, "error");
+                    }
                 }
             });
         }
@@ -292,12 +298,20 @@
                 data: {
                     checks: notifications,
                 },
-                 cache: false,
+
                 success: function (result) {
 
-                    window.location.replace("{% url "kurye:bildirimler" %}");
+                    if (result.status == 'Success') {
+                        swal("Başarılı", " Bildirimler Silindi.", "success");
+                        window.location.replace("{% url "kurye:bildirimler" %}");
 
+
+                    } else {
+                        swal("Başarılı", result.messages, "error");
+                    }
                 }
+
+
             });
         }
     </script>
