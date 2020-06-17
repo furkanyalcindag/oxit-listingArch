@@ -95,7 +95,7 @@ urlpatterns = [
     # Bildirim
     url(r'get-notifications-api/$', APIViews.GetNotification.as_view(), name='api-notifications'),
     url(r'notifications/$', DashboardViews.notifications, name='bildirimler'),
-    url(r'notifications-delete/$', DashboardViews.delete_notification, name='bildirimleri-sil'),
+    url(r'delete-notifications/$', DashboardViews.delete_notification, name='bildirimleri-sil'),
 
     url(r'make-read-notification/$', DashboardViews.read_notification, name='bildirim-okundu-yap'),
 
