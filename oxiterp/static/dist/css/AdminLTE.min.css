@@ -3375,7 +3375,7 @@ table.text-center th {
     font-weight: 600;
     color: #444;
     overflow: hidden;
-    white-space: normal;
+    white-space: nowrap;
 
 }
 
