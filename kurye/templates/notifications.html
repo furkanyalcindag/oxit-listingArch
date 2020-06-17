@@ -81,17 +81,23 @@
                         <div class="box-body">
 
 
-                                <input type="hidden" name="checks" id="checks">
-                                <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px" type="submit"
-                                        class="btn btn-danger btn-sm pull-left" onclick="deleteNotifications()"><i
-                                        class="fa fa-trash-o"> Seçilenleri Sil</i>
-                                </button>
-
                             <br>
                             <table id="notification" class="table  table-bordered display responsive nowrap "
                                    cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>
+
+
+                                        <input type="hidden" name="checks" id="checks">
+                                        <button style="margin-top: 10px;margin-bottom:20px;margin-left: 5px"
+                                                type="submit"
+                                                class="btn btn-danger btn-sm pull-left"><i
+                                                class="fa fa-trash-o" onclick="deleteNotifications()"> Seçilenleri
+                                            Sil</i>
+                                        </button>
+
+                                    </th>
                                     <th>Sil/Okundu Yap</th>
                                     <th>Başlık</th>
                                     <th>İçerik</th>
@@ -105,12 +111,6 @@
 
 
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
 
                                 </tr>
 
@@ -131,6 +131,8 @@
     </section>
 
     <script>
+
+
         $(function () {
             $('#notification').DataTable({
 
@@ -250,8 +252,9 @@
 
     </script>
     <script>
+
+
         function checkbox() {
-            debugger;
             var checkboxes = document.getElementsByName('check_list[]');
             var vals = "";
             for (var i = 0, n = checkboxes.length; i < n; i++) {
@@ -267,7 +270,6 @@
 
 
         function isRead(notification_id) {
-            debugger;
             $.ajax({
                 url: "{% url 'kurye:bildirim-okundu-yap' %}",
                 type: "post", // or "get"
@@ -284,22 +286,24 @@
         }
 
         function deleteNotifications() {
-            let notifications = document.getElementById('checks').value;
             debugger;
+            let list = document.getElementById('checks').value;
             $.ajax({
                 url: "{% url 'kurye:bildirimleri-sil' %}",
                 type: "POST", // or "get"
                 data: {
-                    checks: notifications,
+                    checks: list,
                 },
-                 cache: false,
+
                 success: function (result) {
 
-                    window.location.replace("{% url "kurye:bildirimler" %}");
+                        window.location.replace("{% url "kurye:bildirimler" %}");
 
                 }
             });
         }
+
+
     </script>
 
 {% endblock %}
