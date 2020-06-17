@@ -188,7 +188,7 @@ def update_courier(request, pk):
             messages.warning(request, 'Alanları Kontrol Ediniz')
     cities = City.objects.all()
 
-    return render(request, 'Courier/courier-update.html',
+    return render(request, 'Courier/add-courier.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'courier_form': courier_form,
                    'ilce': courier.courier.district, 'mahalle': courier.courier.neighborhood, 'cities': cities})
 

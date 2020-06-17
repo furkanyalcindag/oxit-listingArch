@@ -36,7 +36,7 @@ def assigned_task(request):
     courier = Courier.objects.get(courier=profile)
     tasks = TaskSituationTask.objects.filter(
         Q(task_situation__name='Paket Alımı İçin Yolda') | Q(task_situation__name='Paket Teslimi İçin Yolda') | Q(
-            task_situation__name='Kurye Atandı')).filter(task__courier=courier).filter(isActive=True).order_by('task__request__exitTime')
+            task_situation__name='Kurye Atandı')).filter(task__courier=courier).filter(isActive=True)
 
     if request.method == 'POST':
         situation = TaskSituations.objects.get(name=request.POST['situation'])
@@ -147,7 +147,7 @@ def courier_tasks(request):
 
     tasks = TaskSituationTask.objects.filter(task__courier=courier).filter(isActive=True).filter(
         Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Alımı İçin Yolda') | Q(
-            task_situation__name='Paket Teslimi İçin Yolda')).order_by('task__request__exitTime')
+            task_situation__name='Paket Teslimi İçin Yolda'))
 
     return render(request, 'Courier/courier-tasks.html', {'tasks': tasks})
 
