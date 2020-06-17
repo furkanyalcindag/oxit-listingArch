@@ -137,8 +137,7 @@
                             console.log(full.id);
                             var base_url = "{% url 'kurye:mahalle-fiyati-guncelle' 0 %}";
                             base_url=base_url.replace('0',full.id);
-                            let url = encodeURIComponent(base_url);
-                            return '<a type="button" class="btn btn-primary" href="'+url+'">Düzenle</a>\n'
+                            return '<a type="button" class="btn btn-primary" href="'+base_url+'">Düzenle</a>\n'
                         }
                     },
                     {"data": "city.name"},
