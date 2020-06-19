@@ -87,6 +87,7 @@
                                     <th>Ödeme Yöntemi</th>
                                     <th>Sipariş Tutarı</th>
                                     <th>Kurye Hizmet Ücreti</th>
+                                    <th>Müşteri Telefon</th>
 
 
                                 </tr>
@@ -97,7 +98,7 @@
                                     <tr>
 
                                         <td>{{ task.task.request.pk }} </td>
-                                        <td>{{task.task.pk}}</td>
+                                        <td>{{ task.task.pk }}</td>
                                         <td>
                                             <a class="btn"
                                                href="{% url 'kurye:yeniden-kurye-ata' task.task.pk %}"><span
@@ -112,6 +113,7 @@
                                         <td>{{ task.task.request.payment_type }}</td>
                                         <td>{{ task.task.request.totalPrice }} ₺</td>
                                         <td>{{ task.task.request.request_price }}</td>
+                                        <td>{{ task.task.request.receiver.phone }}</td>
 
 
                                     </tr>

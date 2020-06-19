@@ -222,14 +222,14 @@ def return_company_dashboard(request):
         report_week['day'] = x['creationDate__day']
         report_week['count'] = x['count']
         array_report_week.append(report_week)
-
-    active_customers = Request.objects.values('receiver__customer').annotate(
-        count=Count('receiver__customer')).order_by('-count')[:5]
-    for customer in active_customers:
-        customerDict = dict()
-        customerDict['customer'] = Customer.objects.get(customer=customer['receiver__customer'])
-        customerDict['count'] = customer['count']
-        arrayCustomers.append(customerDict)
+    if Request.objects.filter(company=company).values('receiver'):
+        active_customers = Request.objects.filter(company=company).values('receiver').annotate(
+            count=Count('receiver')).order_by('-count')[:5]
+        for customer in active_customers:
+            customerDict = dict()
+            customerDict['customer'] = Customer.objects.get(pk=int(customer['receiver']))
+            customerDict['count'] = customer['count']
+            arrayCustomers.append(customerDict)
 
     requests = Request.objects.filter(company=company)
     requests_count = Request.objects.filter(company=company).count()

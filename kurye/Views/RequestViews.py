@@ -152,7 +152,7 @@ def registered_user_add_request(request):
 
             if request_form.cleaned_data['exitDate'] < datetime.date.today():
                 messages.warning(request, 'Geçmiş Tarihli Talep Oluşturamazsınız.')
-
+                return redirect('kurye:yeni kullanıcıyla talep olustur')
             elif request_form.cleaned_data['exitTime'] > datetime.datetime.now().time():
 
                 customer = Customer.objects.get(pk=int(request.POST['receiver']))
