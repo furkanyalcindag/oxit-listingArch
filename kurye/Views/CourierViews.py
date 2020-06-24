@@ -56,8 +56,8 @@ def updateTask(request):
         try:
 
             situation = TaskSituations.objects.get(name=request.POST['situation'])
-            pk = request.POST['task']
-            task = Task.objects.get(pk=int(pk))
+            uuid = request.POST['task']
+            task = Task.objects.get(uuid=uuid)
             active = TaskSituationTask.objects.filter(task_id=task.pk).filter(task__courier=courier).filter(
                 isActive=True)
             if situation.name != active[0].task_situation.name:
@@ -83,13 +83,19 @@ def updateTask(request):
                 if new_active.task_situation.name == 'Teslim Edildi' or new_active.task_situation.name == 'Teslim Edilemedi':
                     task.deliveryDate = datetime.datetime.today().date()
                     task.deliveryTime = datetime.datetime.today().time()
+                    task.isComplete = True
                     task.save()
+
+                if TaskSituationTask.objects.filter(task__courier=courier).filter(
+                        isActive=True).filter(
+                    Q(task_situation__name='Kurye Atandı') | Q(task_situation__name='Paket Teslimi İçin Yolda') | Q(
+                        task_situation__name='Paket Alımı İçin Yolda')).count() < 0:
                     courier.isActive = True
                     courier.save()
 
                 log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
                               groups[0].name + ', ' + str(
-                    pk) + '</strong> nolu görevin durumunu <strong style="color:red"> ' + new_active.task_situation.name + '</strong> olarak  güncelledi</p>'
+                    task.pk) + '</strong> nolu görevin durumunu <strong style="color:red"> ' + new_active.task_situation.name + '</strong> olarak  güncelledi</p>'
 
                 save_log(profile.pk, log_content)
 
@@ -246,3 +252,19 @@ def delete_notification(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+@api_view()
+def getCourier(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    couriers = Courier.objects.filter(courier__isActive=True)
+    data = CourierSerializer(couriers, many=True)
+
+    responseData = {}
+    responseData['request'] = data.data
+    responseData['request'][0]
+    return JsonResponse(responseData, safe=True)

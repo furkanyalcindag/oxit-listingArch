@@ -71,6 +71,14 @@
 
                     <div class="box box-primary">
                         <div class="box-body">
+                            <a href="{% url 'kurye:tamamlanan gorevler' %}" class="btn btn-app">
+                                <i class="fa fa-check"></i>Tamamlanan
+                                Görevler</a>
+                            <a href="{% url 'kurye:kullanıcı iptal edilen gorevler' %}" class="btn btn-app">
+                                <i class="fa fa-close"></i>İptal
+                                Edilen Görevler</a>
+
+
                             <br>
                             <table id="activetask" class="display responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
@@ -81,13 +89,15 @@
                                     <th>Yeniden Kurye Ata</th>
                                     <th>Durumu</th>
                                     <th>Müşteri Ad Soyad</th>
+                                    <th>Müşteri Telefon</th>
                                     <th>Adres</th>
                                     <th>Kurye</th>
                                     <th>Firma</th>
+                                    <th>Firma Telefon</th>
+                                    <th>Firma Adres</th>
                                     <th>Ödeme Yöntemi</th>
                                     <th>Sipariş Tutarı</th>
-                                    <th>Kurye Hizmet Ücreti</th>
-                                    <th>Müşteri Telefon</th>
+                                    <th>Firmanın Kurye Hizmet Ücreti</th>
 
 
                                 </tr>
@@ -107,13 +117,22 @@
                                         </td>
                                         <td><span class="label label-warning">{{ task.task_situation.name }}</span></td>
                                         <td>{{ task.task.request.receiver.customer }}</td>
-                                        <td>{{ task.task.request.receiver.address }}</td>
+                                        <td>{{ task.task.request.receiver.phone }}</td>
+                                        {% if task.task.request.address %}
+                                            <td>{{ task.task.request.address }}</td>
+
+                                        {% else %}
+                                            <td>{{ task.task.request.receiver.address }}</td>
+
+                                        {% endif %}
                                         <td>{{ task.task.courier.courier.user.first_name }} {{ task.task.courier.courier.user.last_name }}</td>
                                         <td>{{ task.task.request.company.companyName }}</td>
+                                        <td>{{ task.task.request.company.profile.mobilePhone }}</td>
+
+                                        <td>{{ task.task.request.company.profile.address }}</td>
                                         <td>{{ task.task.request.payment_type }}</td>
                                         <td>{{ task.task.request.totalPrice }} ₺</td>
-                                        <td>{{ task.task.request.request_price }}</td>
-                                        <td>{{ task.task.request.receiver.phone }}</td>
+                                        <td>{{ task.task.request.discount_price }} </td>
 
 
                                     </tr>

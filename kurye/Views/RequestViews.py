@@ -20,6 +20,7 @@ from kurye.models.Customer import Customer
 from kurye.models.Request import Request
 from kurye.models.RequestSituationRequest import RequestSituationRequest
 from kurye.models.RequestSituations import RequestSituations
+from kurye.models.Task import Task
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.models.TaskSituations import TaskSituations
 from kurye.serializers.RequestSituationSerializer import RequestSituationSerializer
@@ -34,7 +35,8 @@ def new_user_add_request(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    request_form = RequestForm()
+    request_form = RequestForm(initial={'exitDate': datetime.datetime.today().strftime('%Y-%m-%d'),
+                                        'exitTime': datetime.datetime.today().strftime('%H:%M')})
     customer_form = CustomerForm()
     user = request.user
     groups = Group.objects.filter(user=user)
@@ -60,16 +62,19 @@ def new_user_add_request(request):
                                     phone=customer_form.cleaned_data['phone'],
                                     city=city,
                                     district=customer_form.cleaned_data['district'],
-                                    neighborhood=customer_form.cleaned_data['neighborhood']
+                                    neighborhood=customer_form.cleaned_data['neighborhood'],
+
                                     )
                 customer.save()
                 customer.company = company
                 customer.save()
                 price = ""
+                discount_price = 0
                 neighborhood_name = customer.neighborhood
                 neighborhood = Neighborhood.objects.filter(neighborhood_name=neighborhood_name)
                 for neighborhood in neighborhood:
                     price = neighborhood.price
+                    discount_price = price - (price * company.discount / 100)
                 # Mahalleye göre fiyat
 
                 request1 = Request(receiver=customer,
@@ -77,8 +82,7 @@ def new_user_add_request(request):
                                    totalPrice=request_form.cleaned_data['totalPrice'],
                                    exitTime=request_form.cleaned_data['exitTime'],
                                    description=request_form.cleaned_data['description'],
-                                   request_price=price
-                                   )
+                                   request_price=price, discount_price=discount_price,)
                 request1.save()
 
                 if request_form.cleaned_data['exitDate']:
@@ -137,7 +141,8 @@ def registered_user_add_request(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    request_form = RegisteredUserRequestForm()
+    request_form = RequestForm(initial={'exitDate': datetime.datetime.today().strftime('%Y-%m-%d'),
+                                        'exitTime': datetime.datetime.today().strftime('%H:%M')})
     user = request.user
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
@@ -145,6 +150,8 @@ def registered_user_add_request(request):
     today = datetime.date.today()
     receivers = Customer.objects.filter(company_id=company[0].pk).filter(isActive=True)
     date = datetime.date.today()
+    cities = City.objects.all()
+    neighborhood = Neighborhood.objects.all()
     if request.method == 'POST':
         request_form = RegisteredUserRequestForm(request.POST)
 
@@ -156,8 +163,6 @@ def registered_user_add_request(request):
             elif request_form.cleaned_data['exitTime'] > datetime.datetime.now().time():
 
                 customer = Customer.objects.get(pk=int(request.POST['receiver']))
-                neighborhood = Neighborhood.objects.get(neighborhood_name=customer.neighborhood)
-                price = neighborhood.price  # Mahalleye göre fiyat
 
                 request1 = Request(
                     exitTime=request_form.cleaned_data['exitTime'],
@@ -165,10 +170,29 @@ def registered_user_add_request(request):
                     payment_type=request_form.cleaned_data['payment_type'],
                     totalPrice=request_form.cleaned_data['totalPrice'],
                     description=request_form.cleaned_data['description'],
-                    request_price=price,
 
                 )
                 request1.save()
+
+                if request.POST['address-value']:
+
+                    city = City.objects.get(pk=int(request.POST['city']))
+                    request1.city = city
+                    request1.district = request.POST['ilce']
+                    neighborhood = Neighborhood.objects.get(neighborhood_name=request.POST['mahalle'])
+                    request1.neighborhood = neighborhood
+                    request1.request_price = neighborhood.price
+                    price = neighborhood.price
+                    request1.discount_price = price - (price * company[0].discount / 100)
+                    request1.address = request.POST['address']
+                    request1.save()
+
+                else:
+                    neighborhood = Neighborhood.objects.get(neighborhood_name=customer.neighborhood)
+                    price = neighborhood.price  # Mahalleye göre fiyat
+                    request1.request_price = price
+                    request1.discount_price = price - (price * company[0].discount / 100)
+                    request1.save()
 
                 if request_form.cleaned_data['exitDate']:
                     request1.exitDate = request_form.cleaned_data['exitDate']
@@ -220,7 +244,8 @@ def registered_user_add_request(request):
             messages.warning(request, 'Alanları Kontrol Ediniz.')
 
     return render(request, 'Request/registered-user-add-request.html',
-                  {'request_form': request_form, 'today': today, 'receivers': receivers, 'date': date})
+                  {'request_form': request_form, 'today': today, 'receivers': receivers, 'date': date, 'cities': cities,
+                   'neigborhoods': neighborhood})
 
 
 # Bekleyen Talepler
@@ -245,29 +270,16 @@ def return_pending_request(request):
 
 # Onaylanmış Talepler
 @login_required
-def return_approved_requests(request):
+def return_company_canceled_requests(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    perm = general_methods.control_access(request)
+    requests = RequestSituationRequest.objects.filter(isActive=True).filter(request_situation__name='İptal Edildi')
 
-    if not perm:
-        logout(request)
-        return redirect('accounts:login')
-    request1 = Request.objects.filter(isApprove=True)
-    task = []
-    request_array = []
-    for request2 in request1:
-        requestt = RequestSituationRequest.objects.filter(isActive=True).filter(request=request2).filter(
-            ~Q(request_situation__name='İptal Edildi'))
-        tasks = TaskSituationTask.objects.filter(task__request=request2).filter(
-            ~Q(task_situation__name='İptal Edildi')).filter(isActive=True)
-        if tasks.count() == 0 and requestt.count() > 0:
-            request_array.append(request2)
-    return render(request, 'Request/approved-request.html',
-                  {'approved_requests': request_array})
+    return render(request, 'Request/company-canceled-request.html',
+                  {'requests': requests})
 
 
 # Talep Onayla
@@ -366,7 +378,7 @@ def company_all_requests(request):
 
 # Kullanıcı Talebi İptal Et
 @login_required
-def cancel_requests(request, pk):
+def cancel_requests(request, uuid):
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -376,12 +388,14 @@ def cancel_requests(request, pk):
     user = request.user
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
-    request1 = Request.objects.get(pk=pk)
+    request1 = Request.objects.get(uuid=uuid)
+    current_task = Task.objects.get(request=request1)
     courier_company = User.objects.get(groups__name="Admin")
-    task = TaskSituationTask.objects.filter(task__request=request1).filter(task_situation__name="Kurye Atandı").filter(
+    task = TaskSituationTask.objects.filter(task__request=request1).filter(
+        Q(task_situation__name="Kurye Atandı")).filter(
         isActive=True)
 
-    if task.count() <= 0:
+    if task.count() > 0:
 
         active_request = RequestSituationRequest.objects.filter(request=request1).filter(isActive=True)
 
@@ -396,11 +410,16 @@ def cancel_requests(request, pk):
         cancel_request.save()
 
         for task in task:
-            task.task_situation = TaskSituations.objects.get(name="İptal Edildi")
+            task.isActive = False
             task.save()
 
+        active_task_situation = TaskSituations.objects.get(name='İptal Edildi')
+        active_task = TaskSituationTask(task=current_task, task_situation=active_task_situation,
+                                        isActive=True)
+        active_task.save()
+
         log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">' + \
-                      groups[0].name + ' , ' + str(pk) + '</strong> nolu talebi iptal etti</p>'
+                      groups[0].name + ' , ' + str(request1.pk) + '</strong> nolu talebi iptal etti</p>'
 
         save_log(profile.pk, log_content)
 
@@ -425,8 +444,8 @@ def cancel_requests(request, pk):
 
         messages.success(request, 'Talebiniz İptal Edildi')
     else:
-        messages.warning(request, 'Talebiniz iptal edilememektedir.')
-    return redirect("kurye:kullanici-talepleri")
+        messages.warning(request, 'Kurye Yola Çıkmıştır.Talebiniz iptal edilememektedir.')
+    return redirect("kurye:kullanıcı aktif talepleri")
 
 
 # Kullanıcının Tamamlayacağı Talepler
@@ -465,12 +484,7 @@ def return_canceled_task(request):
 
 @api_view()
 def getRequest(request, pk):
-    perm = general_methods.control_access(request)
-
-    if not perm:
-        logout(request)
-        return redirect('accounts:login')
-    request = RequestSituationRequest.objects.filter(request_id=pk).filter(request_situation__name="Onaylandı")
+    request = RequestSituationRequest.objects.filter(pk=pk)
     data = RequestSituationSerializer(request, many=True)
 
     responseData = {}

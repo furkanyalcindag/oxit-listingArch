@@ -1,7 +1,9 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+
+
+    <div class="modal modal-danger fade in deneme" tabindex="-1" role="dialog" id="modal-danger"
          aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -19,26 +21,6 @@
                             data-dismiss="modal">Evet
                     </button>
                     <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <div class="modal modal-success modal-success-food fade in" id="modal-success" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">İşlem Başarılı</h4>
-                </div>
-                <div class="modal-body successModal">
-                    ...
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-outline btn-ok">Tamam</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -124,7 +106,7 @@
                                 <thead>
                                 <tr>
 
-
+                                    <th style="text-align: center">İşlem</th>
                                     <th>Firma Sahibi</th>
                                     <th>Firma Adı</th>
                                     <th>Vergi Numarası</th>
@@ -133,7 +115,7 @@
                                     <th>Adresi</th>
                                     <th>Telefon</th>
                                     <th>Email</th>
-                                    <th></th>
+                                    <th>İndirim</th>
 
 
                                 </tr>
@@ -188,6 +170,22 @@
                 "columns": [
 
                     {
+                        "render": function (data, type, full, meta, row) {
+                            console.log(full.content);
+                            let html;
+                            document.getElementById('id').value = full.id;
+                            let url = "{% url 'kurye:kullanıcı-firma-guncelle' 0 %}";
+                            url = url.replace(0, full.uuid);
+                            let uuid = full.uuid;
+                            html = '<td style="text-align: center"><button style="margin-left:20px;" class="btn btn-danger"  type="submit"  onclick="company_pasif(\'' + uuid + '\')">Sil</button>';
+                            html += '<a style="margin-left:5px;" href="' + url + '" class="btn btn-primary"  type="button">Düzenle</a></td>';
+
+                            return html
+
+                        }
+                    },
+
+                    {
                         "data": null,
                         render: function (data, type, row) {
                             return row.profile.user.first_name + ' ' + row.profile.user.last_name;
@@ -206,24 +204,14 @@
                         }
                     },
                     {"data": "profile.address"},
-
-                    {"data": "profile.phone"},
+                    {"data": "profile.mobilePhone"},
                     {"data": "profile.user.email"},
                     {
-                        "render": function (data, type, full, meta, row) {
-                            console.log(full.content);
-                            let html;
-                            document.getElementById('id').value = full.id;
-                            let url = "{% url 'kurye:kullanıcı-firma-guncelle' 0 %}";
-                            debugger;
-                            url = url.replace(0, full.id);
-                            html = '<td><button class="btn btn-danger"  type="submit"  onclick="company_pasif(' + full.id + ')">Sil</button>';
-                            html += '<a style="margin:5px;" href="' + url + '" class="btn btn-primary"  type="button">Düzenle</a></td>';
+                        "data": null,
+                        render: function (data, type, row) {
+                            return '%'+row.discount;
 
-                            return html
-
-                        }
-                    },
+                        }},
 
 
                 ]
@@ -234,39 +222,6 @@
     </script>
 
     <script>
-        function company_pasif(company_id) {
-            debugger;
-            let html = 'Firmayı Silmek İstediğinizden Emin Misiniz?';
-            document.getElementById('content').innerHTML = html;
-            $(".deneme23").on("shown.bs.modal", function (e) {
-                $("#btn-conf").click(function () {
-                    $.ajax({
-                        url: "{% url 'kurye:kullanıcı-firma-sil' %}",
-                        type: "post", // or "get"
-                        data: {
-                            company_id: company_id,
-
-
-                        },
-                        success: function (result) {
-
-                            if (result.status == 'Success') {
-                                swal("Başarılı", "Firma Başarıyla Silindi", "success");
-                                window.location.replace("{% url "kurye:kullanıcı listesi" %}");
-
-
-                            } else {
-                                swal("Başarısız", result.messages, "error");
-                            }
-                        }
-                    });
-                });
-
-            }).modal('show');
-            $('#btn-close').click(function () {
-                $('#modal-danger').modal('hide');
-            });
-        }
 
 
         function getCookie(name) {
@@ -303,6 +258,41 @@
         });
 
 
+    </script>
+    <script>
+        function company_pasif(uuid) {
+
+            document.getElementById('content').innerHTML = 'Firmayı Silmek İstediğinizden Emin Misiniz?';
+            $(".deneme").on("shown.bs.modal", function (e) {
+
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'kurye:kullanıcı-firma-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            company_id: uuid,
+
+
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", "Firma Başarıyla Silindi", "success");
+                                window.location.replace("{% url "kurye:kullanıcı listesi" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
     </script>
 
 {% endblock %}

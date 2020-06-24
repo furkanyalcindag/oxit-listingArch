@@ -102,7 +102,7 @@
                                         <td>{{ request.request.pk }} </td>
                                         {% if request.request_situation.name != 'İptal Edildi' and request.isActive %}
                                             <td>
-                                                <a href="{% url 'kurye:kullanıcı talabi iptal et' request.request.pk %}"><span
+                                                <a href="{% url 'kurye:kullanıcı talabi iptal et' request.request.uuid %}"><span
                                                         class="label label-danger">İptal Et</span></a></td>
                                         {% else %}
                                             <td></td>
@@ -118,10 +118,14 @@
                                         </td>
                                         <td>{{ request.request.receiver.customer }}</td>
                                         <td>{{ request.request.receiver.phone }}</td>
-                                        <td>{{ request.request.receiver.address }}</td>
+                                        {% if request.request.address %}
+                                            <td>{{ request.request.address }}</td>
+                                        {% else %}
+                                            <td>{{ request.request.receiver.address }}</td>
+                                        {% endif %}
                                         <td>{{ request.request.totalPrice }} ₺</td>
                                         <td>{{ request.request.payment_type }}</td>
-                                        <td>{{ request.request.request_price }} ₺</td>
+                                        <td>{{ request.request.discount_price }} ₺</td>
                                         {% if request.request.description %}
                                             <td>{{ request.request.description }}</td>
                                         {% else %}

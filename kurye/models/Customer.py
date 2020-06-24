@@ -1,8 +1,7 @@
 from django.db import models
-
 from kurye.models.City import City
 from kurye.models.Company import Company
-from kurye.models.Neighborhood import Neighborhood
+import uuid
 
 
 class Customer(models.Model):
@@ -18,6 +17,7 @@ class Customer(models.Model):
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
     isActive = models.BooleanField(default=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
         return '%s %s %s' % (self.customer, '-', self.phone)

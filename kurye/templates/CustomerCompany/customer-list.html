@@ -146,17 +146,17 @@
                                         {% endif %}
                                         <td>{{ customer.address }}</td>
                                         <td style="text-align: center;">
-                                            <a href="{% url 'kurye:musteri-guncelle' customer.pk %}"
+                                            <a href="{% url 'kurye:musteri-guncelle' customer.uuid %}"
                                                class="btn btn-warning"
                                                type="button">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                             <button type="submit"
-                                                    onclick="customer_pasif({{ customer.pk }})"
+                                                    onclick="customer_pasif('{{ customer.uuid | safe }}')"
                                                     class="btn  btn-danger">Sil
                                             </button>
 
-                                        </td>
+                                        </td><x></x>
 
 
                                     </tr>
@@ -193,9 +193,10 @@
         });
 
 
-        function customer_pasif(customer_id) {
+        function customer_pasif(uuid) {
             debugger;
             let html = 'Müşteri Silinsin mi?';
+
             document.getElementById('content').innerHTML = html;
             $(".deneme23").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
@@ -203,7 +204,7 @@
                         url: "{% url 'kurye:musteri-sil' %}",
                         type: "post", // or "get"
                         data: {
-                            customer_id: customer_id,
+                            uuid: uuid,
 
 
                         },

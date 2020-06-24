@@ -8,7 +8,7 @@ class CompanyForm(ModelForm):
     class Meta:
         model = Company
 
-        fields = ('companyName', 'taxName', 'taxNumber')
+        fields = ('companyName', 'taxName', 'taxNumber', 'discount')
         widgets = {
             'companyName': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adı', 'rows': '2', 'required': 'required'}),
@@ -16,5 +16,7 @@ class CompanyForm(ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Vergi Numarası', 'rows': '2', 'required': 'required'}),
             'taxName': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Vergi Dairesi', 'required': 'required'}),
+            'discount': forms.NumberInput(
+                attrs={'class': 'form-control', 'placeholder': 'İndirim(₺)', 'required': 'required'}),
 
         }

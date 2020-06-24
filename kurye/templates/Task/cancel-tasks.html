@@ -26,13 +26,13 @@
 
     <section class="content-header">
         <h1>
-            {{ obj.name }}
+            İptal Edilen Görevler
 
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a href="">Görevler </a></li>
+            <li><a href="">İptal Edilen Görevler</a></li>
         </ol>
 
     </section>
@@ -91,6 +91,13 @@
 
                     <div class="box box-primary">
                         <div class="box-body">
+                            <a href="{% url 'kurye:aktif gorevler' %}" class="btn btn-app">
+                                <i class="fa fa-clock-o"></i>Aktif
+                                Görevler</a>
+                            <a href="{% url 'kurye:tamamlanan gorevler' %}" class="btn btn-app">
+                                <i class="fa fa-check"></i>Tamamlanan
+                              Görevler</a>
+
                             <br>
                             <table class="display responsive nowrap" cellspacing="0" width="100%" id="taskcanceled">
                                 <thead>

@@ -136,7 +136,7 @@
                             console.log(full.content);
                             console.log(full.id);
                             var base_url = "{% url 'kurye:mahalle-fiyati-guncelle' 0 %}";
-                            base_url=base_url.replace('0',full.id);
+                            base_url=base_url.replace('0',full.uuid);
                             return '<a type="button" class="btn btn-primary" href="'+base_url+'">Düzenle</a>\n'
                         }
                     },

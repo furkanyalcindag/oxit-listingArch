@@ -3,52 +3,7 @@
 {% block content %}
 
     <style>
-        #cover-spin {
-            position: fixed;
-            width: 100%;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.7);
-            z-index: 9999;
-            display: none;
-        }
 
-        @-webkit-keyframes spin {
-            from {
-                -webkit-transform: rotate(0deg);
-            }
-            to {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        #cover-spin::after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 48%;
-            top: 40%;
-            width: 40px;
-            height: 40px;
-            border-style: solid;
-            border-color: black;
-            border-top-color: transparent;
-            border-width: 4px;
-            border-radius: 50%;
-            -webkit-animation: spin .8s linear infinite;
-            animation: spin .8s linear infinite;
-        }
     </style>
 
 
@@ -180,10 +135,11 @@
 
                                     <th>#</th>
                                     <th>Kurye</th>
-                                    <th style="text-align: center">Prim</th>
+                                    <th style="text-align: center">Aylık Prim Ücreti</th>
                                     <th style="text-align: center">Teslim Edilen Paket Sayısı</th>
                                     <th>Tarih</th>
                                     <th>İşlem</th>
+                                    <th style="text-align: center">Paket Başı Prim Ücreti/Gerekli Teslimat Sayısı</th>
 
 
                                 </tr>
@@ -194,30 +150,57 @@
                                     <tr>
                                         <td>{{ forloop.counter }} </td>
                                         <td>{{ task.courier.courier.user.first_name }} {{ task.courier.courier.user.last_name }}</td>
-                                        <td style="text-align: center">{{ task.prim | floatformat:2 }} ₺</td>
+
+
+                                        {% if task.prim %}
+                                            <td style="text-align: center"> {{ task.prim | floatformat:2 }} ₺</td>
+                                        {% else %}
+                                            <td style="text-align: center"> 0 ₺</td>
+                                        {% endif %}
+
                                         <td style="text-align: center">{{ task.count }}</td>
                                         <td>{{ task.date }}</td>
-                                            {% if task.situation == 'Ödenmedi'  %}
+                                        {% if user.groups.all.0.name == 'Kurye' %}
+                                        {% if task.situation == 'Ödenmedi' %}
+                                            <td><span style="width: 80px;"
+                                                  class="label label-primary">Ödenmedi
+                                                </span></td>
+                                        {% else %}
+                                            <td><span style="width: 80px;"
+                                                      class="label label-primary">Ödendi
+                                                </span></td>
 
-                                                <td>
-                                                    <form action="{% url 'kurye:kurye-prim-ode' task.courier.pk %}"
-                                                          method="post">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" value="{{ year }}" name="year">
-                                                        <input type="hidden" value="{{ month }}" name="month">
-                                                        <input type="hidden" value="{{ task.prim }}" name="prim">
-                                                        <button style="width: 80px;" type="submit" class="btn btn-sm btn-success">Ödeme Yap
-                                                        </button>
-                                                    </form>
-                                                </td>
+                                        {% endif %}
+                                    {% endif %}
 
-                                            {% else %}
-                                                <td>
-                                                    <button style="width: 80px;" type="button" class="btn btn-sm btn-success">Ödendi
+                                        {% if user.groups.all.0.name != 'Kurye' and  task.situation == 'Ödenmedi' %}
+
+                                            <td>
+                                                <form action="{% url 'kurye:kurye-prim-ode' task.courier.pk %}"
+                                                      method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" value="{{ year }}" name="year">
+                                                    <input type="hidden" value="{{ month }}" name="month">
+                                                    <input type="hidden" value="{{ task.prim }}" name="prim">
+                                                    <button style="width: 80px;" type="submit"
+                                                            class="btn btn-sm btn-success">Ödeme Yap
                                                     </button>
-                                                </td>
-                                                <td></td>
-                                            {% endif %}
+                                                </form>
+
+                                            </td>
+
+                                        {% elif user.groups.all.0.name != 'Kurye' and task.situation == 'Ödendi' %}
+                                            <td>
+                                                <span style="width: 80px;"
+                                                      class="label label-primary">Ödendi
+                                                </span></td>
+
+
+
+                                        {% endif %}
+                                        <td style="text-align: center"><span
+                                                class="label label-warning">{{ task.month_prim }} ₺ - {{ task.limit }} Adet
+                                                </span></td>
 
                                     </tr>
 
@@ -313,38 +296,6 @@
     </script>
 
     <script>
-
-        function getTask(id) {
-
-            var html = '';
-            $.get(" {% url "kurye:gorev getir" pk=12121   %}".replace(/12121/, id.toString()))
-                .done(function (response) {
-
-                    var task = response.task[0];
-                    task.creationDate = formatDate(task.creationDate);
-
-
-                    html = '<div class="box-body table-responsive no-padding">';
-                    html += ' <table class="table table-hover">';
-                    html += ' <tbody><tr>';
-                    html += '<th>Müşteri Ad Soyad</th><th>Müşteri Adres</th><th>Firma</th><th>Kurye</th><th>Tarih</th></tr><tr>';
-                    html += '<td>' + task.task.request.receiver.customer + '</td><td>' + task.task.request.receiver.address + '</td><td>' + task.task.request.company.companyName + '</td><td>' + task.task.courier.courier.user.first_name + ' ' + task.task.courier.courier.user.last_name + '</td><td>' + task.creationDate + '</td>';
-                    html += '</tr></tbody></table></div>';
-
-                    $(".bodys").html(html);
-
-                });
-
-            $('.bd-example-modal-lg').modal('show');
-
-
-            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
-                // put your default event here
-                $(".bodys").html("");
-            });
-
-
-        }
 
 
         function formatDate(date) {

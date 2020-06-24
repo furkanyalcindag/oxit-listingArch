@@ -13,3 +13,4 @@ class EarningCompany(models.Model):
     task_count = models.IntegerField(null=True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
+

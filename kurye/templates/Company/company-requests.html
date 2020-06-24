@@ -109,6 +109,7 @@
                                     <th>Kurye</th>
                                     <th>Açıklama</th>
                                     <th>Talep Edilen Tarih/Zaman</th>
+                                    <th>Kurye Hizmet Ücreti</th>
 
 
                                 </tr>
@@ -120,7 +121,7 @@
                                         <td>{{ task.task.request.pk }} </td>
                                         <td>
                                             <button type="button" onclick="getTaskDetail({{ task.task.pk }})"
-                                                    class="btn btn-info">Detay
+                                                    class="btn btn-primary">Detay
                                             </button>
                                         </td>
 
@@ -136,7 +137,7 @@
 
                                         {% if task.task_situation.name == 'Paket Teslimi İçin Yolda' or task.task_situation.name == 'Paket Alımı İçin Yolda' %}
                                             <td><span
-                                                    class="label label-warning"></span>
+                                                    class="label label-warning">{{ task.task_situation.name }} - {{ task.creationDate }} </span>
                                             </td>
                                         {% elif   task.task_situation.name == 'Teslim Edildi' %}
                                             <td><span
@@ -157,7 +158,12 @@
                                             </td>
                                         {% endif %}
                                         <td>{{ task.task.request.receiver.customer }}</td>
-                                        <td>{{ task.task.request.receiver.address }}</td>
+                                        {% if task.task.request.address %}
+                                            <td>{{ task.task.request.address }}</td>
+                                        {% else %}
+                                            <td>{{ task.task.request.receiver.address }}</td>
+                                        {% endif %}
+
                                         <td>{{ task.task.request.totalPrice }} ₺</td>
                                         <td>{{ task.task.request.payment_type }}</td>
                                         <td>{{ task.task.courier.courier.user.first_name }} {{ task.task.courier.courier.user.last_name }}</td>
@@ -167,6 +173,7 @@
                                             <td>Açıklama Yapılmadı</td>
                                         {% endif %}
                                         <td>{{ task.task.request.exitDate }} - {{ task.task.request.exitTime }} </td>
+                                        <td>{{ task.task.request.discount_price }} ₺</td>
 
 
                                     </tr>
@@ -236,12 +243,14 @@
 
 
         function formatDate(date) {
+            debugger;
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
-                year = d.getFullYear();
-            hour = d.getHours();
-            minute = d.getMinutes();
+                year = d.getFullYear(),
+                hour = d.getHours(),
+                minute = d.getMinutes();
+
 
             if (month.length < 2)
                 month = '0' + month;

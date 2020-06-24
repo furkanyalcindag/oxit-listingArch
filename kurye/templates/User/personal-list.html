@@ -142,7 +142,7 @@
                                         <td>{{ personal.profile.user.email }}</td>
                                         <td style="text-align: center">
                                             <button type="submit"
-                                                    onclick="personal_pasif({{ personal.pk }})"
+                                                    onclick="personal_pasif('{{ personal.uuid | safe }}')"
                                                     class="btn  btn-danger">Sil
                                             </button>
                                         </td>
@@ -181,7 +181,7 @@
         });
 
 
-        function personal_pasif(personal_id) {
+        function personal_pasif(personal_uuid) {
             debugger;
             let html = 'Personeli Silmek İstediğinizden Emin Misiniz?';
             document.getElementById('content').innerHTML = html;
@@ -191,7 +191,7 @@
                         url: "{% url 'kurye:personel-sil' %}",
                         type: "post", // or "get"
                         data: {
-                            personal_id: personal_id,
+                            personal_id: personal_uuid,
 
 
                         },

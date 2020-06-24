@@ -1,6 +1,5 @@
 from django.db import models
-from django.utils import timezone
-
+import uuid
 from kurye.models.Task import Task
 from kurye.models.TaskSituations import TaskSituations
 
@@ -11,6 +10,7 @@ class TaskSituationTask(models.Model):
     isActive = models.BooleanField(default=True)
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return '%s ' % self.task_situation.name

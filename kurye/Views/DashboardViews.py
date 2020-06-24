@@ -1,7 +1,4 @@
-import calendar
 import datetime
-
-from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -177,7 +174,7 @@ def return_company_dashboard(request):
             task__request__company_id=company.pk).values('task__request__company',
                                                          'task__request__creationDate__month',
                                                          'task__request__creationDate__year').annotate(
-            sum=Sum('task__request__request_price'))
+            sum=Sum('task__request__discount_price'))
 
         for x in report_year_request:
             report_year = dict()
@@ -196,11 +193,11 @@ def return_company_dashboard(request):
         report_earning_company = TaskSituationTask.objects.filter(task_situation__name='Teslim Edildi').filter(
             task__request__company_id=company.pk).values(
             'creationDate__year', 'creationDate__month').annotate(
-            sum=Sum('task__request__request_price'))
+            sum=Sum('task__request__discount_price'))
 
         for y in report_earning_company:
             report_year = dict()
-            report_year['total'] = int(y['sum'])
+            report_year['total'] = float(y['sum'])
             report_year['date'] = y['creationDate__month']
             report_year['year'] = y['creationDate__year']
             array_earning_company.append(report_year)
@@ -272,7 +269,7 @@ def return_courier_dashboard(request):
         return redirect('accounts:login')
 
     user = request.user
-    profile = Profile.objects.get(user=user)
+    profile = Profile.objects.get(user_id=user.pk)
     courier = Courier.objects.get(courier=profile)
     today = datetime.date.today().year
     start_date = Settings.objects.get(name='start_report_year')

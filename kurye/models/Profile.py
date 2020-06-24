@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from kurye.models.Neighborhood import Neighborhood
 from kurye.models.City import City
+import uuid
 
 
 class Profile(models.Model):
@@ -22,6 +22,8 @@ class Profile(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi')
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     isActive = models.BooleanField(default=False, verbose_name='Aktif/Pasif')
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+
 
     def __str__(self):
         return '%s %s %s %s' % (self.mobilePhone, '-', self.user.first_name, self.user.last_name)

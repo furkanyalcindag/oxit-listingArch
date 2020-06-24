@@ -154,13 +154,13 @@ def add_courier(request):
 
 # Kurye Güncelle
 @login_required
-def update_courier(request, pk):
+def update_courier(request, uuid):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    courier = Courier.objects.get(pk=pk)
+    courier = Courier.objects.get(uuid=uuid)
     profile_form = ProfileForm(request.POST or None, request.FILES or None, instance=courier.courier)
     user_form = UserUpdateForm(request.POST or None, instance=courier.courier.user)
     courier_form = CourierForm(request.POST or None, instance=courier)
@@ -274,7 +274,7 @@ def add_customer(request):
 
 # Kullanıcı Müşteri Güncelle
 @login_required
-def update_customer(request, pk):
+def update_customer(request, uuid):
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -284,7 +284,7 @@ def update_customer(request, pk):
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
     company = Company.objects.get(profile=profile)
-    customer = Customer.objects.get(pk=pk)
+    customer = Customer.objects.get(uuid=uuid)
 
     customer_form = CustomerUpdateForm(request.POST or None, instance=customer)
     cities = City.objects.all()
@@ -469,7 +469,8 @@ def add_company(request):
             profile.save()
             company = Company(profile=profile, companyName=company_form.cleaned_data['companyName'],
                               taxName=company_form.cleaned_data['taxName'],
-                              taxNumber=company_form.cleaned_data['taxNumber'], )
+                              taxNumber=company_form.cleaned_data['taxNumber'],
+                              discount=company_form.cleaned_data['discount'])
             company.save()
 
             log_content = '<p><strong style="color:red">' + profile.user.first_name + ' ' + profile.user.last_name + '</strong> adlı <strong style="color:red">Kullanıcı </strong> eklendi.</p>'
@@ -500,13 +501,13 @@ def add_company(request):
 
 # Kullanıcı Firma Güncelle
 @login_required
-def update_company(request, pk):
+def update_company(request, uuid):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    company = Company.objects.get(pk=pk)
+    company = Company.objects.get(uuid=uuid)
     profile_form = ProfileForm(request.POST or None, request.FILES or None, instance=company.profile)
     user_form = UserUpdateForm(request.POST or None, instance=company.profile.user)
     company_form = CompanyForm(request.POST or None, instance=company)
@@ -630,10 +631,10 @@ def customer_delete(request):
         logout(request)
         return redirect('accounts:login')
     if request.POST:
-        pk = request.POST['customer_id']
+        pk = request.POST['uuid']
         user = request.user
         profile = Profile.objects.get(user=user)
-        customer = Customer.objects.get(pk=pk)
+        customer = Customer.objects.get(uuid=pk)
         customer.isActive = False
         customer.save()
 
@@ -662,7 +663,7 @@ def personal_delete(request):
             pk = request.POST['personal_id']
             user = request.user
             profile = Profile.objects.get(user=user)
-            personal = Personal.objects.get(pk=pk)
+            personal = Personal.objects.get(uuid=pk)
             personal.profile.isActive = False
             personal.profile.save()
 
@@ -690,7 +691,7 @@ def company_delete(request):
             user = request.user
             profile = Profile.objects.get(user=user)
             company_id = request.POST['company_id']
-            company = Company.objects.get(pk=company_id)
+            company = Company.objects.get(uuid=company_id)
             company.profile.isActive = False
             company.profile.save()
 
@@ -718,7 +719,7 @@ def courier_delete(request):
             user = request.user
             profile = Profile.objects.get(user=user)
             courier_id = request.POST['courier_id']
-            courier = Courier.objects.get(pk=courier_id)
+            courier = Courier.objects.get(uuid=courier_id)
             courier.courier.isActive = False
             courier.courier.save()
 

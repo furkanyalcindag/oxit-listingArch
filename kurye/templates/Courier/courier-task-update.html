@@ -128,7 +128,7 @@
                                         <td>
 
                                             <button type="submit" class="btn btn-success"
-                                                    onclick="task_update({{ task.task.id }} ,  document.getElementById('situation').value,document.getElementById('description').value)">
+                                                    onclick="task_update('{{ task.task.uuid }}')">
                                                 Güncelle
                                             </button>
 
@@ -137,7 +137,7 @@
 
                                         <td>
 
-                                            <select size="1" name="situation" id="situation">
+                                            <select size="1" name="situation" id="{{task.task.uuid}}">
 
                                                 {% for situation in task_situations %} }
                                                     {% if task.task_situation.name == situation.name %}
@@ -145,7 +145,7 @@
                                                     {% else %}
                                                         {% if situation.name == 'Tamamlandı' or situation.name == 'İptal Edildi' %}
                                                         {% else %}
-                                                            <option>{{ situation.name }}</option>
+                                                            <option value="{{ situation.name }}">{{ situation.name }}</option>
                                                         {% endif %}
                                                     {% endif %}
 
@@ -237,15 +237,16 @@
         });
 
 
-        function task_update(task_id, situation, description) {
-            debugger;
+        function task_update(uuid) {
 
-
+            let e = document.getElementById(uuid);
+            let situation = e.options[e.selectedIndex].value;
+            let description = document.getElementById('description').value;
             $.ajax({
                 url: "{% url 'kurye:gorev-guncelle' %}",
                 type: "POST", // or "get"
                 data: {
-                    task: task_id,
+                    task: uuid,
                     situation: situation,
                     description: description,
                 },
@@ -307,4 +308,3 @@
 
 
 {% endblock %}
-

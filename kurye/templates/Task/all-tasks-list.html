@@ -58,7 +58,7 @@
             <div class="modal-content" style="height:fit-content">
 
                 <div class="modal-header" style="background-color:#3c8dbc ">
-                    <font color="white">Talep</font>
+                    <font color="white">Tamamlanan Görevler</font>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -74,6 +74,7 @@
             </div>
         </div>
     </div>
+
 
     <section class="content-header">
         <h1>
@@ -137,67 +138,70 @@
         <div class="row">
 
 
-            <section class="col-lg-12">
+            <section class="col-lg-12 ">
 
 
                 <div class="box-body">
 
-
                     <div class="box box-primary">
+
                         <div class="box-body">
-                            <a type="button" href="{% url 'kurye:kurye sec' %}"
-                               class="btn btn-default btn-sm pull-left" style="margin-bottom: 7px;"><i
-                                    class="fa fa-plus"> Görev Ata</i>
-                            </a>
+
 
                             <br>
-                            <table id="approvedrequest" class="display responsive nowrap" cellspacing="0" width="100%">
+                            <table id="all-task" class="table  table-bordered display responsive nowrap "
+                                   cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
 
+                                    <th>Görev No</th>
                                     <th>Talep No</th>
+                                    <th>Görev Durumu</th>
+                                    <th>Kurye</th>
                                     <th>Firma</th>
-                                    <th>Müşteri Ad Soyad</th>
-                                    <th>Talep Tarihi</th>
-                                    <th>Adres</th>
-                                    <th>Açıklama</th>
-                                    <th>Detay</th>
+                                    <th>Firma Adresi</th>
+                                    <th>Firma Telefonu</th>
+                                    <th>Müşteri</th>
+                                    <th>Müşteri Adresi</th>
+                                    <th>Müşteri Telefonu</th>
+                                    <th>Sipariş Tutarı</th>
+                                    <th>Sipariş Ödeme Yöntemi</th>
+                                    <th>Sipariş Çıkış Tarih/Zaman</th>
+                                    <th>Kurye Talep Ücreti</th>
+                                    <th>Talep Açıklaması</th>
 
 
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
 
-                                {% for request in approved_requests %}
-                                    <tr>
-                                        <td>{{ request.pk }}</td>
-                                        <td>{{ request.company.companyName }}</td>
-                                        <td>{{ request.receiver.customer }}</td>
 
-                                        <td>{{ request.exitDate }} - {{ request.exitTime }}</td>
-                                        <td>{{ request.receiver.address }}</td>
-                                        {% if request.description %}
-                                            <td>{{ request.description }}</td>
-                                        {% else %}
-                                            <td>Açıklama Yapılmadı</td>
-                                        {% endif %}
-                                        <td><a class="btn" onclick="getRequest({{ request.pk }})"><span
-                                                class="label label-primary">Göster</span></a></td>
-
-
-                                    </tr>
-                                {% endfor %}
-
+                                </tr>
 
                                 </tbody>
                             </table>
-
-
                         </div>
-                        <!-- /.box -->
 
 
                     </div>
+
+
                 </div>
             </section>
 
@@ -209,7 +213,7 @@
 
     <script>
         $(function () {
-            $('#approvedrequest').DataTable({
+            $('#all-task').DataTable({
                 'paging': true,
                 'lengthChange': true,
                 'searching': true,
@@ -220,57 +224,92 @@
 
         })
     </script>
-
-    <script>    function getRequest(id) {
-        debugger;
-
-        var html = '';
-        $.get(" {% url "kurye:talep getir" pk=12121   %}".replace(/12121/, id.toString()))
-            .done(function (response) {
-                var request = response.request[0];
+    <script>
+        $(function () {
 
 
-                html = '<div class="box-body table-responsive no-padding">';
-                html += ' <table class="table table-hover">';
-                html += ' <tbody><tr>';
-                html += '<th>Müşteri Ad Soyad</th><th>Müşteri Adres</th><th>Müşteri Telefon</th><th>Firma</th><th>Ödenecek Ücret</th><th>Ödeme Yöntemi</th></tr><tr>';
-                html += '<td>' + request.request.receiver.customer + '</td><td>' + request.request.receiver.address + '</td><td>' + request.request.receiver.phone + '</td><td>' + request.request.company.companyName + '</td><td>' + request.request.totalPrice + '₺</td><td>' + request.request.payment_type + '</td>';
-                html += '</tr></tbody></table></div>';
-
-                $(".bodys").html(html);
-
-            });
-
-        $('.bd-example-modal-lg').modal('show');
+            $('#all-task').DataTable({
 
 
-        $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
-            // put your default event here
-            $(".bodys").html("");
-        });
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "ordering": true,
+
+                "ajax": {
+                    "url": "{% url 'kurye:tasks-rest' %}",
+                    "type": "POST"
+                },
+                "columns": [
 
 
-    }
+                    {"data": "task.id"},
+                    {"data": "task.request.id"},
+                    {"data": "task_situation.name"},
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            return row.task.courier.courier.user.first_name + ' ' + row.task.courier.courier.user.last_name;
+                        }
+
+                    },
+                    {"data": "task.request.company.companyName"},
+                    {"data": "task.request.company.profile.address"},
+                    {"data": "task.request.company.profile.mobilePhone"},
+                    {"data": "task.request.receiver.customer"},
+                    {"data": "task.request.receiver.address"},
+                    {"data": "task.request.receiver.phone"},
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            return row.task.request.totalPrice + '₺';
+                        }
+                    },
+                    {"data": "task.request.payment_type"},
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            return row.task.request.exitDate + '-' + row.task.request.exitTime;
+                        }
+                    },
+                    {"data": "task.request.request_price"},
+
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            if (row.task.request.description) {
+                                return row.task.request.description;
+                            } else {
+                                return "Açıklama Yapılmadı.";
+                            }
+
+                        }
+
+                    },
 
 
-    function formatDate(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-        hour = d.getHours();
-        minute = d.getMinutes();
+                ]
 
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
+            })
 
-        date = [day, month, year].join('.');
-        time = [hour, minute].join(':');
+        })
+    </script>
+    <script>
 
 
-        return [date, time].join('-');
-    }</script>
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [day, month, year].join('.');
+        }
+    </script>
 {% endblock %}
 

@@ -6,7 +6,7 @@ from kurye.models import Neighborhood
 class NeighborhoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Neighborhood
-        fields = ['id', 'city', 'district', 'neighborhood_name', 'price']
+        fields = ['uuid', 'id', 'city', 'district', 'neighborhood_name', 'price']
         depth = 3
 
 

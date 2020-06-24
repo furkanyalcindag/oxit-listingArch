@@ -218,7 +218,12 @@
                                         <td>{{ forloop.counter }} </td>
                                         <td>{{ task.task_situation.name }}</td>
                                         <td>{{ task.request.receiver.customer }}</td>
-                                        <td>{{ task.request.receiver.address }}</td>
+                                        {% if request.request.address %}
+                                            <td>{{ task.request.address }}</td>
+                                        {% else %}
+                                            <td>{{ task.request.receiver.address }}</td>
+                                        {% endif %}
+
                                         <td>{{ task.request.totalPrice }} ₺</td>
                                         <td>{{ task.request.exitDate }} - {{ task.request.exitTime }} </td>
 

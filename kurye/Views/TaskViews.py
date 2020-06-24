@@ -22,14 +22,13 @@ from kurye.services.general_methods import save_log
 
 
 # admin Talepler
-def requests(request, pk):
+def requests(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
 
-    courier = Courier.objects.get(pk=pk)
     request1 = Request.objects.filter(isApprove=True)
     task = []
     request_array = []
@@ -37,75 +36,76 @@ def requests(request, pk):
         tasks = TaskSituationTask.objects.filter(task__request=request2).filter(isActive=True)
         if tasks.count() == 0:
             request_array.append(request2)
-    return render(request, 'Request/request.html', {'requests': request_array, 'courier': courier})
+    return render(request, 'Request/request.html', {'requests': request_array})
 
 
-# görev atama kurye seçiliyor
-def add_task(request, pk):
+# görev ata
+def add_task(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    profile = Profile.objects.get(user=request.user)
     user = request.user
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
-    request1 = Request.objects.get(pk=pk)
-    task = Task(request=request1)
-    task.save()
 
-    if request.method == 'POST':
-        situation = TaskSituationTask(task=task, task_situation=TaskSituations.objects.get(name='Kurye Atandı'),
-                                      isActive=True)
-        situation.save()
+    if request.POST:
 
-        c_post = request.POST['courier']
-        courier = Courier.objects.get(pk=c_post)
+        try:
+            request1 = Request.objects.get(uuid=request.POST['request_id'])
+            courier = Courier.objects.get(uuid=request.POST['courier_id'])
 
-        task.courier = courier
-        task.save()
-        courier.isActive = False
-        courier.save()
+            task = Task(request=request1, courier=courier)
+            task.courier.isActive = False
+            task.courier.save()
+            task.save()
 
-        notification = Notification.objects.filter(message__icontains='Talep No: ' + str(request1.pk)).filter(
-            key__icontains='Talep')
-        for notification in notification:
-            notification.delete()
+            situation = TaskSituationTask(task=task, task_situation=TaskSituations.objects.get(name='Kurye Atandı'),
+                                          isActive=True)
+            situation.save()
 
-        log_content = '<p><strong style="color:red"> ' + groups[
-            0].name + ', ' + courier.courier.user.first_name + ' ' + courier.courier.user.last_name + '</strong>adlı Kuryeyi <strong style="color:red">  ' + str(
-            task.pk) + ' </strong> nolu göreve atadı.</p>'
+            notification = Notification.objects.filter(message__icontains='Talep No: ' + str(request1.pk)).filter(
+                key__icontains='Talep')
+            for notification in notification:
+                notification.delete()
 
-        save_log(profile.pk, log_content)
+            log_content = '<p><strong style="color:red"> ' + groups[
+                0].name + ', ' + courier.courier.user.first_name + ' ' + courier.courier.user.last_name + '</strong>adlı Kuryeyi <strong style="color:red">  ' + str(
+                task.pk) + ' </strong> nolu göreve atadı.</p>'
 
-        notification2 = Notification()
-        notification2.profile = courier.courier
-        notification2.key = 'Kurye Görevlendirme'
-        notification2.message = 'Yeni Görev ID: ' + str(task.pk) + ''
-        notification2.save()
+            save_log(profile.pk, log_content)
 
-        notification3 = Notification()
-        notification3.profile = task.request.company.profile
-        notification3.key = 'Kurye Görevlendirme'
-        notification3.message = '' + str(
-            task.request.pk) + ' nolu talebiniz için ' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görevlendirildi.'
-        notification3.save()
+            notification2 = Notification()
+            notification2.profile = courier.courier
+            notification2.key = 'Kurye Görevlendirme'
+            notification2.message = 'Yeni Görev ID: ' + str(task.pk) + ''
+            notification2.save()
 
-        subject, from_email, to = 'MotoKurye Görev Bilgileri', 'burcu.dogan@oxityazilim.com', courier.courier.user.email
-        text_content = 'Görev Bilgileri'
-        html_content = '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
-        html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
-        html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(task.request.totalPrice) + '₺</p>'
-        html_content = html_content + '<p>Detaylı görev bilgilerinine siteminizden ulaşabilirsiniz.</p>'
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+            notification3 = Notification()
+            notification3.profile = task.request.company.profile
+            notification3.key = 'Kurye Görevlendirme'
+            notification3.message = '' + str(
+                task.request.pk) + ' nolu talebiniz için ' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' adlı kurye görevlendirildi.'
+            notification3.save()
 
-        messages.success(request,
-                         'Görev ' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' a Atandı.')
-        return redirect('kurye:kurye sec')
+            subject, from_email, to = 'MotoKurye Görev Bilgileri', 'burcu.dogan@oxityazilim.com', courier.courier.user.email
+            text_content = 'Görev Bilgileri'
+            html_content = '<p> <strong>Adres:</strong>' + task.request.receiver.address + '</p>'
+            html_content = html_content + '<p><strong>Müşteri Adı Soyadı: </strong>' + task.request.receiver.customer + '</p>'
+            html_content = html_content + '<p><strong>Ödenecek Tutar: </strong>' + str(
+                task.request.totalPrice) + '₺</p>'
+            html_content = html_content + '<p>Detaylı görev bilgilerinine siteminizden ulaşabilirsiniz.</p>'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
-    return render(request, 'Task/add-task.html', {'request': request1, })
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
 
 
 # admin Bütün Görevler
@@ -219,14 +219,13 @@ def getTask(request, pk):
     return JsonResponse(responseData, safe=True)
 
 
-def assign_courier(request):
+def all_tasks(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    couriers = Courier.objects.all().order_by('modificationDate')
-    return render(request, 'Task/assign-courier.html', {'couriers': couriers})
+    return render(request, 'Task/all-tasks-list.html')
 
 
 # Yeniden Kurye
@@ -240,8 +239,7 @@ def other_assign_courier_task(request, pk):
     groups = Group.objects.filter(user=user)
     profile = Profile.objects.get(user=user)
     task = Task.objects.get(pk=pk)
-    couriers = Courier.objects.all()
-
+    couriers = Courier.objects.filter(courier__isActive=True)
     if request.method == 'POST':
 
         id = request.POST['courier']
@@ -305,7 +303,7 @@ def other_assign_courier_task(request, pk):
 
         messages.success(request,
                          'Görev ' + task.courier.courier.user.first_name + ' ' + task.courier.courier.user.last_name + ' a Atandı.')
-        return redirect('kurye:kurye sec')
+        return redirect('kurye:aktif gorevler')
 
     return render(request, 'Task/task_other_assign_courier.html', {'couriers': couriers, 'task': task})
 
@@ -320,8 +318,6 @@ def getTaskDetail(request, pk):
     responseData['task'] = data.data
     responseData['task'][0]
     return JsonResponse(responseData, safe=True)
-
-
 
 
 @api_view()

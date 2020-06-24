@@ -185,14 +185,17 @@ class GetCompletedTask(APIView):
         profile = Profile.objects.get(user=user)
         company = Company.objects.get(profile=profile)
 
-        tasks = TaskSituationTask.objects.filter(task_situation__name='Tamamlandı').filter(
+        tasks = TaskSituationTask.objects.filter(
+            Q(task_situation__name='Teslim Edildi') | Q(task_situation__name='Teslim Edilemedi')).filter(
             task__request__company__companyName__icontains=request.data['search[value]']).order_by(
             '-creationDate')[
                 int(start):end]
 
-        task_all = TaskSituationTask.objects.filter(task_situation__name='Tamamlandı').count()
+        task_all = TaskSituationTask.objects.filter(
+            Q(task_situation__name='Teslim Edildi') | Q(task_situation__name='Teslim Edilemedi')).count()
 
-        filteredTotal = TaskSituationTask.objects.filter(task_situation__name='Tamamlandı').filter(
+        filteredTotal = TaskSituationTask.objects.filter(
+            Q(task_situation__name='Teslim Edildi') | Q(task_situation__name='Teslim Edilemedi')).filter(
             task__request__company__companyName__icontains=request.data['search[value]']).count()
 
         logApiObject = LogAPIObject()
@@ -229,9 +232,40 @@ class GetNeighborhood(APIView):
         serializer_context = {
             'request': request,
             'model': Neighborhood,
-            'fields': ['id', 'city', 'district', 'neighborhood_name', 'price']
+            'fields': ['uuid', 'id', 'city', 'district', 'neighborhood_name', 'price']
         }
         serializer = NeighborhoodResponseSerializer(logApiObject, context=serializer_context)
+        return Response(serializer.data)
+
+
+class AllTask(APIView):
+
+    def post(self, request, format=None):
+        draw = request.data['draw']
+        start = request.data['start']
+        length = request.data['length']
+        end = int(start) + int(length)
+
+        tasks = TaskSituationTask.objects.filter(
+            task__request__company__companyName__icontains=request.data['search[value]']).order_by(
+            '-creationDate')[
+                int(start):end]
+
+        task_all = TaskSituationTask.objects.all().count()
+
+        filteredTotal = TaskSituationTask.objects.filter(
+            task__request__company__companyName__icontains=request.data['search[value]']).count()
+
+        logApiObject = LogAPIObject()
+        logApiObject.data = tasks
+        logApiObject.draw = int(request.POST['draw'])
+        logApiObject.recordsTotal = int(task_all)
+        logApiObject.recordsFiltered = int(filteredTotal)
+
+        serializer_context = {
+            'request': request,
+        }
+        serializer = TaskResponseSerializer(logApiObject, context=serializer_context)
         return Response(serializer.data)
 
 

@@ -1,5 +1,5 @@
 .skin-red .main-header .navbar {
-    background-color: #000066
+    background-color: #020261
 }
 
 .skin-red .main-header .navbar .nav>li>a {
@@ -31,7 +31,7 @@
 }
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
-    background-color: #010144
+    background-color: #020261
 }
 
 @media (max-width:767px) {
@@ -47,13 +47,13 @@
 }
 
 .skin-red .main-header .logo {
-    background-color: #010144;
+    background-color: #020261;
     color: #fff;
     border-bottom: 0 solid transparent
 }
 
 .skin-red .main-header .logo:hover {
-    background-color: #010144
+    background-color: #020261
 }
 
 .skin-red .main-header li.user-header {
@@ -67,7 +67,7 @@
 .skin-red .wrapper,
 .skin-red .main-sidebar,
 .skin-red .left-side {
-    background-color: #010144
+    background-color:#020261
 }
 
 .skin-red .user-panel>.info,

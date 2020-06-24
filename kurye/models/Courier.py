@@ -1,6 +1,6 @@
 from django.db import models
-
 from kurye.models.Profile import Profile
+import uuid
 
 
 class Courier(models.Model):
@@ -20,6 +20,8 @@ class Courier(models.Model):
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     isActive = models.BooleanField(default=True)
     type = models.CharField(choices=TYPE_CHOICES, max_length=250, null=True, blank=True, verbose_name='Kurye Tipi')
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+
 
     def __str__(self):
         return '%s %s %s %s' % (self.type, 'Kurye - ', self.courier.user.first_name, self.courier.user.last_name)

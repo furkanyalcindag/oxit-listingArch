@@ -1,9 +1,14 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-
+    <style>
+        .detail tr.detail-color:hover {
+            background-color: #a7a7a7;;
+        }
+    </style>
     <section class="content-header">
         <h1>
+            <x></x>
             {{ obj.name }}
         </h1>
         <ol class="breadcrumb">
@@ -28,6 +33,25 @@
                     <div class="modal-footer">
 
                         <button type="button" class="btn btn-outline btn-ok">Tamam</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal modal-success fade bd-example-modal-lg" id="modal-default" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Hizmet Ücret Bilgileri</h4>
+                    </div>
+                    <div class="modal-body bodys">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Kapat</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -180,6 +204,7 @@
                                     <th style="text-align: center">Teslim Edilen Paket Sayısı</th>
                                     <th>Tarih</th>
                                     <th>Durum</th>
+                                    <th></th>
 
 
                                 </tr>
@@ -191,7 +216,9 @@
 
                                         <td>{{ forloop.counter }} </td>
                                         <td>{{ task.company.companyName }} </td>
+
                                         <td style="text-align: center">{{ task.sum | floatformat:2 }} ₺</td>
+
                                         <td style="text-align: center">{{ task.count }}</td>
                                         <td>{{ task.date }}</td>
                                         {% if task.situation == 'Ödenmedi' %}
@@ -202,8 +229,8 @@
                                                             onclick="pay_payment({{ task.company.pk }},{{ year }},{{ month }})"
                                                             class="btn btn-sm btn-success">Ödendi Yap
                                                     </button>
-                                                    {% else %}
-                                                   {{ task.situation}}
+                                                {% else %}
+                                                    {{ task.situation }}
                                                 {% endif %}
                                             </td>
 
@@ -215,13 +242,18 @@
                                                             onclick="undo_payment_company({{ task.company.pk }},{{ year }},{{ month }})"
                                                             class="btn btn-sm btn-danger">Ödenmedi Yap
                                                     </button>
-                                                    {% else %}
+                                                {% else %}
                                                     {{ task.situation }}
                                                 {% endif %}
 
                                             </td>
-                                            <td></td>
                                         {% endif %}
+                                        <td>
+                                            <button class="btn btn-primary" type="submit"
+                                                    onclick="getCompanyEarning({{ task.company.pk }},{{ month }},{{ year }})">
+                                                Detay
+                                            </button>
+                                        </td>
 
                                     </tr>
 
@@ -356,14 +388,15 @@
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
-                year = d.getFullYear();
+                year = d.getFullYear(),
+                datetime = d.getHours() + ':' + d.getMinutes();
 
             if (month.length < 2)
                 month = '0' + month;
             if (day.length < 2)
                 day = '0' + day;
 
-            return [day, month, year].join('.');
+            return [day, month, year].join('.') + '/' + datetime;
         }
     </script>
 
@@ -450,6 +483,61 @@
             });
         }
 
+
+    </script>
+
+    <script>
+        function getCompanyEarning(company, month, year) {
+
+            var html = '';
+            let url = "{% url "kurye:kullanici-odeme-detaylari" %}";
+
+
+            $.ajax({
+                url: url,
+                type: "post", //send it through get method
+                data: {
+                    pk: company,
+                    month: month,
+                    year: year
+
+                },
+                success: function (result) {
+                    //Do Something
+
+                    var data = result.task;
+                    let total = 0;
+                    html += '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-hover detail"><tbody><tr class="detail-color">';
+                    html += '<th>Talep No:</th><th>Mahalle</th><th>Hizmet Ücreti</th><th>Talep Tarih/Zaman</th><th>İndirim</th></tr>';
+                    for (let i = 0; i < data.length; i++) {
+                        let date = formatDate(data[i].task.request.creationDate);
+
+                        total = data[i].task.request.request_price;
+
+                        if (data[i].task.request.address === null) {
+                            html += '<tr class="detail-color"><td>' + result.task[i].task.request.id + '</td><td>' + data[i].task.request.receiver.neighborhood + '</td><td>' + total + '₺</td><td>' + date + '</td><td>%' + data[i].task.request.company.discount + '</td></tr>';
+
+                        } else {
+                            let mahalle = data[i].task.request.neighborhood.neighborhood_name;
+                            html += '<tr class="detail-color"><td>' + result.task[i].task.request.id + '</td><td>' + mahalle + '</td><td>' + total + '₺</td><td>' + date + '</td><td>%' + data[i].task.request.company.discount + '</td></tr>';
+
+                        }
+
+                    }
+                    html += '</tbody></table></div>';
+                    $(".bodys").html(html);
+                    $('.bd-example-modal-lg').modal('show');
+
+
+                    $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                        // put your default event here
+                        $(".bodys").html("");
+                    });
+
+                }
+            });
+        }
 
     </script>
 

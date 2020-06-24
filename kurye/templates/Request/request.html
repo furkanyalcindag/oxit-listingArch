@@ -77,7 +77,6 @@
                                 <thead>
                                 <tr>
                                     <th>Talep No</th>
-                                    <th>Talep Seç</th>
                                     <th>Kurye</th>
                                     <th>Firma</th>
                                     <th>Alıcı Ad Soyad</th>
@@ -99,33 +98,29 @@
 
                                     <tr>
 
-
                                         <td>{{ request.pk }} </td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <form action="{% url 'kurye:gorev ata' request.pk %}"
-                                                      method="post">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" value="{{ courier.pk }}"
-                                                           name="courier">
-                                                    <button class="btn btn-sm btn-success"
-                                                            type="submit" style="width: 70px">
-                                                        <i class="fa fa-check"> </i>
-                                                    </button>
 
-                                                </form>
-                                            </div>
-                                        </td>
                                         <td>
-                                            {{ courier.courier.user.first_name }} {{ courier.courier.user.last_name }}
+                                            <button onclick="getCourier('{{ request.uuid}}')" type="button"
+                                                    class="btn btn-warning">Sec
+                                            </button>
 
                                         </td>
 
                                         <td>{{ request.company.companyName }}</td>
                                         <td>{{ request.receiver.customer }}</td>
                                         <td>{{ request.receiver.phone }}</td>
-                                        <td>{{ request.receiver.district }}/{{ request.receiver.city }} </td>
-                                        <td>{{ request.receiver.address }}</td>
+                                        {% if request.address %}
+                                            <td>{{ request.district }}/{{ request.city }} </td>
+
+                                            <td>{{ request.address }}</td>
+
+                                        {% else %}
+                                            <td>{{ request.receiver.district }}/{{ request.receiver.city }} </td>
+
+                                            <td>{{ request.receiver.address }}</td>
+
+                                        {% endif %}
                                         <td>{{ request.payment_type }}</td>
                                         <td>{{ request.totalPrice }}</td>
                                         <td>{{ request.exitDate }}</td>
@@ -158,8 +153,28 @@
 
         </div>
         <!-- /.row (main row) -->
+        <div class="modal fade bd-example-modal-lg" id="modal-default" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Kuryelar</h4>
+                    </div>
+                    <div class="modal-body bodys">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
 
     </section>
+
     <script>
         $(function () {
             $('#talep').DataTable({
@@ -208,6 +223,86 @@
                 }
             }
         });
+
+
+    </script>
+
+
+    <script>
+
+        function getCourier(uuid) {
+
+            var html = '';
+            let durum = '';
+
+            $.get("{% url "kurye:getir-kurye" %}")
+                .done(function (response) {
+                    debugger;
+                    var courier = response.request;
+
+                    html = '<div class="box box-primary"><div class="box-body">';
+                    html += '<table class="table table-bordered table-hover">';
+                    html += '<thead><tr>';
+                    html += '<th>#</th><th>Kurye Ad Soyad</th><th>Durum</th><th>Telefon</th><th>Adres</th><th>Kurye Tipi</th><th></th></tr></thead><tbody>';
+                    for (let i = 0; i < courier.length; i++) {
+                        if (courier[i].isActive === false) {
+                            durum = '<span class="label label-danger">Görevde</span>'
+                        } else
+                            durum = '<span class="label label-success">Görevi Yok</span>';
+                        html += '<tr><td>' + i + '</td>';
+                        html += '<td>' + courier[i].courier.user.first_name + ' ' + courier[i].courier.user.last_name + '</td>';
+                        html += '<td>' + durum + '</td>';
+                        html += '<td>' + courier[i].courier.mobilePhone + '</td>';
+                        html += '<td>' + courier[i].courier.address + '</td>';
+                        html += '<td>' + courier[i].type + '</td>';
+                        html += '<td><button onclick="assign_task(\'' + uuid + '\',\'' + courier[i].uuid + '\')" type="button" class="btn btn-success"><i class="fa fa-check"></i></button></td></tr>'
+
+
+                    }
+
+                    html += '</tbody></table></div>';
+
+                    $(".bodys").html(html);
+
+                });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }
+
+
+        function assign_task(request_id, uuid) {
+            debugger;
+            $.ajax({
+                url: "{% url 'kurye:gorev ata' %}",
+                type: "POST", // or "get"
+                data: {
+                    courier_id: uuid,
+                    request_id: request_id
+                },
+
+                success: function (result) {
+
+                    if (result.status == 'Success') {
+                        swal("Başarılı", "Görev atandı", "success");
+                        window.location.replace("{% url "kurye:talepler" %}");
+
+
+                    } else {
+                        swal("Başarılı", result.messages, "error");
+                    }
+                }
+
+
+            });
+        }
 
 
     </script>

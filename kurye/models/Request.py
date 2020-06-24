@@ -1,12 +1,10 @@
 import datetime
-
 from django.db import models
-from django.utils import timezone
-
 from kurye.models.Company import Company
 from kurye.models.Customer import Customer
 from kurye.models.City import City
 from kurye.models.Neighborhood import Neighborhood
+import uuid
 
 
 class Request(models.Model):
@@ -47,8 +45,12 @@ class Request(models.Model):
                                 verbose_name='Talep Eden Firma')
     request_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, default=True,
                                         verbose_name='Talep Tutarı')
+    discount_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, default=0,
+                                         verbose_name='Talep İndirimli Fiyat')
     isPayed = models.BooleanField(default=False)
     payedDate = models.TextField(null=True, blank=True, verbose_name='Ödeme Tarihi')
+    address = models.TextField(null=True, blank=True, verbose_name='Adress')
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return '%s %s %s %s %s' % (self.company.companyName, '-', self.exitDate, '-', self.exitTime)

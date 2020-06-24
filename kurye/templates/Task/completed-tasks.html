@@ -8,13 +8,13 @@
 
     <section class="content-header">
         <h1>
-            {{ obj.name }}
+            Tamamlanan Görevler
 
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'kurye:kullanıcı-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a href="">Görevler</a></li>
+            <li><a href="">Tamamlanan Görevler</a></li>
         </ol>
 
     </section>
@@ -76,12 +76,20 @@
 
                     <div class="box box-primary">
                         <div class="box-body">
+                            <a href="{% url 'kurye:aktif gorevler' %}" class="btn btn-app">
+                                <i class="fa fa-clock-o"></i>Aktif
+                                Görevler</a>
+                            <a href="{% url 'kurye:kullanıcı iptal edilen gorevler' %}" class="btn btn-app">
+                                <i class="fa fa-close"></i>İptal
+                                Edilen Görevler</a>
+
                             <br>
                             <table id="completedtasks" class="display responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
 
                                     <th>Talep No</th>
+                                    <th>Görev Durum Bilgileri</th>
                                     <th>Firma</th>
                                     <th>Durum</th>
                                     <th>Müşteri Ad Soyad</th>
@@ -90,7 +98,7 @@
                                     <th>Ödeme Yöntemi</th>
                                     <th>Kurye</th>
                                     <th>Kurye Açıklaması</th>
-                                    <th>Görev Durum Bilgileri</th>
+                                    <th>Firma Kurye Hizmet Ücreti</th>
 
 
                                 </tr>
@@ -161,7 +169,7 @@
                 "processing": true,
                 "serverSide": true,
                 "paging": true,
-                "ordering": false,
+                "ordering": true,
 
                 "ajax": {
                     "url": "{% url 'kurye:gorevler-api' %}",
@@ -171,9 +179,28 @@
 
 
                     {"data": "task.request.id"},
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            console.log(full.content);
+                            let html;
+                            html = '<button type="button" onclick="getTaskDetail(' + full.task.id + ')" class="btn btn-primary">Detay</button>';
+                            return html
+
+                        }
+                    },
                     {"data": "task.request.company.companyName"},
 
-                    {"data": "task_situation.name"},
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            let html = "";
+                            if (row.task_situation.name === "Teslim Edildi")
+                                html = '<span class="label label-success">' + row.task_situation.name + '</span>';
+                            else
+                                html = '<span class="label label-danger">' + row.task_situation.name + '</span>';
+                            return html;
+                        }
+                    },
                     {"data": "task.request.receiver.customer"},
                     {"data": "task.request.receiver.address"},
                     {
@@ -204,12 +231,9 @@
 
                     },
                     {
-                        "render": function (data, type, full, meta, row) {
-                            console.log(full.content);
-                            let html;
-                            html = '<button type="button" onclick="getTaskDetail(' + full.task.id + ')" class="btn btn-info">Detay</button>';
-                            return html
-
+                        "data": null,
+                        render: function (data, type, row) {
+                            return row.task.request.discount_price + '₺';
                         }
                     },
 

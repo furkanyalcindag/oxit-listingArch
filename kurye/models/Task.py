@@ -1,6 +1,7 @@
 from django.db import models
 from kurye.models.Request import Request
 from kurye.models.Courier import Courier
+import uuid
 
 
 class Task(models.Model):
@@ -14,6 +15,8 @@ class Task(models.Model):
     description = models.CharField(max_length=250, null=True, blank=True, verbose_name='Açıklama')
     isComplete = models.BooleanField(default=False)
     activeTask = ''
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+
 
     def __str__(self):
         return '%s %s %s' % (self.request.receiver.customer, '-', self.request.receiver.address)

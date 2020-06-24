@@ -89,7 +89,7 @@ def add_neighborhood(request):
 
 
 # Mahalle güncelle
-def update_neighborhood(request, pk):
+def update_neighborhood(request, uuid):
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -98,7 +98,7 @@ def update_neighborhood(request, pk):
     user = request.user
     profile = Profile.objects.get(user=user)
     cities = City.objects.all()
-    neighborhood = Neighborhood.objects.get(pk=pk)
+    neighborhood = Neighborhood.objects.get(uuid=uuid)
     form = NeighborhoodUpdateForm(request.POST or None, instance=neighborhood)
 
     if request.method == 'POST':
