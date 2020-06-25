@@ -276,8 +276,11 @@
                         html += '<b>Müşteri : </b> ' + task[i].task.request.receiver.customer + '<br>';
                         html += '<b>Görev Oluşturma Zamanı :</b> ' + task[i].creationDate + ' <br>';
                         html += '<b>Paket Alım Zamanı :</b> ' + task[i].task.request.exitDate + '-' + task[i].task.request.exitTime + '<br>';
-                        if (task[i].task_situation.name === 'Teslim Edildi' || task[i].task_situation.name === 'Teslim Edilemedi') {
-                            html += '<b>Teslim Edilme/Edilememe Zamanı: </b> ' + task[i].task.deliveryDate + '-' + task[i].task.deliverDate + '<br>';
+                        if (task[i].task_situation.name === 'Teslim Edildi') {
+                            html += '<b>Teslim Edilme: </b> ' + formatDate(task[i].creationDate) + '<br>';
+                        } else if (task[i].task_situation.name === 'Teslim Edilemedi') {
+                            html += '<b>Teslim Edilememe Zamanı: </b> ' + formatDate(task[i].creationDate) + '<br>';
+
                         }
                         if (task[i].task.request.description) {
                             html += '<b>Talep Açıklaması :</b> ' + task[i].task.request.description + '<br>';
@@ -379,9 +382,14 @@
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
-                year = d.getFullYear();
-            hour = d.getHours();
-            minute = d.getMinutes();
+                year = d.getFullYear(),
+                hour = d.getHours(),
+                minute = d.getMinutes();
+
+            if (hour <= 9)
+                hour = '0' + hour;
+            if (minute <= 9)
+                minute = '0' + minute;
 
             if (month.length < 2)
                 month = '0' + month;
@@ -389,7 +397,7 @@
                 day = '0' + day;
 
             date = [day, month, year].join('.');
-            time = [hour, minute].join(':');
+            let time = [hour, minute].join(':');
 
 
             return [date, time].join('-');

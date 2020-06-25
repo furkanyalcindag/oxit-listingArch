@@ -86,13 +86,14 @@
                         </a>
 
                         <ul class="dropdown-menu">
+
                             <li class="header" style="color: #003eff">{{ count_not }} bildiriminiz var</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
 
                                     {% for notification in notification %}
-                                        <li style="margin-left: 7px;">
+                                        <li style="margin-left:15px;">
 
                                             <i class="fa fa-exclamation"
                                                style="color:red"></i> &nbsp;{{ notification.message }}
@@ -100,7 +101,7 @@
                                         </li>
 
                                         <small class="pull-right"
-                                               style="font-size:10px;color: #808080de;margin-top: 6px;">{{ notification.creationDate }} </small>
+                                               style="font-size:12px;color: #808080de;margin-top: 6px;margin-right:7px;">{{ notification.creationDate }} </small>
                                         <hr>
                                     {% endfor %}
 

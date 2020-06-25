@@ -83,6 +83,11 @@ def updateTask(request):
                 if new_active.task_situation.name == 'Teslim Edildi' or new_active.task_situation.name == 'Teslim Edilemedi':
                     task.deliveryDate = datetime.datetime.today().date()
                     task.deliveryTime = datetime.datetime.today().time()
+                    if TaskSituationTask.objects.filter(Q(task_situation__name='Kurye Atandı') | Q(
+                                task_situation__name='Paket Alımı İçin Yolda') | Q(
+                                task_situation__name='Paket Teslimi İçin Yolda')).filter(isActive=True).filter(task__courier=courier).count() <= 0:
+                        task.courier.isActive = True
+                    task.courier.save()
                     task.isComplete = True
                     task.save()
 
