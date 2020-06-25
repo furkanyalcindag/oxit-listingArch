@@ -124,19 +124,32 @@
                                 <thead>
                                 <tr>
 
-                                    <th>#</th>
+                                    <th>Müşteri No</th>
+                                    <th style="text-align: center;">İşlem</th>
                                     <th>Ad Soyad</th>
                                     <th>Telefon Numarası</th>
                                     <th>E-mail</th>
                                     <th>Adres</th>
-                                    <th style="text-align: center;">Düzenle/Sil</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
 
                                 {% for customer in customers %}
                                     <tr>
-                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ customer.pk }}</td>
+                                        <td style="text-align: center;">
+                                            <a href="{% url 'kurye:musteri-guncelle' customer.uuid %}" title="Düzenle"
+                                               class="btn btn-warning"
+                                               type="button">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <button type="submit" title="Sil"
+                                                    onclick="customer_pasif('{{ customer.uuid | safe }}')"
+                                                    class="btn  btn-danger"><i class="fa fa-close"></i>
+                                            </button>
+
+                                        </td>
                                         <td>{{ customer.customer }} </td>
                                         <td>{{ customer.phone }}</td>
                                         {% if  customer.email %}
@@ -145,18 +158,6 @@
                                             <td>Belirtilmedi</td>
                                         {% endif %}
                                         <td>{{ customer.address }}</td>
-                                        <td style="text-align: center;">
-                                            <a href="{% url 'kurye:musteri-guncelle' customer.uuid %}"
-                                               class="btn btn-warning"
-                                               type="button">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                            <button type="submit"
-                                                    onclick="customer_pasif('{{ customer.uuid | safe }}')"
-                                                    class="btn  btn-danger">Sil
-                                            </button>
-
-                                        </td><x></x>
 
 
                                     </tr>
@@ -194,7 +195,6 @@
 
 
         function customer_pasif(uuid) {
-            debugger;
             let html = 'Müşteri Silinsin mi?';
 
             document.getElementById('content').innerHTML = html;

@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'dashboard/company-dashboard/$', DashboardViews.return_company_dashboard, name='kullanıcı-dashboard'),
     url(r'dashboard/courier-dashboard/$', DashboardViews.return_courier_dashboard, name='kurye-dashboard'),
 
+    url(r'kullanici-bilgi-gonder/(?P<uuid>[0-9a-f-]+)$', UserViews.send_information, name='kullanici-bilgi-gonder'),
+
     # Kurye
     url(r'Courier/add-courier/$', UserViews.add_courier, name='kurye ekle'),
     url(r'Courier/courier-list/$', CourierViews.courier_list, name='kurye listesi'),
@@ -51,7 +53,6 @@ urlpatterns = [
     # Kullanıcı Firma
     url(r'add-company/$', UserViews.add_company, name='kullanıcı firma ekle'),
     url(r'update-company/(?P<uuid>[0-9a-f-]+)$', UserViews.update_company, name='kullanıcı-firma-guncelle'),
-
     url(r'delete-company/$', UserViews.company_delete, name='kullanıcı-firma-sil'),
 
     # Görev

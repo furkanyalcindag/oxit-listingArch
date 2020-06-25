@@ -125,27 +125,33 @@
                                 <thead>
                                 <tr>
 
-                                    <th>#</th>
+                                    <th>Personel No</th>
+                                    <th style="text-align: center">İşlem</th>
                                     <th>Ad Soyad</th>
                                     <th>Telefon Numarası</th>
                                     <th>E-mail</th>
-                                    <th style="text-align: center;">Sil</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for personal in personals %}
 
                                     <tr>
-                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ personal.pk}}</td>
+                                        <td style="text-align: center">
+                                            <button type="submit" title="Sil"
+                                                    onclick="personal_pasif('{{ personal.uuid | safe }}')"
+                                                    class="btn  btn-danger"><i class="fa fa-close"></i>
+                                            </button>
+                                            <a style="margin-left: 5px;" title="Şifre Sıfırla"
+                                               href="{% url 'kurye:kullanici-bilgi-gonder' personal.profile.uuid %}"
+                                               class="btn btn-warning" type="button"><i class="fa fa-key"></i></a>
+
+                                        </td>
                                         <td>{{ personal.profile.user.first_name }} {{ personal.profile.user.last_name }}</td>
                                         <td>{{ personal.profile.mobilePhone }}</td>
                                         <td>{{ personal.profile.user.email }}</td>
-                                        <td style="text-align: center">
-                                            <button type="submit"
-                                                    onclick="personal_pasif('{{ personal.uuid | safe }}')"
-                                                    class="btn  btn-danger">Sil
-                                            </button>
-                                        </td>
+
 
                                     </tr>
                                 {% endfor %}

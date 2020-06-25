@@ -106,6 +106,8 @@
                                 <thead>
                                 <tr>
 
+
+                                    <th >Firma No</th>
                                     <th style="text-align: center">İşlem</th>
                                     <th>Firma Sahibi</th>
                                     <th>Firma Adı</th>
@@ -168,6 +170,7 @@
                     "type": "POST"
                 },
                 "columns": [
+                    {"data": "id"},
 
                     {
                         "render": function (data, type, full, meta, row) {
@@ -176,11 +179,15 @@
                             document.getElementById('id').value = full.id;
                             let url = "{% url 'kurye:kullanıcı-firma-guncelle' 0 %}";
                             url = url.replace(0, full.uuid);
-                            let uuid = full.uuid;
-                            html = '<td style="text-align: center"><button style="margin-left:20px;" class="btn btn-danger"  type="submit"  onclick="company_pasif(\'' + uuid + '\')">Sil</button>';
-                            html += '<a style="margin-left:5px;" href="' + url + '" class="btn btn-primary"  type="button">Düzenle</a></td>';
+                            let url_password = "{% url 'kurye:kullanici-bilgi-gonder' 0 %}";
+                            url_password = url_password.replace(0, full.profile.uuid);
 
-                            return html
+                            let uuid = full.uuid;
+                            html = '<td style="text-align: center"><button title="Sil" style="margin-left:20px;" class="btn btn-danger"  type="submit"  onclick="company_pasif(\'' + uuid + '\')"><i class="fa fa-close"></i></button>';
+                            html += '<a style="margin-left:5px;" href="' + url + '" class="btn btn-primary" title="Düzenle" type="button"><i class="fa fa-pencil"></i></a>';
+                            html += ' <a style="margin-left: 5px;" href="' + url_password + '" title="Şifre Sıfırla" class="btn btn-warning" type="button"><i class="fa fa-key"></i></a></td>';
+
+                            return html;
 
                         }
                     },
@@ -209,9 +216,10 @@
                     {
                         "data": null,
                         render: function (data, type, row) {
-                            return '%'+row.discount;
+                            return '%' + row.discount;
 
-                        }},
+                        }
+                    },
 
 
                 ]

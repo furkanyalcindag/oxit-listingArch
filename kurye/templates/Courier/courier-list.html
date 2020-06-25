@@ -126,9 +126,8 @@
                                 <thead>
                                 <tr>
 
-                                    <th>#</th>
-                                    <th>İşlem</th>
-
+                                    <th>Kurye No</th>
+                                    <th style="text-align: center">İşlem</th>
                                     <th>Durumu</th>
                                     <th>Kurye Türü</th>
                                     <th>Ad Soyad</th>
@@ -145,15 +144,19 @@
 
                                 {% for courier in couriers %}
                                     <tr>
-                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ courier.pk }}</td>
                                         <td style="text-align: center">
-                                            <button type="submit"
+                                            <button type="submit" title="Sil"
                                                     onclick="courier_pasif('{{ courier.uuid }}')"
-                                                    class="btn btn-danger">Sil
+                                                    class="btn btn-danger"><i class="fa fa-close"></i>
                                             </button>
                                             <a style="margin-left: 5px;"
-                                               href="{% url 'kurye:kurye-guncelle' courier.uuid %}"
-                                               class="btn btn-primary" type="button">Düzenle</a>
+                                               href="{% url 'kurye:kurye-guncelle' courier.uuid %}" title="Düzenle"
+                                               class="btn btn-primary" type="button"><i class="fa fa-pencil"></i></a>
+
+                                             <a style="margin-left: 5px;" title="Şifre Sıfırla"
+                                               href="{% url 'kurye:kullanici-bilgi-gonder' courier.courier.uuid %}"
+                                               class="btn btn-warning" type="button"><i class="fa fa-key"></i></a>
 
                                         </td>
                                         {% if courier.isActive == True %}

@@ -79,7 +79,7 @@
                                    cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>İşlem</th>
                                     <th>İl</th>
                                     <th>İlçe</th>
                                     <th>Mahalle</th>
@@ -91,10 +91,6 @@
 
                                 <tr>
 
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
 
 
                                 </tr>
@@ -135,8 +131,8 @@
                             console.log(full.content);
                             console.log(full.id);
                             var base_url = "{% url 'kurye:mahalle-fiyati-guncelle' 0 %}";
-                            base_url=base_url.replace('0',full.uuid);
-                            return '<a type="button" class="btn btn-primary" href="'+base_url+'">Düzenle</a>\n'
+                            base_url = base_url.replace('0', full.uuid);
+                            return '<td><a style="margin-left:17px;" type="button" title="Düzenle" class="btn btn-primary" href="' + base_url + '"><i class="fa fa-pencil"></i></a></td>'
                         }
                     },
                     {"data": "city.name"},

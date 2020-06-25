@@ -51,6 +51,7 @@ def users_information(request):
             user.first_name = user_form.cleaned_data['first_name']
             user.last_name = user_form.cleaned_data['last_name']
             user.email = user_form.cleaned_data['email']
+            user.username = user_form.cleaned_data['email']
             user.is_active = True
             user.save()
             profile_form.save()
@@ -172,7 +173,12 @@ def update_courier(request, uuid):
 
         if profile_form.is_valid() and user_form.is_valid() and courier_form.is_valid():
 
-            user_form.save()
+            courier.courier.user.first_name = user_form.cleaned_data['first_name']
+            courier.courier.user.last_name = user_form.cleaned_data['last_name']
+            courier.courier.user.email = user_form.cleaned_data['email']
+            courier.courier.user.username = user_form.cleaned_data['email']
+            courier.courier.user.is_active = True
+            courier.courier.user.save()
             profile_form.save()
             courier_form.save()
 
@@ -518,7 +524,12 @@ def update_company(request, uuid):
 
         if profile_form.is_valid() and user_form.is_valid() and company_form.is_valid():
 
-            user_form.save()
+            company.profile.user.first_name = user_form.cleaned_data['first_name']
+            company.profile.user.last_name = user_form.cleaned_data['last_name']
+            company.profile.user.email = user_form.cleaned_data['email']
+            company.profile.user.username = user_form.cleaned_data['email']
+            company.profile.user.is_active = True
+            company.profile.user.save()
             profile_form.save()
             company_form.save()
 
@@ -732,3 +743,27 @@ def courier_delete(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+@login_required
+def send_information(request, uuid):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    profile = Profile.objects.get(uuid=uuid)
+    password = User.objects.make_random_password()
+    profile.user.set_password(password)
+    profile.user.save()
+
+    subject, from_email, to = 'GVERCİN Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', profile.user.email
+    text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+    html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/">gvercin.com</a></p>'
+    html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + profile.user.username + '</p>'
+    html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+    return render(request, 'User/kullanici-bilgi.html', {'password': password, 'username': profile.user.username})
