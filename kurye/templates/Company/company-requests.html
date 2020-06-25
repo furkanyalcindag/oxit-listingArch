@@ -211,8 +211,6 @@
     </script>
     <script>
         function getRequest(id) {
-            debugger;
-
             var html = '';
             $.get(" {% url "kurye:talep getir" pk=12121   %}".replace(/12121/, id.toString()))
                 .done(function (response) {
@@ -243,7 +241,6 @@
 
 
         function formatDate(date) {
-            debugger;
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),

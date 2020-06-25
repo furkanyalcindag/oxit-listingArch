@@ -237,7 +237,6 @@
 
             $.get("{% url "kurye:getir-kurye" %}")
                 .done(function (response) {
-                    debugger;
                     var courier = response.request;
 
                     html = '<div class="box box-primary"><div class="box-body">';
@@ -279,7 +278,6 @@
 
 
         function assign_task(request_id, uuid) {
-            debugger;
             $.ajax({
                 url: "{% url 'kurye:gorev ata' %}",
                 type: "POST", // or "get"

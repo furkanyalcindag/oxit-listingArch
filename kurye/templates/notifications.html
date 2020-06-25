@@ -250,7 +250,6 @@
     </script>
     <script>
         function checkbox() {
-            debugger;
             var checkboxes = document.getElementsByName('check_list[]');
             var vals = "";
             for (var i = 0, n = checkboxes.length; i < n; i++) {
@@ -266,7 +265,6 @@
 
 
         function isRead(notification_id) {
-            debugger;
             $.ajax({
                 url: "{% url 'kurye:bildirim-okundu-yap' %}",
                 type: "post", // or "get"
@@ -290,7 +288,6 @@
 
         function deleteNotifications() {
             let notifications = document.getElementById('checks').value;
-            debugger;
             $.ajax({
                 url: "{% url 'kurye:bildirimleri-sil' %}",
                 type: "POST", // or "get"
