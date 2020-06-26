@@ -261,38 +261,44 @@ def courier_earning(request):
 
 
 # kurye primi ödendi yap
-def pay_premium_courier(request, pk):
+def pay_premium_courier(request):
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
+
     if request.method == 'POST':
-        year = request.POST['year']
-        month = request.POST['month']
-        prim = request.POST['prim']
-        date = request.POST['year'] + '-' + request.POST['month']
+        try:
+            year = request.POST['year']
+            month = request.POST['month']
+            prim = request.POST['prim']
+            date = request.POST['year'] + '-' + request.POST['month']
 
-        date_current = datetime.datetime.today()
-        task = TaskSituationTask.objects.filter(task__request__creationDate__year=year).filter(
-            task__request__creationDate__month=month).filter(task_situation__name='Teslim Edildi').filter(
-            task__courier_id=pk)
-        if prim:
-            earning_courier = EarningPayments(paymentTotal=Decimal(prim.replace(',', '.')),
-                                              courier=task[0].task.courier.courier,
-                                              payedDate=date_current.date(), payed=True, earning_date=date,
-                                              task_count=task.count())
-            earning_courier.save()
+            date_current = datetime.datetime.today()
+            task = TaskSituationTask.objects.filter(task__request__creationDate__year=year).filter(
+                task__request__creationDate__month=month).filter(task_situation__name='Teslim Edildi').filter(
+                task__courier_id=int(request.POST['courier_id']))
+            if prim:
+                earning_courier = EarningPayments(paymentTotal=Decimal(prim.replace(',', '.')),
+                                                  courier=task[0].task.courier.courier,
+                                                  payedDate=date_current.date(), payed=True, earning_date=date,
+                                                  task_count=task.count())
+                earning_courier.save()
 
-            notification = Notification()
-            notification.key = 'Kurye Prim Ödeme'
-            notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
-            notification.message = '' + task[0].task.courier.courier.user.first_name + ' ' + task[
-                0].task.courier.courier.user.last_name + ' adlı kuryeye ' + str(
-                earning_courier.paymentTotal) + '₺ prim ödendi '
-            notification.save()
+                notification = Notification()
+                notification.key = 'Kurye Prim Ödeme'
+                notification.profile = Profile.objects.get(user=User.objects.filter(groups__name='Admin')[0])
+                notification.message = '' + task[0].task.courier.courier.user.first_name + ' ' + task[
+                    0].task.courier.courier.user.last_name + ' adlı kuryeye ' + str(
+                    earning_courier.paymentTotal) + '₺ prim ödendi '
+                notification.save()
 
-    return redirect('kurye:kurye-odemeleri')
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
 
 
 def company_earning_info(request):

@@ -35,6 +35,7 @@ def return_admin_dashboard(request):
     array_report_week = []
     array_report_courierCount = []
     array_report_companyCount = []
+    courierss = []
     for x in range(dif_year + 1):
         if EarningPayments.objects.values('earning_date', 'creationDate__month').annotate(
                 sum=Sum('paymentTotal')).count() > 0:
@@ -47,66 +48,69 @@ def return_admin_dashboard(request):
                 report_year['date'] = y['earning_date'].split('-')[1]
                 report_year['year'] = y['earning_date'].split('-')[0]
                 array_earning_courier.append(report_year)
+        if Request.objects.all().count() > 0:
+            start_delta = datetime.datetime.now() - datetime.timedelta(days=7)
+            report_year_request = Request.objects.values('creationDate__year', 'creationDate__month').order_by(
+                'creationDate__month').annotate(count=Count('creationDate__year'))
 
-        report_year_request = Request.objects.values('creationDate__year', 'creationDate__month').order_by(
-            'creationDate__month').annotate(count=Count('creationDate__year'))
+            for y in report_year_request:
+                report_year = dict()
+                report_year['count'] = y['count']
+                report_year['date'] = y['creationDate__month']
+                report_year['year'] = y['creationDate__year']
+                array_report_year.append(report_year)
 
-        for y in report_year_request:
-            report_year = dict()
-            report_year['count'] = y['count']
-            report_year['date'] = y['creationDate__month']
-            report_year['year'] = y['creationDate__year']
-            array_report_year.append(report_year)
+            report_week_request = Request.objects.filter(creationDate__lte=datetime.datetime.now(),
+                                                         creationDate__gte=start_delta).values('creationDate__year',
+                                                                                               'creationDate__month',
+                                                                                               'creationDate__day', ).order_by(
+                'creationDate__day').annotate(count=Count('creationDate__day'))
+            for y in report_week_request:
+                report_week = dict()
+                report_week['year'] = y['creationDate__year']
+                report_week['month'] = y['creationDate__month']
+                report_week['day'] = y['creationDate__day']
+                report_week['count'] = y['count']
+                array_report_week.append(report_week)
 
-        start_delta = datetime.datetime.now() - datetime.timedelta(days=7)
-        report_week_request = Request.objects.filter(creationDate__lte=datetime.datetime.now(),
-                                                     creationDate__gte=start_delta).values('creationDate__year',
-                                                                                           'creationDate__month',
-                                                                                           'creationDate__day', ).order_by(
-            'creationDate__day').annotate(count=Count('creationDate__day'))
-        for y in report_week_request:
-            report_week = dict()
-            report_week['year'] = y['creationDate__year']
-            report_week['month'] = y['creationDate__month']
-            report_week['day'] = y['creationDate__day']
-            report_week['count'] = y['count']
-            array_report_week.append(report_week)
+        if Company.objects.filter(profile__isActive=True).filter(
+                ~Q(profile=Profile.objects.get(user=request.user))).count() > 0:
+            report_count_company = Company.objects.filter(profile__isActive=True).filter(
+                ~Q(profile=Profile.objects.get(user=request.user))).values('creationDate__year',
+                                                                           'creationDate__month').order_by(
+                'creationDate__month').annotate(count=Count('creationDate__month'))
 
-        report_count_courier = Courier.objects.filter(courier__isActive=True).values('creationDate__year',
-                                                                                     'creationDate__month').order_by(
-            'creationDate__month').annotate(count=Count('creationDate__month'))
-        report_count_company = Company.objects.filter(profile__isActive=True).filter(
-            ~Q(profile=Profile.objects.get(user=request.user))).values('creationDate__year',
-                                                                       'creationDate__month').order_by(
-            'creationDate__month').annotate(count=Count('creationDate__month'))
+            for y in report_count_company:
+                report_year = dict()
+                report_year['count'] = y['count']
+                report_year['date'] = y['creationDate__month']
+                report_year['year'] = y['creationDate__year']
+                array_report_companyCount.append(report_year)
+        if Courier.objects.filter(courier__isActive=True).count() > 0:
+            report_count_courier = Courier.objects.filter(courier__isActive=True).values('creationDate__year',
+                                                                                         'creationDate__month').order_by(
+                'creationDate__month').annotate(count=Count('creationDate__month'))
+            for y in report_count_courier:
+                report_year = dict()
+                report_year['count'] = y['count']
+                report_year['date'] = y['creationDate__month']
+                report_year['year'] = y['creationDate__year']
+                array_report_courierCount.append(report_year)
 
-        for y in report_count_company:
-            report_year = dict()
-            report_year['count'] = y['count']
-            report_year['date'] = y['creationDate__month']
-            report_year['year'] = y['creationDate__year']
-            array_report_companyCount.append(report_year)
+        if TaskSituationTask.objects.all().count() > 0:
+            active_courier = TaskSituationTask.objects.values('task__courier').annotate(
+                count=Count('task__courier')).filter(
+                task_situation__name='Teslim Edildi').order_by('-count')[:6]
 
-        for y in report_count_courier:
-            report_year = dict()
-            report_year['count'] = y['count']
-            report_year['date'] = y['creationDate__month']
-            report_year['year'] = y['creationDate__year']
-            array_report_courierCount.append(report_year)
+            for courier in active_courier:
+                courier_dict = dict()
+                courier_dict['courier'] = Courier.objects.get(pk=int(courier['task__courier']))
+                courier_dict['count'] = courier['count']
+                courierss.append(courier_dict)
 
     couriers = Profile.objects.filter(isActive=True).filter(user__is_active=True).filter(
         user__groups__name='Kurye').order_by('creationDate')[
                :6]
-
-    active_courier = TaskSituationTask.objects.values('task__courier').annotate(count=Count('task__courier')).filter(
-        task_situation__name='Teslim Edildi').order_by('-count')[:6]
-
-    courierss = []
-    for courier in active_courier:
-        courier_dict = dict()
-        courier_dict['courier'] = Courier.objects.get(pk=int(courier['task__courier']))
-        courier_dict['count'] = courier['count']
-        courierss.append(courier_dict)
 
     completed_task = Task.objects.filter(isComplete=True)
     active_task = TaskSituationTask.objects.filter(
@@ -125,9 +129,9 @@ def return_admin_dashboard(request):
 
     unending_task = Task.objects.filter(isComplete=False)
 
-    d = datetime.datetime.today() - datetime.timedelta(hours=0, minutes=10)
+    d = datetime.datetime.today() - datetime.timedelta(hours=0, minutes=5)
 
-    online = User.objects.filter(is_superuser=False).filter(last_login__gt=d).count()
+    online = User.objects.filter(~Q(username__contains=request.user.username)).filter(last_login__gt=d).count()
 
     all_user = Company.objects.all().filter(profile__isActive=True).count()
 

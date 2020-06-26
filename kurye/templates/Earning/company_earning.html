@@ -417,20 +417,10 @@
 
                         },
                         success: function (result) {
-
+                            $(".load").hide();
                             if (result.status == 'Success') {
-
-                                html = 'Ödeme Yapıldı Olarak Düzenlendi';
-
-                                $(".successModal").html(html);
-                                $('#modal-success').on("shown.bs.modal", function (e) {
-                                    $(".btn-ok").click(function () {
-
-                                        window.location.replace("{% url "kurye:kullanici-odemeleri" %}");
-
-                                    });
-
-                                }).modal('show');
+                                swal("Başarılı", " Durum Güncellendi.", "success");
+                                window.location.replace("{% url "kurye:kullanici-odemeleri" %}");
 
 
                             } else {
@@ -461,18 +451,14 @@
 
                         },
                         success: function (result) {
+                            if (result.status == 'Success') {
+                                swal("Başarılı", "Ödeme Bilgileri Silindi.");
+                                window.location.replace("{% url "kurye:kullanici-odemeleri" %}");
 
-                            html = 'Ödeme Yapılmadı Olarak Düzenlendi';
 
-                            $(".successModal").html(html);
-                            $('#modal-success').on("shown.bs.modal", function (e) {
-                                $(".btn-ok").click(function () {
-
-                                    window.location.replace("{% url "kurye:kullanici-odemeleri" %}");
-
-                                });
-
-                            }).modal('show');
+                            } else {
+                                swal("Başarılı", result.messages, "error");
+                            }
                         }
                     });
                 });

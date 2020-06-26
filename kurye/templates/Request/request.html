@@ -2,6 +2,8 @@
 {% block content %}
 
     {% load mathfilters %}
+
+
     <section class="content-header">
         <h1>
             Talep Seç
@@ -101,7 +103,7 @@
                                         <td>{{ request.pk }} </td>
 
                                         <td>
-                                            <button onclick="getCourier('{{ request.uuid}}')" type="button"
+                                            <button onclick="getCourier('{{ request.uuid }}')" type="button"
                                                     class="btn btn-warning">Sec
                                             </button>
 
@@ -149,9 +151,22 @@
 
                 </div>
             </section>
-
-
         </div>
+
+        <div class="modal load" id="modal-default" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="loader modal-body center">
+
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
         <!-- /.row (main row) -->
         <div class="modal fade bd-example-modal-lg" id="modal-default" style="display: none;">
             <div class="modal-dialog">
@@ -254,7 +269,7 @@
                         html += '<td>' + courier[i].courier.mobilePhone + '</td>';
                         html += '<td>' + courier[i].courier.address + '</td>';
                         html += '<td>' + courier[i].type + '</td>';
-                        html += '<td><button onclick="assign_task(\'' + uuid + '\',\'' + courier[i].uuid + '\')" type="button" class="btn btn-success"><i class="fa fa-check"></i></button></td></tr>'
+                        html += '<td><button style="display:block" id="kurye" onclick="assign_task(\'' + uuid + '\',\'' + courier[i].uuid + '\')" type="button" class="btn btn-success"><i class="fa fa-check"></i></button></td></tr>'
 
 
                     }
@@ -278,6 +293,9 @@
 
 
         function assign_task(request_id, uuid) {
+            $(".bd-example-modal-lg").hide();
+            $(".load").show();
+
             $.ajax({
                 url: "{% url 'kurye:gorev ata' %}",
                 type: "POST", // or "get"
@@ -287,6 +305,7 @@
                 },
 
                 success: function (result) {
+
 
                     if (result.status == 'Success') {
                         swal("Başarılı", "Görev atandı", "success");

@@ -119,7 +119,7 @@ urlpatterns = [
     url(r'courier-payments/$', EarningPaymentsViews.couriers_payment, name='kurye-odemeleri'),
     url(r'Courier/earning/$', EarningPaymentsViews.courier_earning, name='kuryenin-kazanci'),
 
-    url(r'pay-premium-courier/(?P<pk>\d+)$', EarningPaymentsViews.pay_premium_courier, name='kurye-prim-ode'),
+    url(r'pay-premium-courier/$', EarningPaymentsViews.pay_premium_courier, name='kurye-prim-ode'),
     url(r'company-payments/$', EarningPaymentsViews.company_earning_info, name='kullanici-odemeleri'),
     url(r'Company/company-payment/$', EarningPaymentsViews.company_payments, name='kullanicinin-odemeleri'),
     url(r'detail-company-payment/$', EarningPaymentsViews.getCompanyEarningsDetail,

@@ -137,7 +137,7 @@
 
                                         <td>
 
-                                            <select size="1" name="situation" id="{{task.task.uuid}}">
+                                            <select size="1" name="situation" id="{{ task.task.uuid }}">
 
                                                 {% for situation in task_situations %} }
                                                     {% if task.task_situation.name == situation.name %}
@@ -199,6 +199,19 @@
 
 
         </div>
+        <div class="modal load" id="modal-default" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="loader modal-body center">
+
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
         <!-- /.row (main row) -->
 
     </section>
@@ -238,7 +251,7 @@
 
 
         function task_update(uuid) {
-
+            $(".load").show();
             let e = document.getElementById(uuid);
             let situation = e.options[e.selectedIndex].value;
             let description = document.getElementById('description').value;
@@ -251,7 +264,7 @@
                     description: description,
                 },
                 success: function (result) {
-
+                    $(".load").hide();
                     if (result.status == 'Success') {
                         swal("Başarılı", " Durum Güncellendi.", "success");
                         window.location.replace("{% url "kurye:kurye-gorev-guncelle" %}");
