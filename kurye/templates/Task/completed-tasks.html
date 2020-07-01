@@ -274,8 +274,8 @@
                         html += '<b>Talep No : </b> ' + task[i].task.request.id + '<br>';
                         html += '<b>Kurye : </b> ' + task[i].task.courier.courier.user.first_name + ' ' + task[i].task.courier.courier.user.last_name + '<br>';
                         html += '<b>Müşteri : </b> ' + task[i].task.request.receiver.customer + '<br>';
-                        html += '<b>Görev Oluşturma Zamanı :</b> ' + task[i].creationDate + ' <br>';
-                        html += '<b>Paket Alım Zamanı :</b> ' + task[i].task.request.exitDate + '-' + task[i].task.request.exitTime + '<br>';
+                        html += '<b>Görev Oluşturma Zamanı :</b> ' + formatDate(task[i].creationDate) + ' <br>';
+                        html += '<b>Paket Alım Zamanı :</b> ' + task[i].task.request.exitDate + '/' + task[i].task.request.exitTime + '<br>';
                         if (task[i].task_situation.name === 'Teslim Edildi') {
                             html += '<b>Teslim Edilme: </b> ' + formatDate(task[i].creationDate) + '<br>';
                         } else if (task[i].task_situation.name === 'Teslim Edilemedi') {

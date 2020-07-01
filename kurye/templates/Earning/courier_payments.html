@@ -194,16 +194,21 @@
                                         {% endif %}
 
                                         {% if user.groups.all.0.name != 'Kurye' and  task.situation == 'Ödenmedi' %}
+                                            {% if task.limit > tasks|length %}
+                                                <td>
 
-                                            <td>
-
-                                                <button style="width: 80px;" type="submit"
-                                                        onclick="payment_courier({{ task.courier.pk }},{{ task.prim }})"
-                                                        class="btn btn-sm btn-success">Ödeme Yap
-                                                </button>
+                                                    <button style="width: 80px;" type="submit"
+                                                            onclick="payment_courier({{ task.courier.pk }},{{ task.prim }})"
+                                                            class="btn btn-sm btn-success">Ödeme Yap
+                                                    </button>
 
 
-                                            </td>
+                                                </td>
+                                            {% else %}
+                                                <td>Kurye Ödeme İçin Limiti Tamamlamadı</td>
+                                            {% endif %}
+
+
 
                                         {% elif user.groups.all.0.name != 'Kurye' and task.situation == 'Ödendi' %}
                                             <td>

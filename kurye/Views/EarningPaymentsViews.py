@@ -32,17 +32,9 @@ def couriers_payment(request):
     date = str(year) + '-' + str(month)
     array_courier = []
     array = []
-    couriers = Courier.objects.all()
+    couriers = Courier.objects.filter(courier__isActive=True)
     courier_dict = dict()
     earning = EarningPayments()
-    for courier in couriers:
-
-        courier_tasks = TaskSituationTask.objects.filter(creationDate__year=year).filter(
-            creationDate__month=month).filter(task_situation__name='Teslim Edildi').filter(
-            task__courier_id=courier.pk)
-
-        if courier_tasks.count() > 0:
-            array.append(courier_tasks)
 
     motorsuz_limit = int(Settings.objects.get(name='motorsuz_kurye_limit').value)
     motorsuz_prim = int(Settings.objects.get(name='motorsuz_kurye_prim').value)
@@ -50,11 +42,19 @@ def couriers_payment(request):
     motorlu_prim = int(Settings.objects.get(name='motorlu_kurye_prim').value)
 
     if request.method == 'POST':
-        array_courier = []
-        month = int(request.POST['ay'])
-        year = int(request.POST['yil'])
-        date = request.POST['yil'] + '-' + request.POST['ay']
-        num_days = calendar.monthrange(year, month)[1]
+        for courier in couriers:
+
+            array_courier = []
+            month = int(request.POST['ay'])
+            year = int(request.POST['yil'])
+            date = request.POST['yil'] + '-' + request.POST['ay']
+            num_days = calendar.monthrange(year, month)[1]
+            courier_tasks = TaskSituationTask.objects.filter(creationDate__year=year).filter(
+                creationDate__month=month).filter(task_situation__name='Teslim Edildi').filter(
+                task__courier_id=courier.pk)
+
+            if courier_tasks.count() > 0:
+                array.append(courier_tasks)
 
         for courier_task in array:
 
@@ -97,6 +97,15 @@ def couriers_payment(request):
         return render(request, 'Earning/courier_payments.html',
                       {'tasks': array_courier, 'date': date, 'year': year, 'month': month})
     else:
+
+        for courier in couriers:
+
+            courier_tasks = TaskSituationTask.objects.filter(creationDate__year=year).filter(
+                creationDate__month=month).filter(task_situation__name='Teslim Edildi').filter(
+                task__courier_id=courier.pk)
+
+            if courier_tasks.count() > 0:
+                array.append(courier_tasks)
 
         for courier_task in array:
             courier_dict = dict()
@@ -338,7 +347,7 @@ def company_earning_info(request):
                 else:
                     company_dict['situation'] = 'Ödenmedi'
                 company_dict['company'] = Company.objects.get(pk=company.pk)
-                company_dict['sum'] = earning_discount[0].sum
+                company_dict['sum'] = earning_discount[0]['sum']
                 company_dict['date'] = date
                 company_dict['count'] = company_task.count()
                 array_earning.append(company_dict)

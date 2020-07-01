@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view
 from kurye.models.Company import Company
 from kurye.models.Profile import Profile
 from kurye.models.Notification import Notification
+from kurye.models.RequestSituationRequest import RequestSituationRequest
 from kurye.models.TaskSituationTask import TaskSituationTask
 from kurye.models.TaskSituations import TaskSituations
 from kurye.models.Courier import Courier
@@ -29,11 +30,11 @@ def requests(request):
         logout(request)
         return redirect('accounts:login')
 
-    request1 = Request.objects.filter(isApprove=True)
+    requests = RequestSituationRequest.objects.filter(request_situation__name='Onaylandı')
     task = []
     request_array = []
-    for request2 in request1:
-        tasks = TaskSituationTask.objects.filter(task__request=request2).filter(isActive=True)
+    for request2 in requests:
+        tasks = TaskSituationTask.objects.filter(task__request=request2.request).filter(isActive=True)
         if tasks.count() == 0:
             request_array.append(request2)
     return render(request, 'Request/request.html', {'requests': request_array})
