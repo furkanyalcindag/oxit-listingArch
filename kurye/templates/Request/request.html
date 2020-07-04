@@ -100,36 +100,36 @@
 
                                     <tr>
 
-                                        <td>{{ request.pk }} </td>
+                                        <td>{{ request.request.pk }} </td>
 
                                         <td>
-                                            <button onclick="getCourier('{{ request.uuid }}')" type="button"
+                                            <button onclick="getCourier('{{ request.request.uuid }}')" type="button"
                                                     class="btn btn-warning">Sec
                                             </button>
 
                                         </td>
 
-                                        <td>{{ request.company.companyName }}</td>
-                                        <td>{{ request.receiver.customer }}</td>
-                                        <td>{{ request.receiver.phone }}</td>
-                                        {% if request.address %}
-                                            <td>{{ request.district }}/{{ request.city }} </td>
+                                        <td>{{ request.request.company.companyName }}</td>
+                                        <td>{{ request.request.receiver.customer }}</td>
+                                        <td>{{ request.request.receiver.phone }}</td>
+                                        {% if request.request.address %}
+                                            <td>{{ request.request.district }}/{{ request.request.city }} </td>
 
-                                            <td>{{ request.address }}</td>
+                                            <td>{{ request.request.address }}</td>
 
                                         {% else %}
-                                            <td>{{ request.receiver.district }}/{{ request.receiver.city }} </td>
+                                            <td>{{ request.request.receiver.district }}/{{ request.request.receiver.city }} </td>
 
-                                            <td>{{ request.receiver.address }}</td>
+                                            <td>{{ request.request.receiver.address }}</td>
 
                                         {% endif %}
-                                        <td>{{ request.payment_type }}</td>
-                                        <td>{{ request.totalPrice }}</td>
-                                        <td>{{ request.exitDate }}</td>
-                                        <td>{{ request.exitTime }}</td>
+                                        <td>{{ request.request.payment_type }}</td>
+                                        <td>{{ request.request.totalPrice }}</td>
+                                        <td>{{ request.request.exitDate }}</td>
+                                        <td>{{ request.request.exitTime }}</td>
                                         <td>
-                                            {% if request.description %}
-                                                {{ request.description }}
+                                            {% if request.request.description %}
+                                                {{ request.request.description }}
                                             {% else %}
                                                 Açıklama Yapılmadı
                                             {% endif %}
