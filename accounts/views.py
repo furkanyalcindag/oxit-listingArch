@@ -1,19 +1,14 @@
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.models import User, Group, Permission
 from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse
-
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 
+from listArch import urls
 from accounts.forms import ResetPassword
-from kurye import urls
-from kurye.Forms.ProfileForm import ProfileForm
-from kurye.Forms.UserForm import UserForm
-from kurye.models.Profile import Profile
-from kurye.services import general_methods
+from listArch.services import general_methods
 
 
 def index(request):
@@ -22,7 +17,7 @@ def index(request):
 
 def login(request):
     if request.user.is_authenticated is True:
-        return redirect('kurye:admin-dashboard')
+        return redirect('listArch:admin-dashboard')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -34,13 +29,13 @@ def login(request):
             auth.login(request, user)
 
             if user.groups.all()[0].name == 'Admin':
-                return redirect('kurye:admin-dashboard')
+                return redirect('listArch:admin-dashboard')
 
-            elif user.groups.all()[0].name == 'Kurye':
-                return redirect('kurye:kurye-dashboard')
+            elif user.groups.all()[0].name == 'Firma':
+                return redirect('listArch:firma-dashboard')
 
             elif user.groups.all()[0].name == 'Kullanıcı':
-                return redirect('kurye:kullanıcı-dashboard')
+                return redirect('listArch:kullanici-dashboard')
 
             else:
                 return redirect('accounts:logout')
@@ -86,115 +81,9 @@ def pagelogout(request):
     return redirect('accounts:login')
 
 
-def register_member(request):
-    user_form = UserForm()
-    profile_form = ProfileForm()
-
-    if request.method == 'POST':
-        x = User.objects.latest('id')
-
-        data = request.POST.copy()
-        data['username'] = data['email']
-        user_form = UserForm(data)
-        profile_form = ProfileForm(request.POST, request.FILES)
-
-        if user_form.is_valid() and profile_form.is_valid():
-
-            user = user_form.save(commit=False)
-            group = Group.objects.get(name='Kullanıcı')
-            user2 = user_form.save()
-            password = User.objects.make_random_password()
-            user.set_password(password)
-            user2.groups.add(group)
-            user.is_active = True
-            user.save()
-
-            profil = Profile(user=user, tc=profile_form.cleaned_data['tc'],
-                             profileImage=profile_form.cleaned_data['profileImage'],
-                             address=profile_form.cleaned_data['address'],
-                             mobilePhone=profile_form.cleaned_data['mobilePhone'],
-                             district=profile_form.cleaned_data['district'],
-
-                             )
-
-            profil.sponsor = profile_form.cleaned_data['sponsor']
-            profil.isContract = profile_form.cleaned_data['isContract']
-            profil.isApprove = True
-            profil.isActive = True
-            sponsorNumber = Profile.objects.filter(sponsor=profile_form.cleaned_data['sponsor']).count()
-            sp_profile = Profile.objects.get(pk=profile_form.cleaned_data['sponsor'].pk)
-            limit = 0
-
-            if sp_profile.user.groups.all()[0].name == 'Admin':
-                limit = 9
-            else:
-                limit = 2
-
-            if sponsorNumber > limit:
-                messages.warning(request, 'Üyeye Sponsor Eklenemez. Sponsor Alanı Dolmuştur.')
-                user.delete()
-                return redirect('accounts:register')
-            else:
-                profil.save()
-
-                subject, from_email, to = 'Baven Kullanıcı Giriş Bilgileri', 'info@baven.net', user2.email
-                text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-                html_content = '<p> <strong>Site adresi:</strong> <a href="https://network.bavev.net"></a>network.baven.net</p>'
-                html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
-                html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
-
-                messages.success(request, 'Üye Başarıyla Kayıt Edilmiştir.')
-
-                return redirect('accounts:login')
-
-        else:
-            isExist = general_methods.existMail(data['email'])
-            if isExist:
-                messages.warning(request, 'Mail adresi başka bir üyemiz tarafından kullanılmaktadır.')
-
-            for x in profile_form.errors.as_data():
-                messages.warning(request, profile_form.errors[x][0])
-
-            messages.warning(request, 'Alanları Kontrol Ediniz')
-
-    return render(request, 'registration/register.html', {'user_form': user_form, 'profile_form': profile_form})
-
-
 def groups(request):
     group = Group.objects.all()
-
     return render(request, 'permission/groups.html', {'groups': group})
-
-
-@login_required
-def permission(request, pk):
-    general_methods.show_urls(urls.urlpatterns, 0)
-    group = Group.objects.get(pk=pk)
-    menu = ""
-    ownMenu = ""
-
-    groups = group.permissions.all()
-    per = []
-    menu2 = []
-
-    for gr in groups:
-        per.append(gr.codename)
-
-    ownMenu = group.permissions.all()
-
-    menu = Permission.objects.all()
-
-    for men in menu:
-        if men.codename in per:
-            print("echo")
-        else:
-            menu2.append(men)
-
-    return render(request, 'permission/izin-ayar.html',
-                  {'menu': menu2, 'ownmenu': ownMenu, 'group': group})
 
 
 @login_required
@@ -239,3 +128,31 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
+
+@login_required
+def permission(request, pk):
+    general_methods.show_urls(urls.urlpatterns, 0)
+    group = Group.objects.get(pk=pk)
+    menu = ""
+    ownMenu = ""
+
+    groups = group.permissions.all()
+    per = []
+    menu2 = []
+
+    for gr in groups:
+        per.append(gr.codename)
+
+    ownMenu = group.permissions.all()
+
+    menu = Permission.objects.all()
+
+    for men in menu:
+        if men.codename in per:
+            print("echo")
+        else:
+            menu2.append(men)
+
+    return render(request, 'permission/izin-ayar.html',
+                  {'menu': menu2, 'ownmenu': ownMenu, 'group': group})
+

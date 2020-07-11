@@ -17,11 +17,11 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = "/var/www/static/kurye"
+STATIC_ROOT = "/var/www/static/listArch"
 
 STAICFILES_DIR = [
 
-    "/var/www/static/kurye"
+    "/var/www/static/listArch"
 
 ]
 

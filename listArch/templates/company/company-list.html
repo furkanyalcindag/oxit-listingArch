@@ -1,0 +1,309 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Açıklama</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+    <!-- success modal -->
+
+    <section class="content-header">
+        <h1>
+            {{ obj.name }}
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-xs-12 ">
+
+
+                <div class="box">
+
+
+                    <div class="box-body">
+                        <a href="{% url 'listArch:firma-ekle' %}" class="btn btn-app">
+                            <i class="fa fa-plus"></i> Firma Ekle
+                        </a>
+
+                        <table id="company-list" class="table  table-bordered display responsive nowrap "
+                               cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Firma No</th>
+                                <th>İşlem</th>
+                                <th>Resim</th>
+                                <th>Yetkili</th>
+                                <th>Firma Adı</th>
+                                <th>Firma Adresi</th>
+                                <th>Firma Telefonu</th>
+                                <th>Email</th>
+                                <th>Firma Web Site</th>
+                                <th>Ülke/Şehir</th>
+                                <th>Açıklama</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <!-- /.row (main row) -->
+
+    </section>
+
+
+
+    <script>
+        $(function () {
+            $('#company-list').DataTable({
+
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "ordering": false,
+
+                "ajax": {
+                    "url": "{% url 'listArch:firma-list-api' %}",
+                    "type": "post"
+                },
+                "columns": [
+
+                    {"data": "id"},
+
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+                            let url = '{% url 'listArch:firma-düzenle' 0 %}';
+                            url = url.replace(0, full.id);
+                            html = ' <a class="btn btn-primary" type="btn" title="Düzenle" href="' + url + '"><i class="fa fa-edit"></i></a>';
+                            return html;
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+                            debugger;
+                            src = full.file;
+                            html = '<a href="' + full.website + '"><img style="width: 50px" src="' + full.file + '"  alt=""></a>';
+                            return html;
+                        }
+                    },
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            return row.user.first_name + ' ' + row.user.last_name;
+
+
+                        }
+                    },
+                    {"data": "name"},
+                    {"data": "address"},
+
+
+                    {"data": "phone"},
+                    {
+                        "data": null,
+                        render: function (data, type, row) {
+                            return row.user.email;
+
+
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+                            html = '<a href="' + full.website + '"></a>' + full.website + '';
+                            return html;
+                        }
+                    },
+                    {
+                        "data": null,
+                        render: function (data, type, full, meta, row) {
+                            return full.country + '/' + full.city;
+
+
+                        }
+                    },
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+
+                            html = ' <button class="btn btn-primary" type="btn" title="Düzenle" onclick="getCompanyDescription(' + full.id + ')"><i class="fa fa-search"></i></button>';
+                            return html;
+                        }
+                    },
+
+
+                ]
+
+            })
+
+        })
+    </script>
+
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+
+    <script>
+        function getCompanyDescription(id) {
+            var html = '';
+            $.get(" {% url "listArch:firma-aciklamasi-getir" pk=12121   %}".replace(/12121/, id.toString()))
+                .done(function (response) {
+                    debugger;
+
+                    var company = response.company[0];
+
+
+                    html = '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-hover">';
+                    html += ' <tbody><tr>';
+                    html += '<th>Açıklama</th><th>Sosyal Medya</th></tr><tr>';
+                    html += '<td>' + company.description + '</td>';
+                    html += '</tr>';
+                    html += '</tbody></table></div>';
+
+                            $(".bodys").html(html);
+
+                        });
+
+                    $('.bd-example-modal-lg').modal('show');
+
+
+                    $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                        // put your default event here
+                        $(".bodys").html("");
+                    });
+
+
+                }</script>
+
+{% endblock %}
+

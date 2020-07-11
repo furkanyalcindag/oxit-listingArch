@@ -1,0 +1,492 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Açıklama</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content-header">
+        <h1>
+            Firma Düzenle
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">Firmalar</a></li>
+            <li><a href="">Firma Düzenle</a></li>
+        </ol>
+
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+                            <form
+                                    method="post" enctype="multipart/form-data" id="form-option"
+                                    class="form-horizontal">
+                                {% csrf_token %}
+                                <input type="hidden" id="row_number" name="row_number" value="">
+
+
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label>Firma</label>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab-general">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">{{ user_form.first_name.label }}</label>
+                                                        <div class="col-sm-10">{{ user_form.first_name }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">{{ user_form.last_name.label }}</label>
+                                                        <div class="col-sm-10">{{ user_form.last_name }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-name"> {{ company_form.name.label }}</label>
+                                                        <div class="col-sm-10">
+                                                            {{ company_form.name }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Logo</label>
+                                                        <div class="col-sm-10">{{ company_form.file }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label" for="input-image">Web Site
+                                                            Adresi</label>
+                                                        <div class="col-sm-10">{{ company_form.website }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Telefon</label>
+                                                        <div class="col-sm-10">{{ company_form.phone }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Email</label>
+                                                        <div class="col-sm-10">{{ user_form.email }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Adres</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.address }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Ülke</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.country }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Şehir</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.city }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Konum</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.map }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row" id="accounts">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label" for="input-type">Sosyal Medya
+                                            </label>
+                                            <input type="hidden" value="" id="social_row" name="social_row">
+                                            <div class="col-sm-11">
+                                                <div class="form-group">
+                                                    <div class="table-responsive">
+                                                        <table id="social"
+                                                               class="table table-striped table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <td class="">Sosyal Medya</td>
+                                                                <td class="">Hesap Linki</td>
+                                                                <td></td>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            {% for social in social_accounts %}
+                                                                <tr id="social-row{{ forloop.counter0 }}">
+
+                                                                    <input type="hidden" id="row_number"
+                                                                           name="row_number"
+                                                                           value="{{ forloop.counter0 }}">
+
+                                                                    <td class="text-left">
+                                                                        <input type="text" readonly
+                                                                               id="company_social[{{ forloop.counter0 }}][name]"
+                                                                               name="company_social[{{ forloop.counter0 }}][name]"
+                                                                               value="{{ social.social_account.name }}"
+                                                                               placeholder="Link"
+                                                                               class="form-control"/>
+
+                                                                        </select>
+                                                                    </td>
+                                                                    <td class="text-right"><input type="text" readonly
+                                                                                                  id="company_social[{{ forloop.counter0 }}][link]"
+                                                                                                  name="company_social[{{ forloop.counter0 }}][link]"
+                                                                                                  value="{{ social.social_account.link }}"
+                                                                                                  placeholder="Link"
+                                                                                                  class="form-control"/>
+                                                                    </td>
+
+
+                                                                    <td class="text-left">
+                                                                        <button type="button"
+                                                                                onclick="remove({{ forloop.counter0 }})"
+                                                                                data-toggle="tooltip" title="Kaldır"
+                                                                                class="btn btn-danger"><i
+                                                                                class="fa fa-minus-circle"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                                onclick="getCompanySocialAccount({{ social.pk }},{{ forloop.counter0 }})"
+                                                                                data-toggle="tooltip" title="Düzenle"
+                                                                                class="btn btn-primary"><i
+                                                                                class="fa fa-edit"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+
+
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td class="text-left">
+                                                                    <button type="button"
+                                                                            onclick="addSocial({{ loop }});"
+                                                                            data-toggle="tooltip" title=""
+                                                                            class="btn btn-primary"
+                                                                            data-original-title="Hesap Ekle"><i
+                                                                            class="fa fa-plus-circle"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label" for="input-type">Açıklama</label>
+                                                <div class="col-sm-11">
+                                                    {{ company_form.description }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                                <button type="submit" form="form-option" data-toggle="tooltip" title=""
+                                        class="btn btn-primary pull-right" data-original-title="Kaydet"
+                                        aria-describedby="tooltip514951">Kaydet
+                                </button>
+
+
+                            </form>
+                        </div>
+                        <hr>
+
+
+                    </div>
+
+
+                </div>
+
+            </section>
+        </div>
+
+    </section>
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+
+    <script>
+        var social_row = 0;
+        document.getElementById('row_number').value = social_row;
+
+        function addSocial(loop) {
+
+            debugger;
+            social_row = loop + 1;
+
+
+            let html = '<tr id="social-row' + social_row + '">';
+            html += '<td class="text-left">';
+            html += '<select name="company_social[' + social_row + '][name]" class="form-control select2 " style="width: 100%" id="social">';
+            html += '<option value="Instagram">Instagram</option><option value="Facebook">Facebook</option>';
+            html += '<option value="Twitter">Twitter</option><option value="Pinterest">Pinterest</option></select></td>';
+            html += '  <td class="text-right"><input type="text" name="company_social[' + social_row + '][link]" value="" placeholder="Link" class="form-control" /></td>';
+            html += '  <td class="text-left"><button type="button" onclick="$(\'#social-row' + social_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+            html += ' <button type="button" onclick="" data-toggle="tooltip" title="Düzenle" class="btn btn-primary"><i class="fa fa-edit"></i></button></td>';
+            html += '</tr>';
+
+
+            $('#social tbody').append(html);
+
+            document.getElementById('row_number').value = social_row;
+            social_row++;
+        }
+
+        function remove(social_row) {
+            $('#social-row' + social_row + '').remove();
+        }
+
+        $(document).ready(function () {
+            document.getElementById('row_number').value = social_row;
+        });
+
+        function editSocialAccount(id, count) {
+            debugger;
+            let name = document.getElementById('company_social[name]').value;
+            let link = document.getElementById('company_social[link]').value;
+            $.ajax({
+                url: "{% url 'listArch:firma-sosyalMedya-düzenle' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    social_id: id,
+                    name: name,
+                    link: link,
+
+                },
+                success: function (result) {
+                    debugger;
+
+                    if (result.status == 'Success') {
+
+
+                        document.getElementById('company_social[' + count + '][link]').value = name;
+                        document.getElementById('company_social[' + count + '][name]').value = link;
+
+
+                        $('.bd-example-modal-lg').modal('closed');
+
+
+                    } else {
+                        swal("Başarısız", result.messages, "error");
+                    }
+
+                }
+
+            });
+        }
+
+
+    </script>
+
+    <script>
+        function getCompanySocialAccount(id, count) {
+            var html = '';
+            $.get(" {% url "listArch:firma-sosyalMedya-hesap-getir" pk=12121   %}".replace(/12121/, id.toString()))
+                .done(function (response) {
+                    debugger;
+
+                    var social = response.socialMedia[0];
+
+
+                    html = '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-hover">';
+                    html += ' <tbody><tr>';
+                    html += '<th>Sosal Medya</th><th>Sosyal Medya Hesabı</th></tr><tr>';
+                    html += '  <td class="text-right">';
+                    html += '<select name="company_social[name]" id="company_social[name]" class="form-control select2 " style="width: 100%" id="social">';
+                    html += '<option selected readonly value="' + social.name + '">' + social.name + '</option>';
+
+                    html += '<option value="instagram">Instagram</option><option value="facebook">Facebook</option>';
+                    html += '<option value="twitter">Twitter</option><option value="pinterest">Pinterest</option></select></td>';
+                    html += '  <td class="text-right"><input type="text" name="company_social[link]" id="company_social[link]" name="company_social[link]" value="' + social.link + '" placeholder="Link" class="form-control" /></td>';
+
+
+                    html += '  <td class="text-left"><button type="button" onclick="editSocialAccount(\'' + social.id + '\',\'' + count + '\')" data-toggle="tooltip" title="Kaydet" class="btn btn-primary"><i class="fa fa-save"></i></button>';
+                    html += '</tr></tbody></table></div>';
+
+                    $(".bodys").html(html);
+
+                });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }</script>
+
+
+
+
+
+{% endblock %}
+

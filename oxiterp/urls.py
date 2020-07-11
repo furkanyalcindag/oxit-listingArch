@@ -28,9 +28,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
     path('', include('accounts.urls')),
-    path('kurye/', include('kurye.urls')),
+    path('listArch/', include('listArch.urls')),
+
 ]
 
 #handler404 = 'kurye.Views.Errors.error_404_view'

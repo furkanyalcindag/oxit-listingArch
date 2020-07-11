@@ -1,5 +1,5 @@
 .skin-red .main-header .navbar {
-    background-color: #020261
+    background-color: #ffffff;
 }
 
 .skin-red .main-header .navbar .nav>li>a {
@@ -67,7 +67,7 @@
 .skin-red .wrapper,
 .skin-red .main-sidebar,
 .skin-red .left-side {
-    background-color:#020261
+    background-color:#000000;
 }
 
 .skin-red .user-panel>.info,
@@ -88,7 +88,7 @@
 .skin-red .sidebar-menu>li.active>a,
 .skin-red .sidebar-menu>li.menu-open>a {
     color: #fff;
-    background: #000066
+    background: #1661a7;
 }
 
 .skin-red .sidebar-menu>li.active>a {
@@ -97,7 +97,7 @@
 
 .skin-red .sidebar-menu>li>.treeview-menu {
     margin: 0 1px;
-    background: #11114d
+    background: #000e55
 }
 
 .skin-red .sidebar a {
@@ -109,7 +109,7 @@
 }
 
 .skin-red .sidebar-menu .treeview-menu>li>a {
-    color: #8aa4af
+    color: #ffffff;
 }
 
 .skin-red .sidebar-menu .treeview-menu>li.active>a,

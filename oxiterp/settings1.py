@@ -40,12 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mathfilters',
-    # own
-
     'rest_framework',
+    'listArch',
     'accounts',
-    'education',
-    'inoks',
+
 
 ]
 
@@ -73,8 +71,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-                'inoks.services.general_methods.getMenu',
-                'inoks.services.general_methods.getAdminMenu',
 
                 # "education.services.general_methods.append_privileges",
             ],

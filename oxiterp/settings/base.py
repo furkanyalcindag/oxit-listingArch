@@ -40,12 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mathfilters',
-    # own
-
     'rest_framework',
     'accounts',
-    'education',
-    'kurye',
+
+    'listArch'
 
 ]
 
@@ -88,11 +86,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
-                'kurye.services.general_methods.getAdminMenu',
-                'kurye.services.general_methods.getCourierMenu',
-                'kurye.services.general_methods.getUserMenu',
-                'kurye.services.general_methods.activeMenu',
-                'kurye.services.general_methods.notifications',
+                'listArch.services.general_methods.getMenu',
+                'listArch.services.general_methods.activeMenu',
 
                 # "education.services.general_methods.append_privileges",
             ],

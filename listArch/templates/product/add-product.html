@@ -1,0 +1,482 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            Ürün Ekle
+
+        </h1>
+        <ul class="breadcrumb">
+            <li><a href="">Ürün</a></li>
+            <li><a href="">Ürün Ekle</a></li>
+        </ul>
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+                            <form action="{% url 'listArch:urun-ekle' %}"
+                                  method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
+                                {% csrf_token %}
+
+                                <div class="container-fluid">
+                                    <div class="panel panel-default">
+                                        <button type="submit" form="form-option" data-toggle="tooltip" title=""
+                                                style="margin-right: 5px;margin-top: 5px;"
+                                                class="btn btn-primary pull-right" data-original-title="Kaydet"><i
+                                                class="fa fa-save"></i></button>
+                                        <div class="panel-heading" style="padding: 13px 18px">
+                                            <h3 class="panel-title"><i class="fa fa-pencil"></i> Ürün Ekle</h3>
+
+                                        </div>
+                                        <div class="panel-body">
+                                            <form action="http://demo1.oxit.com.tr/admin/index.php?route=catalog/product/add&amp;user_token=XFgeUm6jCsUPnS4p1irFqVLRrHYbbw0Z"
+                                                  method="post" enctype="multipart/form-data" id="form-product"
+                                                  class="form-horizontal">
+                                                <ul class="nav nav-tabs">
+                                                    <li class=""><a href="#tab-general" data-toggle="tab"
+                                                                    aria-expanded="false">Genel</a></li>
+                                                    <li class="active"><a href="#tab-option" data-toggle="tab"
+                                                                          aria-expanded="true">Özellik</a></li>
+                                                    <li class=""><a href="#tab-image" data-toggle="tab"
+                                                                    aria-expanded="false">Resim</a></li>
+                                                    <li class=""><a href="#tab-category" data-toggle="tab"
+                                                                    aria-expanded="false">Kategori</a></li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane" id="tab-general">
+                                                        <div class="col-sm-10">
+                                                            <div class="form-group ">
+                                                                <label>Ürün Adı</label>
+
+                                                                <div class="input-group"><span
+                                                                        class="input-group-addon"><img
+                                                                        style="width:30px;height: 10px;"
+                                                                        src="/media/indir.png" title="İngilizce"></span>
+                                                                    <input type="text"
+                                                                           name="category_description[eng][name]"
+                                                                           value=""
+                                                                           placeholder="Ürün Adı"
+                                                                           class="form-control">
+                                                                </div>
+                                                                <div class="input-group"><span
+                                                                        class="input-group-addon"><img
+                                                                        style="width:30px;height: 10px;"
+                                                                        src="/media/tr.png" title="Türkçe"></span>
+                                                                    <input type="text"
+                                                                           name="category_description[tr][name]"
+                                                                           value=""
+                                                                           placeholder="Ürün Adı"
+                                                                           class="form-control">
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Ürün Kodu</label>
+
+                                                                <input type="text" name="category_description[tr][name]"
+                                                                       value=""
+                                                                       placeholder="Ürün Kodu" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="tab-pane active" id="tab-option">
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-sm-2 " id="tab">
+
+                                                                <select class="form-control select2 select2-hidden-accessible"
+                                                                        style="width: 100%" id="option_key"
+                                                                        onchange="get_option()">
+
+                                                                    <option value="">---------</option>
+
+                                                                    {% for option in options %}
+                                                                        <option value="{{ option.key }}">{{ option.key }}</option>
+                                                                    {% endfor %}
+
+
+                                                                </select>
+
+
+                                                            </div>
+                                                            <div class="col-sm-10">
+                                                                <div class="row">
+                                                                    <div class="tab-content"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="tab-pane" id="tab-image">
+                                                        <div class="table-responsive">
+                                                            <table id="images"
+                                                                   class="table table-striped table-bordered table-hover">
+                                                                <thead>
+                                                                <tr>
+                                                                    <td class="text-left">Ürün Resmi</td>
+                                                                    <td class="text-right">Sıralama</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                </tbody>
+
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <td colspan="2"></td>
+                                                                    <td class="text-left">
+                                                                        <button type="button" onclick="addImage();"
+                                                                                data-toggle="tooltip" title=""
+                                                                                class="btn btn-primary"
+                                                                                data-original-title="Resim Ekle"><i
+                                                                                class="fa fa-plus-circle"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane" id="tab-category">
+
+                                                        <br>
+                                                        <label>Kategori Seçin</label>
+                                                        {{ category_form.category }}
+
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <hr>
+
+
+                    </div>
+
+
+                </div>
+            </section>
+        </div>
+        <div class="note-popover popover in note-image-popover bottom">
+            <div class="arrow"></div>
+            <div class="popover-content note-children-container">
+                <div class="note-btn-group btn-group note-custom">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Image Attributes"><i class="note-icon-pencil"></i></button>
+                </div>
+                <div class="note-btn-group btn-group note-imagesize">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Orjinal boyut"><span class="note-fontsize-10">100%</span></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="1/2 boyut"><span class="note-fontsize-10">50%</span></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="1/4 boyut"><span class="note-fontsize-10">25%</span></button>
+                </div>
+                <div class="note-btn-group btn-group note-float">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Sola hizala"><i class="note-icon-align-left"></i></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Sağa hizala"><i class="note-icon-align-right"></i></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Hizalamayı kaldır"><i class="note-icon-align-justify"></i></button>
+                </div>
+                <div class="note-btn-group btn-group note-remove">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Resimi Kaldır"><i class="note-icon-trash"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="note-popover popover in note-image-popover bottom">
+            <div class="arrow"></div>
+            <div class="popover-content note-children-container">
+                <div class="note-btn-group btn-group note-custom">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Image Attributes"><i class="note-icon-pencil"></i></button>
+                </div>
+                <div class="note-btn-group btn-group note-imagesize">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Orjinal boyut"><span class="note-fontsize-10">100%</span></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="1/2 boyut"><span class="note-fontsize-10">50%</span></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="1/4 boyut"><span class="note-fontsize-10">25%</span></button>
+                </div>
+                <div class="note-btn-group btn-group note-float">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Sola hizala"><i class="note-icon-align-left"></i></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Sağa hizala"><i class="note-icon-align-right"></i></button>
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Hizalamayı kaldır"><i class="note-icon-align-justify"></i></button>
+                </div>
+                <div class="note-btn-group btn-group note-remove">
+                    <button type="button" class="note-btn btn btn-default btn-sm" tabindex="-1" title=""
+                            data-original-title="Resimi Kaldır"><i class="note-icon-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            $('.select1').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+    <script>
+        let option_row = 0;
+
+        function get_option() {
+            let value = 0;
+            let e = document.getElementById("option_key");
+            let option_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'listArch:secenek-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    option_id: option_id,
+
+                },
+                success: function (response) {
+                    var option = response.options[0];
+                    let html;
+
+                    if (option_id === "---------") {
+                    } else {
+                        html = ' <a onclick="get_option()" id="key[' + option_row + ']"  class="btn-sm btn-primary"  aria-expanded="true"><i class="fa fa-minus-circle" onclick="removeElement(' + option_row + ')" ></i>' + option_id + '</a><br>';
+                        $('#tab').append(html);
+                    }
+
+                    if (option.type === 'text') {
+                        html += '	<div class="form-group">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-10"><input type="text" name="product_option[' + option_row + '][value]" value="" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control" /></div>';
+                        html += '	</div>';
+                    }
+
+                    if (option.type === 'textarea') {
+                        html += '	<div class="form-group">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-10"><textarea name="product_option[' + option_row + '][value]" rows="5" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control"></textarea></div>';
+                        html += '	</div>';
+                    }
+
+                    debugger;
+
+                    if (option.type === 'select' || option.type === 'radio' || option.type === 'checkbox') {
+
+                        html = '<div class="col-sm-8" id=option_value></div>';
+                        html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
+
+                    }
+                    $('#tab-option .tab-content').append(html);
+
+
+                    option_row++;
+                    value++;
+                }
+
+
+            });
+        }
+    </script>
+
+
+    <script>
+        let option_value_row = 0;
+        let value = 0;
+
+        function addOptionValue() {
+            let e = document.getElementById("option_key");
+            let option_key = e.options[e.selectedIndex].value;
+            debugger;
+            $.ajax({
+                url: "{% url 'listArch:secenek-degerlerini-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    option_id: option_key,
+
+                },
+                success: function (response) {
+                    debugger;
+                    var option_values = response.values;
+                    let html;
+
+
+                    $('.x').remove();
+
+
+                    html = '<div class="row"><div class="col-sm-8" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " style="width: 100%" id="option-value-row[' + option_value_row + ']">';
+                    for (let i = 0; i < option_values.length; i++) {
+                        html += ' <option value="' + option_values[i].value + '">' + option_values[i].value + '</option>';
+
+                    }
+                    html += '</select></div></div>';
+                    html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button></div>';
+
+
+                    option_value_row++;
+                    $('#option-value' + option_value_row + '').append(html);
+                    $('[rel=tooltip]').tooltip();
+
+                    $('#option_value').append(html);
+                    value++;
+
+                }
+
+
+            });
+
+        }
+    </script>
+    <script>
+        function removeElement(elementId) {
+            debugger;
+
+            document.getElementById('key[' + elementId + ']').remove();
+            document.getElementById('option-value-row[' + elementId + ']').remove();
+
+            let html = '<div class="col-sm-8" id=option_value></div>';
+            html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
+
+            document.getElementById("option_value").innerHTML = html;
+        }
+    </script>
+    <script type="text/javascript">
+        var image_row = 0;
+
+        function addImage() {
+            html = '<tr id="image-row' + image_row + '">';
+            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+            html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
+            html += '  <td class="text-left"><button type="button" onclick="$(\'#image-row' + image_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '</tr>';
+
+            $('#images tbody').append(html);
+
+            image_row++;
+        }
+
+    </script>
+
+{% endblock %}
+

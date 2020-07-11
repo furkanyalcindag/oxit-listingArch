@@ -11,6 +11,7 @@
   ankara website,ankara mobil uygulama, oxit,oksid,oksit,oxit yazılım">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {% load staticfiles %}
+
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
@@ -76,7 +77,9 @@
 </head>
 
 <!-- jQuery 3 -->
+
 <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'bower_components/jquery-ui/jquery-ui.js' %}"></script>
 <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
 <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 
@@ -89,17 +92,11 @@
 
     <header class="main-header">
         <!-- Logo -->
-        {% if  user.groups.all.0.name == 'Admin' %}
-            <a href="{% url 'kurye:admin-dashboard' %}" class="logo">
-        {% elif user.groups.all.0.name == 'Kullanıcı' %}
-            <a href="{% url 'kurye:kullanıcı-dashboard' %}" class="logo">
-        {% else %}
-            <a href="{% url 'kurye:kurye-dashboard' %}" class="logo">
-        {% endif %}
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <img src="/media/gvercinlogo.png" class="user-image" alt="OXIT BİLİŞİM"
-             style=" width: 150px;height: 41px;">
-        <!-- logo for regular state and mobile devices -->
+        <a href="">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <img src="/media/logo.png" class="user-image" alt="OXIT BİLİŞİM"
+                 style=" width: 140px;height: 41px;">
+            <!-- logo for regular state and mobile devices -->
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -116,12 +113,12 @@
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">{{ count_not }}</span>
+                            <span class="label label-warning"></span>
                         </a>
 
                         <ul class="dropdown-menu">
 
-                            <li class="header" style="color: #003eff">{{ count_not }} bildiriminiz var</li>
+                            <li class="header" style="color: #003eff"> bildiriminiz var</li>
                             <li>
                                 <!-- inner menu: contains the actual data -->
                                 <ul class="menu">
@@ -130,81 +127,33 @@
                                         <li style="margin-left:15px;">
 
                                             <i class="fa fa-exclamation"
-                                               style="color:red"></i> &nbsp;{{ notification.message }}
+                                               style="color:red"></i>
 
                                         </li>
 
                                         <small class="pull-right"
-                                               style="font-size:12px;color: #808080de;margin-top: 6px;margin-right:7px;">{{ notification.creationDate }} </small>
+                                               style="font-size:12px;color: #808080de;margin-top: 6px;margin-right:7px;"></small>
                                         <hr>
                                     {% endfor %}
 
 
                                 </ul>
                             </li>
-                            <li class="footer"><a href="{% url 'kurye:bildirimler' %}"><strong>Hepsini Gör</strong></a>
+                            <li class="footer"><a href=""><strong>Hepsini Gör</strong></a>
                             </li>
 
                         </ul>
 
                     </li>
 
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            {% if not  user.profile.profileImage %}
-                                <img src="/media/oxit-logo.png" class="user-image"
-                                     alt="OXIT BİLİŞİM" style=" width: 30px;height: 30px;">
-                            {% else %}
-                                <img src="/media/{{ user.profile.profileImage }}" class="user-image" alt="OXIT BİLİŞİM"
-                                     style=" width: 30px;height: 30px;">
-                            {% endif %}
 
-                            <span class="hidden-xs"> {{ user.first_name }} {{ user.last_name }}  <i
-                                    class="fa fa-chevron-down" aria-hidden="true"></i></span>
-
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-                                {% if not  user.profile.profileImage %}
-                                    <img src="/media/oxit-logo.png" class="img-circle"
-                                         alt="OXIT BİLİŞİM">
-                                {% else %}
-                                    <img src="/media/{{ user.profile.profileImage }}" class="img-circle"
-                                         alt="OXIT BİLİŞİM">
-                                {% endif %}
-                                <p style="font-size:11px">
-
-                                    {{ user.first_name }} {{ user.last_name }}
-
-                                    <small>
-
-                                        {{ user.email }} <br>
-                                        Katılım Tarihi: {{ user.profile.creationDate }}</small>
-                                </p>
-                            </li>
-
-                            <li class="user-footer">
-                                <div class="pull-left">
-
-                                    <a href="{% url 'kurye:profil' %}" class="btn btn-default btn-flat"> <i
-                                            class="fa fa-user"
-                                            aria-hidden="true"></i>
-                                        Profil Bilgisi</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="{% url 'accounts:logout' %}" class="btn btn-default btn-flat"> <i
-                                            class="fa fa-sign-out" aria-hidden="true"></i> Çıkış Yap</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
                     <!-- Control Sidebar Toggle Button -->
 
                 </ul>
             </div>
         </nav>
     </header>
+
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
@@ -229,25 +178,12 @@
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
-                {% if  user.groups.all.0.name == 'Kullanıcı' %}
-                    {% for menu in usermenus %}
-                        {% if menu.is_parent %}
+                {% for menu in menus %}
+                    {% if menu.is_parent %}
 
-                            {% if menu.id is self.id %}
+                        {% if menu.id is self.id %}
 
-                                <li class="treeview active menu-open ">
-                                    <a href="#">
-                                        <i class=" {{ menu.fa_icon }}"></i>
-                                        <span>{{ menu.name }}</span>
-                                        <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                    </a>
-                                    {% else %}
-
-
-                                <li class="treeview ">
-
+                            <li class="treeview active menu-open ">
                                 <a href="#">
                                     <i class=" {{ menu.fa_icon }}"></i>
                                     <span>{{ menu.name }}</span>
@@ -255,160 +191,50 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                                 </a>
-
-
-
-                            {% endif %}
-                        {% endif %}
-
-                    <ul class="treeview-menu">
-
-                        {% for menusub in usermenus %}
-                            {% if menusub.parent.id is menu.id %}
-
-                                {% if menusub.url == url %}
-
-                                    <li class="active">
-                                        <a href="{% url menusub.url %}"><i
-                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
                                 {% else %}
-                                    <li>
-                                        <a href="{% url menusub.url %}"><i
-                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
-
-                                {% endif %}
-                            {% endif %}
-
-                        {% endfor %}
-
-                    </ul>
-                    </li>
-                    {% endfor %}
 
 
-                {% elif user.groups.all.0.name == 'Admin' %}
-                    {% for menu in adminmenus %}
-                        {% if menu.is_parent %}
-                            {% if menu.id is self.id %}
-                                <li class="treeview active menu-open ">
-                                    <a href="#">
-                                        <i class=" {{ menu.fa_icon }}"></i>
-                                        <span>{{ menu.name }}</span>
-                                        <span class="pull-right-container">
+                            <li class="treeview ">
+
+                            <a href="#">
+                                <i class=" {{ menu.fa_icon }}"></i>
+                                <span>{{ menu.name }}</span>
+                                <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
-                                    </a>
-                                    {% else %}
-
-                                <li class="treeview ">
-
-                                <a href="#">
-                                    <i class=" {{ menu.fa_icon }}"></i>
-                                    <span>{{ menu.name }}</span>
-                                    <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                </a>
-
-                            {% endif %}
-
-                        {% endif %}
-
-                    <ul class="treeview-menu">
-
-                        {% for menusub in adminmenus %}
-
-
-                            {% if menusub.parent.id is menu.id %}
-
-                                {% if menusub.url == url %}
-
-                                    <li class="active">
-                                        <a href="{% url menusub.url %}"><i
-                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <a href="{% url menusub.url %}"><i
-                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
-
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-
-                    </ul>
-                    </li>
-                    {% endfor %}
-
-                {% elif user.groups.all.0.name == 'Kurye' %}
-
-                    {% for menu in couriermenus %}
-
-                        {% if menu.is_parent %}
-                            {% if menu.id is self.id %}
-
-                                <li class="treeview active menu-open ">
-                                    <a href="#">
-                                        <i class=" {{ menu.fa_icon }}"></i>
-                                        <span>{{ menu.name }}</span>
-                                        <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                    </a>
-                                    {% else %}
-
-
-                                <li class="treeview ">
-
-                                <a href="#">
-                                    <i class=" {{ menu.fa_icon }}"></i>
-                                    <span>{{ menu.name }}</span>
-                                    <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                                </a>
-
-
-
-                            {% endif %}
+                            </a>
 
 
 
                         {% endif %}
+                    {% endif %}
 
+                <ul class="treeview-menu">
 
-                    <ul class="treeview-menu">
+                    {% for menusub in menus %}
+                        {% if menusub.parent.id is menu.id %}
 
-                        {% for menusub in couriermenus %}
+                            {% if menusub.url == url %}
 
-
-                            {% if menusub.parent.id is menu.id %}
-
-                                {% if menusub.url == url %}
-
-                                    <li class="active">
-                                        <a href="{% url menusub.url %}"><i
-                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <a href="{% url menusub.url %}"><i
-                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                    </li>
-
-                                {% endif %}
+                                <li class="active">
+                                    <a href="{% url menusub.url %}"><i
+                                            class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{% url menusub.url %}"><i
+                                            class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                </li>
 
                             {% endif %}
-                        {% endfor %}
+                        {% endif %}
 
-                    </ul>
-                    </li>
                     {% endfor %}
 
-                {% endif %}
+                </ul>
+                </li>
+                {% endfor %}
+
 
             </ul>
         </section>
