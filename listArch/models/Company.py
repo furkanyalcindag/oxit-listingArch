@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from listArch.models import City, Country
-from listArch.models.SocialMedia import SocialMedia
+from listArch.models.City import City
+from listArch.models.Country import Country
 
 
 class Company(models.Model):

@@ -38,7 +38,6 @@
             <li><a href="">Firma Düzenle</a></li>
         </ol>
 
-
     </section>
     <section class="content">
         {% if messages %}
@@ -217,9 +216,6 @@
                                                             {% for social in social_accounts %}
                                                                 <tr id="social-row{{ forloop.counter0 }}">
 
-                                                                    <input type="hidden" id="row_number"
-                                                                           name="row_number"
-                                                                           value="{{ forloop.counter0 }}">
 
                                                                     <td class="text-left">
                                                                         <input type="text" readonly
@@ -241,12 +237,15 @@
 
 
                                                                     <td class="text-left">
+                                                                        <input type="hidden" value="" id="remove_row"
+                                                                               name="remove_row"/>
                                                                         <button type="button"
                                                                                 onclick="remove({{ forloop.counter0 }})"
                                                                                 data-toggle="tooltip" title="Kaldır"
                                                                                 class="btn btn-danger"><i
                                                                                 class="fa fa-minus-circle"></i>
                                                                         </button>
+
                                                                         <button type="button"
                                                                                 onclick="getCompanySocialAccount({{ social.pk }},{{ forloop.counter0 }})"
                                                                                 data-toggle="tooltip" title="Düzenle"
@@ -255,8 +254,8 @@
                                                                         </button>
                                                                     </td>
                                                                 </tr>
-                                                            {% endfor %}
 
+                                                            {% endfor %}
 
                                                             <tfoot>
                                                             <tr>
@@ -271,6 +270,7 @@
                                                                 </td>
                                                             </tr>
                                                             </tfoot>
+
                                                         </table>
                                                     </div>
                                                 </div>
@@ -370,14 +370,13 @@
     </script>
 
     <script>
-        var social_row = 0;
-        document.getElementById('row_number').value = social_row;
+        let social_row = {{ loop }};
+        document.getElementById("row_number").value = social_row;
 
-        function addSocial(loop) {
-
+        function addSocial() {
             debugger;
-            social_row = loop + 1;
-
+            if (social_row == "")
+                social_row = 0
 
             let html = '<tr id="social-row' + social_row + '">';
             html += '<td class="text-left">';
@@ -385,24 +384,40 @@
             html += '<option value="Instagram">Instagram</option><option value="Facebook">Facebook</option>';
             html += '<option value="Twitter">Twitter</option><option value="Pinterest">Pinterest</option></select></td>';
             html += '  <td class="text-right"><input type="text" name="company_social[' + social_row + '][link]" value="" placeholder="Link" class="form-control" /></td>';
-            html += '  <td class="text-left"><button type="button" onclick="$(\'#social-row' + social_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+            html += '  <td class="text-left"><button type="button" onclick="remove_new(' + social_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
             html += ' <button type="button" onclick="" data-toggle="tooltip" title="Düzenle" class="btn btn-primary"><i class="fa fa-edit"></i></button></td>';
             html += '</tr>';
 
 
             $('#social tbody').append(html);
 
-            document.getElementById('row_number').value = social_row;
+            document.getElementById("row_number").value = social_row;
+
             social_row++;
         }
 
+        let row_link;
+
         function remove(social_row) {
+            debugger;
+            row_link = document.getElementById('company_social[' + social_row + '][link]').value;
+            document.getElementById('remove_row').value = row_link;
+            let row = document.getElementById("row_number").value
+            document.getElementById("row_number").value = parseInt(row) - 1
             $('#social-row' + social_row + '').remove();
+
+
         }
 
-        $(document).ready(function () {
-            document.getElementById('row_number').value = social_row;
-        });
+        function remove_new(social_row) {
+            debugger;
+            let row = document.getElementById("row_number").value;
+            document.getElementById("row_number").value = parseInt(row) - 1
+            $('#social-row' + social_row + '').remove();
+
+
+        }
+
 
         function editSocialAccount(id, count) {
             debugger;
@@ -424,11 +439,11 @@
                     if (result.status == 'Success') {
 
 
-                        document.getElementById('company_social[' + count + '][link]').value = name;
-                        document.getElementById('company_social[' + count + '][name]').value = link;
+                        document.getElementById('company_social[' + count + '][link]').value = link;
+                        document.getElementById('company_social[' + count + '][name]').value = name;
 
 
-                        $('.bd-example-modal-lg').modal('closed');
+                        $('.bd-example-modal-lg').modal('hide');
 
 
                     } else {

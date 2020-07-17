@@ -3,7 +3,7 @@
 }
 
 .skin-red .main-header .navbar .nav>li>a {
-    color: #fff
+    color: #000
 }
 
 .skin-red .main-header .navbar .nav>li>a:hover,
@@ -14,7 +14,7 @@
 .skin-red .main-header .navbar .nav .open>a:focus,
 .skin-red .main-header .navbar .nav>.active>a {
     background: rgba(0, 0, 0, 0.1);
-    color: #f6f6f6
+    color: #000
 }
 
 .skin-red .main-header .navbar .sidebar-toggle {
@@ -22,16 +22,16 @@
 }
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
-    color: #f6f6f6;
+    color: #000;
     background: rgba(0, 0, 0, 0.1)
 }
 
 .skin-red .main-header .navbar .sidebar-toggle {
-    color: #fff
+    color: #000
 }
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
-    background-color: #020261
+    background-color: #ffffff;
 }
 
 @media (max-width:767px) {
@@ -47,17 +47,17 @@
 }
 
 .skin-red .main-header .logo {
-    background-color: #020261;
-    color: #fff;
+    background-color: #ffffff;
+    color: #000;
     border-bottom: 0 solid transparent
 }
 
 .skin-red .main-header .logo:hover {
-    background-color: #020261
+    background-color: #ffffff;
 }
 
 .skin-red .main-header li.user-header {
-    background-color: #000066
+    background-color: #f1f2f7
 }
 
 .skin-red .content-header {
@@ -67,12 +67,13 @@
 .skin-red .wrapper,
 .skin-red .main-sidebar,
 .skin-red .left-side {
-    background-color:#000000;
+    background-color: #ffffff;
 }
 
 .skin-red .user-panel>.info,
 .skin-red .user-panel>.info>a {
-    color: #fff
+    color: #000
+
 }
 
 .skin-red .sidebar-menu>li.header {
@@ -87,8 +88,8 @@
 .skin-red .sidebar-menu>li:hover>a,
 .skin-red .sidebar-menu>li.active>a,
 .skin-red .sidebar-menu>li.menu-open>a {
-    color: #fff;
-    background: #1661a7;
+       color: #5783c7;
+    background: rgba(0,0,0,.03);
 }
 
 .skin-red .sidebar-menu>li.active>a {
@@ -97,11 +98,12 @@
 
 .skin-red .sidebar-menu>li>.treeview-menu {
     margin: 0 1px;
-    background: #000e55
+    background: #fff
 }
 
 .skin-red .sidebar a {
-    color: #fff
+    color: #000;
+    border-radius: 3rem;
 }
 
 .skin-red .sidebar a:hover {
@@ -109,12 +111,15 @@
 }
 
 .skin-red .sidebar-menu .treeview-menu>li>a {
-    color: #ffffff;
+    color: #000;
+        padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .skin-red .sidebar-menu .treeview-menu>li.active>a,
 .skin-red .sidebar-menu .treeview-menu>li>a:hover {
-    color: #fff
+    color: #5783c7
 }
 
 .skin-red .sidebar-form {

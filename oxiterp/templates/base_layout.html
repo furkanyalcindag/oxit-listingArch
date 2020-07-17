@@ -11,7 +11,6 @@
   ankara website,ankara mobil uygulama, oxit,oksid,oksit,oxit yazılım">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {% load staticfiles %}
-
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
@@ -25,78 +24,49 @@
     <link rel="stylesheet"
           href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
     <link rel="stylesheet" href="{% static 'dist/css/skins/skin-red.min.css' %}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'plugins/timepicker/bootstrap-timepicker.min.css' %}">
 
     <link rel="stylesheet"
           href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}">
+
     <link rel="stylesheet" href="{% static 'fieldChooser/css/jquery.lwMultiSelect.css' %}">
-    <link rel="stylesheet" href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/morris.js/morris.css' %}">
+
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-    <link rel="stylesheet" href="{% static 'bower_components/morris.js/morris.css' %}">
-    <style>
-        .loader {
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid #2054db;
-            width: 120px;
-            height: 120px;
-            -webkit-animation: spin 2s linear infinite; /* Safari */
-            animation: spin 2s linear infinite;
-            z-index: 9999;
-            position: absolute;
-            left: 45%;
-            top: 20rem;
+    <link rel="stylesheet" href="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/mobileTable/mobiletable.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'bower_components/mobileTable/mobiletable.responsive.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
 
-        }
 
-        /* Safari */
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
 </head>
 
 <!-- jQuery 3 -->
-
 <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
-<script src="{% static 'bower_components/jquery-ui/jquery-ui.js' %}"></script>
-<script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
 <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 
 
 <body class="skin-red sidebar-mini">
-
 <div class="preloader"></div>
 
 <div class="wrapper">
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <img src="/media/logo.png" class="user-image" alt="OXIT BİLİŞİM"
-                 style=" width: 140px;height: 41px;">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <a href="{% url 'listArch:admin-dashboard' %}" class="logo">
+            <span class="logo-mini"><b>OXIT</b></span>
             <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>OXIT</b> BİLİŞİM</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -104,6 +74,7 @@
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
+
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -145,6 +116,66 @@
                         </ul>
 
                     </li>
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {% if not  user.profile.profileImage %}
+                                <img src="/media/logo.png" class="user-image"
+                                     alt="OXIT BİLİŞİM" style=" width: 30px;height: 30px;">
+                            {% else %}
+                                <img src="/media/{{ user.profile.profileImage }}" class="user-image" alt="OXIT BİLİŞİM"
+                                     style=" width: 30px;height: 30px;">
+                            {% endif %}
+
+                            <span class="hidden-xs"> {{ user.first_name }} {{ user.last_name }}  <i
+                                    class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                {% if not  user.profile.profileImage %}
+                                    <img src="/media/logo.png" class="img-circle"
+                                         alt="OXIT BİLİŞİM">
+                                {% else %}
+                                    <img src="/media/{{ user.profile.profileImage }}" class="img-circle"
+                                         alt="OXIT BİLİŞİM">
+                                {% endif %}
+
+                                <p>
+                                    {{ user.first_name }} {{ user.last_name }}
+
+                                    <small>
+
+                                        {{ user.email }} <br>
+                                        Katılım Tarihi: {{ user.date_joined }}</small>
+                                </p>
+                            </li>
+
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    {% if user.groups.all.0.name == 'Firma' %}
+                                        <a href=""
+                                           class="btn btn-default btn-flat"> <i
+                                                class="fa fa-user"
+                                                aria-hidden="true"></i>
+                                            Profil Bilgisi</a>
+                                    {% else %}
+                                        <a href=""
+                                           class="btn btn-default btn-flat"> <i
+                                                class="fa fa-user"
+                                                aria-hidden="true"></i>
+                                            Profil Bilgisi</a>
+
+
+                                    {% endif %}
+                                </div>
+                                <div class="pull-right">
+                                    <a href="{% url 'accounts:logout' %}" class="btn btn-default btn-flat"> <i
+                                            class="fa fa-sign-out" aria-hidden="true"></i> Çıkış Yap</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
 
 
                     <!-- Control Sidebar Toggle Button -->
@@ -155,7 +186,7 @@
     </header>
 
     <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
+   <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- Sidebar user panel -->
@@ -240,7 +271,6 @@
         </section>
         <!-- /.sidebar -->
     </aside>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         {% block content %}
@@ -267,11 +297,11 @@
 </div>
 
 
-<script src="{% static 'alert/sweetalert.min.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'bower_components/select2/dist/js/select2.full.min.js' %}"></script>
 <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
-
+<script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+<script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
 <script src="{% static 'bower_components/moment/min/moment.min.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
@@ -280,10 +310,16 @@
 <script src="{% static 'plugins/timepicker/bootstrap-timepicker.min.js' %}"></script>
 <script src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'bower_components/jquery-knob/js/jquery.knob.js' %}"></script>
+<script src="{% static 'bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+
+
+<script src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
+<script src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'alert/sweetalert.min.js' %}"></script>
 
 
 <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
-
 <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 
 <script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
@@ -294,22 +330,15 @@
 <script src="{% static 'bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
 <script src="{% static 'bower_components/chart.js/Chart.js' %}"></script>
 <script src="{% static 'dist/js/demo.js' %}"></script>
-<script src="{% static 'datatables.js' %}"></script>
-<script src="{% static 'datatable-responsive.js' %}"></script>
-<script src="{% static 'datatable-select.js' %}"></script>
+<script src="{% static 'dist/js/mobiletable.js' %}"></script>
+<script src="{% static 'dist/js/mobiletable.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
 
-
-<script src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
-<script src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
-<script src="{% static 'bower_components/Flot/jquery.flot.js' %}"></script>
-<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
-<script src="{% static 'bower_components/Flot/jquery.flot.resize.js' %}"></script>
-<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
-<script src="{% static 'bower_components/Flot/jquery.flot.pie.js' %}"></script>
-<!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
-<script src="{% static 'bower_components/Flot/jquery.flot.categories.js' %}"></script>
+<script src="{% static 'datatables.min.js' %}"></script>
+<script src="{% static 'datatables.responsive.min.js' %}"></script>
+<script src="{% static 'datatables.select.min.js' %}"></script>
 
 
 </body>
-
 </html>

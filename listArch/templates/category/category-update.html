@@ -2,15 +2,15 @@
 
 {% block content %}
 
-   <section class="content-header">
+    <section class="content-header">
         <h1>
-            {{ obj.name }}
+            Kategori Güncelle
 
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a href="">Kategori</a></li>
+            <li><a href="">Kategori Güncelle</a></li>
         </ol>
 
     </section>
@@ -73,8 +73,9 @@
 
                         <div class="box-body">
 
-                            <form action="{% url 'listArch:kategori-ekle' %}"
-                                  method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
+                            <form
+                                    method="post" enctype="multipart/form-data" id="form-option"
+                                    class="form-horizontal">
                                 {% csrf_token %}
 
                                 <div class="container-fluid">
@@ -100,14 +101,14 @@
                                                             style="width:30px;height: 10px;"
                                                             src="/media/indir.png" title="İngilizce"></span>
                                                         <input type="text" name="category_description[eng][name]"
-                                                               value=""
+                                                               value="{{ category_desc.description }}"
                                                                placeholder="Kategori Adı" class="form-control">
                                                     </div>
                                                     <div class="input-group"><span class="input-group-addon"><img
                                                             style="width:30px;height: 10px;"
                                                             src="/media/tr.png" title="Türkçe"></span>
                                                         <input type="text" name="category_description[tr][name]"
-                                                               value=""
+                                                               value="{{ category.name }}"
                                                                placeholder="Kategori Adı" class="form-control">
                                                     </div>
 
@@ -120,43 +121,20 @@
                                                     <select style="width: 100%"
                                                             class="form-group select2 select2-hidden-accessible"
                                                             name="category_parent" id="category_parent">
-                                                        <option value="">--YOK--</option>
 
                                                         {% for cat in categories %}
-                                                            {% if cat.is_parent %}
-                                                                <option value="{{ cat.pk }}">{{ cat.name }}</option>
-                                                            {% elif cat.parent %}
-                                                                {% if cat.parent.parent %}
-                                                                    {% if cat.parent.parent.parent %}
-                                                                        {% if cat.parent.parent.parent.parent %}
-                                                                            <option value="{{ cat.pk }}">
-                                                                                {{ cat.parent.parent.parent.parent.name }}
-                                                                                &rarr; {{ cat.parent.parent.parent.name }}
-                                                                                &rarr; {{ cat.parent.parent.name }}
-                                                                                &rarr; {{ cat.parent.name }}
-                                                                                &rarr; {{ cat.name }} </option>
-                                                                        {% else %}
-                                                                            <option value="{{ cat.pk }}">{{ cat.parent.parent.parent.name }}
-                                                                                &rarr; {{ cat.parent.parent.name }}
-                                                                                &rarr; {{ cat.parent.name }}
-                                                                                &rarr; {{ cat.name }} </option>
-                                                                        {% endif %}
-                                                                    {% else %}
-                                                                        <option value="{{ cat.pk }}">{{ cat.parent.parent.name }}
-                                                                            &rarr; {{ cat.parent.name }}
-                                                                            &rarr; {{ cat.name }} </option>
-                                                                    {% endif %}
+                                                            {% if cat.category.parent.name == cat.category_name %}
 
-
-                                                                {% else %}
-                                                                    <option value="{{ cat.pk }}">{{ cat.parent.name }}
-                                                                        &rarr; {{ cat.name }}
-                                                                    </option>
-                                                                {% endif %}
-
+                                                                <option selected
+                                                                        value="{{ cat.category.pk }}">{{ cat.category_name }}</option>
                                                             {% endif %}
 
+                                                            <option value="{{ cat.category.pk }}">{{ cat.category_name }}</option>
+
                                                         {% endfor %}
+                                                        <option value="">--YOK--</option>
+
+
                                                     </select>
 
                                                 </div>

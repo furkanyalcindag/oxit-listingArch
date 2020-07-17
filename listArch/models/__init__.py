@@ -8,7 +8,7 @@ from .ProductFile import ProductFile
 from .Product import Product
 from .ProductDesc import ProductDesc
 from .CategoryDesc import CategoryDesc
-from .ProductOption import ProductOption
+from .ProductOptionValue import ProductOptionValue
 from .ProductCategory import ProductCategory
 from .Menu import Menu
 from .Country import Country

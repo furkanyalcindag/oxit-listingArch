@@ -8,7 +8,6 @@
 
 
             <div class="modal-content" style="height:fit-content">
-
                 <div class="modal-header" style="background-color:#3c8dbc ">
                     <font color="white">Açıklama</font>
 
@@ -176,7 +175,6 @@
                     {
                         "render": function (data, type, full, meta, row) {
                             let html;
-                            debugger;
                             src = full.file;
                             html = '<a href="' + full.website + '"><img style="width: 50px" src="' + full.file + '"  alt=""></a>';
                             return html;
@@ -213,7 +211,7 @@
                     {
                         "data": null,
                         render: function (data, type, full, meta, row) {
-                            return full.country + '/' + full.city;
+                            return full.country.name + '/' + full.city.name;
 
 
                         }
@@ -277,7 +275,7 @@
             var html = '';
             $.get(" {% url "listArch:firma-aciklamasi-getir" pk=12121   %}".replace(/12121/, id.toString()))
                 .done(function (response) {
-                    debugger;
+
 
                     var company = response.company[0];
 
@@ -285,7 +283,7 @@
                     html = '<div class="box-body table-responsive no-padding">';
                     html += ' <table class="table table-hover">';
                     html += ' <tbody><tr>';
-                    html += '<th>Açıklama</th><th>Sosyal Medya</th></tr><tr>';
+                    html += '<th>Açıklama</th></tr><tr>';
                     html += '<td>' + company.description + '</td>';
                     html += '</tr>';
                     html += '</tbody></table></div>';

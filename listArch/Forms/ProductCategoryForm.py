@@ -17,15 +17,17 @@ class ProductCategoryForm(ModelForm):
         # (otherwise, 'toppings' list should be empty)
 
         if kwargs.get('instance'):
-            print(kwargs.get('instance').services.all())
+            print(kwargs.get('instance').category.all())
             # We get the 'initial' keyword argument or initialize it
             # as a dict if it didn't exist.
             initial = kwargs.setdefault('initial', {})
             # The widget for a ModelMultipleChoiceField expects
             # a list of primary key for the selected data.
             forms.ModelForm.__init__(self, *args, **kwargs)
-            initial['category'] = [t.pk for t in kwargs['instance'].services.all()]
-            self.fields['category'].initial = initial['category']
+            initial['category'] = [t.pk for t in kwargs['instance'].category.all()]
+            self.fields['category'].initial = {'multi_field':
+                                                   [category for category in
+                                                    Category.objects.all().values_list('id', flat=True)]}
 
         forms.ModelForm.__init__(self, *args, **kwargs)
         self.fields['category'].widget.attrs = {'class': 'form-control select2 select2-hidden-accessible',

@@ -1,0 +1,374 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            {{ obj.name }}
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+
+                        <div class="container-fluid">
+
+                            <div class="row">
+
+                                <div class="panel panel-default">
+
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="fa fa-list"></i> Ürün Listesi</h3>
+
+                                    </div>
+
+                                    <div class="panel-body">
+
+                                        <form action="http://demo1.oxit.com.tr/admin/index.php?route=catalog/product/delete&amp;user_token=L9au1tnskZQiwDK9sBGZO1rMsgeFr3E7"
+                                              method="post" enctype="multipart/form-data" id="form-product">
+                                            <a href="{% url 'listArch:urun-ekle' %}" class="btn btn-app">
+                                                <i class="fa fa-plus"></i> Ürün Ekle
+                                            </a>
+                                            <div class="table-responsive">
+                                                <table id="products" class="display responsive nowrap" cellspacing="0"
+                                                       width="100%">
+                                                    <thead>
+                                                    <tr>
+                                                        <td style="width: 1px;" class="text-center"><input
+                                                                type="checkbox"
+                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
+                                                        </td>
+                                                        <td class="text-center">Resim</td>
+                                                        <td class="text-left"><a
+                                                                href=""
+                                                                class="asc">Ürün Adı</a></td>
+                                                        <td class="text-left"><a
+                                                                href="">Ürün
+                                                            Kodu</a></td>
+                                                        <td class="text-left"><a
+                                                                href="">Kategori</a>
+                                                        </td>
+
+                                                        <td class="text-left"><a
+                                                                href="">Firma</a>
+                                                        </td>
+                                                        <td class="text-right">işlem</td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for product in products %}
+                                                        <tr>
+                                                            <td class="text-center"><input type="checkbox"
+                                                                                           name="selected[]"
+                                                                                           value="18">
+                                                            </td>
+                                                            <td class="text-center"><img
+                                                                    src="/media/{{ product.image.image }}"
+                                                                    class="product-img" style="height: 33px;"></td>
+                                                            <td class="text-left">{{ product.product.name }}</td>
+                                                            <td class="text-left">{{ product.product.code }}</td>
+
+                                                            <td> {% for category in product.category %}
+                                                                {{ category.category.name }},{% endfor %}</td>
+
+                                                            <td>{{ product.product.company.name }}</td>
+                                                            <td class="text-right"><a
+                                                                    href="{% url 'listArch:urun-duzenle' product.product.pk %}"
+                                                                    data-toggle="tooltip" title=""
+                                                                    class="btn btn-primary"
+                                                                    data-original-title="Düzenle"><i
+                                                                    class="fa fa-pencil"></i></a></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+
+            </section>
+        </div>
+
+    </section>
+    <script>
+        $(function () {
+            $('#products').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+
+        })
+    </script>
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            $('.select1').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+    <script>
+        let option_row = 0;
+
+        function get_option() {
+            let value = 0;
+            let e = document.getElementById("option_key");
+            let option_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'listArch:secenek-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    option_id: option_id,
+
+                },
+                success: function (response) {
+                    var option = response.options[0];
+                    let html;
+
+                    if (option_id === "---------") {
+                    } else {
+                        html = ' <a onclick="get_option()" id="key[' + option_row + ']"  class="btn-sm btn-primary"  aria-expanded="true"><i class="fa fa-minus-circle" onclick="removeElement(' + option_row + ')" ></i>' + option_id + '</a><br>';
+                        $('#tab').append(html);
+                    }
+
+                    if (option.type === 'text') {
+                        html += '	<div class="form-group">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-10"><input type="text" name="product_option[' + option_row + '][value]" value="" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control" /></div>';
+                        html += '	</div>';
+                    }
+
+                    if (option.type === 'textarea') {
+                        html += '	<div class="form-group">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-10"><textarea name="product_option[' + option_row + '][value]" rows="5" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control"></textarea></div>';
+                        html += '	</div>';
+                    }
+
+                    debugger;
+
+                    if (option.type === 'select' || option.type === 'radio' || option.type === 'checkbox') {
+
+                        html = '<div class="col-sm-8" id=option_value></div>';
+                        html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
+
+                    }
+                    $('#tab-option .tab-content').append(html);
+
+
+                    option_row++;
+                    value++;
+                }
+
+
+            });
+        }
+    </script>
+
+
+    <script>
+        let option_value_row = 0;
+        let value = 0;
+
+        function addOptionValue() {
+            let e = document.getElementById("option_key");
+            let option_key = e.options[e.selectedIndex].value;
+            debugger;
+            $.ajax({
+                url: "{% url 'listArch:secenek-degerlerini-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    option_id: option_key,
+
+                },
+                success: function (response) {
+                    debugger;
+                    var option_values = response.values;
+                    let html;
+
+
+                    $('.x').remove();
+
+
+                    html = '<div class="row"><div class="col-sm-8" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " style="width: 100%" id="option-value-row[' + option_value_row + ']">';
+                    for (let i = 0; i < option_values.length; i++) {
+                        html += ' <option value="' + option_values[i].value + '">' + option_values[i].value + '</option>';
+
+                    }
+                    html += '</select></div></div>';
+                    html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button></div>';
+
+
+                    option_value_row++;
+                    $('#option-value' + option_value_row + '').append(html);
+                    $('[rel=tooltip]').tooltip();
+
+                    $('#option_value').append(html);
+                    value++;
+
+                }
+
+
+            });
+
+        }
+    </script>
+    <script>
+        function removeElement(elementId) {
+            debugger;
+
+            document.getElementById('key[' + elementId + ']').remove();
+            document.getElementById('option-value-row[' + elementId + ']').remove();
+
+            let html = '<div class="col-sm-8" id=option_value></div>';
+            html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
+
+            document.getElementById("option_value").innerHTML = html;
+        }
+    </script>
+    <script type="text/javascript">
+        var image_row = 0;
+
+        function addImage() {
+            html = '<tr id="image-row' + image_row + '">';
+            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+            html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
+            html += '  <td class="text-left"><button type="button" onclick="$(\'#image-row' + image_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '</tr>';
+
+            $('#images tbody').append(html);
+
+            image_row++;
+            document.getElementById('image_row').value = image_row;
+        }
+
+    </script>
+
+{% endblock %}
+

@@ -12,15 +12,24 @@ urlpatterns = [
     url(r'dashboard/company-dashboard/$', DashboardViews.company_dashboard, name='firma-dashboard'),
 
     # Option
-    url(r'add-feature/$', OptionViews.add_option, name='secenek-ekle'),
-    url(r'get-feature/$', OptionViews.get_option, name='secenek-getir'),
-    url(r'get-feature-value/$', OptionViews.get_option_values, name='secenek-degerlerini-getir'),
+    url(r'add-option/$', OptionViews.add_option, name='secenek-ekle'),
+    url(r'options/$', OptionViews.feature_list, name='secenekler'),
+    url(r'option-update/(?P<pk>\d+)$', OptionViews.update_option, name='secenek-guncelle'),
+
+    url(r'get-option/$', OptionViews.get_option, name='secenek-getir'),
+    url(r'get-option-value/$', OptionViews.get_option_values, name='secenek-degerlerini-getir'),
 
     # Category
     url(r'add-category/$', CategoryViews.add_category, name='kategori-ekle'),
+    url(r'update-category/(?P<pk>\d+)$', CategoryViews.update_category, name='kategori-duzenle'),
+    url(r'update-category/$', CategoryViews.delete_category, name='kategori-sil'),
+
+    url(r'category-list/$', CategoryViews.return_categories, name='kategori-listesi'),
 
     # Product
     url(r'add-product/$', ProductViews.add_product, name='urun-ekle'),
+    url(r'product-list/$', ProductViews.product_list, name='urunler'),
+    url(r'edit-product/(?P<pk>\d+)$', ProductViews.product_edit, name='urun-duzenle'),
 
     # Company
     url(r'add-company/$', CompanyViews.add_company, name='firma-ekle'),

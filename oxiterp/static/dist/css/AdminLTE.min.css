@@ -17,7 +17,7 @@ body {
 }
 
 body {
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto
@@ -93,14 +93,14 @@ body {
 
 .content-wrapper {
     min-height: 100%;
-    background-color: #ecf0f5;
+    background-color: #f1f2f7;
     z-index: 800
 }
 
 .main-footer {
-    background: #fff;
+    background: #e7e7e7;
     padding: 15px;
-    color: #444;
+    color: #000;
     border-top: 1px solid #d2d6de
 }
 
@@ -170,11 +170,11 @@ h6,
 .h4,
 .h5,
 .h6 {
-    font-family: 'Source Sans Pro', sans-serif
+     font-family: ''Poppins', sans-serif';
 }
 
 a {
-    color: #3c8dbc
+    color: #3f51b5
 }
 
 a:hover,
@@ -319,7 +319,7 @@ a:focus {
     line-height: 50px;
     text-align: center;
     width: 230px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0 15px;
     font-weight: 300;
     overflow: hidden
@@ -339,12 +339,13 @@ a:focus {
 
 .content-header {
     position: relative;
-    padding: 15px 15px 0 15px
+    padding: 5px 15px 0 15px
 }
 
 .content-header>h1 {
     margin: 0;
-    font-size: 24px
+    font-size: 24px;
+    margin-left: 15px;
 }
 
 .content-header>h1>small {
@@ -1232,8 +1233,8 @@ a:focus {
 
 .navbar-nav>.user-menu>.dropdown-menu>li.user-header>p {
     z-index: 5;
-    color: #fff;
-    color: rgba(255, 255, 255, 0.8);
+
+    color: #000;
     font-size: 17px;
     margin-top: 10px
 }
@@ -1391,9 +1392,9 @@ a:focus {
 }
 
 .form-control {
-    border-radius: 0;
+    border-radius: 10px;
     box-shadow: none;
-    border-color: #d2d6de
+    border-color: #8d8d8d
 }
 
 .form-control:focus {
@@ -1638,7 +1639,7 @@ a:focus {
 }
 
 .small-box {
-    border-radius: 2px;
+    border-radius: 20px;
     position: relative;
     display: block;
     margin-bottom: 20px;
@@ -1657,7 +1658,7 @@ a:focus {
     color: rgba(255, 255, 255, 0.8);
     display: block;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.1);
+
     text-decoration: none
 }
 
@@ -1734,7 +1735,7 @@ a:focus {
 }
 
 .box.box-primary {
-    border-top-color: #3c8dbc
+    border-top-color: #3f51b5
 }
 
 .box.box-info {
@@ -2012,7 +2013,7 @@ a:focus {
     padding: 5px;
     font-size: 12px;
     background: transparent;
-    color: #97a0b3
+    color: #FF9800
 }
 
 .open .btn-box-tool,
@@ -2509,7 +2510,7 @@ a:focus {
 }
 
 .btn.btn-flat {
-    border-radius: 0;
+    border-radius: 10px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -2560,14 +2561,14 @@ a:focus {
 }
 
 .btn-primary {
-    background-color: #3c8dbc;
-    border-color: #367fa9
+    background-color: #3f51b5;
+    border-color: #3f51b5
 }
 
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary.hover {
-    background-color: #367fa9
+    background-color: #3f51b5
 }
 
 .btn-success {
@@ -2683,7 +2684,6 @@ a:focus {
     border-radius: 3px;
     margin: 0 0 20px 0;
     padding: 15px 30px 15px 15px;
-    border-left: 5px solid #eee
 }
 
 .callout a {
@@ -3723,7 +3723,7 @@ table.text-center th {
 
 .login-box,
 .register-box {
-    width: 360px;
+    width: 400px;
     margin: 7% auto
 }
 
@@ -5124,7 +5124,7 @@ table.text-center th {
 .alert-warning,
 .label-warning,
 .modal-warning .modal-body {
-    background-color: #f39c12 !important
+    background-color: #f1b158
 }
 
 .bg-aqua,
@@ -5132,7 +5132,7 @@ table.text-center th {
 .alert-info,
 .label-info,
 .modal-info .modal-body {
-    background-color: #00c0ef !important
+    background-color: #3c8dbc
 }
 
 .bg-blue {
@@ -5457,11 +5457,11 @@ table.text-center th {
 
 .bg-purple-gradient {
     background: #605ca8 !important;
-    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #605ca8), color-stop(1, #1304ff)) !important;
-    background: -ms-linear-gradient(bottom, #605ca8, #1304ff) !important;
-    background: -moz-linear-gradient(center bottom, #605ca8 0, #1304ff 100%) !important;
-    background: -o-linear-gradient(#1304ff, #605ca8) !important;
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#1304ff', endColorstr='#605ca8', GradientType=0) !important;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #605ca8), color-stop(1, #9491c4)) !important;
+    background: -ms-linear-gradient(bottom, #605ca8, #9491c4) !important;
+    background: -moz-linear-gradient(center bottom, #605ca8 0, #9491c4 100%) !important;
+    background: -o-linear-gradient(#9491c4, #605ca8) !important;
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#9491c4', endColorstr='#605ca8', GradientType=0) !important;
     color: #fff
 }
 

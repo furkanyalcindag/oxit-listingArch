@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group, User, Permission
 from django.urls import resolve
+from django.utils.crypto import get_random_string
 
 from listArch.models.Log import Log
 from listArch.models.Menu import Menu
@@ -49,19 +50,20 @@ def category_parent_show(self):
         if self.parent.parent:
             if self.parent.parent.parent:
                 if self.parent.parent.parent.parent:
-                    return '%s %s %s %s %s %s %s %s %s' % (
-                        self.name, '>', self.parent.name, '>', self.parent.parent.name, '>',
-                        self.parent.parent.parent.name, '>', self.parent.parent.parent.parent.name)
+                    return '%s %s %s %s %s %s %s %s %s %s' % (
+                        self.parent.parent.parent.parent.name, '>', self.parent.parent.parent.name, '>',
+                        self.parent.parent.name, '>',
+                        self.parent.name, '>', self.name, '>')
                 else:
                     return '%s %s %s %s %s %s %s' % (
-                        self.name, '>', self.parent.name, '>', self.parent.parent.name, '>',
-                        self.parent.parent.parent.name)
+                        self.parent.parent.parent.name, '>', self.parent.parent.name, '>', self.parent.name, '>',
+                        self.name)
 
             else:
-                return '%s %s %s %s %s' % (self.name, '>', self.parent.name, '>', self.parent.parent.name)
+                return '%s %s %s %s %s' % (self.parent.parent.name, '>', self.parent.name, '>', self.name)
 
         else:
-            return '%s %s %s' % (self.name, '>', self.parent.name)
+            return '%s %s %s' % (self.parent.name, '>', self.name)
     else:
         return '%s %s' % (self.name, '>')
 
@@ -108,3 +110,11 @@ def show_urls(urllist, depth=0):
             show_urls(entry.url_patterns, depth + 1)
 
     return urls
+
+
+def get_random_secret_key():
+    """
+    Return a 50 character random string usable as a SECRET_KEY setting value.
+    """
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    return get_random_string(50, chars)

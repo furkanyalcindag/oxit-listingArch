@@ -288,7 +288,7 @@ var wysihtml5 = {
         var testRange;
         var implementsDomRange = false, implementsTextRange = false;
 
-        // First, perform basic feature tests
+        // First, perform basic option tests
 
         if (isHostMethod(document, "createRange")) {
             testRange = document.createRange();
@@ -509,7 +509,7 @@ var wysihtml5 = {
         var UNDEF = "undefined";
         var util = api.util;
 
-        // Perform feature tests
+        // Perform option tests
         if (!util.areHostMethods(document, ["createDocumentFragment", "createElement", "createTextNode"])) {
             module.fail("document missing a Node creation method");
         }
@@ -2269,7 +2269,7 @@ var wysihtml5 = {
                     return this.nativeRange.toString();
                 };
 
-                // Create test range and node for feature detection
+                // Create test range and node for option detection
 
                 var testTextNode = document.createTextNode("test");
                 getBody(document).appendChild(testTextNode);
@@ -2946,9 +2946,9 @@ var wysihtml5 = {
 
                     // Test whether the native selection is capable of supporting multiple ranges.
                     if (!selectionHasMultipleRanges) {
-                        // Doing the original feature test here in Chrome 36 (and presumably later versions) prints a
+                        // Doing the original option test here in Chrome 36 (and presumably later versions) prints a
                         // console error of "Discontiguous selection is not supported." that cannot be suppressed. There's
-                        // nothing we can do about this while retaining the feature test so we have to resort to a browser
+                        // nothing we can do about this while retaining the option test so we have to resort to a browser
                         // sniff. I'm not happy about it. See
                         // https://code.google.com/p/chromium/issues/detail?id=399791
                         var chromeMatch = window.navigator.appVersion.match(/Chrome\/(.*?) /);
@@ -4186,7 +4186,7 @@ Base = Base.extend({
 wysihtml5.browser = (function() {
   var userAgent   = navigator.userAgent,
       testElement = document.createElement("div"),
-      // Browser sniffing is unfortunately needed since some behaviors are impossible to feature detect
+      // Browser sniffing is unfortunately needed since some behaviors are impossible to option detect
       isGecko     = userAgent.indexOf("Gecko")        !== -1 && userAgent.indexOf("KHTML") === -1,
       isWebKit    = userAgent.indexOf("AppleWebKit/") !== -1,
       isChrome    = userAgent.indexOf("Chrome/")      !== -1,
@@ -4265,7 +4265,7 @@ wysihtml5.browser = (function() {
 
     /**
      * Whether the browser supports sandboxed iframes
-     * Currently only IE 6+ offers such feature <iframe security="restricted">
+     * Currently only IE 6+ offers such option <iframe security="restricted">
      *
      * http://msdn.microsoft.com/en-us/library/ms534622(v=vs.85).aspx
      * http://blogs.msdn.com/b/ie/archive/2008/01/18/using-frames-more-securely.aspx
@@ -6080,7 +6080,7 @@ wysihtml5.dom.parse = function(elementOrHtml_current, config_current) {
     /**
      * IE is the only browser who doesn't include the namespace in the
      * nodeName, that's why we have to prepend it by ourselves
-     * scopeName is a proprietary IE feature
+     * scopeName is a proprietary IE option
      * read more here http://msdn.microsoft.com/en-us/library/ms534388(v=vs.85).aspx
      */
     if (scopeName && scopeName != "HTML") {
@@ -12813,7 +12813,7 @@ wysihtml5.views.View = Base.extend(
         }, 250);
     }
 
-    // --------- CustomerCompany interaction tracking --
+    // --------- User interaction tracking --
 
     dom.observe(focusBlurElement, interactionEvents, function() {
       setTimeout(function() {
@@ -14812,7 +14812,7 @@ function program17(depth0,data) {
     var defaultOptions = $.fn.wysihtml5.defaultOptions = {
       toolbar: {
         'font-styles': true,
-        'color': false,
+        'color': true,
         'emphasis': {
           'small': true
         },

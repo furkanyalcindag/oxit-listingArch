@@ -4,12 +4,12 @@
 
     <section class="content-header">
         <h1>
-            Ürün Ekle
+            Ürün Düzenle
 
         </h1>
         <ul class="breadcrumb">
-            <li><a href="">Katalog</a></li>
             <li><a href="">Ürünler</a></li>
+            <li><a href="">Ürün Düzenle</a></li>
         </ul>
 
     </section>
@@ -72,8 +72,9 @@
 
                         <div class="box-body">
 
-                            <form action="{% url 'listArch:urun-ekle' %}"
-                                  method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
+                            <form
+                                    method="post" enctype="multipart/form-data" id="form-option"
+                                    class="form-horizontal">
                                 {% csrf_token %}
                                 <input type="hidden" value="" id="value-row" name="value-row">
                                 <div class="container-fluid">
@@ -113,7 +114,7 @@
                                                                     src="/media/indir.png" title="İngilizce"></span>
                                                                 <input type="text"
                                                                        name="product_description[eng][name]"
-                                                                       value=""
+                                                                       value="{{ product.product_desc }}"
                                                                        placeholder="Ürün Adı"
                                                                        class="form-control"/>
                                                             </div>
@@ -123,7 +124,7 @@
                                                                     src="/media/tr.png" title="Türkçe"></span>
                                                                 <input type="text"
                                                                        name="product_description[tr][name]"
-                                                                       value=""
+                                                                       value="{{ product.product.name }}"
                                                                        placeholder="Ürün Adı"
                                                                        class="form-control"/>
                                                             </div>
@@ -133,7 +134,7 @@
                                                             <label>Ürün Kodu</label>
 
                                                             <input type="text" name="product-code"
-                                                                   value=""
+                                                                   value="{{ product.product.code }}"
                                                                    placeholder="Ürün Kodu" class="form-control"/>
                                                         </div>
                                                     </div>
@@ -141,17 +142,68 @@
                                                 </div>
                                                 <div class="tab-pane" id="tab-image">
                                                     <div class="table-responsive">
+                                                        <table id="image"
+                                                               class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <td>Resim</td>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            <tr>
+                                                                <td class="text-left"><img
+                                                                        src="/media/{{ product.image }}"
+                                                                        class="product-img"
+                                                                        style="width: 150px;height: 150px;">
+                                                                    <input type="hidden" name="image"
+                                                                           value="catalog/demo/ipod_classic_1.jpg"
+                                                                           id="input-image"></td>
+                                                            </tr>
+                                                            </tbody>
+
+                                                        </table>
+
                                                         <table id="images"
                                                                class="table table-striped table-bordered table-hover">
                                                             <thead>
                                                             <tr>
-                                                                <td class="text-left">Ürün Resmi</td>
+                                                                <td class="text-left">Ek Resimler</td>
                                                                 <td class="text-right">Sıralama</td>
                                                                 <td></td>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-
+                                                            {% for product_image in product.images %}
+                                                                <tr id="image-row{{ forloop.counter0 }}">
+                                                                    <td class="text-left"><a href=""
+                                                                                             id="thumb-image{{ forloop.counter0 }}"
+                                                                                             data-toggle="image"
+                                                                                             class="img-thumbnail"><img
+                                                                            src="/media/{{ product_image.image.image }}"
+                                                                            class="product-img"
+                                                                            style="height: 150px;width: 150px;"></a>
+                                                                        <input type="hidden"
+                                                                               name="product_image[{{ forloop.counter0 }}][image]"
+                                                                               value="{{ product_image.image.image }}"
+                                                                               id="input-image{{ forloop.counter0 }}">
+                                                                    </td>
+                                                                    <td class="text-right"><input type="text"
+                                                                                                  name="product_image[{{ forloop.counter0 }}][sort_order]"
+                                                                                                  value="{{ product_image.image.order }}"
+                                                                                                  placeholder="Sıralama"
+                                                                                                  class="form-control">
+                                                                    </td>
+                                                                    <td class="text-left">
+                                                                        <button type="button"
+                                                                                onclick="remove_image({{ forloop.counter0 }})"
+                                                                                data-toggle="tooltip" title=""
+                                                                                class="btn btn-danger"
+                                                                                data-original-title="Kaldır"><i
+                                                                                class="fa fa-minus-circle"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
                                                             </tbody>
 
                                                             <tfoot>
@@ -168,14 +220,36 @@
                                                             </tr>
                                                             </tfoot>
                                                         </table>
+
                                                     </div>
                                                 </div>
                                                 <div class="tab-pane" id="tab-category">
-
                                                     <br>
-                                                    <label>Kategori Seçin</label>
-                                                    {{ category_form.category }}
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Kategori Seçin</label>
+                                                               <select class="form-control select2 select2-hidden-accessible"
+                                                                    multiple=""
+                                                                    style="width: 100%;"
+                                                                    name="product_category" id="product_category"
+                                                                    tabindex="-1"
+                                                                    aria-hidden="true">
+                                                                {% for category in categories %}
+                                                                    {% for p_category in p_category %}
+                                                                        {% if p_category.category.name == category.category.name %}
+                                                                            <option selected
+                                                                                    value="{{ category.category.pk }}">{{ category.category_name }}</option>
+                                                                        {% else %}
+                                                                            <option value="{{ category.category.pk }}">{{ category.category_name }}</option>
+                                                                        {% endif %}
 
+                                                                    {% endfor %}
+
+                                                                {% endfor %}
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane" id="tab-company">
 
@@ -185,12 +259,15 @@
                                                             style="width: 100%" id="product-company"
                                                             name="product-company">
 
-                                                        <option value="">---------</option>
 
                                                         {% for company in companies %}
-                                                            <option value="{{ company.pk }}">{{ company.name }}</option>
-                                                        {% endfor %}
+                                                            {% if product.product.company.name == company.name %}
+                                                                <option selected
+                                                                        value="{{ company.pk }}">{{ company.name }}</option>
 
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <option value="">---------</option>
 
                                                     </select>
 
@@ -198,11 +275,52 @@
                                                 <div class="tab-pane " id="tab-option">
                                                     <br>
                                                     <div class="row">
-                                                        <div class="col-sm-2 " id="option-tab">
 
+                                                        <div class="col-sm-12">
+                                                            {% for option_value in product.values %}
+                                                                <div class="row{{ forloop.counter0 }}">
+                                                                    <div class="tab-content">
+                                                                        <div id="option-value-row{{ forloop.counter0 }}">
+                                                                            <div class="col-sm-6">
+                                                                                <div
+                                                                                        style="margin-top:3px;">
+                                                                                    <input readonly type="text"
+                                                                                           name="option-key-value[{{ forloop.counter0 }}]"
+                                                                                           class="form-control"
+                                                                                           value="{{ option_value.option_value.value }}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <button type="button"
+                                                                                        onclick="remove({{ forloop.counter0 }})"
+                                                                                        data-toggle="tooltip"
+                                                                                        title="Kaldır"
+                                                                                        class="btn btn-danger"><i
+                                                                                        class="fa fa-minus-circle"></i>
+                                                                                </button>
+                                                                                <span
+                                                                                        style="margin-top:3px;"
+                                                                                        class="btn btn-default">{{ option_value.option_value.option.key }}</span>
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            {% endfor %}
+
+
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="rowx">
+                                                        <div class="col-sm-2">
                                                             <select class="form-control select2 select2-hidden-accessible"
-                                                                    style="width: 100%" id="option_key" name="option-key"
-                                                                    onchange="get_option()">
+                                                                    style="width: 100%" id="option_key"
+                                                                    name="option-key" onchange="get_option()"
+                                                                    tabindex="-1" aria-hidden="true">
 
                                                                 <option value="">---------</option>
 
@@ -212,18 +330,15 @@
 
 
                                                             </select>
-
-
-                                                        </div>
-                                                        <div class="col-sm-10">
-                                                            <div class="row">
-                                                                <div class="tab-content"></div>
+                                                            <div class="col-sm-10">
+                                                                <div class="row">
+                                                                    <div class="tab-content"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                 </div>
-
                                             </div>
 
                                         </div>
@@ -303,7 +418,7 @@
         })
     </script>
     <script>
-        let option_row = 0;
+        let option_row = {{ value_row}};
 
         function get_option() {
             let value = 0;
@@ -344,7 +459,7 @@
                         html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
 
                     }
-                    $('#tab-option .tab-content').append(html);
+                    $('#tab-option .rowx').append(html);
 
 
                     option_row++;
@@ -358,7 +473,7 @@
 
 
     <script>
-        let option_value_row = 0;
+        let option_value_row = {{value_row}};
         let value = 0;
 
         function addOptionValue(remove_row) {
@@ -384,18 +499,17 @@
 
                     html = '<div class="row" id="option-value-row' + option_value_row + '" ><div class="col-sm-6" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " name="option-key-value[' + option_value_row + ']" id="option-key-value[' + option_value_row + ']" " style="width: 100%" >';
                     for (let i = 0; i < option_values.length; i++) {
-                        html += ' <option value="' + option_values[i].id+ '">' + option_values[i].value + '</option>';
+                        html += ' <option value="' + option_values[i].id + '">' + option_values[i].value + '</option>';
 
                     }
                     html += '</select></div></div>';
-                    html += '<div class="col-sm-2" id="add_option"><button type="button" onclick="remove('+option_value_row+')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>';
+                    html += '<div class="col-sm-2" id="add_option"><button type="button" onclick="remove(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>';
                     html += '<div class="col-sm-3" ><span style="margin-top:3px;"  class="btn btn-default">' + option_key + '</span></div>';
                     html += '<button id="option-button-add[' + option_row + ']" name="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button>'
 
                     document.getElementById('value-row').value = option_value_row;
 
                     option_value_row++;
-                    $('#option-value' + option_value_row + '').append(html);
                     $('[rel=tooltip]').tooltip();
 
                     $('#option_value').append(html);
@@ -410,24 +524,29 @@
         }
 
 
-
-          function remove(id) {
+        function remove(id) {
             debugger;
             $('#option-value-row' + id + '').remove();
-            let row =  document.getElementById('value-row').value
-            document.getElementById("value-row").value = parseInt(row) - 1;
+            let row = document.getElementById('value-row').value
+            if (row === '0') {
+            } else {
+                document.getElementById("value-row").value = parseInt(row) - 1;
+            }
 
         }
+
     </script>
 
     <script type="text/javascript">
-        var image_row = 0;
+        var image_row = {{ loop }};
+        document.getElementById('image_row').value = image_row;
+
 
         function addImage() {
             html = '<tr id="image-row' + image_row + '">';
             html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
             html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
-            html += '  <td class="text-left"><button type="button" onclick="$(\'#image-row' + image_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-left"><button type="button" onclick="remove_image(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
 
             $('#images tbody').append(html);
@@ -436,6 +555,13 @@
             document.getElementById('image_row').value = image_row;
         }
 
+
+        function remove_image(id) {
+            debugger;
+            $('#image-row' + id + '').remove();
+            image_row = image_row - 1;
+
+        }
     </script>
 
 

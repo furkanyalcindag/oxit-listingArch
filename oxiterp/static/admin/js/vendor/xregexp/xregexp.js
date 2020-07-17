@@ -594,12 +594,12 @@ XRegExp = XRegExp || (function (undef) {
     };
 
 /**
- * Checks whether an individual optional feature is installed.
+ * Checks whether an individual optional option is installed.
  * @memberOf XRegExp
- * @param {String} feature Name of the feature to check. One of:
+ * @param {String} feature Name of the option to check. One of:
  *   <li>`natives`
  *   <li>`extensibility`
- * @returns {Boolean} Whether the feature is installed.
+ * @returns {Boolean} Whether the option is installed.
  * @example
  *
  * XRegExp.isInstalled('natives');

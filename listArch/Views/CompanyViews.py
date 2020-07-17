@@ -8,7 +8,6 @@ from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 
 from listArch.Forms.CompanyForm import CompanyForm
-from listArch.Forms.CompanySocialForm import CompanySocialForm
 from listArch.Forms.UserForm import UserForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
 from listArch.models import Company, SocialMedia, City
@@ -17,7 +16,6 @@ from listArch.serializers.CompanySerializer import CompanySerializer
 from listArch.serializers.CompanySocialSerializer import CompanySocialSerializer
 from listArch.serializers.SocialMediaSerializer import SocialMediaSerializer
 from listArch.services import general_methods
-from listArch.services.general_methods import save_log
 
 
 # Firma Ekle
@@ -68,20 +66,20 @@ def add_company(request):
                     company_social.save()
                     i = i + 1
 
-                    subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', user2.email
-                    text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-                    html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/">oxit.com.tr</a></p>'
-                    html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
-                    html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
-                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                    msg.attach_alternative(html_content, "text/html")
-                    msg.send()
+                subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', user2.email
+                text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+                html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/">oxit.com.tr</a></p>'
+                html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
+                html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
 
-                    messages.success(request, 'Firma Bilgileri Başarıyla Kayıt Edilmiştir.')
-                    return redirect('listArch:firma-ekle')
+                messages.success(request, 'Firma Bilgileri Başarıyla Kayıt Edilmiştir.')
+                return redirect('listArch:firma-ekle')
 
             else:
-                messages.success(request, 'Alanları Kontrol Ediniz.')
+                messages.warning(request, 'Alanları Kontrol Ediniz.')
 
         except Exception as e:
             print(e)
@@ -133,19 +131,25 @@ def update_company(request, pk):
                 social_row = int(request.POST['row_number'])
 
                 if social_accounts.count() > 0:
-                    i = social_row
-                    while i < social_accounts.count():
-                        social = SocialMedia(name=request.POST['company_social[' + str(i + 1) + '][name]'],
-                                     link=request.POST['company_social[' + str(i + 1) + '][link]'])
+                    for social in social_accounts:
+                        account = SocialMedia.objects.filter(link=social.social_account.link)
+                        account.delete()
+                        social.delete()
+
+                    i = 0
+                    while i <= social_row:
+
+                        social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
+                                             link=request.POST['company_social[' + str(i) + '][link]'])
                         social.save()
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()
                         i = i + 1
                 else:
-                    i=social_accounts.count()
+                    i = social_accounts.count()
                     while i <= social_row:
                         social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
-                                 link=request.POST['company_social[' + str(i) + '][link]'])
+                                             link=request.POST['company_social[' + str(i) + '][link]'])
                         social.save()
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()

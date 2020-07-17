@@ -740,7 +740,7 @@ throw new Error('AdminLTE requires jQuery')
     open         : 'sidebar-open',
     mini         : 'sidebar-mini',
     expanded     : 'sidebar-expanded-on-hover',
-    expandFeature: 'sidebar-mini-expand-feature',
+    expandFeature: 'sidebar-mini-expand-option',
     layoutFixed  : 'fixed'
   };
 

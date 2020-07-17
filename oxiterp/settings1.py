@@ -28,7 +28,7 @@ SECRET_KEY = 'j-hgr1ce(!9xi#aaffs%hm@(*(9sfv0shfi!*=md20woa3a23d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.20.10.3', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'listArch',
     'accounts',
-
 
 ]
 
