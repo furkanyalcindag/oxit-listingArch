@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from listArch.models import  OptionValue
+from listArch.models import OptionValue, OptionValueDesc
 
 
 class OptionValueSerializer(serializers.ModelSerializer):

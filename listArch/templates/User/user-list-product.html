@@ -1,0 +1,558 @@
+{% extends 'base.html' %}
+{% block content2 %}
+    <div class="main-search-container centered" style="height: auto !important;">
+        <div class="main-search-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="highlighted-categories"
+                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
+
+                        {% for category in parent_categories %}
+                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                               class="highlighted-category">
+                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+        <div class="main-search-inner">
+
+            <div class="">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <!-- Features Categories -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="highlighted-categories">
+
+                                {% for category in sub_categories %}
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                {% endfor %}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <!-- Titlebar -->
+    <div class="container" style="z-index: 9;position: relative;    width: 100%;
+    border-top: 1px solid #ffffff;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="categories-boxes-container margin-top-20 ">
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Özellikler</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="titlebar" style="border:1px solid #ffff;margin-right: 2px;">
+        <div class="container" style="margin-left: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" style="margin-left: 20px;">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">LİSTELERİM</a></li>
+                            <li><a href="#">OFİS LİSTESİ</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification success closeable">
+                <p>{{ message }}</p>
+                <a class="close"></a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container" style="background:#000;width: 100%;border: 1px solid #fff;margin-top: 2px ">
+        <div class="row">
+
+            <!-- Listings -->
+            <div class="col-lg-12 col-md-12" style="    padding-right: 0;padding-left: 0;">
+                <div class="dashboard-list-box margin-top-0">
+                    <div class="row">
+                        <div style="margin-left: 50px">
+                            <div class="col-md-6">
+                                <a href="#small-dialog" class="rate-review button default popup-with-zoom-anim"
+                                   style="background: #ffff; color: black; width: 21%; height: 36px; text-align: center; margin-top: 10px; margin-left: 80%;">Liste
+                                    Oluştur</a>
+                            </div>
+                            <div class="col-md-6">
+                                <nav id="navigation" class="style-1" style="margin-top: 10px;">
+                                    <ul id="responsive">
+
+                                        <li><a class="button"
+                                               style="color: #000;width: 100%;background-color: #ffffff;border-radius:0px;">Listelerim</a>
+                                            <ul>
+                                                {% for list in lists %}
+                                                <li><a href="">{{ list.list_name}}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div id="small-dialog" class="zoom-anim-dialog mfp-hide" style="height:400px;">
+                            <div class="small-dialog-header" style="padding: 20px 40px;margin-bottom: 30px;">
+                                <h3 style="color: #000000">Liste Oluştur</h3>
+                            </div>
+                            <div class="message-reply margin-top-0" style="margin-top: -15px !important;">
+                                <form action="{% url 'listArch:liste-olustur' %}" method="post">
+                                    {% csrf_token %}
+                                    <input name="list_name" type="text" id="list_name" placeholder="Liste Adı">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div>
+                                                <select id="reference_list" name="reference_list"
+                                                        class="chosen-select-no-single" style="display: none;">
+                                                    <option label="blank">Bağlantılı Liste</option>
+                                                    <option>Yok</option>
+                                                    {% for list in lists %}
+                                                        <option>{{ list.list_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+
+                                            <select id="list_type" name="list_type" class="chosen-select-no-single"
+                                                    style="display: none;">
+                                                <option label="blank">Liste Tipini Seçiniz</option>
+                                                <option>Otel</option>
+                                                <option>Restaurant</option>
+                                                <option>Ofis</option>
+                                                <option>Okul</option>
+                                                <option>Ev</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <textarea name="description" cols="30" rows="2" id="description"
+                                              placeholder="Açıklama"
+                                              spellcheck="true"></textarea>
+
+
+                                    <button class="button"
+                                            style="padding: 5px 20px;  float: right; margin-top: 20px; margin-right: 0px !important;">
+                                        Kaydet
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <h3 class="headline centered margin-bottom-20 margin-top-30"
+                                    style="border:1px solid;font-size: 18px">INTERIOR > PRODUCTS >
+                                    FURNITURE<span></span>
+                                </h3>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+                                        <span>14 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>24 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <h3 class="headline centered margin-bottom-20 margin-top-30"
+                                    style="border:1px solid;font-size: 18px">INTERIOR > PRODUCTS >
+                                    FURNITURE<span></span>
+                                </h3>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+                                        <span>14 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>24 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+
+                        </div>
+                          <div class="row">
+
+                            <div class="col-md-12">
+                                <h3 class="headline centered margin-bottom-20 margin-top-30"
+                                    style="border:1px solid;font-size: 18px">INTERIOR > PRODUCTS >
+                                    FURNITURE<span></span>
+                                </h3>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+                                        <span>14 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>24 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme2.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2">
+
+                                <!-- Image Box -->
+                                <a href="" class="img-box" style="height: 200px;"
+                                   data-background-image="/media/deneme.jpg">
+                                    <div class="img-box-content visible">
+
+                                        <span>12 Listings</span>
+                                    </div>
+                                    <div class="img-box-background"></div>
+                                </a>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Copyrights -->
+        </div>
+    </div>
+    <script> function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    </script>
+{% endblock %}

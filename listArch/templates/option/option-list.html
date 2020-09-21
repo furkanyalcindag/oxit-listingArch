@@ -5,7 +5,7 @@
 
     <!-- success modal -->
 
-   <section class="content-header">
+    <section class="content-header">
         <h1>
             {{ obj.name }}
 
@@ -82,37 +82,47 @@
                                 <div class="panel-body">
                                     <form action=""
                                           method="post" enctype="multipart/form-data" id="form-option">
-                                    <a href="{% url 'listArch:secenek-ekle' %}" class="btn btn-app">
-                                        <i class="fa fa-plus"></i> Seçenek Ekle
-                                    </a>
+                                        <a href="{% url 'listArch:secenek-ekle' %}" class="btn btn-app">
+                                            <i class="fa fa-plus"></i> Seçenek Ekle
+                                        </a>
                                         <div class="table-responsive">
                                             <table id="features" class="display responsive nowrap" cellspacing="0"
                                                    width="100%">
                                                 <thead>
-                                                <tr>
-                                                    <td style="width: 1px;" class="text-center"><input type="checkbox"
-                                                                                                       onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
+                                                <tr class="text-left
+">
+                                                    <td style="width: 1px;"><input type="checkbox"
+                                                                                   onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
                                                     </td>
-                                                    <td class="text-left"><a href=""
-                                                            class="asc">Seçenek Adı</a>
+                                                    <td>Eylem</td>
+
+                                                    <td><a>Seçenek Adı</a>
                                                     </td>
 
-                                                    <td class="text-right">Eylem</td>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {% for option in options %}
+                                                {% for option_desc in options %}
                                                     <tr>
 
 
                                                         <td class="text-center"><input type="checkbox" name="selected[]"
                                                                                        value="11">
                                                         </td>
-                                                        <td class="text-left">{{ option.key }}</td>
-                                                        <td class="text-right"><a href="{% url 'listArch:secenek-guncelle' option.pk %}"
-                                                                data-toggle="tooltip" title="" class="btn btn-primary"
-                                                                data-original-title="Düzenle"><i
-                                                                class="fa fa-pencil"></i></a></td>
+                                                        <td>
+                                                            <a href="{% url 'listArch:secenek-guncelle' option_desc.option.pk %}"
+                                                               data-toggle="tooltip" title="" class="btn btn-primary"
+                                                               data-original-title="Düzenle"><i
+                                                                    class="fa fa-pencil"></i></a>
+                                                            <button type="button"
+                                                                    onclick="delete_option({{ option_desc.option.pk }})"
+                                                                    data-toggle="tooltip" title=""
+                                                                    class="btn btn-danger"
+                                                                    data-original-title="Sil"><i
+                                                                    class="fa fa-close"></i></button>
+                                                        </td>
+                                                        <td class="text-left">{{ option_desc.option.key }}</td>
+
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -133,6 +143,30 @@
 
         </div>
         <!-- /.row (main row) -->
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content_messages"></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
 
     </section>
 
@@ -189,7 +223,40 @@
 
     </script>
 
+    <script>
+        function delete_option(id) {
+            document.getElementById('content_messages').innerHTML = 'Seçeneği Silmek İstediğinizden Emin Misiniz?';
 
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:secenek-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            option_id: id,
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Seçenek Silindi", "success");
+                                window.location.replace("{% url "listArch:secenekler" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
 
 {% endblock %}
 

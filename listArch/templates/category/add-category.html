@@ -2,15 +2,15 @@
 
 {% block content %}
 
-   <section class="content-header">
+    <section class="content-header">
         <h1>
-            {{ obj.name }}
+            Kategori Ekle
 
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a href="">Kategori</a></li>
+            <li><a href="">Kategori Ekle</a></li>
         </ol>
 
     </section>
@@ -76,7 +76,6 @@
                             <form action="{% url 'listArch:kategori-ekle' %}"
                                   method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
-
                                 <div class="container-fluid">
                                     <div class="panel panel-default">
                                         <button type="submit" form="form-option" data-toggle="tooltip" title=""
@@ -85,7 +84,6 @@
                                                 class="fa fa-save"></i></button>
                                         <div class="panel-heading" style="padding: 13px 18px">
                                             <h3 class="panel-title"><i class="fa fa-pencil"></i> Kategori Ekle</h3>
-
                                         </div>
                                         <div class="panel-body">
 
@@ -97,18 +95,44 @@
 
 
                                                     <div class="input-group"><span class="input-group-addon"><img
-                                                            style="width:30px;height: 10px;"
-                                                            src="/media/indir.png" title="İngilizce"></span>
+                                                            src="/media/en-gb.png" title="ENg"></span>
                                                         <input type="text" name="category_description[eng][name]"
                                                                value=""
                                                                placeholder="Kategori Adı" class="form-control">
                                                     </div>
                                                     <div class="input-group"><span class="input-group-addon"><img
-                                                            style="width:30px;height: 10px;"
-                                                            src="/media/tr.png" title="Türkçe"></span>
+                                                            src="/media/tr-tr.png" title="TR"></span>
                                                         <input type="text" name="category_description[tr][name]"
                                                                value=""
                                                                placeholder="Kategori Adı" class="form-control">
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="form-group">
+
+
+                                                    <label>Kategori Açıklaması</label>
+                                                    <div class="input-group">
+                                                            <span class="input-group-addon"><img
+                                                                    src="/media/en-gb.png" title="ENg"></span>
+                                                        <textarea class="form-control textarea"
+                                                                  id="content[eng]"
+                                                                  name="content[eng]"
+                                                                  rows="10"
+                                                                  placeholder="Content .."></textarea>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group">
+                                                            <span class="input-group-addon"><img
+                                                                    src="/media/tr-tr.png" title="ENg"></span>
+                                                        <textarea class="form-control textarea"
+                                                                  id="content[tr]"
+                                                                  name="content[tr]"
+                                                                  rows="10"
+                                                                  placeholder="İçerik .."></textarea>
+
                                                     </div>
 
 
@@ -160,7 +184,24 @@
                                                     </select>
 
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="input-type">Aktif
+                                                        Kategori?</label>
+                                                    {{ category_form.isActive }}
 
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="input-type">Ana Kategori</label>
+                                                    {{ category_form.isBasic }}
+
+
+                                                </div>
+                                                <div class="form-group" id="category_icon">
+                                                    <small>*Ana Kategori Seçimlerinde Zorunlu Alan </small><br>
+                                                    <label for="input-type">Ana Kategori İkonu</label>
+                                                    {{ category_form.icon }}
+                                                </div>
                                             </div>
 
                                         </div>
@@ -181,6 +222,32 @@
 
     <script>
 
+
+        $(document).ready(function () {
+            //set initial state.
+            $('#active_value').val($(this).is(':checked'));
+
+            $('#active_category').change(function () {
+                $('#active_category').change(function () {
+                    if ($(this).is(":checked")) {
+
+                        $('#category_icon').css('display', 'block');
+                        $('#active_value').val($(this).is(':checked'));
+
+                    } else {
+                        $('#category_icon').css('display', 'none');
+                        $('#active_value').val($(this).is(':checked'));
+
+                    }
+
+
+                });
+
+
+            });
+
+
+        });
 
         function getCookie(name) {
             var cookieValue = null;
@@ -213,6 +280,7 @@
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             }
+
         });
 
 
@@ -235,6 +303,12 @@
             $('.timepicker').timepicker({
                 showInputs: false
             })
+        })
+
+
+        $(function () {
+
+            $('.textarea').wysihtml5();
         })
     </script>
 

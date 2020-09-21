@@ -141,7 +141,30 @@
 
         </div>
         <!-- /.row (main row) -->
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content_messages"></p>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
     </section>
 
 
@@ -168,15 +191,19 @@
                             let html;
                             let url = '{% url 'listArch:firma-düzenle' 0 %}';
                             url = url.replace(0, full.id);
-                            html = ' <a class="btn btn-primary" type="btn" title="Düzenle" href="' + url + '"><i class="fa fa-edit"></i></a>';
+                            let url2 = '{% url 'listArch:firma-aciklama-ekle' 0 %}'.replace(0, full.id);
+                            html = '<a class="btn btn-primary" type="btn" title="Düzenle" href="' + url + '"><i class="fa fa-edit"></i></a>';
+                            html += '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Açıklama Ekle" href="' + url2 + '"><i class="fa fa-plus"></i></a>';
+                            html += '<button type="button" style="margin-left: 5px;" onclick="delete_company(' + full.id + ')" class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
+
+
                             return html;
                         }
                     },
                     {
                         "render": function (data, type, full, meta, row) {
                             let html;
-                            src = full.file;
-                            html = '<a href="' + full.website + '"><img style="width: 50px" src="' + full.file + '"  alt=""></a>';
+                            html = '<a href="' + full.website + '"><img style="width: 50px" src="' + full.logo + '"  alt=""></a>';
                             return html;
                         }
                     },
@@ -211,7 +238,7 @@
                     {
                         "data": null,
                         render: function (data, type, full, meta, row) {
-                            return full.country.name + '/' + full.city.name;
+                            return full.country.name;
 
 
                         }
@@ -276,7 +303,6 @@
             $.get(" {% url "listArch:firma-aciklamasi-getir" pk=12121   %}".replace(/12121/, id.toString()))
                 .done(function (response) {
 
-
                     var company = response.company[0];
 
 
@@ -288,20 +314,54 @@
                     html += '</tr>';
                     html += '</tbody></table></div>';
 
-                            $(".bodys").html(html);
+                    $(".bodys").html(html);
 
-                        });
+                });
 
-                    $('.bd-example-modal-lg').modal('show');
+            $('.bd-example-modal-lg').modal('show');
 
 
-                    $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
-                        // put your default event here
-                        $(".bodys").html("");
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }</script>
+    <script>
+        function delete_company(id) {
+            document.getElementById('content_messages').innerHTML = 'Firmatı Silmek İstediğinizden Emin Misiniz?';
+
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:firma-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            company_id: id,
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Firma Silindi", "success");
+                                window.location.replace("{% url "listArch:firma-listesi" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
                     });
+                });
 
-
-                }</script>
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
 
 {% endblock %}
 

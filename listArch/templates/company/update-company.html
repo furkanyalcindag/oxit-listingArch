@@ -135,7 +135,7 @@
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Logo</label>
-                                                        <div class="col-sm-10">{{ company_form.file }}
+                                                        <div class="col-sm-10">{{ company_form.logo }}
                                                             <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
@@ -173,6 +173,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Adres Linki</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.address_link }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Ülke</label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.country }}
@@ -188,6 +194,27 @@
                                                 <label class="col-sm-2 control-label" for="input-type">Konum</label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.map }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Yıllık
+                                                    Satış</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.annualSales }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Çalışan
+                                                    Sayısı</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.noOfEmployees }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Kuruluş
+                                                    Tarihi</label>
+                                                <div class="col-sm-10">
+                                                    {{ company_form.date }}
                                                 </div>
                                             </div>
 
@@ -424,7 +451,7 @@
             let name = document.getElementById('company_social[name]').value;
             let link = document.getElementById('company_social[link]').value;
             $.ajax({
-                url: "{% url 'listArch:firma-sosyalMedya-düzenle' %}",
+                url: "{% url 'listArch:firma-sosyalMedya-düzenle'%}",
                 type: "post", // or "get"
                 async: false,
                 data: {

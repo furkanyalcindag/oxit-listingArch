@@ -10,6 +10,8 @@ urlpatterns = [
 
     path('', views.login, name='login'),
     path('forgot/', views.forgot, name='forgot'),
+    path('forgot-user/', views.user_forgot, name='forgot-user'),
+
     url(r'logout/$', views.pagelogout, name='logout'),
     url(r'groups/$', views.groups, name='group'),
     url(r'permission/(?P<pk>\d+)$', views.permission, name='perm'),

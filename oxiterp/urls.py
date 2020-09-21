@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.urls import path, re_path
 from django.conf.urls import url, include
@@ -28,8 +27,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('listArch/', include('listArch.urls')),
+    path('manager/', include('accounts.urls')),
+    path('', include('listArch.urls')),
 
 ]
 

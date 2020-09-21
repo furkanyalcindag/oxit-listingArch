@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+<style>
+    label {
+        color: #ffffff;
+    }
+</style>
+{% block content2 %}
+    <div class="main-search-container centered dark-overlay" style="height: 100vh !important;">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification error closeable">
+                    <p> {{ message }}</p>
+                    <a class="close"></a>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="main-search-inner">
+            <div class="container" style="margin-right: 0px;">
+                <div class="row">
+
+                    <div class="col-md-6" style="text-align: left">
+
+                        <div class="sign-in-form">
+                            <h3 class=" margin-bottom-35" style="color: #ffffff;text-align: center">Şifre Hatırlama için Mail Adresinizi Giriniz
+                            </h3>
+
+                            <form action="" method="post">
+
+                                <p class="form-row form-row-wide">
+                                    <label style="color: #ffffff" for="username">Email:
+                                        <i class="im im-icon-Email" style="bottom: 20px;"></i>
+                                        <input type="text" class="input-text" name="username" id="username"
+                                               value=""/>
+
+                                    </label>
+                                </p>
+                                {% csrf_token %}
+                                 <div class="form-row">
+
+                                        <input type="submit" style="background:#fd9116;width: 25%"
+                                               class="margin-top-5 margin-bottom-20 highlighted-category"
+                                               name="login"
+                                               value="Gönder"/>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Video -->
+        <div class="video-container">
+            <video poster="/media/base2_images/main-search-video.mp4" loop autoplay muted>
+                <source src="/media/base2_images/main-search-video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+{% endblock %}

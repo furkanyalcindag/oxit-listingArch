@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <!-- Titlebar -->
+    <div id="titlebar" style="border:1px solid #ffff;margin-right: 2px;">
+        <div class="container" style="margin-left: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" style="margin-left: 20px;">
+                        <ul>
+                            <li><a href="{% url 'listArch:index' %}">ANASAYFA</a></li>
+                            <li><a href="">AYARLAR</a></li>
+                            <li><a href="{% url 'listArch:kullanici-firma-bilgileri-guncelle' %}">PROFİL</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification error closeable">
+                <p>{{ message }}</p>
+                <a class="close"></a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container" style="background:#000;width: 100%;border: 1px solid #fff;margin-top: 2px ">
+        <div class="row" style="margin-top: 10px;margin-bottom: 50px;">
+            <div class="col-md-12" style="border-bottom: 1px solid;margin-bottom: 20px;">
+                <h3 style="font-weight: 700">Profil Bilgilerim</h3>
+
+                <!-- Breadcrumbs -->
+            </div>
+
+            <div class="col-lg-3 col-md-2">
+
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <!-- Change Password -->
+                <div class="col-md-6">
+                    <div class="dashboard-list-box margin-top-0" style="border: 2px solid #fd9116;">
+                        <h4 class="gray" style="border-bottom: 2px solid #fd9116">Şifre Değiştir</h4>
+                        <div class="dashboard-list-box-static" style="background: #000;">
+
+                            <!-- Change Password -->
+                            <div class="my-profile">
+                                <form method="post" action="{% url 'accounts:change_password' %}">
+                                    {% csrf_token %}
+
+                                    <div class="form-group">
+                                        <label style="color: #fff"> {{ form.old_password.label }}</label>
+                                        {{ form.old_password }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color: #fff"> {{ form.new_password1.label }}</label>
+                                        {{ form.new_password1 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color: #fff"> {{ form.new_password2.label }}</label>
+                                        {{ form.new_password2 }}
+                                    </div>
+                                    <ul style="background: #000">
+                                        <li style="color: #fff">En az 8 karakterden oluşur. <br>
+                                            Rakam ve "?, @, !, #, %, +, -, *, %" gibi özel karakterler
+                                            içerebilir.
+                                            <br>
+                                            Büyük ve küçük harfler bir arada kullanılabilir.
+                                        </li>
+                                    </ul>
+                                    <div class="box-footer">
+                                        <button type="submit" class="button margin-top-15" style="color: #fff">Kaydet
+                                        </button>
+                                    </div>
+
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile -->
+                <div class="col-md-6">
+                    <div class="dashboard-list-box margin-top-0" style="border: 2px solid #fd9116;margin: 1px">
+                        <h4 class="gray" style="border-bottom: 2px solid #fd9116">Profile Detay</h4>
+                        <div class="dashboard-list-box-static" style="background: #000;">
+
+                            <!-- Details -->
+                            <div class="my-profile">
+                                <form method="post"
+                                      action="{% url 'listArch:kullanici-firma-bilgileri-guncelle' %}">
+                                    {% csrf_token %}
+
+                                    <label style="color: #fff">Ad</label>
+                                    {{ user_form.first_name }}
+
+                                    <label style="color: #fff">Soyad</label>
+                                    {{ user_form.last_name }}
+
+                                    <label style="color: #fff">Email</label>
+                                    {{ user_form.email }}
+
+                                    {% if customer.isCompany %}
+                                        <label style="color: #fff">Firma Adı</label>
+                                        {{ customer_form.companyName }}
+
+                                        <label style="color: #fff"> Firma Telefonu</label>
+                                        {{ customer_form.companyPhone }}
+
+                                        <label style="color: #fff">Firma Adresi</label>
+                                        {{ customer_form.companyAddress }}
+                                    {% endif %}
+                                    <button type="submit" class="button margin-top-15" style="color: #fff">Kaydet
+                                    </button>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-1 col-md-2"></div>
+
+
+        </div>
+
+    </div>
+{% endblock %}

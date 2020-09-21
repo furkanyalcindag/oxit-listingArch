@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+
+    <!-- Basic Page Needs
+    ================================================== -->
+    <title>Listeo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{% static 'base2/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'base2/css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'base2/css/main-color.css' %}" id="colors">
+    <link rel="stylesheet" href="{% static 'base2/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'base2/css/plugins/revolutionslider.css' %}">
+
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
+
+
+</head>
+
+<body class="transparent-header">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Header Container
+    ================================================== -->
+    <header id="header-container">
+
+        <!-- Header -->
+        <div id="header">
+            <div class="container">
+
+                <!-- Left Side Content -->
+                <div class="left-side">
+
+                    <!-- Logo -->
+                    <div id="logo">
+                        <a href="{% url 'listArch:index' %}">
+                            <img src="/media/oxit-logo.png" data-sticky-logo="/media/oxit-logo.png" alt=""></a>
+
+                    </div>
+
+                    <!-- Mobile Navigation -->
+                    <div class="mmenu-trigger">
+                        <button class="hamburger hamburger--collapse" type="button">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+                        </button>
+                    </div>
+
+                    <!-- Main Navigation -->
+                    <nav id="navigation" class="style-1">
+                        <ul id="responsive">
+
+
+                            </li>
+
+                            <li><a href="#">CONTACT</a>
+
+                            </li>
+
+                            <li><a href="#">ADVERT</a>
+
+                            </li>
+                            <li><a href="#">ENGLISH</a></li>
+
+                            <li><a href="#">ABOUT US</a>
+
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
+                    <!-- Main Navigation / End -->
+
+                </div>
+                <!-- Left Side Content / End -->
+
+
+                <!-- Right Side Content / End -->
+                {% if user.is_authenticated %}
+
+                    <div class="right-side">
+                        <div class="header-widget">
+                            <!-- User Menu -->
+                            <div class="user-menu">
+                                <div class="user-name">
+                                    {{ user.first_name }} {{ user.last_name }}
+                                </div>
+                                <ul>
+                                    <li><a href="{% url 'listArch:kullanici-profil-sayfasi' %}"><i
+                                            class="sl sl-icon-settings"></i> Dashboard</a></li>
+                                    <li><a href="dashboard-messages.html"><i class="sl sl-icon-envelope-open"></i>
+                                        Messages</a></li>
+                                    <li><a href="{% url 'listArch:kullanici-listesi' %}"><i
+                                            class="fa fa-calendar-check-o"></i>
+                                        Listem</a>
+                                    </li>
+                                    <li><a href="{% url 'listArch:logout-user' %}"><i class="sl sl-icon-power"></i>
+                                        Logout</a></li>
+                                </ul>
+                            </div>
+
+
+                            <a href="dashboard-add-listing.html" class="button border with-icon">Add Listing <i
+                                    class="sl sl-icon-plus"></i></a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="right-side">
+                        <div class="header-widget">
+                            <!-- User Menu -->
+                            <a href="{% url 'listArch:kullanici-giris-yap' %}" class="sign-in"><i
+                                    class="sl sl-icon-login"></i> Sign In</a>
+
+
+                        </div>
+                    </div>
+
+                {% endif %}
+            </div>
+            <!-- Right Side Content / End -->
+
+
+        </div>
+
+
+        <!-- Header / End -->
+
+    </header>
+    <div class="clearfix"></div>
+    <!-- Header Container / End -->
+
+
+    <!-- Banner
+    ================================================== -->
+    {% block content2 %}
+        <!-- Featured Categories - End -->
+    {% endblock %}
+
+
+    <!-- Content
+    ================================================== -->
+    {% block content %}
+
+
+
+
+
+
+    {% endblock %}
+
+
+    <!-- Category Boxes / End -->
+
+
+    <!-- Footer
+    ================================================== -->
+    <!-- Main -->
+    <!-- Copyright -->
+    <div class="col-md-12">
+        <div id="footer">
+            <div class="copyrights">© 2019 Listeo. All Rights Reserved.</div>
+        </div>
+    </div>
+
+    <!-- Footer / End -->
+
+
+    <!-- Back To Top Button -->
+    <div id="backtotop"><a href="#"></a></div>
+
+
+    <!-- Wrapper / End -->
+
+
+    <!-- Scripts
+    ================================================== -->
+
+
+    <script type="text/javascript" src="{% static 'base2/scripts/mmenu.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/chosen.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/slick.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/rangeslider.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
+
+
+    <!-- Typed Script -->
+    <script type="text/javascript" src="{% static 'base2/scripts/typed.js' %}"></script>
+    <script>
+        var typed = new Typed('.typed-words', {
+            strings: ["Bricks-in-Bytes", " Bricks-in-Bytes", " Bricks-in-Bytes"],
+            typeSpeed: 80,
+            backSpeed: 80,
+            backDelay: 4000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: true
+        });
+    </script>
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+
+    <script>
+        function searchGetProduct() {
+            debugger;
+            let name = document.getElementById('product_name').value;
+            $.ajax({
+                url: "{% url 'listArch:product-search'%}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    product_name: name,
+
+                },
+                success: function (result) {
+                    debugger;
+
+                    if (result.product.length !== 0) {
+                        let html = '<div id="product-block" style="width:100%;z-index:999;position: absolute;border:2px solid #ffffff;background: white;color: black;font-size:15px;"><ul style="width: 100%; height: 200px; overflow: auto" >';
+
+                        for (let i = 0; i < result.product.length; i++) {
+                            let url = '{% url 'listArch:urun-detay' 0%}'
+                            url = url.replace('0', result.product[i].id)
+                            html += '<li style="list-style-type:none;margin: 12px;"><a href="' + url + '">' + result.product[i].name + '</a></li>';
+                        }
+                        html += '</ul></div>';
+                        document.getElementById('search_product').innerHTML = html;
+                    } else {
+                        document.getElementById('product-block').remove();
+
+                    }
+                }
+            });
+        }
+
+        function searchGetProductCategory() {
+            debugger;
+            let e = document.getElementById('category');
+            var category_id = e.options[e.selectedIndex].value;
+            let url = "{% url "listArch:urun-filtreleme-sayfasi" 0 %}"
+            url = url.replace('0', category_id)
+            window.location.replace('' + url + '');
+        }
+
+
+        function searchGetProductBrand() {
+            debugger;
+            let e = document.getElementById('company');
+            var brand_id = e.options[e.selectedIndex].value;
+            let url = "{% url "listArch:firmanin-urunleri" 0 %}"
+            url = url.replace('0', brand_id)
+            window.location.replace('' + url + '');
+        }
+    </script>
+</body>
+</html>

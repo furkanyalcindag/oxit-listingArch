@@ -1,0 +1,124 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+    <section class="content-header">
+        <h1>
+            {{ category.name }}
+
+        </h1>
+        <ul class="breadcrumb">
+            <li><a href="">Katalog</a></li>
+            <li><a href="">Ürünler</a></li>
+            <li><a href="">{{ category.name }}</a></li>
+
+        </ul>
+
+    </section>
+    <section class="content">
+
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table id="company-list" class="table  table-bordered display responsive nowrap "
+                               cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Ürün Adı</th>
+                                <th>Detay</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for category_product in category_products %}
+                                <tr>
+
+                                    <td>
+                                        <img src="/media/{{ category_product.cover_image }}" class="card-img" alt="..."
+                                             style="width: 50px;height: 50px;">
+                                    </td>
+                                    <td> {{ category_product.name }}</td>
+                                    <td><a type="button" class="btn btn-primary"
+                                           href="{% url 'listArch:firmanin-urun-detay-sayfasi' category_product.pk %}"><i
+                                            class="fa fa-search"></i></a>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </section>
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            $('.select1').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+
+
+{% endblock %}

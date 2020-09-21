@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+
+{% block content2 %}
+    <div class="main-search-container centered" style="height: auto !important;">
+        <div class="main-search-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="highlighted-categories"
+                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
+
+                        {% for category in parent_categories %}
+                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                               class="highlighted-category">
+                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+        <div class="main-search-inner">
+
+            <div class="">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                         <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                                <span class="typed-words">{{ scrolling_text.description }}</span>
+                            </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <!-- Features Categories -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="highlighted-categories">
+
+                                {% for category in sub_categories %}
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                {% endfor %}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container" style="z-index: 9;position: relative;margin-top: -100px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="categories-boxes-container margin-top-5 margin-bottom-30">
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Specs</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="titlebar" style="border-bottom:1px solid #ffff;border-top:1px solid #ffff;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">{{ category.name }}</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if products.all %}
+        <div class="container" style="    border-left: 1px solid #fff;border-right: 1px solid #fff;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row container margin-bottom-5 margin-top-25">
+                        <h3>ÜRÜN REKLAMLARI</h3>
+                    </div>
+                    <div class="row">
+                        {% for product in products %}
+                            <div class="col-lg-2 col-md-6">
+                                <a href="{% url 'listArch:urun-detay' product.pk %}"
+                                   class="listing-item-container compact">
+                                    <div class="listing-item">
+                                        <img src="/media/{{ product.cover_image }}"
+                                             alt="">
+                                        <div class="listing-badge now-open">
+                                            Ads
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if blogs %}
+        <div class="container" style=" border-left: 1px solid #fff;border-right: 1px solid #fff;">
+            <div class="blog-page">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 ">
+                        <div class="row container margin-bottom-5 margin-top-25">
+                            <h3>BAŞARI HİKAYELERİ</h3></div>
+                        {% for blog in blogs %}
+                            <div class="blog-post">
+                                <div class="post-content">
+                                    <h3><a href="#">{{ blog.blog.title_desc }}</a></h3>
+                                    <ul class="post-meta" style="text-align:center">
+                                        <li><a href="#">{{ blog.product.company.name }}</a></li>
+                                        <br>
+                                        <li><a href="#">{{ blog.product.product.name }}</a></li>
+                                        <br>
+                                        <li><a>{{ blog.product.company.date.year }}</a></li>
+                                        <br>
+                                        <li>
+                                            <a href="#">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <br>
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/{{ blog.product.product.cover_image }}" alt="">
+                                </a>
+                                <br>
+                                <div class="post-content">
+                                    <p>{{ blog.blog.description |truncatechars:80 | safe }}
+
+                                    </p>
+                                    <a style="font-size: 12px;" href="#" class="">Read More <i
+                                            class="fa fa-angle-right"></i></a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if introductions %}
+        <div class="container"
+             style=" border-left: 1px solid #fff;border-right: 1px solid #fff;border-bottom:1px solid #fff;padding-bottom: 15px;">
+            <div class="blog-page">
+                <div class="row">
+                    {% for introduction in introductions %}
+                        <div class="col-lg-12 col-md-12 ">
+                            <div class="row container margin-bottom-5 margin-top-25">
+                                <h3>TEMEL {{ category.name }} ELEMANLARI</h3>
+                            </div>
+
+                            {% for product in introduction.products %}
+                                <div class="blog-post">
+                                    <a style="border: 1px solid #fff;"
+                                       href="{% url 'listArch:urun-detay' product.product.pk %}" class="post-img">
+                                        <img src="/media/{{ product.product.cover_image }}" alt="">
+                                    </a>
+                                    <br>
+
+                                    <div class="post-content">
+
+                                        <ul class="post-meta" style="text-align:center">
+                                            <li><a href="{% url 'listArch:urun-detay' product.product.pk %}">{{ product.product.name }}</a></li>
+                                            <br>
+                                            <li><a href="#">(18687)</a></li>
+                                            <br>
+                                            <li><a href="#">{{ category.name }}</a></li>
+                                        </ul>
+                                        <br>
+                                        <a style="font-size: 12px;" href="#" class="">MORE <i
+                                                class="fa fa-angle-right"></i></a>
+                                    </div>
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        </div> {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
+{% endblock %}
+

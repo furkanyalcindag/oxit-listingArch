@@ -2,47 +2,57 @@ from django.contrib.auth.models import Group, User, Permission
 from django.urls import resolve
 from django.utils.crypto import get_random_string
 
+from listArch.models.HeaderTextDesc import HeaderTextDesc
+from listArch.models.ScrollingText import ScrollingText
+from listArch.models.ScrollingTextDesc import ScrollingTextDesc
+from listArch.models.Company import Company
 from listArch.models.Log import Log
 from listArch.models.Menu import Menu
 
 
 def activeMenu(request):
-    url_name = request.resolver_match.url_name
-    app_name = resolve(request.path).app_name
-    url = app_name + ':' + url_name
-    obj = None
-    parent = None
-
-    obj = None
-    parent = None
-    if app_name != 'accounts':
+    if request.user.is_authenticated and request.user.is_anonymous == False:
         user = request.user
         groups = Group.objects.filter(user=user)
-        if groups[0].name == "Admin":
-            obj = Menu.objects.filter(url=url)
-            if obj.count() > 0 and obj[0].parent:
-                parent = Menu.objects.get(pk=obj[0].parent_id)
-        elif groups[0].name == "Firma":
-            obj = Menu.objects.filter(url=url)
-            if obj.count() > 0 and obj[0].parent:
-                parent = Menu.objects.get(pk=obj[0].parent_id)
+        if groups[0].name != 'Musteri':
+            url_name = request.resolver_match.url_name
+            app_name = resolve(request.path).app_name
+            url = app_name + ':' + url_name
 
-        else:
             obj = None
+            parent = None
 
-        if obj.count() == 0:
-            obj = []
-            x = Menu(url="")
-            obj.append(x)
+            if app_name != 'accounts':
 
-        return {"url": url, 'self': obj[0].parent, 'parent': parent, 'obj': obj[0]}
+                if groups[0].name == "Admin":
+                    obj = Menu.objects.filter(url=url)
+                    if obj.count() > 0 and obj[0].parent:
+                        parent = Menu.objects.get(pk=obj[0].parent_id)
+                elif groups[0].name == "Firma":
+                    obj = Menu.objects.filter(url=url)
+                    if obj.count() > 0 and obj[0].parent:
+                        parent = Menu.objects.get(pk=obj[0].parent_id)
 
-    return {"url": url, 'self': obj, 'parent': parent, 'obj': obj}
+                else:
+                    obj = Menu()
+
+                if obj.count() == 0:
+                    obj = []
+                    x = Menu(url="")
+                    obj.append(x)
+
+                return {"url": url, 'self': obj[0].parent, 'parent': parent, 'obj': obj[0]}
+
+    return {"url": "", 'self': "", 'parent': "", 'obj': ""}
 
 
 def getMenu(request):
-    menus = Menu.objects.all().order_by('order')
-    return {'menus': menus}
+    if request.user.is_authenticated and request.user.is_anonymous == False:
+        user = request.user
+        group = Group.objects.get(user=user)
+        menus = Menu.objects.filter(group=group).order_by('order')
+        return {'menus': menus}
+    return {'menus': ""}
 
 
 def category_parent_show(self):
@@ -118,3 +128,45 @@ def get_random_secret_key():
     """
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     return get_random_string(50, chars)
+
+
+def parent_categories_list(request):
+    from listArch.models import Category
+    categories = Category.objects.filter(is_parent=True).filter(isBasic=True)
+    return {"parent_categories": categories}
+
+
+def get_all_category(request):
+    from listArch.models import Category
+    categories = Category.objects.filter(isActive=True)
+    return {"categories": categories}
+
+
+def get_company(request):
+    companies = Company.objects.all()
+    return {'companies': companies}
+
+
+def get_user(request):
+    if request.user.is_anonymous == False:
+        group = Group.objects.get(user=request.user)
+        if request.user.is_authenticated and group.name == 'Firma':
+            user = request.user
+            company = Company.objects.get(user=user)
+            return {'company': company}
+    return {}
+
+
+def get_scrolling_text(request):
+    scrolling = ScrollingText.objects.filter(isActive=True)
+    if scrolling.count() > 0:
+        scrolling_tr = ScrollingTextDesc.objects.filter(text=scrolling[0]).filter(lang_code=1)[0]
+        return {'scrolling_text': scrolling_tr}
+    return {}
+
+
+def headerText(request):
+    headerText = HeaderTextDesc.objects.filter(headerText__isActive=True).filter(lang_code=1)
+    if headerText.count() > 0:
+        return {'headerText': headerText[0]}
+    return {}

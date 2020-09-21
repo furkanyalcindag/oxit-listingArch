@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,7 +12,6 @@
     <meta name="keywords" content="mobil uygulama,e-ticaret,danışmanlık,yazılım,web tasarım,kurumsal seo,internet reklamcılığı,ankara yazılım,
   ankara website,ankara mobil uygulama, oxit,oksid,oksit,oxit yazılım">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    {% load staticfiles %}
     <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/Ionicons/css/ionicons.min.css' %}">
@@ -47,12 +48,13 @@
           href="{% static 'bower_components/mobileTable/mobiletable.responsive.min.css' %}">
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
 
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
+
 
 </head>
 
 <!-- jQuery 3 -->
-<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
-<script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 
 
 <body class="skin-red sidebar-mini">
@@ -63,11 +65,19 @@
     <header class="main-header">
         <!-- Logo -->
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <a href="{% url 'listArch:admin-dashboard' %}" class="logo">
-            <span class="logo-mini"><b>OXIT</b></span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>OXIT</b> BİLİŞİM</span>
-        </a>
+        {% if user.groups.all.0.name == 'Firma' %}
+            <a href="{% url 'listArch:firma-dashboard' %}" class="logo">
+                <span class="logo-mini"><b>OXIT</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>OXIT</b> BİLİŞİM</span>
+            </a>
+        {% elif user.groups.all.0.name == 'Admin' %}
+            <a href="{% url 'listArch:admin-dashboard' %}" class="logo">
+                <span class="logo-mini"><b>OXIT</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>OXIT</b> BİLİŞİM</span>
+            </a>
+        {% endif %}
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
@@ -78,9 +88,87 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- Messages: style can be found in dropdown.less-->
-                    <!-- Notifications: style can be found in dropdown.less -->
-
+                    <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success">4</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 4 messages</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <img src="dist/img/user2-160x160.jpg" class="img-circle"
+                                                     alt="User Image">
+                                            </div>
+                                            <h4>
+                                                Support Team
+                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                            </h4>
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li>
+                                    <!-- end message -->
+                                    <li>
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <img src="dist/img/user3-128x128.jpg" class="img-circle"
+                                                     alt="User Image">
+                                            </div>
+                                            <h4>
+                                                AdminLTE Design Team
+                                                <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                            </h4>
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <img src="dist/img/user4-128x128.jpg" class="img-circle"
+                                                     alt="User Image">
+                                            </div>
+                                            <h4>
+                                                Developers
+                                                <small><i class="fa fa-clock-o"></i> Today</small>
+                                            </h4>
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <img src="dist/img/user3-128x128.jpg" class="img-circle"
+                                                     alt="User Image">
+                                            </div>
+                                            <h4>
+                                                Sales Department
+                                                <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                            </h4>
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <img src="dist/img/user4-128x128.jpg" class="img-circle"
+                                                     alt="User Image">
+                                            </div>
+                                            <h4>
+                                                Reviewers
+                                                <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                            </h4>
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">See All Messages</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
@@ -119,7 +207,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             {% if not  user.profile.profileImage %}
-                                <img src="/media/logo.png" class="user-image"
+                                <img src="/media/logo1.png" class="user-image"
                                      alt="OXIT BİLİŞİM" style=" width: 30px;height: 30px;">
                             {% else %}
                                 <img src="/media/{{ user.profile.profileImage }}" class="user-image" alt="OXIT BİLİŞİM"
@@ -133,7 +221,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 {% if not  user.profile.profileImage %}
-                                    <img src="/media/logo.png" class="img-circle"
+                                    <img src="/media/logo1.png" class="img-circle"
                                          alt="OXIT BİLİŞİM">
                                 {% else %}
                                     <img src="/media/{{ user.profile.profileImage }}" class="img-circle"
@@ -144,7 +232,6 @@
                                     {{ user.first_name }} {{ user.last_name }}
 
                                     <small>
-
                                         {{ user.email }} <br>
                                         Katılım Tarihi: {{ user.date_joined }}</small>
                                 </p>
@@ -153,19 +240,11 @@
                             <li class="user-footer">
                                 <div class="pull-left">
                                     {% if user.groups.all.0.name == 'Firma' %}
-                                        <a href=""
+                                        <a href="{% url 'listArch:firma-profil' %}"
                                            class="btn btn-default btn-flat"> <i
                                                 class="fa fa-user"
                                                 aria-hidden="true"></i>
                                             Profil Bilgisi</a>
-                                    {% else %}
-                                        <a href=""
-                                           class="btn btn-default btn-flat"> <i
-                                                class="fa fa-user"
-                                                aria-hidden="true"></i>
-                                            Profil Bilgisi</a>
-
-
                                     {% endif %}
                                 </div>
                                 <div class="pull-right">
@@ -175,10 +254,7 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
 
-
-                    <!-- Control Sidebar Toggle Button -->
 
                 </ul>
             </div>
@@ -186,7 +262,7 @@
     </header>
 
     <!-- Left side column. contains the logo and sidebar -->
-   <aside class="main-sidebar">
+    <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- Sidebar user panel -->
@@ -209,12 +285,32 @@
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
-                {% for menu in menus %}
-                    {% if menu.is_parent %}
+                {% if user.groups.all.0.name == 'Firma' %}
+                    {% for menu in menus %}
+                        <li>
+                            <a href="{% url menu.url %}"><i
+                                    class="{{ menu.fa_icon }}"></i> {{ menu.name }}</a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for menu in menus %}
+                        {% if menu.is_parent %}
 
-                        {% if menu.id is self.id %}
+                            {% if menu.id is self.id %}
 
-                            <li class="treeview active menu-open ">
+                                <li class="treeview active menu-open ">
+                                    <a href="#">
+                                        <i class=" {{ menu.fa_icon }}"></i>
+                                        <span>{{ menu.name }}</span>
+                                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                                    </a>
+                                    {% else %}
+
+
+                                <li class="treeview ">
+
                                 <a href="#">
                                     <i class=" {{ menu.fa_icon }}"></i>
                                     <span>{{ menu.name }}</span>
@@ -222,50 +318,38 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                                 </a>
-                                {% else %}
 
 
-                            <li class="treeview ">
-
-                            <a href="#">
-                                <i class=" {{ menu.fa_icon }}"></i>
-                                <span>{{ menu.name }}</span>
-                                <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                            </a>
-
-
-
-                        {% endif %}
-                    {% endif %}
-
-                <ul class="treeview-menu">
-
-                    {% for menusub in menus %}
-                        {% if menusub.parent.id is menu.id %}
-
-                            {% if menusub.url == url %}
-
-                                <li class="active">
-                                    <a href="{% url menusub.url %}"><i
-                                            class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a href="{% url menusub.url %}"><i
-                                            class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
-                                </li>
 
                             {% endif %}
                         {% endif %}
 
+                    <ul class="treeview-menu">
+
+                        {% for menusub in menus %}
+                            {% if menusub.parent.id is menu.id %}
+
+                                {% if menusub.url == url %}
+
+                                    <li class="active">
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{% url menusub.url %}"><i
+                                                class="{{ menusub.fa_icon }}"></i> {{ menusub.name }}</a>
+                                    </li>
+
+                                {% endif %}
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </ul>
+                    </li>
                     {% endfor %}
-
-                </ul>
-                </li>
-                {% endfor %}
-
+                {% endif %}
 
             </ul>
         </section>
@@ -334,6 +418,8 @@
 <script src="{% static 'dist/js/mobiletable.responsive.min.js' %}"></script>
 <script src="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+<script src="{% static 'bower_components/fastclick/lib/fastclick.js' %}"></script>
 
 <script src="{% static 'datatables.min.js' %}"></script>
 <script src="{% static 'datatables.responsive.min.js' %}"></script>

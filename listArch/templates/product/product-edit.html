@@ -72,14 +72,16 @@
 
                         <div class="box-body">
 
-                            <form
-                                    method="post" enctype="multipart/form-data" id="form-option"
-                                    class="form-horizontal">
+                            <form method="post" enctype="multipart/form-data" id="form-option"
+                                  class="form-horizontal">
                                 {% csrf_token %}
                                 <input type="hidden" value="" id="value-row" name="value-row">
+                                <input type="hidden" value="" name="option_range_count"
+                                       id="option_range_count">
                                 <div class="container-fluid">
                                     <div class="panel panel-default">
-                                        <button type="submit" form="form-option" data-toggle="tooltip" title=""
+                                        <button type="button" onclick="submitForm()" form="form-option"
+                                                data-toggle="tooltip" title=""
                                                 style="margin-right: 5px;margin-top: 5px;"
                                                 class="btn btn-primary pull-right" data-original-title="Kaydet"><i
                                                 class="fa fa-save"></i></button>
@@ -90,28 +92,26 @@
                                         <div class="panel-body">
 
                                             <ul class="nav nav-tabs">
-                                                <li class=""><a href="#tab-general" data-toggle="tab"
-                                                                aria-expanded="false">Genel</a></li>
-
                                                 <li class=""><a href="#tab-image" data-toggle="tab"
                                                                 aria-expanded="false">Resim</a></li>
-                                                <li class=""><a href="#tab-category" data-toggle="tab"
-                                                                aria-expanded="false">Kategori</a></li>
-                                                <li class=""><a href="#tab-company" data-toggle="tab"
-                                                                aria-expanded="false">Firma</a></li>
+                                                <li class=""><a href="#tab-cover-image" data-toggle="tab"
+                                                                aria-expanded="false">Kapak Resmi</a></li>
+                                                <li class=""><a href="#tab-general" data-toggle="tab"
+                                                                aria-expanded="false">Genel</a></li>
                                                 <li class=""><a href="#tab-option" data-toggle="tab"
                                                                 aria-expanded="false">Seçenek</a></li>
+                                                <li class=""><a href="#tab-file" data-toggle="tab"
+                                                                aria-expanded="false">Bağlantılar</a></li>
                                             </ul>
                                             <div class="tab-content">
-                                                <div class="tab-pane active" id="tab-general">
+                                                <div class="tab-pane" id="tab-general">
                                                     <div class="col-sm-10">
                                                         <div class="form-group ">
                                                             <label>Ürün Adı</label>
 
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
-                                                                    style="width:30px;height: 10px;"
-                                                                    src="/media/indir.png" title="İngilizce"></span>
+                                                                    src="/media/en-gb.png" title="eng"></span>
                                                                 <input type="text"
                                                                        name="product_description[eng][name]"
                                                                        value="{{ product.product_desc }}"
@@ -120,8 +120,7 @@
                                                             </div>
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
-                                                                    style="width:30px;height: 10px;"
-                                                                    src="/media/tr.png" title="Türkçe"></span>
+                                                                    src="/media/tr-tr.png" title="TR"></span>
                                                                 <input type="text"
                                                                        name="product_description[tr][name]"
                                                                        value="{{ product.product.name }}"
@@ -133,14 +132,33 @@
                                                         <div class="form-group">
                                                             <label>Ürün Kodu</label>
 
-                                                            <input type="text" name="product-code"
-                                                                   value="{{ product.product.code }}"
-                                                                   placeholder="Ürün Kodu" class="form-control"/>
+                                                            {{ product_form.code }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Ürün Firma Kodu</label>
+
+                                                            {{ product_form.company_code }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="input-type">Aktif
+                                                                Ürün?</label>
+
+                                                            {{ product_form.isActive }}
+
+                                                            <label style="margin-left: 15px;" for="input-type">Sponsor
+                                                                Ürün</label>
+
+                                                            {{ product_form.isSponsor }}
+
+                                                            <label style="margin-left: 15px;" for="input-type">Reklam
+                                                                Ürünü</label>
+
+                                                            {{ product_form.isAdvert }}
                                                         </div>
                                                     </div>
 
                                                 </div>
-                                                <div class="tab-pane" id="tab-image">
+                                                <div class="tab-pane active" id="tab-image">
                                                     <div class="table-responsive">
                                                         <table id="image"
                                                                class="table table-striped table-bordered table-hover">
@@ -169,46 +187,43 @@
                                                             <thead>
                                                             <tr>
                                                                 <td class="text-left">Ek Resimler</td>
-                                                                <td class="text-right">Sıralama</td>
                                                                 <td></td>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            {% for product_image in product.images %}
-                                                                <tr id="image-row{{ forloop.counter0 }}">
-                                                                    <td class="text-left"><a href=""
-                                                                                             id="thumb-image{{ forloop.counter0 }}"
-                                                                                             data-toggle="image"
-                                                                                             class="img-thumbnail"><img
-                                                                            src="/media/{{ product_image.image.image }}"
-                                                                            class="product-img"
-                                                                            style="height: 150px;width: 150px;"></a>
-                                                                        <input type="hidden"
-                                                                               name="product_image[{{ forloop.counter0 }}][image]"
-                                                                               value="{{ product_image.image.image }}"
-                                                                               id="input-image{{ forloop.counter0 }}">
-                                                                    </td>
-                                                                    <td class="text-right"><input type="text"
-                                                                                                  name="product_image[{{ forloop.counter0 }}][sort_order]"
-                                                                                                  value="{{ product_image.image.order }}"
-                                                                                                  placeholder="Sıralama"
-                                                                                                  class="form-control">
-                                                                    </td>
-                                                                    <td class="text-left">
-                                                                        <button type="button"
-                                                                                onclick="remove_image({{ forloop.counter0 }})"
-                                                                                data-toggle="tooltip" title=""
-                                                                                class="btn btn-danger"
-                                                                                data-original-title="Kaldır"><i
-                                                                                class="fa fa-minus-circle"></i></button>
-                                                                    </td>
-                                                                </tr>
-                                                            {% endfor %}
-                                                            </tbody>
+                                                            {% if product.images %}
+                                                                {% for product_image in product.images %}
+                                                                    <tr id="image-row{{ forloop.counter0 }}">
 
+                                                                        <td class="text-left"><a href=""
+                                                                                                 id="thumb-image{{ forloop.counter0 }}"
+                                                                                                 data-toggle="image"
+                                                                                                 class="img-thumbnail"><img
+                                                                                src="/media/{{ product_image.image.image }}"
+                                                                                class="product-img"
+                                                                                style="height: 150px;width: 150px;"></a>
+                                                                            <input type="hidden"
+                                                                                   name="product_image[{{ forloop.counter0 }}][image]"
+                                                                                   value="{{ product_image.image.image }}"
+                                                                                   id="input-image{{ forloop.counter0 }}">
+                                                                        </td>
+
+                                                                        <td class="text-left">
+                                                                            <button type="button"
+                                                                                    onclick="image_delete({{ product_image.image.pk }}, {{ product_image.product.pk }})"
+                                                                                    data-toggle="tooltip" title=""
+                                                                                    class="btn btn-danger"
+                                                                                    data-original-title="Kaldır"><i
+                                                                                    class="fa fa-minus-circle"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            </tbody>
                                                             <tfoot>
                                                             <tr>
-                                                                <td colspan="2"></td>
+                                                                <td colspan="1"></td>
                                                                 <td class="text-left">
                                                                     <button type="button" onclick="addImage();"
                                                                             data-toggle="tooltip" title=""
@@ -223,100 +238,64 @@
 
                                                     </div>
                                                 </div>
-                                                <div class="tab-pane" id="tab-category">
+                                                <div class="tab-pane " id="tab-cover-image">
                                                     <br>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Kategori Seçin</label>
-                                                               <select class="form-control select2 select2-hidden-accessible"
-                                                                    multiple=""
-                                                                    style="width: 100%;"
-                                                                    name="product_category" id="product_category"
-                                                                    tabindex="-1"
-                                                                    aria-hidden="true">
-                                                                {% for category in categories %}
-                                                                    {% for p_category in p_category %}
-                                                                        {% if p_category.category.name == category.category.name %}
-                                                                            <option selected
-                                                                                    value="{{ category.category.pk }}">{{ category.category_name }}</option>
-                                                                        {% else %}
-                                                                            <option value="{{ category.category.pk }}">{{ category.category_name }}</option>
-                                                                        {% endif %}
-
-                                                                    {% endfor %}
-
-                                                                {% endfor %}
-
-                                                            </select>
-                                                        </div>
+                                                    <div class="col-lg-6">
+                                                        {{ product_form.cover_image }}
                                                     </div>
-                                                </div>
-                                                <div class="tab-pane" id="tab-company">
-
-                                                    <br>
-                                                    <label>Firma Seçin</label>
-                                                    <select class="form-control select2 select2-hidden-accessible"
-                                                            style="width: 100%" id="product-company"
-                                                            name="product-company">
-
-
-                                                        {% for company in companies %}
-                                                            {% if product.product.company.name == company.name %}
-                                                                <option selected
-                                                                        value="{{ company.pk }}">{{ company.name }}</option>
-
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                        <option value="">---------</option>
-
-                                                    </select>
-
+                                                    <div class="col-lg-6">
+                                                        <img src="/media/{{ product.product.cover_image }}"
+                                                             class="product-img"
+                                                             style="width: 100px;height: 100px;">
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane " id="tab-option">
                                                     <br>
                                                     <div class="row">
-
-                                                        <div class="col-sm-12">
-                                                            {% for option_value in product.values %}
-                                                                <div class="row{{ forloop.counter0 }}">
-                                                                    <div class="tab-content">
-                                                                        <div id="option-value-row{{ forloop.counter0 }}">
-                                                                            <div class="col-sm-6">
-                                                                                <div
-                                                                                        style="margin-top:3px;">
-                                                                                    <input readonly type="text"
-                                                                                           name="option-key-value[{{ forloop.counter0 }}]"
-                                                                                           class="form-control"
-                                                                                           value="{{ option_value.option_value.value }}">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-sm-6">
-                                                                                <button type="button"
-                                                                                        onclick="remove({{ forloop.counter0 }})"
-                                                                                        data-toggle="tooltip"
-                                                                                        title="Kaldır"
-                                                                                        class="btn btn-danger"><i
-                                                                                        class="fa fa-minus-circle"></i>
-                                                                                </button>
-                                                                                <span
-                                                                                        style="margin-top:3px;"
-                                                                                        class="btn btn-default">{{ option_value.option_value.option.key }}</span>
-                                                                            </div>
-
+                                                        {% for option_value in product.values %}
+                                                            <div class="tab-info">
+                                                                <div id="option-value-row{{ forloop.counter0 }}">
+                                                                    <div class="col-sm-6">
+                                                                        <div style="margin-top:3px;">
+                                                                            {% if option_value.option_value.option.type == 'range' %}
+                                                                                <input readonly type="text"
+                                                                                       name="option-key-[{{ forloop.counter0 }}]"
+                                                                                       class="form-control"
+                                                                                       value="{{ option_value.range_value }}">
+                                                                            {% else %}
+                                                                                <input readonly type="text"
+                                                                                       name="option-key-[{{ forloop.counter0 }}]"
+                                                                                       class="form-control"
+                                                                                       value="{{ option_value.option_value.value }}">
+                                                                            {% endif %}
 
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-sm-6">
+                                                                        <button type="button"
+                                                                                onclick="option_delete({{ forloop.counter0 }},{{ option_value.pk }})"
+                                                                                data-toggle="tooltip"
+                                                                                title="Kaldır"
+                                                                                class="btn btn-danger"><i
+                                                                                class="fa fa-minus-circle"></i>
+                                                                        </button>
+                                                                        <span
+                                                                                style="margin-top:3px;"
+                                                                                class="btn btn-default">{{ option_value.option_value.option.key }}</span>
+                                                                    </div>
+
 
                                                                 </div>
+                                                            </div>
 
-                                                            {% endfor %}
 
 
-                                                        </div>
+                                                        {% endfor %}
                                                     </div>
-                                                    <br>
-                                                    <div class="rowx">
-                                                        <div class="col-sm-2">
+
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12" style="margin-top: 20px;">
                                                             <select class="form-control select2 select2-hidden-accessible"
                                                                     style="width: 100%" id="option_key"
                                                                     name="option-key" onchange="get_option()"
@@ -332,11 +311,42 @@
                                                             </select>
                                                             <div class="col-sm-10">
                                                                 <div class="row">
-                                                                    <div class="tab-content"></div>
+                                                                    <div class="tab-content" style="width: 100%"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                </div>
+                                                <div class="tab-pane" id="tab-file">
+
+                                                    <br>
+                                                    <label>Firma Seçin</label>
+                                                    <select class="form-control select2 select2-hidden-accessible"
+                                                            style="width: 100%" id="product-company"
+                                                            name="product-company">
+
+                                                        {% for company in companies %}
+                                                            {% if product.product.company.name == company.name %}
+                                                                <option selected
+                                                                        value="{{ company.pk }}">{{ company.name }}</option>
+                                                            {% else %}
+                                                                <option value="{{ company.pk }}">{{ company.name }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <option value="">---------</option>
+
+                                                    </select>
+
+                                                    <label style="margin-top: 30px;">Kategori Seçin</label>
+                                                    {{ product_form.category }}
+
+
+                                                    <label style="margin-top: 30px;">Dosya Seçin</label>
+                                                    {{ product_file_form.file }}
+
+                                                    <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
+                                                    {{ related_product_form.related_product }}
 
                                                 </div>
                                             </div>
@@ -355,6 +365,55 @@
 
                 </div>
             </section>
+        </div>
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+             aria-labelledby="myLargeModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+
+
+                <div class="modal-content" style="height:fit-content">
+
+                    <div class="modal-header" style="background-color:#3c8dbc ">
+                        <font color="white">Açıklama</font>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body bodys bodys-1234">
+
+                    </div>
+
+                    <div class="modal-footer footer-1234 ">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content"></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
         </div>
 
     </section>
@@ -416,9 +475,15 @@
                 showInputs: false
             })
         })
+
+
     </script>
     <script>
-        let option_row = {{ value_row}};
+        let option_row = 0;
+
+        let option_text_row = 0;
+
+        let option_range = 0;
 
         function get_option() {
             let value = 0;
@@ -437,33 +502,56 @@
                     let html;
 
 
-                    if (option.type === 'text') {
-                        html += '	<div class="form-group">';
-                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-10"><input type="text" name="product_option[' + option_row + '][value]" value="" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control" /></div>';
-                        html += '	</div>';
+                    if (option.option.type === 'text') {
+                        html = '	<div class="form-group" style="margin-top: 5px;">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-6"><input type="text" name="option-text-value[' + option_text_row + ']" value="" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control" /></div>';
+                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.key + '</span></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.option.id + '">	</div>';
+
+                        option_text_row++;
+                        $('#tab-option .tab-content').append(html);
+                        document.getElementById('text-value-row').value = option_text_row;
+
+
                     }
 
-                    if (option.type === 'textarea') {
-                        html += '	<div class="form-group">';
-                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-10"><textarea name="product_option[' + option_row + '][value]" rows="5" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control"></textarea></div>';
-                        html += '	</div>';
+                    if (option.option.type === 'textarea') {
+                        html = '	<div class="form-group">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-6"><textarea  name="option-text-value[' + option_text_row + ']" rows="5" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control"></textarea></div>';
+                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.option.key + '</span></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type" value="' + option.option.key + '">	</div>';
+                        document.getElementById('text-value-row').value = option_text_row;
+                        option_text_row++;
+                        $('#tab-option .tab-content').append(html);
+
+
                     }
 
                     debugger;
 
-                    if (option.type === 'select' || option.type === 'radio' || option.type === 'checkbox') {
+                    if (option.option.type === 'select' || option.option.type === 'radio' || option.option.type === 'checkbox') {
 
-                        html = '<div class="col-sm-8" id=option_value></div>';
-                        html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
+                        html = '<div class="form-group"><div class="col-sm-8" id=option_value></div>';
+                        html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div></div>';
+                        option_row++;
+                        $('#tab-option .tab-content').append(html);
 
                     }
-                    $('#tab-option .rowx').append(html);
+                    if (option.option.type === 'range') {
+
+                        html = '<div id="range' + option.option.key + '" class="form-group"><div class="col-sm-8" style="margin-top:3px;" ><input readonly id="option_range' + option_range + '" name="option_range' + option_range +
+                            '" type="text" class="form-control" value="' + option.option.key + ' ( min: '+option.min + ' - max: ' + option.max + ' )"></div><div class="col-md-4"  style="margin-top:3px;" ><div class="col-md-6"><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_range + '"><input style="width: 100px" id="range_value' + option_range + '" class="form-control" type="text" value="" name="range_value' + option_range + '"></div><div class="col-md-6"><button type="button" id="remove' + option_range + '" onclick="remove_range(' + option_range + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div></div></div>';
+
+                        document.getElementById('option_range_count').value = option_range
+
+                        option_range++;
+                        $('#tab-option .tab-content').append(html);
+
+                    }
 
 
-                    option_row++;
-                    value++;
                 }
 
 
@@ -472,14 +560,15 @@
     </script>
 
 
+
     <script>
-        let option_value_row = {{value_row}};
+        let option_value_row = 0;
         let value = 0;
 
         function addOptionValue(remove_row) {
             let e = document.getElementById("option_key");
             let option_key = e.options[e.selectedIndex].value;
-            debugger;
+
             $.ajax({
                 url: "{% url 'listArch:secenek-degerlerini-getir' %}",
                 type: "post", // or "get"
@@ -489,15 +578,14 @@
 
                 },
                 success: function (response) {
-                    debugger;
                     var option_values = response.values;
                     let html;
 
-
+                    debugger;
                     $('.x').remove();
 
 
-                    html = '<div class="row" id="option-value-row' + option_value_row + '" ><div class="col-sm-6" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " name="option-key-value[' + option_value_row + ']" id="option-key-value[' + option_value_row + ']" " style="width: 100%" >';
+                    html = '<div class="row" id="option-value-row' + option_value_row + '" ><div class="col-sm-6" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " name="option-key-value[' + option_value_row + ']" id="option-key-value[' + option_value_row + ']"  style="width: 100%" >';
                     for (let i = 0; i < option_values.length; i++) {
                         html += ' <option value="' + option_values[i].id + '">' + option_values[i].value + '</option>';
 
@@ -510,6 +598,7 @@
                     document.getElementById('value-row').value = option_value_row;
 
                     option_value_row++;
+                    $('#option-value' + option_value_row + '').append(html);
                     $('[rel=tooltip]').tooltip();
 
                     $('#option_value').append(html);
@@ -540,30 +629,184 @@
     <script type="text/javascript">
         var image_row = {{ loop }};
         document.getElementById('image_row').value = image_row;
-
+        let number = {{ loop }}+1;
 
         function addImage() {
             html = '<tr id="image-row' + image_row + '">';
-            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
-            html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
-            html += '  <td class="text-left"><button type="button" onclick="remove_image(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-left"><label> Fotoğraf Ekle</label><input id="input-2' + image_row + '" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true"></td>';
+            html += '  <td class="text-left"><button type="button" onclick=" remove_image(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
+            number++;
 
             $('#images tbody').append(html);
 
-            image_row++;
-            document.getElementById('image_row').value = image_row;
         }
 
 
         function remove_image(id) {
-            debugger;
             $('#image-row' + id + '').remove();
             image_row = image_row - 1;
+            number--;
+
+        }
+
+        function remove_range(id) {
+            $('#option_range' + id + '').remove();
+            $('#remove' + id + '').remove();
+            $('#range_value' + id + '').remove();
+
+            option_range = option_range - 1;
+
+        }
+
+        function remove_image_new(id) {
+            $('#input2' + id + '').remove();
+            number--;
 
         }
     </script>
+    <script>
+        function image_delete(id, product_id) {
+            let html = 'Fotoğrafı silmek istediğinizden emin misiniz?<br>';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:urun-resmi-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            image_id: id,
 
+
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Fotoğraf Silindi.", "success");
+                                let url = '{% url "listArch:urun-duzenle" 0 %}';
+                                url = url.replace('0', product_id)
+                                window.location.replace('' + url + '');
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
+    <script>
+        function image_option_vale(id, product_id) {
+            let html = 'Seçenek değerini silmek istediğinizden emin misiniz?<br>';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:urun-secenegi-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            value_id: id,
+
+
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Seçenek Silindi.", "success");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
+    <script>
+        function option_delete(id, option_value) {
+            let html = 'Seçenek değerini kaldırmak istediğinizden emin misiniz?<br>';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+
+                    $.ajax({
+                        url: "{% url 'listArch:urun-secenegi-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            option_id: option_value,
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Seçenek Silindi.", "success");
+                                $('#option-value-row' + id + '').remove();
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
+
+        function submitForm() {
+            document.getElementById("form-option").submit();
+
+
+        }
+    </script>
+    <script>
+        function getProductDefinition(id) {
+            debugger;
+
+            $.ajax({
+                url: "{% url "listArch:urun-aciklamasi-getir" %}",
+                type: "post", // or "get"
+                data: {
+                    definition_id: id,
+                },
+                success: function (result) {
+                    debugger;
+                    let html = '<input type="text" name="definition_title" id="definition_title"  value="' + result.product_definitions[0].definition.definition.definition_title + '" class="form-control" /></td>';
+                    html += '<textarea  name="product_definition" id="product_definition"  class="form-control" >' + result.product_definitions[0].definition.definition.definition + '</textarea></td>';
+                    html += '<button type="button" class="btn btn-primary">Kaydet</button>'
+
+
+                    $(".bodys").html(html);
+                    $('.bd-example-modal-lg').modal('show');
+                    $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                        // put your default event here
+                        $(".bodys").html("");
+                    });
+
+
+                }
+            });
+
+
+        }
+
+
+    </script>
 
 {% endblock %}
 

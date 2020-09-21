@@ -1,6 +1,30 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Açıklama</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="content-header">
         <h1>
@@ -94,26 +118,19 @@
                                                 <table id="products" class="display responsive nowrap" cellspacing="0"
                                                        width="100%">
                                                     <thead>
-                                                    <tr>
+                                                    <tr class="text-left">
                                                         <td style="width: 1px;" class="text-center"><input
                                                                 type="checkbox"
                                                                 onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
                                                         </td>
-                                                        <td class="text-center">Resim</td>
-                                                        <td class="text-left"><a
-                                                                href=""
-                                                                class="asc">Ürün Adı</a></td>
-                                                        <td class="text-left"><a
-                                                                href="">Ürün
-                                                            Kodu</a></td>
-                                                        <td class="text-left"><a
-                                                                href="">Kategori</a>
-                                                        </td>
+                                                        <td>İşlem</td>
+                                                        <td>Resim</td>
+                                                        <td>Ürün Adı</td>
+                                                        <td>Ürün Kodu</td>
+                                                        <td>Kategori</td>
+                                                        <td>Dosyalar</td>
+                                                        <td>Firma</td>
 
-                                                        <td class="text-left"><a
-                                                                href="">Firma</a>
-                                                        </td>
-                                                        <td class="text-right">işlem</td>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -123,22 +140,48 @@
                                                                                            name="selected[]"
                                                                                            value="18">
                                                             </td>
-                                                            <td class="text-center"><img
-                                                                    src="/media/{{ product.image.image }}"
-                                                                    class="product-img" style="height: 33px;"></td>
-                                                            <td class="text-left">{{ product.product.name }}</td>
-                                                            <td class="text-left">{{ product.product.code }}</td>
-
-                                                            <td> {% for category in product.category %}
-                                                                {{ category.category.name }},{% endfor %}</td>
-
-                                                            <td>{{ product.product.company.name }}</td>
                                                             <td class="text-right"><a
                                                                     href="{% url 'listArch:urun-duzenle' product.product.pk %}"
                                                                     data-toggle="tooltip" title=""
                                                                     class="btn btn-primary"
                                                                     data-original-title="Düzenle"><i
-                                                                    class="fa fa-pencil"></i></a></td>
+                                                                    class="fa fa-pencil"></i></a>
+                                                                <a onclick="delete_product({{ product.product.pk }})"
+                                                                   data-toggle="tooltip" title="Ürünü Sil"
+                                                                   class="btn btn-danger"
+                                                                   data-original-title="Ürünü Sil"><i
+                                                                        class="fa fa-close"></i></a>
+                                                                <a href="{% url 'listArch:urun-aciklama-ekle' product.product.pk %}"
+                                                                   data-toggle="tooltip" title="Açıklama Ekle"
+                                                                   class="btn btn-warning"
+                                                                   data-original-title="Açıklama Ekle"><i
+                                                                        class="fa fa-plus"></i></a>
+
+                                                                <button type="button"
+                                                                        onclick="getDefinition({{ product.product.pk }})"
+                                                                        data-toggle="tooltip" title="Açıklamalar"
+                                                                        class="btn btn-success"
+                                                                        data-original-title="Açıklamalar"><i
+                                                                        class="fa fa-search-plus"></i></button>
+                                                            </td>
+                                                            <td class="text-center"><img
+                                                                    src="/media/{{ product.image }}"
+                                                                    class="product-img" style="height: 33px;"></td>
+                                                            <td class="text-left">{{ product.product.name }}</td>
+                                                            <td class="text-left">{{ product.product.code }}</td>
+
+                                                            <td> {% for category in product.product.category.all %}
+                                                                {{ category.name }},{% endfor %}</td>
+                                                            <td>
+                                                                {% for file in product.files.all %}
+                                                                    <a target="new_blank" download
+                                                                       href="/media/{{ file.file.file }}">{{ file.file.file_title }}</a>
+                                                                    -
+                                                                {% endfor %}
+                                                            </td>
+
+                                                            <td>{{ product.product.company.name }}</td>
+
                                                         </tr>
                                                     {% endfor %}
                                                     </tbody>
@@ -157,6 +200,30 @@
 
 
             </section>
+        </div>
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content_messages"></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
         </div>
 
     </section>
@@ -369,6 +436,94 @@
         }
 
     </script>
+    <script>
+        function getDefinition(id) {
+            debugger;
+            var html = '';
+            $.ajax({
+                url: "{% url 'listArch:urun-aciklamasi-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    product_id: id,
 
+                },
+                success: function (response) {
+                    debugger;
+
+
+                    var definitions = response.product_definitions;
+
+                    debugger;
+                    html = '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-responsive">';
+                    html += ' <tbody><tr>';
+                    html += '<th>Açıklama</th><th></th></tr>';
+                    if (definitions.length  > 0 ){
+                        for (let i = 0; i < definitions.length; i++) {
+
+                            html += '<tr><td><strong>' + i + 1 + '-' + definitions[i].title_desc + '</strong></td>';
+                            html += '</tr>';
+                            html += '<tr><td>' + definitions[i].description + '</td>';
+                            html += '<td><a style="margin-left:5px;" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a></td></tr>';
+                        }
+                    }
+                    else {
+                        html+='<tr><td>Ürün Açıklaması Bulunmamaktadır.</td></tr>'
+                    }
+                    html += '</tbody></table></div>';
+
+                    $(".bodys").html(html);
+                }
+
+
+            });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }
+    </script>
+
+    <script>
+        function delete_product(id) {
+            document.getElementById('content_messages').innerHTML = 'Ürünü Silmek İstediğinizden Emin Misiniz?';
+
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:urun-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            product_id: id,
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Ürün Silindi", "success");
+                                window.location.replace("{% url "listArch:urunler" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
 {% endblock %}
 

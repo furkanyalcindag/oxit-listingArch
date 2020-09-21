@@ -75,7 +75,10 @@
                             <form action="{% url 'listArch:urun-ekle' %}"
                                   method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
+                                <input type="hidden" name="option_range_count" id="option_range_count" value="">
                                 <input type="hidden" value="" id="value-row" name="value-row">
+                                <input type="hidden" value="" id="text-value-row" name="text-value-row">
+
                                 <div class="container-fluid">
                                     <div class="panel panel-default">
                                         <button type="submit" form="form-option" data-toggle="tooltip" title=""
@@ -91,15 +94,14 @@
                                             <ul class="nav nav-tabs">
                                                 <li class=""><a href="#tab-general" data-toggle="tab"
                                                                 aria-expanded="false">Genel</a></li>
-
                                                 <li class=""><a href="#tab-image" data-toggle="tab"
                                                                 aria-expanded="false">Resim</a></li>
-                                                <li class=""><a href="#tab-category" data-toggle="tab"
-                                                                aria-expanded="false">Kategori</a></li>
-                                                <li class=""><a href="#tab-company" data-toggle="tab"
-                                                                aria-expanded="false">Firma</a></li>
+                                                <li class=""><a href="#tab-cover-image" data-toggle="tab"
+                                                                aria-expanded="false">Kapak Resmi</a></li>
                                                 <li class=""><a href="#tab-option" data-toggle="tab"
                                                                 aria-expanded="false">Seçenek</a></li>
+                                                <li class=""><a href="#tab-link" data-toggle="tab"
+                                                                aria-expanded="false">Bağlantılar</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab-general">
@@ -109,8 +111,7 @@
 
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
-                                                                    style="width:30px;height: 10px;"
-                                                                    src="/media/indir.png" title="İngilizce"></span>
+                                                                    src="/media/en-gb.png" title="ENg"></span>
                                                                 <input type="text"
                                                                        name="product_description[eng][name]"
                                                                        value=""
@@ -119,8 +120,7 @@
                                                             </div>
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
-                                                                    style="width:30px;height: 10px;"
-                                                                    src="/media/tr.png" title="Türkçe"></span>
+                                                                    src="/media/tr-tr.png" title="TR"></span>
                                                                 <input type="text"
                                                                        name="product_description[tr][name]"
                                                                        value=""
@@ -130,12 +130,38 @@
 
                                                         </div>
                                                         <div class="form-group">
+                                                            <label>Ürün Fiyatı</label>
+
+                                                            {{ product_form.price }}
+                                                        </div>
+                                                        <div class="form-group">
                                                             <label>Ürün Kodu</label>
 
-                                                            <input type="text" name="product-code"
-                                                                   value=""
-                                                                   placeholder="Ürün Kodu" class="form-control"/>
+                                                            {{ product_form.code }}
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label>Ürün Firma Kodu</label>
+
+                                                            {{ product_form.company_code }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="input-type">Aktif
+                                                                Ürün</label>
+
+                                                            {{ product_form.isActive }}
+
+                                                            <label style="margin-left: 15px;" for="input-type">Sponsor
+                                                                Ürün</label>
+
+                                                            {{ product_form.isSponsor }}
+
+                                                            <label style="margin-left: 15px;" for="input-type">Reklam
+                                                                Ürünü</label>
+
+                                                            {{ product_form.isAdvert }}
+
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
@@ -146,7 +172,6 @@
                                                             <thead>
                                                             <tr>
                                                                 <td class="text-left">Ürün Resmi</td>
-                                                                <td class="text-right">Sıralama</td>
                                                                 <td></td>
                                                             </tr>
                                                             </thead>
@@ -156,7 +181,7 @@
 
                                                             <tfoot>
                                                             <tr>
-                                                                <td colspan="2"></td>
+                                                                <td colspan="1"></td>
                                                                 <td class="text-left">
                                                                     <button type="button" onclick="addImage();"
                                                                             data-toggle="tooltip" title=""
@@ -170,29 +195,19 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <div class="tab-pane" id="tab-category">
-
+                                                <div class="tab-pane" id="tab-cover-image">
                                                     <br>
-                                                    <label>Kategori Seçin</label>
-                                                    {{ category_form.category }}
+                                                    <div class="col-lg-6">
+                                                        <label for="">Kapak Resmi</label>
+                                                        {{ product_form.cover_image }}
 
+
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane" id="tab-company">
 
                                                     <br>
-                                                    <label>Firma Seçin</label>
-                                                    <select class="form-control select2 select2-hidden-accessible"
-                                                            style="width: 100%" id="product-company"
-                                                            name="product-company">
 
-                                                        <option value="">---------</option>
-
-                                                        {% for company in companies %}
-                                                            <option value="{{ company.pk }}">{{ company.name }}</option>
-                                                        {% endfor %}
-
-
-                                                    </select>
 
                                                 </div>
                                                 <div class="tab-pane " id="tab-option">
@@ -201,7 +216,8 @@
                                                         <div class="col-sm-2 " id="option-tab">
 
                                                             <select class="form-control select2 select2-hidden-accessible"
-                                                                    style="width: 100%" id="option_key" name="option-key"
+                                                                    style="width: 100%" id="option_key"
+                                                                    name="option-key"
                                                                     onchange="get_option()">
 
                                                                 <option value="">---------</option>
@@ -223,7 +239,59 @@
                                                     </div>
 
                                                 </div>
+                                                <div class="tab-pane" id="tab-definition">
+                                                    <br>
+                                                    <div class="box-body table-responsive no-padding">
+                                                        <table class="table table-responsive">
+                                                            <tbody>
+                                                            {% for product_definition in product_definitions %}
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>{{ forloop.counter }}-{{ product_definition.definition.definition_title }}</strong>
+                                                                        <button style="margin-left:5px;" type="button"
+                                                                                class="btn btn-sm btn-primary"><i
+                                                                                class="fa fa-edit"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>{{ product_definition.definition.definition | safe }}</td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
+
+                                                </div>
+                                                <div class="tab-pane" id="tab-link">
+
+                                                    <br>
+
+                                                    <label>Firma Seçin</label>
+                                                    <select class="form-control select2 select2-hidden-accessible"
+                                                            style="width: 100%" id="product-company"
+                                                            name="product-company">
+
+                                                        <option value="">---------</option>
+
+                                                        {% for company in companies %}
+                                                            <option value="{{ company.pk }}">{{ company.name }}</option>
+                                                        {% endfor %}
+
+
+                                                    </select>
+
+                                                    <label style="margin-top: 30px;">Dosya Seçin</label>
+                                                    {{ file_form.file }}
+
+
+                                                    <label style="margin-top: 30px;">Kategorileri Seçin</label>
+                                                    {{ product_form.category }}
+
+                                                    <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
+                                                    {{ related_form.related_product }}
+
+                                                </div>
                                             </div>
 
                                         </div>
@@ -237,7 +305,6 @@
 
                     </div>
 
-
                 </div>
             </section>
         </div>
@@ -245,6 +312,24 @@
     </section>
 
     <script>
+        $(document).ready(function () {
+            //set initial state.
+            $('#basic_value').val($(this).is(':checked'));
+
+            $('#active_product').change(function () {
+                if ($(this).is(":checked")) {
+                    $('#active_value').val($(this).is(':checked'));
+
+                } else {
+                    $('#active_value').val($(this).is(':checked'));
+
+                }
+
+
+            });
+
+
+        });
 
 
         function getCookie(name) {
@@ -304,6 +389,8 @@
     </script>
     <script>
         let option_row = 0;
+        let option_text_row = 0;
+        let option_range = 0;
 
         function get_option() {
             let value = 0;
@@ -323,32 +410,55 @@
 
 
                     if (option.type === 'text') {
-                        html += '	<div class="form-group">';
-                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-10"><input type="text" name="product_option[' + option_row + '][value]" value="" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control" /></div>';
-                        html += '	</div>';
+                        html = '	<div class="form-group" style="margin-top: 5px;">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-6"><input type="text" name="option-text-value[' + option_text_row + ']" value="" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control" /></div>';
+                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.key + '</span></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.option.id + '">	</div>';
+
+                        option_text_row++;
+                        $('#tab-option .tab-content').append(html);
+                        document.getElementById('text-value-row').value = option_text_row;
+
+
                     }
 
-                    if (option.type === 'textarea') {
-                        html += '	<div class="form-group">';
-                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-10"><textarea name="product_option[' + option_row + '][value]" rows="5" placeholder="Seçenek Değeri" id="input-value' + option_row + '" class="form-control"></textarea></div>';
-                        html += '	</div>';
+                    if (option.option.type === 'textarea') {
+                        html = '	<div class="form-group">';
+                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
+                        html += '	  <div class="col-sm-6"><textarea  name="option-text-value[' + option_text_row + ']" rows="5" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control"></textarea></div>';
+                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.option.key + '</span></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type" value="' + option.option.key + '">	</div>';
+                        document.getElementById('text-value-row').value = option_text_row;
+                        option_text_row++;
+                        $('#tab-option .tab-content').append(html);
+
+
                     }
 
                     debugger;
 
-                    if (option.type === 'select' || option.type === 'radio' || option.type === 'checkbox') {
+                    if (option.option.type === 'select' || option.option.type === 'radio' || option.option.type === 'checkbox') {
 
-                        html = '<div class="col-sm-8" id=option_value></div>';
-                        html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div>';
+                        html = '<div class="form-group"><div class="col-sm-8" id=option_value></div>';
+                        html += '<div class="col-sm-2" id="add_option"><button id="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue();" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary x"><i class="fa fa-plus-circle" ></i></button></div></div>';
+                        option_row++;
+                        $('#tab-option .tab-content').append(html);
 
                     }
-                    $('#tab-option .tab-content').append(html);
+                    if (option.option.type === 'range') {
+
+                        html = '<div id="option-value-row' + option_value_row + '"><div class="form-group"><div class="col-sm-8" style="margin-top:3px;" ><input id="option_range' + option_row + '" name="option_range' + option_row +
+                            '" type="text" class="form-control" value="' + option.option.key + ' (min:'+option.min + ' - max:' + option.max + ')"><input style="margin-top: 5px;width: 100px" class="form-control" type="text" value="" name="range_value' + option_row + '"></div><div class="col-sm-4" style="margin-top:3px;" ><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_row + '"><button type="button" id="remove' + option_range + '" onclick="remove(' + option_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+                        html += '</div></div>';
+                        option_row++;
+                        option_value_row++;
+                        document.getElementById('option_range_count').value = option_row;
+                        $('#tab-option .tab-content').append(html);
+
+                    }
 
 
-                    option_row++;
-                    value++;
                 }
 
 
@@ -384,13 +494,13 @@
 
                     html = '<div class="row" id="option-value-row' + option_value_row + '" ><div class="col-sm-6" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " name="option-key-value[' + option_value_row + ']" id="option-key-value[' + option_value_row + ']" " style="width: 100%" >';
                     for (let i = 0; i < option_values.length; i++) {
-                        html += ' <option value="' + option_values[i].id+ '">' + option_values[i].value + '</option>';
+                        html += ' <option value="' + option_values[i].id + '">' + option_values[i].value + '</option>';
 
                     }
                     html += '</select></div></div>';
-                    html += '<div class="col-sm-2" id="add_option"><button type="button" onclick="remove('+option_value_row+')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>';
+                    html += '<div class="col-sm-2" id="add_option"><button type="button" onclick="remove(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>';
                     html += '<div class="col-sm-3" ><span style="margin-top:3px;"  class="btn btn-default">' + option_key + '</span></div>';
-                    html += '<button id="option-button-add[' + option_row + ']" name="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button>'
+                    html += '<button id="option-button-add[' + option_row + ']" name="option-button-add" style="margin-top:3px;" type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button>'
 
                     document.getElementById('value-row').value = option_value_row;
 
@@ -410,14 +520,14 @@
         }
 
 
-
-          function remove(id) {
+        function remove(id) {
             debugger;
             $('#option-value-row' + id + '').remove();
-            let row =  document.getElementById('value-row').value
+            let row = document.getElementById('value-row').value
             document.getElementById("value-row").value = parseInt(row) - 1;
 
         }
+
     </script>
 
     <script type="text/javascript">

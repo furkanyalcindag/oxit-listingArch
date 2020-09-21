@@ -1,0 +1,202 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            Dosya Ekle
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">Dosyalar</a></li>
+            <li><a href="">Dosya Ekle</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+                            <div class="container-fluid">
+                                <form action="{% url 'listArch:dosya-ekle' %}"
+                                      method="post" enctype="multipart/form-data"
+                                      class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="panel panel-default">
+                                        <button type="submit" data-toggle="tooltip" title=""
+                                                style="margin-right: 5px;"
+                                                class="btn btn-primary pull-right" data-original-title="Kaydet">
+                                            <i class="fa fa-save"></i>
+                                        </button>
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><i class="fa fa-pencil"></i> Dosya </h3>
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group ">
+                                                <label class="col-sm-2 control-label">İndirme Adı</label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group"><span class="input-group-addon"><img
+                                                            src="/media/en-gb.png" title="ENg"></span>
+                                                        {{ file_desc_form.file_title }}
+                                                    </div>
+                                                    <div class="input-group"><span class="input-group-addon"><img
+                                                            src="/media/tr-tr.png" title="TR"></span>
+                                                        {{ file_form.file_title }}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <label class="col-sm-2 control-label" for="input-filename"><span
+                                                        data-toggle="tooltip" title="">Dosya</span></label>
+                                                <div class="col-sm-10">
+                                                    {{ file_form.file }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <label class="col-sm-2 control-label" for="input-filename"><span
+                                                        data-toggle="tooltip" title="">Dosya Tipi</span></label>
+                                                <div class="col-sm-10">
+                                                    {{ file_form.file_type }}
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </section>
+        </div>
+
+    </section>
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            $('.select1').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+
+
+    </script>
+
+
+{% endblock %}
+

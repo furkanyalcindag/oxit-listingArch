@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content2 %}
+    <div class="main-search-container centered dark-overlay" style="height: 100vh !important;">
+        <div class="main-search-inner">
+            <div class="container">
+                <div class="row">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="notification error closeable">
+                                <p><span>Uyarı!</span> {{ message }}</p>
+                                <a class="close"></a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post" class="register" action="{% url 'listArch:kullanici-kaydet' %}">
+                        {% csrf_token %}
+                        <div class="col-md-6" style="text-align: left;">
+                            <div class="sign-in-form style-1">
+                                <h3 class=" margin-top-45" style="color: #ffffff">Kayıt Ol</h3>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6"><p class="form-row form-row-wide">
+                                        <label style="color: #ffffff" for="username2">Ad:
+                                            <i class="im im-icon-Male"></i>
+                                            {{ user_form.first_name }}
+                                        </label>
+                                    </p>
+                                        <p class="form-row form-row-wide">
+                                            <label style="color: #ffffff" for="lastname">Soyad:
+                                                <i class="im im-icon-Male"></i>
+                                                {{ user_form.last_name }}
+                                            </label>
+                                        </p></div>
+                                    <div class="col-lg-6">
+                                        <p class="form-row form-row-wide">
+                                            <label style="color: #ffffff" for="email2">Email Adres:
+                                                <i class="im im-icon-Mail"></i>
+                                                {{ user_form.email }}
+                                            </label>
+                                        </p>
+
+                                        <p class="form-row form-row-wide">
+                                            <label style="color: #ffffff" for="password1">Şifre:
+                                                <i class="im im-icon-Lock-2"></i>
+                                                {{ user_form.password }}
+                                            </label>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+
+                                <p class="form-row form-row-wide">
+                                    <label style="color: #ffffff" for="password2">Repeat Password:
+                                        <i class="im im-icon-Lock-2"></i>
+                                        <input class="input-text" type="password" name="password2"
+                                               id="password2"/>
+                                    </label>
+
+                                <div class="checkboxes margin-top-10">
+                                    <input id="isCompany" type="checkbox" name="check" value="false">
+                                    <input id="isCompanyValue" type="hidden" name="checkvalue" value="">
+                                    <label style="color: #ffffff" for="isCompany">Kurumsal</label>
+                                </div>
+                                </p>
+
+
+                               <div class="form-row">
+
+                                        <input type="submit" style="background:#fd9116;width: 25%" class="margin-top-5 margin-bottom-20 highlighted-category" name="login" value="Kaydet">
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div id="company-form"></div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Video -->
+        <div class="video-container">
+            <video poster="/media/base2_images/main-search-video.mp4" loop autoplay muted>
+                <source src="/media/base2_images/main-search-video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            //set initial state.
+            debugger;
+            $('#isCompany').val($(this).is(':checked'));
+            document.getElementById('isCompanyValue').value=$('#isCompany').val();
+
+            $('#isCompany').change(function () {
+                if ($(this).is(":checked")) {
+                    $('#isCompany').val($(this).is(':checked'));
+
+                    let html = '';
+                    html = '<div id="current-company-form"><div class="col-md-6" style="text-align: left">';
+                    html += '<div class="sign-in-form style-1 "><h5 class="margin-top-80" style="color: #ffffff"></h5>';
+                    html += '<div class="col-md-12"><p class="form-row form-row-wide">';
+                    html += '<label style="color: #ffffff" for="username">Firma Adı:';
+                    html += '<i class="im im-icon-Home"></i>';
+                    html += '<input type="text" class="input-text" name="company-name" id="company-name" value=""/> </label> </p></div>';
+                    html += '<div class="col-md-6">';
+
+                    html += '<p class="form-row form-row-wide">';
+                    html += '<label style="color: #ffffff" for="username">Firma Telefonu:';
+                    html += '<i class="im im-icon-Phone"></i>';
+                    html += '<input type="text" class="input-text" name="company-phone" id="company-phone" value=""/> </label> </p></div>';
+
+                    html += '<div class="col-md-6">';
+                    html += '<p class="form-row form-row-wide">';
+                    html += '<label style="color: #ffffff" for="username">Firma Email:';
+                    html += '<i class="im im-icon-Email"></i>';
+                    html += '<input type="text" class="input-text" name="company-email" id="company-email" value=""/> </label> </p></div>';
+
+                    html += '<div class="col-md-12"><p class="form-row form-row-wide">';
+                    html += '<label style="color: #ffffff" for="username">Firma Adres:';
+                    html += '<i class="im im-icon-Location"></i>';
+                    html += '<input type="text" class="input-text" name="company-address" id="company-address" value=""/> </label> </p></div>';
+
+                    html += '<div></div>';
+
+
+                    document.getElementById('company-form').innerHTML = html;
+
+
+                } else {
+                    $('#isCompany').val($(this).is(':checked'));
+                    let html = '<div id="company-form"></div>'
+                    document.getElementById('current-company-form').innerHTML = html;
+
+
+                }
+
+
+            });
+
+
+        });</script>
+{% endblock %}

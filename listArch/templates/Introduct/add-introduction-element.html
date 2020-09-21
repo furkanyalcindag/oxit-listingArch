@@ -1,0 +1,284 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            Tanıtım Sayfa Öğesi
+
+        </h1>
+        <ul class="breadcrumb">
+            <li><a href="">Tanıtım Sayfaları</a></li>
+            <li><a href=""></a></li>
+        </ul>
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+                            <form
+                                  method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
+                                {% csrf_token %}
+                                <div class="container-fluid">
+                                    <div class="panel panel-default">
+                                        <button type="submit" form="form-option" data-toggle="tooltip" title=""
+                                                style="margin-right: 5px;margin-top: 5px;"
+                                                class="btn btn-primary pull-right" data-original-title="Kaydet"><i
+                                                class="fa fa-save"></i></button>
+                                        <div class="panel-heading" style="padding: 13px 18px">
+                                            <h3 class="panel-title"><i class="fa fa-pencil"></i>Ürün TanıtımI</h3>
+
+                                        </div>
+                                        <div class="panel-body" style="padding: 20px 30px">
+
+                                            <div class="form-group ">
+
+
+                                                <label>Alt Başlık</label>
+                                                <div class="input-group"><span
+                                                        class="input-group-addon"><img
+                                                        src="/media/en-gb.png" title="ENg"></span>
+                                                    {{ introduction_desc_form.description }}
+                                                </div>
+                                                <div class="input-group"><span
+                                                        class="input-group-addon"><img
+                                                        src="/media/tr-tr.png" title="TR"></span>
+                                                    {{ introduction_form.key }}
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>Ürün</label>
+                                                {{ introduction_product_form.product }}
+                                            </div>
+
+                                              <div class="form-group">
+                                                    <label>Başlık</label>
+                                                    {{ introduction_form.title }}
+                                                </div>
+
+                                            <div class="form-group">
+                                                <label>Kategori</label>
+                                                {{ introduction_form.category }}
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Aktif</label>
+                                                {{ introduction_form.isActive }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </section>
+        </div>
+
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            //set initial state.
+            $('#basic_value').val($(this).is(':checked'));
+
+            $('#active_product').change(function () {
+                if ($(this).is(":checked")) {
+                    $('#active_value').val($(this).is(':checked'));
+
+                } else {
+                    $('#active_value').val($(this).is(':checked'));
+
+                }
+
+
+            });
+
+
+        });
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            $('.select1').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+
+
+    <script type="text/javascript">
+        var image_row = 0;
+
+        function addImage() {
+            html = '<tr id="image-row' + image_row + '">';
+            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+            html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
+            html += '  <td class="text-left"><button type="button" onclick="remove(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '</tr>';
+
+            document.getElementById('image_row').value = image_row;
+            $('#images tbody').append(html);
+            image_row++;
+        }
+
+
+        $(function () {
+
+            $('.textarea').wysihtml5();
+        })
+
+
+        function urunGetir() {
+
+            var e = document.getElementById("company_id");
+            var company_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'listArch:urun-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    company_id: company_id,
+
+                },
+                success: function (result) {
+                    debugger;
+                    let select = document.getElementById("product_id");
+
+
+                    $('#product_id').empty();
+
+                    for (let i = 0; i < result.urunler.length; i++) {
+                        select.options[select.options.length] = new Option(result.urunler[i].name, result.urunler[i].id);
+                    }
+                }
+            });
+        }
+
+        function remove(row) {
+            $('#image-row' + row + '').remove();
+            let row_number = document.getElementById('image_row').value;
+            if (parseInt(row_number) > 0) {
+                document.getElementById('image_row').value = row - 1;
+                image_row--;
+            }
+
+
+        }
+
+
+    </script>
+
+
+{% endblock %}
+

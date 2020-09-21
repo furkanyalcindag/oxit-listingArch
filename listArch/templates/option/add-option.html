@@ -72,28 +72,26 @@
 
                         <div class="box-body">
 
-                            <form action="{% url 'listArch:secenek-ekle' %}"
+                            <form action="{% url 'listArch:secenek-ekle' %}" name="form-option"
                                   method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
-                                <input type="hidden" id="row_number" name="row_number" value="1">
+                                <input type="hidden" id="row_number" name="row_number" value="0">
 
                                 <button type="submit" form="form-option" data-toggle="tooltip" title=""
-                                        class="btn btn-primary pull-right" data-original-title="Kaydet"
-                                        aria-describedby="tooltip514951"><i class="fa fa-save"></i></button>
+                                        class="btn btn-primary pull-right" data-original-title="Kaydet"><i
+                                        class="fa fa-save"></i></button>
                                 <fieldset>
                                     <legend>Seçenek</legend>
                                     <div class="form-group required">
                                         <label class="col-sm-2 control-label">Seçenek Adı</label>
                                         <div class="col-sm-10">
                                             <div class="input-group"><span class="input-group-addon"><img
-                                                    style="width:30px;height: 10px;"
-                                                    src="/media/indir.png" title="ENg"></span>
+                                                    src="/media/en-gb.png" title="ENg"></span>
                                                 <input type="text" name="option_description[eng][name]" value=""
                                                        placeholder="Seçenek Adı" class="form-control">
                                             </div>
                                             <div class="input-group"><span class="input-group-addon"><img
-                                                    style="width:30px;height: 10px;"
-                                                    src="/media/tr.png" title="Türkçe"></span>
+                                                    src="/media/tr-tr.png" title="TR"></span>
                                                 <input type="text" name="option_description[tr][name]" value=""
                                                        placeholder="Seçenek Adı" class="form-control">
                                             </div>
@@ -104,19 +102,32 @@
                                         <div class="col-sm-10">
                                             <select name="type" id="input-type" class="form-control">
                                                 <optgroup label="Seçiniz">
-
-                                                    <option value="select">Seçenek</option>
-                                                    <option value="radio">Radyo Düğmesi</option>
                                                     <option value="checkbox">Onay Kutusu</option>
-
                                                 </optgroup>
                                                 <optgroup label="Veri Girişi">
+                                                    <option value="range">Değer Aralığı</option>
                                                     <option value="text">Metin</option>
-                                                    <option value="textarea">Metin Alanı</option>
                                                 </optgroup>
 
 
                                             </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input-type">Temel Seçenek Mi?</label>
+                                        <div class="col-sm-10">
+                                            {{option_form.isBasic}}
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group" style="display: block" id="advanced-option"
+                                         name="advanced-option">
+                                        <label class="col-sm-2 control-label" for="input-type">Kategori Seçin</label>
+
+                                        <div class="col-sm-10">
+                                            {{ category_form.category }}
+
                                         </div>
                                     </div>
                                 </fieldset>
@@ -137,8 +148,9 @@
                                         <tr>
                                             <td colspan="1"></td>
                                             <td class="text-right">
-                                                <button type="button" onclick="add_option_value()" data-toggle="tooltip"
-                                                        title="" class="btn btn-primary"
+                                                <button type="button" style="display: none" onclick="add_option_value()"
+                                                        data-toggle="tooltip"
+                                                        title="" class="btn btn-primary" id="add_button"
                                                         data-original-title="Değer Ekle"><i
                                                         class="fa fa-plus-circle"></i></button>
                                             </td>
@@ -163,7 +175,26 @@
     </section>
 
     <script>
+        $(document).ready(function () {
+            //set initial state.
+            $('#basic_value').val($(this).is(':checked'));
 
+            $('#is_basic').change(function () {
+                if ($(this).is(":checked")) {
+                    $('#advanced-option').css('display', 'none');
+                    $('#basic_value').val($(this).is(':checked'));
+
+                } else {
+                    $('#advanced-option').css('display', 'block');
+                    $('#basic_value').val($(this).is(':checked'));
+
+                }
+
+
+            });
+
+
+        });
 
         function getCookie(name) {
             var cookieValue = null;
@@ -220,28 +251,45 @@
         })
     </script>
     <script>
-
+        let option_value_row = 0;
         $('select[name=\'type\']').on('change', function () {
-            if (this.value === 'select' || this.value === 'radio' || this.value === 'checkbox') {
+            if (this.value === 'checkbox') {
                 $('#option-value').parent().show();
+                $('#add_button').show();
+            } else if (this.value === 'range') {
+                $('#add_button').hide();
+                let html = '<tr id="value-row-range">';
+                html += '  <td class="text-left">';
+                html += '    <div class="input-group">';
+                html += '     <input type="text" name="option_value[min]" value="" placeholder="min" class="form-control" />';
+                html += '    </div>';
+                html += '    <div class="input-group">';
+                html += '      <input type="text" name="option_value[max]" value="" placeholder="max" class="form-control" />';
+                html += '    </div>';
+                html += '  </td>';
+                html += '  <td class="text-right"><button type="button" onclick="$(\'#value-row-range\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+                html += '</tr>';
+                html += '<button type="button" onclick="add_option_range()" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Değer Ekle"><i class="fa fa-plus-circle"></i></button>'
+
+                $('#option-value tbody').append(html);
+
+                option_value_row++;
+                document.getElementById("row_number").value = option_value_row;
             } else {
-                $('#option-value').parent().hide();
+                $('#option-value').parent().hide().prop('required', false);
             }
         });
 
         $('select[name=\'type\']').trigger('change');
 
-        let option_value_row = 0;
 
         function add_option_value() {
-
-            debugger;
 
 
             html = '<tr id="option-value-row' + option_value_row + '">';
             html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
             html += '    <div class="input-group">';
-            html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/indir.png" title="ENg"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
+            html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/indir.png" title="English"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
             html += '    </div>';
             html += '    <div class="input-group">';
             html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/tr.png" title="Türkçe"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][tr][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
@@ -256,6 +304,25 @@
             document.getElementById("row_number").value = option_value_row;
 
 
+        }
+
+        function add_option_range() {
+            let html = '<tr id="option-value-row' + option_value_row + '">';
+            html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
+            html += '    <div class="input-group">';
+            html += '     <input type="text" name="option_value[' + option_value_row + '][min]" value="" placeholder="min" class="form-control" />';
+            html += '    </div>';
+            html += '    <div class="input-group">';
+            html += '      <input type="text" name="option_value[' + option_value_row + '][max]" value="" placeholder="max" class="form-control" />';
+            html += '    </div>';
+            html += '  </td>';
+            html += '  <td class="text-right"><button type="button" onclick="$(\'#option-value-row' + option_value_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '</tr>';
+
+            $('#option-value tbody').append(html);
+
+            option_value_row++;
+            document.getElementById("row_number").value = option_value_row;
         }
 
 

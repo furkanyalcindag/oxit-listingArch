@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% block content2 %}
+    <div class="main-search-container centered dark-overlay" style="height: 100vh !important;">
+        <div class="main-search-inner top-15-inner">
+            <div class="container">
+                <div class="row">
+                    <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
+                        {% csrf_token %}
+
+                        <div class="col-md-12">
+                            <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                                <span class="typed-words">{{ scrolling_text.description }}</span>
+                            </h2>
+                            <h4>{{ scrolling_text.subTextDesc }}</h4>
+                            <div class="main-search-input">
+                                <div class="main-search-input-item">
+                                    <input type="text" placeholder="Start your Search ..." value=""
+                                           name="product_name" id="product_name" oninput="searchGetProduct()"
+                                           autocomplete="off"/><br>
+                                    <div id="search_product"></div>
+                                </div>
+                                <button class="button" type="submit">
+                                    Search
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="row margin-top-25">
+                    <div class="col-md-12">
+                        <div class="highlighted-categories">
+                            <!-- Box -->
+                            {% for category in parent_categories %}
+
+                                <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                   class="highlighted-category">
+                                    <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                    <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                </a>
+
+
+
+                            {% endfor %}
+                            <!-- Box -->
+
+                            <!-- Box -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Video -->
+        <div class="video-container">
+            <video poster="/media/base2_images/main-search-video-poster.jpg" loop autoplay muted>
+                <source src="/media/base2_images/main-search-video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <!-- Category Boxes / End -->
+    <!-- Info Section -->
+    <div class="container" style="z-index: 9;position: relative;    width: 100%;
+    border-top: 1px solid #fff;border-bottom: 1px solid #fff;background: #1c3444">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="categories-boxes-container margin-top-20 ">
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Özellikler</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="fullwidth  padding-top-35 padding-bottom-10" style="background: #1c3444;border-top: 1px solid #fff;margin-top: 3px">
+        <!-- Logo Carousel -->
+        <div class="container">
+            <div class="row">
+
+
+                <!-- Carousel -->
+                <div class="col-md-12">
+                    <div class="logo-slick-carousel dot-navigation">
+                        {% for company in companies %}
+                            <div class="item">
+                                <img src="/media/{{ company.logo }}" alt="">
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+                <!-- Carousel / End -->
+            </div>
+        </div>
+
+        <!-- Logo Carousel / End -->
+    </section>
+
+    <div id="footer">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-2 col-sm-6 ">
+                    <h4>Hakkımızda</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Biz ne yapıyoruz?</a></li>
+                        <li><a href="#">Vizyon</a></li>
+                        <li><a href="#">Yatırımcı İlişkileri</a></li>
+                        <li><a href="#">Reklamlar</a></li>
+                        <li><a href="#">Müşteri Hizmetleri</a></li>
+                        <li><a href="#">Kariyer</a></li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="col-md-2 col-sm-6 ">
+                    <h4>Sosyal Medya</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="col-md-2  col-sm-12">
+                    <h4>İletişim</h4>
+
+                    <ul class="footer-links">
+                        <li><a href="#">Telefon</a></li>
+                        <li><a href="#">Mail</a></li>
+                        <li><a href="#">Whatsapp</a></li>
+                        <li><a href="#">Telefon</a></li>
+                        <li><a href="#">Mail</a></li>
+                        <li><a href="#">Whatsapp</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-md-2  col-sm-12">
+                    <h4>Dil</h4>
+
+                    <ul class="footer-links">
+                        <li><a href="#">TR</a></li>
+                        <li><a href="#">EN</a></li>
+
+                    </ul>
+                </div>
+
+
+                <div class="col-md-4  col-sm-12">
+                    <h4>Bize Katıl</h4>
+                    <section id="contact">
+
+
+                        <div id="contact-message"></div>
+
+                        <form method="post" action=""
+                              name="contactform" id="contactform" autocomplete="on">
+
+                            <div class="row">
+                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+
+                                </div>
+
+                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                    <div>
+                                        <p style="margin-bottom:2px"><a style="color: #000;
+    width: -webkit-fill-available;
+    padding: 5px;background: #fd9116;
+    text-align: center;" href="#" class="button">LOGIN</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+
+                                </div>
+
+                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                    <div>
+                                        <p style="margin-bottom:2px"><a style="color: #000;
+    width: -webkit-fill-available;
+    padding: 5px;
+    text-align: center;background: #fd9116" href="#" class="button">SIGN UP</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+                                    <div>
+                                        <input name="name" type="text" id="name"
+                                               placeholder="Your E-Mail Address for news" required="required"
+                                               class="error">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                    <div>
+                                        <input style="width: -webkit-fill-available;background:#fd9116" type="submit"
+                                               class="submit button" id="submit" value="SUBSCRIBE">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </section>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <section class="fullwidth  padding-top-10 padding-bottom-10" style="background: #1c3444">
+        <!-- Logo Carousel -->
+        <div class="container">
+            <div class="row">
+
+
+                <!-- Carousel -->
+                <div class="col-md-12">
+                    <div class="logo-slick-carousel dot-navigation">
+                        {% for company in companies %}
+                            <div class="item">
+                                <img src="/media/{{ company.logo }}" alt="">
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+                <!-- Carousel / End -->
+            </div>
+        </div>
+
+        <!-- Logo Carousel / End -->
+    </section>
+    <section class="fullwidth padding-top-35 padding-bottom-20" style="background: #1c3444">
+        <div class="">
+            <div class="row icons-container" style="margin:0 25px">
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line" style="background: #1c3444">
+                        <i class="im im-icon-Bag-Coins"></i>
+                        <h3>Ürünler</h3>
+                        <ul class="list-4 color" style="text-align: initial;">
+                            {% for parent in category_parent %}
+                                <li>
+                                    <a href="{% url 'listArch:anasayfa-urunler' parent.category.pk %}">{{ parent.category.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2" style="background: #ffffff;">
+                        <i class="im im-icon-Checked-User" style="color: #000000"></i>
+                        <h3 style="color: #000000">İnceleme</h3>
+                        <ul class="list-4 color" style="color: #000000">
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2" style="background: #1c3444">
+                        <i class="im im-icon-Checked-User"></i>
+                        <h3>Çözümlerimiz</h3>
+                        <ul class="list-4 color">
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2" style="background: #ffffff;">
+                        <i class="im im-icon-Checked-User" style="color: #000000"></i>
+                        <h3 style="color: #000000">İnceleme</h3>
+                        <ul class="list-4 color" style="color: #000000">
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2" style="background: #1c3444">
+                        <i class="im im-icon-Checked-User"></i>
+                        <h3>İş</h3>
+                        <ul class="list-4 color">
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                            <li><a href="#">Ürünler</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2" style="background: #ffffff;">
+                        <i class="im im-icon-Checked-User" style="color: #000000"></i>
+                        <h3 style="color: #000000">İnceleme</h3>
+                        <ul class="list-4 color" style="color: #000000">
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                            <li><a style="color: #000000" href="#">Ürünler</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+</script>
+
+
+

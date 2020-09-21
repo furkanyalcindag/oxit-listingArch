@@ -1,5 +1,5 @@
 {% extends 'base_layout.html' %}
-{% load staticfiles %}
+{% load static%}
 {% block content %}
 
 
@@ -75,7 +75,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="" class="small-box-footer">Aktif Görevler <i
+                    <a href="{% url 'listArch:firma-listesi' %}" class="small-box-footer">Firmalar<i
                             class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -91,8 +91,8 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="" class="small-box-footer">Ürünler
-                        Görevler <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{% url 'listArch:urunler' %}" class="small-box-footer">Ürün Listesi
+                        <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->

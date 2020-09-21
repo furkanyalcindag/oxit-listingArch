@@ -1,0 +1,287 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Açıklama</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content-header">
+        <h1>
+            {{ company.name }}
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">Profil</a></li>
+
+        </ol>
+
+    </section>
+    <section class="content">
+
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-lg-12 ">
+
+
+                <div class="box-body">
+
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-lg-10">
+                                        <div class="table-responsive">
+                                            <img src="/media/{{ company.logo }}" style="width: 100px;height: 100px">
+
+                                            <table class="table table-striped table-bordered">
+
+                                                <tbody>
+                                                <tr>
+                                                    <td>Firma Yöneticisi</td>
+                                                    <td>{{ company.user.first_name }} {{ company.user.last_name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kuruluş Tarihi</td>
+                                                    <td>{{ company.date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Adres</td>
+                                                    <td>{{ company.address }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ülke/Şehir</td>
+                                                    <td>{{ company.country }}/{{ company.city }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Telefon</td>
+                                                    <td>{{ company.phone }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Website</td>
+                                                    <td><a href="{{ company.website }}">{{ company.website }}</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Çalışan Sayısı</td>
+                                                    <td>{{ company.noOfEmployees }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Yıllık Satış Tutarı</td>
+                                                    <td>{{ company.annualSales }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Çalışan Sayısı</td>
+                                                    <td>{{ company.noOfEmployees }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Firma Tipi</td>
+                                                    <td>{{ company.business_type }}</td>
+                                                </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <h4>Sosyal Medya</h4>
+                                            <table id="social"
+                                                   class="table table-striped table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <td class="">Sosyal Medya</td>
+                                                    <td class="text-center">Hesap Linki</td>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for social in socials %}
+                                                    <tr>
+
+                                                        <td class="text-left">
+                                                            <i class="fa fa-{{ social.social_account.name }}"></i> {{ social.social_account.name }}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="">{{ social.social_account.link }}</a>
+                                                        </td>
+
+                                                    </tr>
+
+                                                {% endfor %}
+
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <h4>Genel Açıklama</h4>
+
+                                        <p>{{ company.description }}</p>
+                                        <hr>
+
+                                        {% for definition in definitions %}
+                                            <h4>{{ definition.title_desc }}</h4>
+                                            <p>{{ definition.description |safe }}</p>
+                                            <hr>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>Blog Yazıları</h4>
+                                        {% for blog in blogs %}
+
+                                            <div class="box box-solid">
+                                                <!-- /.box-header -->
+                                                <div class="box-body">
+                                                    <div class="box-group" id="accordion">
+                                                        <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                                        <div class="panel box box-primary">
+                                                            <div class="box-header with-border">
+                                                                <h4 class="box-title">
+                                                                    <a data-toggle="collapse"
+                                                                       data-parent="#accordion"
+                                                                       href="#collapse{{ forloop.counter0 }}"
+                                                                       aria-expanded="false" class="collapsed">
+                                                                        {{ blog.blog.title | safe }}
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="collapse{{ forloop.counter0 }}"
+                                                                 class="panel-collapse collapse"
+                                                                 aria-expanded="false" style="height: 0px;">
+                                                                <div class="box-body">
+                                                                    {{ blog.blog.content | safe }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /.box-body -->
+                                            </div>
+                                            <!-- /.box -->
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+
+
+                        </div>
+                        <hr>
+
+
+                    </div>
+
+
+                </div>
+
+            </section>
+        </div>
+    </section>
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+            //Money Euro
+            $('[data-mask]').inputmask();
+
+
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            });
+
+
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+    </script>
+
+
+
+{% endblock %}
+

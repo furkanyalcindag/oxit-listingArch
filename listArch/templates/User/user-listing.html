@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% block content2 %}
+    <div class="main-search-container centered" style="height: auto !important;">
+        <div class="main-search-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="highlighted-categories"
+                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
+
+                        {% for category in parent_categories %}
+                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                               class="highlighted-category">
+                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+        <div class="main-search-inner">
+
+            <div class="">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <!-- Features Categories -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="highlighted-categories">
+
+                                {% for category in sub_categories %}
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                {% endfor %}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <!-- Titlebar -->
+    <div class="container" style="z-index: 9;position: relative;    width: 100%;
+    border-top: 1px solid #ffffff;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="categories-boxes-container margin-top-20 ">
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Özellikler</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="titlebar" style="border:1px solid #ffff;margin-right: 2px;">
+        <div class="container" style="margin-left: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" style="margin-left: 20px;">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">LİSTELERİM</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification success closeable">
+                <p>{{ message }}</p>
+                <a class="close"></a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container" style="background:#000;width: 100%;border: 1px solid #fff;margin-top: 2px ">
+        <div class="row">
+
+
+            <!-- Listings -->
+            <div class="col-lg-12 col-md-12" style="padding-right: 0;padding-left: 0;">
+                <div class="dashboard-list-box margin-top-0">
+
+                    <h4 style="background: #000;color: #fff"><i class="sl sl-icon-doc"></i> Listelerim</h4>
+
+                    <ul style="background: #000;">
+                        {% for list in lists %}
+                            <a href="{% url 'listArch:kullanici-listesi'%}">
+                                <li>
+                                    <div class="list-box-listing">
+
+
+                                        <div class="list-box-listing-content">
+                                            <div class="inner">
+                                                <h3>{{ list.list_name }}</h3>
+                                                <span>Bishop Avenue, New York</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="buttons-to-right">
+                                        <a href="#" class="button gray"><i class="sl sl-icon-cursor"></i> Detay</a>
+                                        <a href="#" class="button gray"><i class="sl sl-icon-close"></i> Sil</a>
+
+                                    </div>
+                                </li>
+                            </a>
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+            </div>
+
+            <!-- Copyrights -->
+        </div>
+    </div>
+    <script> function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    </script>
+    <script>
+        function list_delete(id) {
+            let html = 'Liste bilgilerini silmek istediğinizden emin misiniz?';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:liste-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            list_id: id,
+
+
+                        },
+                        success: function (result) {
+
+                            if (result.status === 'Success') {
+                                swal("Başarılı", " Hakkımızda Bilgileri Silindi.", "success");
+                                window.location.replace("{% url "listArch:hakkimizda" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
+{% endblock %}

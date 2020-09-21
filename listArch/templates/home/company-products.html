@@ -1,0 +1,447 @@
+{% extends 'base_layout_2.html' %}
+{% block content %}
+    {% load static %}
+    <!-- breadcrumbs -->
+
+    <style>
+        div.checkboxes {
+            border-style: double;
+            padding: 15px;
+        }
+    </style>
+    <div class="container-fluid margin-top-40 margin-bottom-20">
+        <div class="row">
+            <div class="col-md-12">
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li><a href="{% url 'listArch:index' %}">Home</a></li>
+                        <li>{{ products.0.company.name }}</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- breadcrumbs -->
+    <div class="container">
+        <div class="row">
+
+
+            <div class="row margin-top-15">
+                <div class="col-lg-12">
+                    <!-- Filtering -->
+                    <form action="{% url 'listArch:urun-filtrele' %}" method="post">
+                        {% csrf_token %}
+                        <div class="col-lg-2 col-md-3">
+                            <div class="sidebar">
+                                <!-- Widget -->
+                                <div class="widget margin-bottom-30">
+                                    <div class="row with-forms margin-top-5">
+                                        <h4>{{ category.name }} TÜRLERİ </h4>
+                                        <input style="width: 100%;height:30px;" type="text" name="key-2"
+                                               id="key-2" placeholder="Anahtar Kelime">
+                                    </div>
+                                    <hr>
+
+                                    <h5 class="margin-top-0 margin-bottom-30"><strong>FILTER BY-BASIC</strong></h5>
+                                    <input type="hidden" id="checked_list" name="checked_list" value="">
+
+                                    {% for option in options %}
+                                        {% if option.option.isBasic %}
+
+                                            <!-- Row -->
+                                            {% if option.option.type == 'checkbox' %}
+                                                <div class="row with-forms margin-bottom-10">
+                                                    <!-- Cities -->
+                                                    <div class="col-md-12">
+                                                        <label for="">{{ option.option.key }}</label>
+                                                        <div class="checkboxes">
+                                                            <!-- Checkboxes -->
+                                                            <div class="row">
+                                                                <div class="col-md-6 " id="btnClick">
+                                                                    {% for value in option.values %}
+                                                                        <input id="{{ value.pk }}"
+                                                                               type="checkbox"
+                                                                               name="checkbox" value="{{ value.pk }}">
+                                                                        <label for="{{ value.pk }}">{{ value }}</label>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            {% elif option.option.type == 'text' %}
+                                                <label for="">{{ option.option.key }}</label>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <input style="width: 100%;height:30px;" type="text"
+                                                               name="text-{{ forloop.counter0 }}"
+                                                               id="text-{{ forloop.counter0 }}" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            {% else %}
+                                                <!-- Area Range -->
+                                                <div class="range-slider margin-bottom-10">
+                                                    <label for="">{{ option.option.key }}</label>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <input class="distance-radius" type="range"
+                                                                   min="{{ value.min }}" max="{{ value.max }}"
+                                                                   step="1"
+                                                                   name="range-{{ forloop.counter0 }}"
+                                                                   value="{{ value.min }}"
+                                                                   id="range-{{ forloop.counter0 }}"
+                                                                   data-title=""
+                                                                   style="position: absolute; width: 2px; height: 1px; overflow: hidden; opacity: 0;">
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                                <hr>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for option_text in option_text %}
+                                        {% if option_text.isBasic %}
+                                            <div class="row with-forms margin-bottom-10">
+                                                <label for="">{{ option_text.key }}</label>
+
+                                                <input style="width: 100%;height:30px;" type="text"
+                                                       id="text-{{ forloop.counter0 }}">
+                                            </div>
+                                            <hr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!-- More Search Options -->
+
+                                    <button class="button fullwidth margin-top-25" type="submit">Update</button>
+
+                                </div>
+                                <!-- Widget / End -->
+
+
+                            </div>
+                        </div>
+                        <!-- end Filtering -->
+                        <!-- Products -->
+
+                        <div class="col-lg-8 col-md-6">
+                            {% for product in products %}
+                                <div class="col-lg-4 col-lg-4 ">
+
+                                    <a href="{% url 'listArch:urun-detay' product.pk %}"
+                                       class="listing-item-container compact">
+                                        <div class="listing-item">
+                                            <img src="/media/{{ product.cover_image }}" alt="">
+                                            <div class="listing-item-content">
+                                                <h3>{{ product.name }}</h3>
+                                                <span>{{ product.category.all.0.name }}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+
+
+
+                                </div>
+                                <!-- Listing Item / End -->
+                            {% endfor %}
+                        </div>
+                        <!-- end products -->
+                        <!-- Filtering -->
+                        <div class="col-lg-2 col-lg-2 ">
+                            <div class="sidebar ">
+                                <!-- Widget -->
+                                <div class="row with-forms margin-top-45">
+                                    <input style="width: 100%;height:30px;" type="text" name="key-1"
+                                           id="key-1" placeholder="Anahtar Kelime">
+                                </div>
+                                <hr>
+                                <div class="widget margin-bottom-40">
+                                    <h5 class="margin-top-0 margin-bottom-15"><strong>FILTER BY-ADVANCED</strong></h5>
+                                    {% for option in options %}
+                                        {% if not option.option.isBasic %}
+
+                                            <!-- Row -->
+                                            {% if option.option.type == 'checkbox' %}
+                                                <div class="row with-forms">
+                                                    <!-- Cities -->
+                                                    <div class="col-md-12">
+
+                                                        <input type="hidden" name="array_id" id="array_id_list"
+                                                               value="">
+                                                        <label for="">{{ option.option.key }}</label>
+                                                        <hr>
+                                                        <div class="checkboxes">
+
+                                                            <!-- Checkboxes -->
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    {% for value in option.values %}
+                                                                        <div id="value_style">
+                                                                            <input id="check-{{ value.pk }}"
+                                                                                   onclick=""
+                                                                                   type="checkbox"
+                                                                                   name="checkbox" value="">
+                                                                            <label for="check-{{ value.pk }}">{{ value }}</label>
+                                                                        </div>
+                                                                    {% endfor %}
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <hr>
+
+
+                                                <hr>
+                                            {% elif option.option.type == 'range' %}
+                                                <!-- Area Range -->
+                                                <label for="">{{ option.option.key }}</label>
+                                                {% for value in option.values %}
+                                                    <input class="distance-radius" type="range"
+                                                           min="{{ value.min }}" max="{{ value.max }}"
+                                                           step="1"
+                                                           name="min-range-{{ forloop.counter0 }}"
+                                                           value="{{ value.min }}"
+                                                           id="range-{{ forloop.counter0 }}"
+                                                           data-title=""
+                                                           style="position: absolute; width: 2px; height: 1px; overflow: hidden; opacity: 0;">
+
+                                                {% endfor %}
+
+                                                <hr>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!-- Area Range -->
+
+                                    <!-- More Search Options -->
+
+                                    <button class="button fullwidth margin-top-15" type="submit">Update</button>
+                    </form>
+                </div>
+                <!-- Widget / End -->
+
+
+            </div>
+        </div>
+
+        <!--end  Filtering -->
+    </div>
+
+
+    <!-- Pagination -->
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Pagination -->
+            <div class="pagination-container margin-top-20 margin-bottom-40">
+                <nav class="pagination">
+                    <ul>
+                        <li><a href="#" class="current-page">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Pagination / End -->
+
+
+
+{% endblock %}
+
+
+{% block content2 %}
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+        <div class="main-search-inner">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                         <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                                <span class="typed-words">{{ scrolling_text.description }}</span>
+                            </h2>
+                        <h4>{{ scrolling_text.subTextDesc}}</h4>
+
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+
+                                <select data-placeholder="Basic Categories" class="chosen-select" id="category"
+                                        name="category" onchange="searchGetProductCategory()">
+                                    <option value=""></option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.pk }}">{{ category }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="main-search-input-item">
+                                <form action="{% url 'listArch:urun-adi-arama' %}" method="post">
+                                    {% csrf_token %}
+                                <input type="text" oninput="searchGetProduct()"
+                                       placeholder="What are you looking for?" value=""
+                                       name="product_name" id="product_name"/>
+                                <!-- <select style="" data-placeholder="Product" class="chosen-select" id="company"
+                                        name="company">
+                                    <option value=""></option>
+                                </select> -->
+                                </form>
+                                <div class="response" id="search_product">
+                                    <div style="z-index:999;position: absolute;border:2px solid #ffffff;background: white;color: black;font-size:15px;">
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <select data-placeholder="Brand" class="chosen-select" id="company"
+                                        name="company" onchange="searchGetProductBrand()">
+                                    <option value=""></option>
+                                    {% for company in companies %}
+                                        <option value="{{ company.pk }}">{{ company.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="highlighted-categories-headline">Or browse featured categories:</h5>
+
+                                <div class="highlighted-categories">
+                                    <!-- Box -->
+                                    {% for category in parent_categories %}
+
+                                        <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                           class="highlighted-category">
+
+                                            <h4>{{ category.name }}</h4>
+                                        </a>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Categories -->
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+        $(document).ready(function () {
+            debugger;
+            let tmp = [];
+
+            $("input[name='checkbox']").change(function () {
+                debugger;
+                var checked = $(this).val();
+                if ($(this).is(':checked')) {
+                    tmp.push(checked);
+                    document.getElementById('checked_list').value = tmp;
+                } else {
+                    tmp.splice($.inArray(checked, tmp), 1);
+                    document.getElementById('checked_list').value = tmp;
+
+                }
+            });
+
+            $('#button').on('click', function () {
+                alert(tmp);
+            });
+        });
+
+
+        function search_product_detail(id) {
+            debugger;
+
+
+            $.ajax({
+                url: "{% url 'listArch:firma-sosyalMedya-düzenle'%}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    social_id: id,
+                    name: name,
+                    link: link,
+
+                },
+                success: function (result) {
+                    debugger;
+
+                    if (result.status == 'Success') {
+
+
+                        document.getElementById('company_social[' + count + '][link]').value = link;
+                        document.getElementById('company_social[' + count + '][name]').value = name;
+
+
+                        $('.bd-example-modal-lg').modal('hide');
+
+
+                    } else {
+                        swal("Başarısız", result.messages, "error");
+                    }
+
+                }
+
+            });
+        }
+
+
+    </script>
+{% endblock %}

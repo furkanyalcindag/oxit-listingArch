@@ -1,0 +1,413 @@
+{% extends 'base_layout_2.html' %}
+{% block content %}
+    {% load static %}
+    <!-- breadcrumbs -->
+    <div class="container-fluid margin-top-40 margin-bottom-20">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Breadcrumbs -->
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li><a href="#">ANASAYFA</a></li>
+                        {% if category.parent %}
+                            <li>{{ category.parent.name }}</li>
+                        {% endif %}
+                        <li>ÜRÜNLER</li>
+                        <li>{{ category.name }}</li>
+                        <li>{{ product.company.name }}</li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- breadcrumbs -->
+    <div class="container">
+    <div class="row">
+
+
+
+        <div class="row margin-top-15">
+            <div class="col-lg-12">
+                <!-- Filtering -->
+
+                <div class="col-lg-2 col-md-3">
+                    <div class="sidebar">
+                        <!-- Widget -->
+                        <div class="widget margin-bottom-30">
+                            <div class="row with-forms margin-top-5">
+                                <h4>{{ category.name }} TÜRLERİ </h4>
+                                <input style="width: 100%;height:30px;" type="text"
+                                       id="key-2" placeholder="Anahtar Kelime">
+                            </div>
+                            <h3 class="margin-top-0 margin-bottom-30">Temel Filtreleme</h3>
+                            {% for option in options %}
+                                {% if option.option.isBasic %}
+
+                                    <!-- Row -->
+                                    {% if option.option.type == 'checkbox' %}
+                                        <div class="row with-forms margin-bottom-10">
+                                            <!-- Cities -->
+                                            <div class="col-md-12">
+
+
+                                                <label for="">{{ option.option.key }}</label>
+                                                <div class="checkboxes">
+
+                                                    <!-- Checkboxes -->
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            {% for value in option.values %}
+                                                                <input id="check-{{ forloop.counter0 }}"
+                                                                       type="checkbox"
+                                                                       name="check-{{ forloop.counter0 }}" value="">
+                                                                <label for="check-{{ forloop.counter0 }}">{{ value }}</label>
+                                                            {% endfor %}
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    {% elif option.option.type == 'select' %}
+                                        <div class="row with-forms margin-top-10">
+                                            <label for="">{{ option.option.key }}</label>
+
+                                            <!-- Type -->
+                                            <table class="basic-table">
+                                                <tbody>
+
+                                                <tr>
+                                                    <select name="select{{ forloop.counter0 }}"
+                                                            id="select{{ forloop.counter0 }}" class="chosen-select"
+                                                            style=" display: none;">
+                                                        {% for value in option.values %}
+                                                            <option>{{ value }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <br>
+                                    {% else %}
+                                        <!-- Area Range -->
+                                        <div class="range-slider margin-bottom-10">
+                                            <label for="">{{ option.option.key }}</label>
+                                            <div class="row">
+                                                <div class="col-lg-6"><input class="distance-radius" type="range"
+                                                                             min="1" max="100"
+                                                                             step="1"
+                                                                             name="min-range-{{ forloop.counter0 }}"
+                                                                             value="50"
+                                                                             id="min-range-{{ forloop.counter0 }}"
+                                                                             data-title=""
+                                                                             style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+
+                                                </div>
+                                                <div class="col-lg-6"><input class="distance-radius" type="range"
+                                                                             min="1" max="100"
+                                                                             step="1"
+                                                                             name="max-range-{{ forloop.counter0 }}"
+                                                                             value="50"
+                                                                             id="max-range-{{ forloop.counter0 }}"
+                                                                             data-title=""
+                                                                             style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for option_text in option_text %}
+                                {% if option_text.isBasic %}
+                                    <div class="row with-forms margin-bottom-10">
+                                        <label for="">{{ option_text.key }}</label>
+                                        <input style="width: 100%;height:30px;" type="text"
+                                               id="text-{{ forloop.counter0 }}">
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            <!-- More Search Options -->
+
+                            <button class="button fullwidth margin-top-25">Update</button>
+
+                        </div>
+                        <!-- Widget / End -->
+
+
+                    </div>
+                </div>
+                <!-- end Filtering -->
+                <!-- Products -->
+                <div class="col-lg-8 col-md-6">
+                    {% for product in products %}
+                        <div class="col-lg-4 col-lg-4 ">
+                            <a href="{% url 'listArch:urun-detay' product.pk category.pk %}"
+                               class="listing-item-container compact">
+                                <div class="listing-item">
+                                    <img src="/media/{{ product.cover_image }}" alt="{{ product.name }}">
+
+                                    <div class="listing-item-content">
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Listing Item / End -->
+                    {% endfor %}
+                </div>
+                <!-- end products -->
+                <!-- Filtering -->
+                <div class="col-lg-2 col-md-3">
+                    <div class="sidebar">
+                        <!-- Widget -->
+                        <div class="row with-forms margin-top-45">
+                            <input style="width: 100%;height:30px;" type="text"
+                                   id="key-1" placeholder="Anahtar Kelime">
+                        </div>
+                        <div class="widget margin-bottom-40">
+                            <h3 class="margin-top-0 margin-bottom-15">Gelişmiş Filtreleme</h3>
+                            {% for option in options %}
+                                {% if not option.option.isBasic %}
+
+                                    <!-- Row -->
+                                    {% if option.option.type == 'checkbox' %}
+                                        <div class="row with-forms">
+                                            <!-- Cities -->
+                                            <div class="col-md-12">
+
+
+                                                <label for="">{{ option.option.key }}</label>
+                                                <div class="checkboxes">
+
+                                                    <!-- Checkboxes -->
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            {% for value in option.values %}
+                                                                <input id="check-{{ forloop.counter0 }}"
+                                                                       type="checkbox"
+                                                                       name="check-{{ forloop.counter0 }}" value="">
+                                                                <label for="check-{{ forloop.counter0 }}">{{ value }}</label>
+                                                            {% endfor %}
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    {% elif option.option.type == 'select' %}
+                                        <label for="">{{ option.option.key }}</label>
+
+                                        <div class="row with-forms margin-top-10">
+                                            <!-- Type -->
+
+                                            <select data-placeholder="All Categories" class="chosen-select"
+                                                    style="display: none;">
+                                                {% for value in option.values %}
+                                                    <option>{{ value }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+
+
+                                        <br>
+                                    {% elif option.option.type == 'range' %}
+                                        <!-- Area Range -->
+                                        <label for="">{{ option.option.key }}</label>
+
+                                        <div class="range-slider">
+                                        <div class="row">
+                                            <div class="col-lg-6"><input class="distance-radius" type="range"
+                                                                         min="1" max="100"
+                                                                         step="1"
+                                                                         name="min-range-{{ forloop.counter0 }}"
+                                                                         value="50"
+                                                                         id="min-range-{{ forloop.counter0 }}"
+                                                                         data-title=""
+                                                                         style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+
+                                            </div>
+                                            <div class="col-lg-6"><input class="distance-radius" type="range"
+                                                                         min="1" max="100"
+                                                                         step="1"
+                                                                         name="max-range-{{ forloop.counter0 }}"
+                                                                         value="50"
+                                                                         id="max-range-{{ forloop.counter0 }}"
+                                                                         data-title=""
+                                                                         style="position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0;">
+
+                                            </div>
+
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            <!-- Area Range -->
+
+                            <!-- More Search Options -->
+
+                            <button class="button fullwidth margin-top-15">Update</button>
+
+                            </div>
+                            <!-- Widget / End -->
+
+
+                        </div>
+                    </div>
+                    <!--end  Filtering -->
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Pagination -->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Pagination -->
+                <div class="pagination-container margin-top-20 margin-bottom-40">
+                    <nav class="pagination">
+                        <ul>
+                            <li><a href="#" class="current-page">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#"><i class="sl sl-icon-arrow-right"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination / End -->
+
+    </div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block content2 %}
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+        <div class="main-search-inner">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span class="typed-words"></span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc}}</h4>
+                        <form action="{% url 'listArch:search' %}" method="post">
+                            {% csrf_token %}
+                            <div class="main-search-input">
+                                <div class="main-search-input-item">
+                                    <select data-placeholder="Basic Categories" class="chosen-select" id="category"
+                                            name="category">
+                                        <option value=""></option>
+                                        {% for category in categories %}
+                                            <option value="{{ category.pk }}">{{ category }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="main-search-input-item">
+                                    <input type="text"
+                                           placeholder="What are you looking for?" value=""
+                                           name="product_name"/>
+                                </div>
+
+                                <div class="main-search-input-item">
+                                    <select data-placeholder="Brand" class="chosen-select" id="company" name="company">
+                                        <option value=""></option>
+                                        {% for company in companies %}
+                                            <option value="{{ company.pk }}">{{ company.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <button class="button" type="submit">Search</button>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="highlighted-categories-headline">Or browse featured categories:</h5>
+
+                                    <div class="highlighted-categories">
+                                        <!-- Box -->
+                                        {% for category in parent_categories %}
+
+                                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                               class="highlighted-category">
+
+                                                <h4>{{ category.name }}</h4>
+                                            </a>
+                                        {% endfor %}
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Features Categories -->
+
+            </div>
+
+        </div>
+    </div>
+    <script> function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    </script>
+{% endblock %}

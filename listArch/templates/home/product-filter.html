@@ -1,0 +1,1076 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="container" style="z-index: 9;position: relative;    width: 100%;
+    border-top: 1px solid #ffffff;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="categories-boxes-container margin-top-20 ">
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Özellikler</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="titlebar" style="border:1px solid #ffff;margin-right: 2px;">
+        <div class="container" style="margin-left: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" style="margin-left: 20px;">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">{{ category.name }}</a></li>
+                            <li><a href="#">ÜRÜNLER</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumbs -->
+
+    <!-- breadcrumbs -->
+    <div class="container" style="width: 100%;">
+        <div class="row" style="border-top:1px solid;margin-top: 3px;margin-right: -13px;">
+            <div class="col-md-2 col-lg-2" style="padding-left: 9px;
+               padding-right: 9px;border-left: 1px solid;border-right: 1px solid;border-bottom:1px solid">
+                <div class="sidebar">
+                    <!-- Widget -->
+                    <div class="widget margin-bottom-40">
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
+                                <h3 class="margin-top-10 margin-left-10 margin-bottom-10">{{ category.name }}
+                                    FILTERS</h3>
+
+
+                            </div>
+
+                        </div>
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12" style="border-bottom: 1px solid; margin-bottom: 2px">
+                                <input type="text" placeholder="Keywords"
+                                       style="width:100%;border-top: 1px solid;border-bottom: 1px solid" value=""/>
+                            </div>
+
+                        </div>
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12" style="border-bottom: 1px solid;border-top: 1px solid;width: 100%">
+                                <h5 style="font-weight: 700">FILTER
+                                    BY-BASIC</h5>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Row / End -->
+                        <!-- More Search Options -->
+                        {% for option in options %}
+
+                            {% if option.option.isBasic %}
+                                <!-- Row -->
+                                {% if option.option.type == 'checkbox' %}
+
+                                    <div class="row with-forms">
+                                        <!-- Cities -->
+                                        <div class="col-md-12"
+                                             style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
+
+                                            <a href="#"
+                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                               data-open-title="{{ option.option.key }}"
+                                               data-close-title="{{ option.option.key }}"
+                                               id="{{ option.option.pk }}"
+                                            ></a>
+
+
+                                            <div class="more-search-options relative"
+                                                 style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
+                                                <!-- Checkboxes -->
+
+                                                <div class="checkboxes one-in-row ">
+                                                    <div id="btnClick">
+                                                        {% for value in option.values %}
+                                                            <input id="{{ value.option_value.pk }}"
+                                                                   type="checkbox"
+                                                                   name="{{ value.option_value.pk }}"
+                                                                   value="{{ value.option_value.pk }}">
+                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
+                                                        {% endfor %}
+                                                    </div>
+
+                                                </div>
+
+                                                <a href="#small-dialog-{{ option.option.pk }}"
+                                                   class="rate-review popup-with-zoom-anim"
+                                                   style="background: #fd9116;color: white;width: 100%; text-align: center;  margin-bottom: 5px; height: 50%; border-color: #fd9116;">
+                                                    Tümü [{{ option.count }}]
+                                                </a>
+
+                                                <!-- Checkboxes / End -->
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                    <div id="small-dialog-{{ option.option.pk }}"
+                                         class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                        <div class="message-reply margin-top-0" style="background: white;width: 100%">
+                                            <div class="add-listing-section">
+                                                <!-- Headline -->
+                                                <div class="add-listing-headline">
+                                                    <h3 style="font-weight: 700">{{ option.option.key }}</h3>
+                                                </div>
+                                                <!-- Title -->
+                                                <div class="row with-forms">
+                                                    <div class="col-md-12"
+                                                         style="border: 1px solid;margin-top: -21px;  padding-top: 9px;">
+
+                                                        <div class="checkboxes one-in-row ">
+
+                                                            <div id="btnClick" style="color: black">
+                                                                <div class="col-md-4"
+                                                                     style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
+                                                                    {% for option in options %}
+                                                                        {% if option.option.isBasic %}
+                                                                            <a href="#small-dialog-{{ option.option.pk }}"
+                                                                               class="rate-review popup-with-zoom-anim"
+                                                                               style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
+                                                                                {{ option.option.key }}
+                                                                            </a> <br>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+
+                                                                <div id="basic-option">
+                                                                    <div class="col-md-8"
+                                                                         style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
+                                                                        {% for value in option.allValues %}
+
+                                                                            <input id="{{ value.option_value.pk }}"
+                                                                                   type="checkbox"
+                                                                                   name="{{ value.option_value.pk }}"
+                                                                                   value="{{ value.option_value.pk }}">
+                                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
+
+
+
+                                                                        {% endfor %}
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <script>
+                                                    $('#close_window').on('click', function () {
+                                                        window.opener = self;
+                                                        window.close();
+                                                    });
+                                                </script>
+                                                <!-- Row -->
+
+                                                <!-- Row / End -->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                {% elif option.option.type == 'text' %}
+                                    <label for="">{{ option.option.key }}</label>
+                                    <div class="row with-forms">
+                                        <!-- Cities -->
+                                        <div class="col-md-12">
+                                            <input style="width: 100%;height:30px;" type="text"
+                                                   name="text-{{ forloop.counter0 }}"
+                                                   id="text-{{ forloop.counter0 }}" placeholder="Keywords">
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="row with-forms">
+                                        <div class="col-md-12">
+                                            <label>{{ option.option.key }}</label>
+                                        </div>
+                                        <div class="col-md-6" style="border-top: 1px solid">
+                                            <input style="height: 30px;width: 75%" type="text" placeholder="Min"
+                                                   value=""
+                                                   id="range-min[{{ forloop.counter0 }}]"
+                                                   name="range-min[{{ forloop.counter0 }}]"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input style="height: 30px;width: 75%" type="text" placeholder="Max"
+                                                   value=""
+                                                   id="range-max[{{ forloop.counter0 }}]"
+                                                   name="range-max[{{ forloop.counter0 }}]"/>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endfor %}
+                        {% for option_text in option_text %}
+                            {% if option_text.isBasic %}
+                                <div class="row with-forms">
+                                    <div class="col-md-12">
+                                        <label>{{ option_text.key }}</label>
+
+                                        <input style="width: 100%;height:30px;" type="text"
+                                               id="text-{{ forloop.counter0 }}">
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- More Search Options / End -->
+                        <button style="height: 40px;background: #fd9116" class="button fullwidth margin-top-25">
+                            Filtrele
+                        </button>
+                    </div>
+                    <!-- Widget / End -->
+                </div>
+                <div class=" widget margin-bottom-5 margin-top-5">
+                    <h3 class="margin-top-10 margin-left-10 margin-bottom-10">Most Visited </h3>
+                </div>
+                {% for product in products %}
+                    <div class="col-lg-6 col-md-6" style="padding-left: 5px;padding-right: 5px;">
+                        <div class="hovereffect" onclick="location.href='#';">
+                            <div class="listing-item ">
+                                <img src="/media/{{ product.cover_image }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-8 col-lg-8 margin-top-20" style="padding-left: 30px;padding-right: 30px;">
+                <h2 style="margin-top: 30px;">{{ category.name }} [{{ products | length }}]</h2>
+                <p style="text-align: justify;font-size: 13px;">{{ cat_desc.definition }}
+                </p>
+                <style>
+                    .hovereffect {
+                        width: 100%;
+                        height: 100%;
+                        float: left;
+                        overflow: hidden;
+                        position: relative;
+                        text-align: center;
+                        cursor: default;
+                        padding-bottom: 15px;
+                    }
+
+                    .hovereffect .overlay {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        overflow: hidden;
+                        top: 0;
+                        z-index: 9999;
+                        left: 0;
+                        opacity: 0;
+                        background-color: rgba(0, 0, 0, 0.9);
+                        -webkit-transition: all .4s ease-in-out;
+                        transition: all .4s ease-in-out
+                    }
+
+                    .hovereffect img {
+                        display: block;
+                        border: 1px solid;
+                        position: relative;
+                        -webkit-transition: all .4s linear;
+                        transition: all .4s linear;
+                    }
+
+                    .hovereffect h2 {
+                        text-transform: uppercase;
+                        color: #fff;
+                        text-align: center;
+                        position: relative;
+                        font-size: 12px;
+                        margin-top: 10px;
+                        -webkit-transform: translatey(-100px);
+                        -ms-transform: translatey(-100px);
+                        transform: translatey(-100px);
+                        -webkit-transition: all .2s ease-in-out;
+                        transition: all .2s ease-in-out;
+                        padding: 0px;
+                    }
+
+                    .hovereffect a.info {
+                        text-decoration: none;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        color: #fff;
+                        border: 1px solid #fff;
+                        background-color: transparent;
+                        opacity: 0;
+                        filter: alpha(opacity=0);
+                        -webkit-transition: all .2s ease-in-out;
+                        transition: all .2s ease-in-out;
+                        margin: 0px 0 0;
+                        padding: 0px 14px;
+                    }
+
+                    .hovereffect a.info:hover {
+                        box-shadow: 0 0 5px #fff;
+                    }
+
+                    .hovereffect:hover img {
+                        -ms-transform: scale(1.0);
+                        -webkit-transform: scale(1.0);
+                        transform: scale(1.0);
+                        border: 1px solid;
+                    }
+
+                    .hovereffect:hover .overlay {
+                        opacity: 1;
+                        filter: alpha(opacity=100);
+                    }
+
+                    .hovereffect:hover h2, .hovereffect:hover a.info {
+                        opacity: 1;
+                        filter: alpha(opacity=100);
+                        -ms-transform: translatey(0);
+                        -webkit-transform: translatey(0);
+                        transform: translatey(0);
+                    }
+
+                    .hovereffect:hover a.info {
+                        -webkit-transition-delay: .2s;
+                        transition-delay: .2s;
+                    }
+                </style>
+                <style>
+                    @media (min-width: 768px) {
+                        .col-1-5 {
+                            width: 20%;
+                            float: left;
+                            position: relative;
+                            min-height: 1px;
+                            padding-right: 5px;
+                            padding-left: 5px;
+                        }
+                    }
+                </style>
+
+                <div class="row ">
+                    <div class="col-lg-12 col-md-12 ">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {% for product in advert_product %}
+                                    <div class="col-1-5" style="margin-bottom: 30px;">
+                                        <div class="hovereffect"
+                                             onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                            <div class="listing-item ">
+                                                <img src="/media/{{ product.cover_image }}" alt=""
+                                                     style="border: 2px solid #fd9116">
+                                                <div class="overlay">
+                                                    <h2 style="font-size:16px">{{ product.company.name }}</h2>
+                                                    <h2 style="font-size:10px">{{ product.name }}</h2>
+                                                    <h2 style="font-size:16px">ID {{ product.code }}</h2>
+                                                    <h2 style="font-size:16px">250$ Sqm</h2>
+                                                    <h2 style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                    <a style="left: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: left;
+                                       float: left;
+                                       font-size: 24px;
+                                       color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
+                                                    <a style="right: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: right;
+                                       float: right;
+                                       font-size: 24px;
+                                       color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                </div>
+                                                <div class="listing-badge now-open">Ads</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div id="filter-values"></div>
+                        <div id="product-filter">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    {% for product in products %}
+                                        {% if not product.isAdvert %}
+                                            <div class="col-1-5">
+                                                <div class="hovereffect"
+                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                    <div class="listing-item ">
+                                                        <img src="/media/{{ product.cover_image }}" alt="">
+                                                        <div class="overlay">
+                                                            <h2 style="font-size:16px">{{ product.company.name }}</h2>
+                                                            <h2 style="font-size:10px">{{ product.name }}</h2>
+                                                            <h2 style="font-size:16px">ID {{ product.code }}</h2>
+                                                            <h2 style="font-size:16px">250$ Sqm</h2>
+                                                            <h2 style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                            <a style="left: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: left;
+                                       float: left;
+                                       font-size: 24px;
+                                       color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
+                                                            <a style="right: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: right;
+                                       float: right;
+                                       font-size: 24px;
+                                       color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class=" container margin-bottom-5 margin-top-5">
+                                    <h2>Size uygun filtreleme ile ürüne çok daha kolay
+                                        ulaşabilirsiniz</h2>
+                                </div>
+                                <div class="col-lg-12">
+                                    {% for product in products %}
+
+                                        <div class="col-1-5">
+                                            <div class="hovereffect"
+                                                 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                <div class="listing-item ">
+                                                    <img src="/media/{{ product.cover_image }}" alt="">
+                                                    <div class="overlay">
+                                                        <h2 style="font-size:16px">{{ product.company.name }}</h2>
+                                                        <h2 style="font-size:10px">{{ product.name }}</h2>
+                                                        <h2 style="font-size:16px">ID {{ product.code }}</h2>
+                                                        <h2 style="font-size:16px">250$ Sqm</h2>
+                                                        <h2 style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                        <a style="left: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: left;
+                                       float: left;
+                                       font-size: 24px;
+                                       color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
+                                                        <a style="right: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: right;
+                                       float: right;
+                                       font-size: 24px;
+                                       color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-2 " style="padding-left: 9px;
+               padding-right: 9px;border-left: 1px solid;border-right: 1px solid;border-bottom:1px solid">
+                <div class="sidebar">
+                    <!-- Widget -->
+                    <div class="widget margin-bottom-40">
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
+                                <h3 class="margin-top-10 margin-left-10 margin-bottom-10">{{ category.name }}
+                                    FILTERS</h3>
+
+
+                            </div>
+
+                        </div>
+
+                        <!-- Row -->
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12" style="border-bottom: 1px solid; margin-bottom: 2px">
+                                <input type="text" placeholder="Keywords"
+                                       style="width:100%;border-top: 1px solid;border-bottom: 1px solid" value=""/>
+                            </div>
+
+                        </div>
+                        <div class="row with-forms">
+                            <!-- Cities -->
+                            <div class="col-md-12" style="border-bottom: 1px solid;border-top: 1px solid;width: 100%">
+                                <h5 style="font-weight: 700">FILTER
+                                    BY-ADVANCED</h5>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Row / End -->
+                        <!-- More Search Options -->
+                        {% for option in options %}
+
+                            {% if not option.option.isBasic %}
+                                <!-- Row -->
+                                {% if option.option.type == 'checkbox' %}
+
+                                    <div class="row with-forms">
+                                        <!-- Cities -->
+                                        <div class="col-md-12"
+                                             style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
+
+                                            <a href="#"
+                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                               data-open-title="{{ option.option.key }}"
+                                               data-close-title="{{ option.option.key }}"
+                                               id="{{ option.option.pk }}"
+                                            ></a>
+
+
+                                            <div class="more-search-options relative"
+                                                 style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
+                                                <!-- Checkboxes -->
+
+                                                <div class="checkboxes one-in-row ">
+
+                                                    <div id="btnClick">
+                                                        {% for value in option.values %}
+                                                            <input id="{{ value.option_value.pk }}"
+                                                                   type="checkbox"
+                                                                   name="{{ value.option_value.pk }}"
+                                                                   value="{{ value.option_value.pk }}">
+                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
+                                                        {% endfor %}
+                                                    </div>
+
+                                                </div>
+
+                                                <a href="#small-dialog-{{ option.option.pk }}"
+                                                   class="rate-review popup-with-zoom-anim"
+                                                   style="background: #fd9116;color: white;width: 100%; text-align: center;  margin-bottom: 5px; height: 50%; border-color: #fd9116;">
+                                                    Tümü [{{ option.count }}]
+                                                </a>
+
+                                                <!-- Checkboxes / End -->
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                    <div id="small-dialog-{{ option.option.pk }}"
+                                         class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                        <div class="message-reply margin-top-0" style="background: white;width: 100%">
+                                            <div class="add-listing-section">
+                                                <!-- Headline -->
+                                                <div class="add-listing-headline">
+                                                    <h3>{{ option.option.key }}</h3>
+                                                </div>
+                                                <!-- Title -->
+                                                <div class="row with-forms">
+                                                    <div class="col-md-12"
+                                                         style="border: 1px solid;margin-top: -21px;  padding-top: 9px;">
+
+                                                        <div class="checkboxes one-in-row ">
+
+                                                            <div id="btnClick" style="color: black">
+                                                                <div class="col-md-3"
+                                                                     style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
+                                                                    {% for option in options %}
+                                                                        {% if not option.option.isBasic  and option.option.type == 'checkbox' %}
+                                                                            <a href="#small-dialog-{{ option.option.pk }}"
+                                                                               class="rate-review popup-with-zoom-anim"
+                                                                               style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
+                                                                                {{ option.option.key }}
+                                                                            </a> <br>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+
+                                                                <div id="advanced-option">
+                                                                    <div class="col-md-6">
+                                                                        {% for value in option.allValues %}
+
+                                                                            <input id="{{ value.option_value.pk }}"
+                                                                                   type="checkbox"
+                                                                                   name="{{ value.option_value.pk }}"
+                                                                                   value="{{ value.option_value.pk }}">
+                                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
+
+
+
+                                                                        {% endfor %}
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <!-- Row -->
+
+                                                <!-- Row / End -->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                {% elif option.option.type == 'text' %}
+                                    <label for="">{{ option.option.key }}</label>
+                                    <div class="row with-forms">
+                                        <!-- Cities -->
+                                        <div class="col-md-12">
+                                            <input style="width: 100%;height:30px;" type="text"
+                                                   name="text-{{ forloop.counter0 }}"
+                                                   id="text-{{ forloop.counter0 }}" placeholder="Keywords">
+                                        </div>
+                                    </div>
+                                {% elif option.option.type == 'range' %}
+
+                                        <div class="row with-forms" style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid
+">
+                                            <div class="col-md-12" style="margin-top: 5px">
+                                                <label>{{ option.option.key }}</label>
+                                                <input type="hidden" id="value_key" name="value_key"
+                                                       value="{{ option.option.pk }}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input style="height: 30px;width: 100%" type="text"
+                                                       placeholder="Min({{ option.range.min }})"
+                                                       value=""
+                                                       id="range-min[{{ forloop.counter }}]"
+                                                       name="range-min[{{ forloop.counter }}]"/>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input style="height: 30px;width: 100%" type="text"
+                                                       placeholder="Max({{ option.range.max }})"
+                                                       value=""
+                                                       id="range-max[{{ forloop.counter }}]"
+                                                       name="range-max[{{ forloop.counter }}]"/>
+
+
+                                            </div>
+
+                                            <div slider id="slider-distance"
+                                                 style="margin-top: 90px; width: 100%;margin-left: 2px;">
+                                                <div>
+                                                    <div inverse-left style="width:0%;"></div>
+                                                    <div inverse-right style="width:50%;"></div>
+                                                    <div range style="left:0%;right:0%;"></div>
+                                                    <span thumb style="left:0%;"></span>
+                                                    <span thumb style="left:100%;"></span>
+                                                    <div sign style="left:0%;">
+                                                        <span id="value">0</span>
+                                                    </div>
+                                                    <div sign style="left:100%;">
+                                                        <span id="value">{{ option.range.max }}</span>
+                                                    </div>
+                                                </div>
+
+
+                                                <input id="min[{{ forloop.counter }}]" type="range" value="0"
+                                                       max="{{ option.range.max }}"
+                                                       min="0" step="1" onclick="write_range_min({{ forloop.counter }})"
+                                                       oninput="this.value = Math.min(this.value, this.parentNode.childNodes[5].value - 1);
+        let value = (this.value / parseInt(this.max)) * 100
+        var children = this.parentNode.childNodes[1].childNodes;
+        children[1].style.width = value + '%';
+        children[5].style.left = value + '%';
+        children[7].style.left = value + '%';
+        children[11].style.left = value + '%';
+        children[11].childNodes[1].innerHTML = this.value;"/>
+
+                                                <input id="max[{{ forloop.counter }}]" type="range"
+                                                       value="{{ option.range.max }}"
+                                                       max="{{ option.range.max }}" min="0" step="1"
+                                                       onclick="write_range_max({{ forloop.counter }})"
+                                                       oninput=" this.value = Math.max(this.value, this.parentNode.childNodes[3].value - (-1));
+        let value = (this.value / parseInt(this.max)) * 100
+        var children = this.parentNode.childNodes[1].childNodes;
+        children[3].style.width = (100 - value) + '%';
+        children[5].style.right = (100 - value) + '%';
+        children[9].style.left = value + '%';
+        children[13].style.left = value + '%';
+        children[13].childNodes[1].innerHTML = this.value;"/>
+                                                <style>
+                                                    [slider] {
+                                                        width: 300px;
+                                                        position: relative;
+                                                        height: 5px;
+                                                        margin: 45px 0 10px 0;
+                                                    }
+
+                                                    [slider] > div {
+                                                        position: absolute;
+                                                        left: 13px;
+                                                        right: 15px;
+                                                        height: 5px;
+                                                    }
+
+                                                    [slider] > div > [inverse-left] {
+                                                        position: absolute;
+                                                        left: 0;
+                                                        height: 5px;
+                                                        border-radius: 10px;
+                                                        background-color: #fd9116;
+                                                        margin: 0 7px;
+                                                    }
+
+                                                    [slider] > div > [inverse-right] {
+                                                        position: absolute;
+                                                        right: 0;
+                                                        height: 5px;
+                                                        border-radius: 10px;
+                                                        background-color: #fd9116;
+                                                        margin: 0 7px;
+                                                    }
+
+
+                                                    [slider] > div > [range] {
+                                                        position: absolute;
+                                                        left: 0;
+                                                        height: 5px;
+                                                        border-radius: 14px;
+                                                        background-color: #ccc;
+                                                    }
+
+                                                    [slider] > div > [thumb] {
+                                                        position: absolute;
+                                                        top: -7px;
+                                                        z-index: 2;
+                                                        height: 20px;
+                                                        width: 20px;
+                                                        text-align: left;
+                                                        margin-left: -11px;
+                                                        cursor: pointer;
+                                                        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+                                                        background-color: #FFF;
+                                                        border-radius: 50%;
+                                                        outline: none;
+                                                    }
+
+                                                    [slider] > input[type=range] {
+                                                        position: absolute;
+                                                        pointer-events: none;
+                                                        -webkit-appearance: none;
+                                                        z-index: 3;
+                                                        height: 14px;
+                                                        top: -2px;
+                                                        width: 100%;
+                                                        opacity: 0;
+                                                    }
+
+                                                    div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
+                                                        background: transparent;
+                                                        border: transparent;
+                                                    }
+
+                                                    div[slider] > input[type=range]:focus {
+                                                        outline: none;
+                                                    }
+
+                                                    div[slider] > input[type=range]::-webkit-slider-thumb {
+                                                        pointer-events: all;
+                                                        width: 28px;
+                                                        height: 28px;
+                                                        border-radius: 0px;
+                                                        border: 0 none;
+                                                        background: #ccc;
+                                                        -webkit-appearance: none;
+                                                    }
+
+                                                    div[slider] > input[type=range]::-ms-fill-lower {
+                                                        background: transparent;
+                                                        border: 0 none;
+                                                    }
+
+                                                    div[slider] > input[type=range]::-ms-fill-upper {
+                                                        background: transparent;
+                                                        border: 0 none;
+                                                    }
+
+                                                    div[slider] > input[type=range]::-ms-tooltip {
+                                                        display: none;
+                                                    }
+
+                                                    [slider] > div > [sign] {
+                                                        opacity: 0;
+                                                        position: absolute;
+                                                        margin-left: -11px;
+                                                        top: -39px;
+                                                        z-index: 3;
+                                                        background-color: #fd9116;
+                                                        color: #fff;
+                                                        width: 28px;
+                                                        height: 28px;
+                                                        border-radius: 28px;
+                                                        -webkit-border-radius: 28px;
+                                                        align-items: center;
+                                                        -webkit-justify-content: center;
+                                                        justify-content: center;
+                                                        text-align: center;
+                                                    }
+
+                                                    [slider] > div > [sign]:after {
+                                                        position: absolute;
+                                                        content: '';
+                                                        left: 0;
+                                                        border-radius: 16px;
+                                                        top: 19px;
+                                                        border-left: 14px solid transparent;
+                                                        border-right: 14px solid transparent;
+                                                        border-top-width: 16px;
+                                                        border-top-style: solid;
+                                                        border-top-color: #fd9116;
+                                                    }
+
+                                                    [slider] > div > [sign] > span {
+                                                        font-size: 12px;
+                                                        font-weight: 700;
+                                                        line-height: 28px;
+                                                    }
+
+                                                    [slider]:hover > div > [sign] {
+                                                        opacity: 1;
+                                                    }</style>
+                                            </div>
+                                            <button type="submit" class="button margin-top-15"
+                                                    onclick="range_filter({{ forloop.counter }},{{ option.option.pk }})"
+                                                    style="color: #fff; margin-bottom: 10px; float: right; width: 60px; height: 25px; border: 1px solid #fd9116;border-radius: 50px;">
+                                                Uygula
+                                            </button>
+                                        </div>
+
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endfor %}
+                        {% for option_text in option_text %}
+                            {% if not option_text.isBasic %}
+                                <div class="row with-forms">
+                                    <div class="col-md-12">
+                                        <label>{{ option_text.key }}</label>
+
+                                        <input style="width: 100%;height:30px;border-bottom: 1px solid;margin-bottom: 1px"
+                                               type="text"
+                                               id="text-{{ forloop.counter0 }}">
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- More Search Options / End -->
+                        <button style="height: 40px;background: #fd9116" class="button fullwidth margin-top-25">
+                            Filtrele
+                        </button>
+                    </div>
+                    <!-- Widget / End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="" id="checked_list" name="checked_list">
+    <input type="hidden" value="{{ category.pk }}" id="filtered-category" name="filtered-category">
+
+
+
+    <!-- /.modal-content -->
+
+
+{% endblock %}
+
+{% block content2 %}
+    <div class="main-search-container centered" style="height: auto !important;">
+        <div class="main-search-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="highlighted-categories"
+                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
+
+                        {% for category in parent_categories %}
+                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                               class="highlighted-category">
+                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+        <div class="main-search-inner">
+
+            <div class="">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <!-- Features Categories -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="highlighted-categories">
+
+                                {% for category in sub_categories %}
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                {% endfor %}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+<script>
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+    $(document).ready(function () {
+
+        document.getElementById("container").scrollIntoView({block: "center"});
+
+    });
+
+
+</script>

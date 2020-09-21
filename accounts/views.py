@@ -58,7 +58,7 @@ def forgot(request):
             # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
             user = obj.save()
             html_content = ''
-            subject, from_email, to = 'GVERCİN Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
+            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
             html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>GVERCİN</p>'
             html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
@@ -74,6 +74,35 @@ def forgot(request):
             return redirect("accounts:forgot")
 
     return render(request, 'registration/forgot.html')
+
+#müşteri
+def user_forgot(request):
+    if request.method == 'POST':
+        mail = request.POST.get('username')
+        obj = User.objects.filter(username=mail)
+        if obj.count() != 0:
+            obj = obj[0]
+            password = User.objects.make_random_password()
+            obj.set_password(password)
+            # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
+            user = obj.save()
+            html_content = ''
+            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
+            text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>GVERCİN</p>'
+            html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
+            html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+
+            messages.success(request, "Giriş bilgileriniz mail adresinize gönderildi. ")
+            return redirect("listArch:kullanici-giris-yap")
+        else:
+            messages.warning(request, "Geçerli bir mail adresi giriniz.")
+            return redirect("accounts:forgot-user")
+
+    return render(request, 'User/user-forgot.html')
 
 
 def pagelogout(request):
@@ -112,13 +141,18 @@ def permission_post(request):
 
 
 def change_password(request):
+    group = Group.objects.get(user=request.user)
     if request.method == 'POST':
         form = ResetPassword(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Şifreniz başarıyla değiştirilmiştir.')
-            return redirect('accounts:change_password')
+            if group.name == 'Kullanıcı':
+                return redirect('listArch:kullanici-profil-sayfasi')
+            else:
+                return redirect('accounts:change_password')
+
         else:
             for error in form.errors.keys():
                 messages.warning(request, form.errors[error])
@@ -128,6 +162,7 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {
         'form': form
     })
+
 
 @login_required
 def permission(request, pk):
@@ -155,4 +190,5 @@ def permission(request, pk):
 
     return render(request, 'permission/izin-ayar.html',
                   {'menu': menu2, 'ownmenu': ownMenu, 'group': group})
+
 

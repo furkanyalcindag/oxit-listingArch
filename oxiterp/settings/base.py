@@ -87,6 +87,12 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'listArch.services.general_methods.getMenu',
                 'listArch.services.general_methods.activeMenu',
+                'listArch.services.general_methods.parent_categories_list',
+                'listArch.services.general_methods.get_all_category',
+                'listArch.services.general_methods.get_company',
+                'listArch.services.general_methods.get_user',
+                'listArch.services.general_methods.get_scrolling_text',
+                'listArch.services.general_methods.headerText',
 
                 # "education.services.general_methods.append_privileges",
             ],
@@ -111,7 +117,7 @@ WSGI_APPLICATION = 'oxiterp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Oxit',
+        'NAME': 'listArch',
         'USER': 'postgres',
         'PASSWORD': 'oxit2016',
         'HOST': 'localhost',
@@ -141,6 +147,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'tr'
+
+home_lang_code = 'tr'
 
 TIME_ZONE = 'Europe/Istanbul'
 

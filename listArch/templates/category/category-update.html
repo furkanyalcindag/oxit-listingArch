@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
             <li><a href="">Kategori</a></li>
-            <li><a href="">Kategori Güncelle</a></li>
+            <li><a href="">{{ category.name }}</a></li>
         </ol>
 
     </section>
@@ -98,18 +98,43 @@
 
 
                                                     <div class="input-group"><span class="input-group-addon"><img
-                                                            style="width:30px;height: 10px;"
-                                                            src="/media/indir.png" title="İngilizce"></span>
+                                                            src="/media/en-gb.png" title="İngilizce"></span>
                                                         <input type="text" name="category_description[eng][name]"
                                                                value="{{ category_desc.description }}"
                                                                placeholder="Kategori Adı" class="form-control">
                                                     </div>
                                                     <div class="input-group"><span class="input-group-addon"><img
-                                                            style="width:30px;height: 10px;"
-                                                            src="/media/tr.png" title="Türkçe"></span>
-                                                        <input type="text" name="category_description[tr][name]"
-                                                               value="{{ category.name }}"
-                                                               placeholder="Kategori Adı" class="form-control">
+
+                                                            src="/media/tr-tr.png" title="Türkçe"></span>
+                                                        {{ category_form.name }}
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="form-group">
+
+
+                                                    <label>Kategori Açıklaması</label>
+                                                    <div class="input-group">
+                                                            <span class="input-group-addon"><img
+                                                                    src="/media/en-gb.png" title="ENg"></span>
+                                                        <textarea class="form-control textarea"
+                                                                  id="content[eng]"
+                                                                  name="content[eng]"
+                                                                  rows="10"
+                                                                  placeholder="Content ..">{{ category_eng.definition }}</textarea>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group">
+                                                            <span class="input-group-addon"><img
+                                                                    src="/media/tr-tr.png" title="ENg"></span>
+                                                        <textarea class="form-control textarea"
+                                                                  id="content[tr]"
+                                                                  name="content[tr]"
+                                                                  rows="10"
+                                                                  placeholder="İçerik ..">{{ category_tr.definition }}</textarea>
+
                                                     </div>
 
 
@@ -121,22 +146,37 @@
                                                     <select style="width: 100%"
                                                             class="form-group select2 select2-hidden-accessible"
                                                             name="category_parent" id="category_parent">
-
-                                                        {% for cat in categories %}
-                                                            {% if cat.category.parent.name == cat.category_name %}
-
-                                                                <option selected
-                                                                        value="{{ cat.category.pk }}">{{ cat.category_name }}</option>
-                                                            {% endif %}
-
-                                                            <option value="{{ cat.category.pk }}">{{ cat.category_name }}</option>
-
-                                                        {% endfor %}
                                                         <option value="">--YOK--</option>
+                                                        {% for cat in categories %}
+                                                            {% if parent == cat.category_name %}
+                                                                <option selected
+                                                                        value="{{ cat.category.parent.pk }}">{{ cat.category_name }}</option>
+                                                            {% else %}
+                                                                <option value="{{ cat.category.pk }}">{{ cat.category.name }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
 
 
                                                     </select>
 
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="input-type">Aktif
+                                                        Kategori?</label>
+
+                                                    {{ category_form.isActive }}
+
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="input-type">Ana Kategori</label>
+                                                    {{ category_form.isBasic }}
+
+
+                                                </div>
+                                                <div class="form-group" id="category_icon">
+                                                    <label for="input-type">Ana Kategori İkonu</label>
+                                                    {{ category_form.icon }}
                                                 </div>
 
                                             </div>
@@ -158,7 +198,26 @@
     </section>
 
     <script>
+        $(document).ready(function () {
+            //set initial state.
 
+
+            $('#basic_value').val($(this).is(':checked'));
+
+            $('#active_product').change(function () {
+                if ($(this).is(":checked")) {
+                    $('#active_value').val($(this).is(':checked'));
+
+                } else {
+                    $('#active_value').val($(this).is(':checked'));
+
+                }
+
+
+            });
+
+
+        });
 
         function getCookie(name) {
             var cookieValue = null;

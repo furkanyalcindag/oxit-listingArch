@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
-from listArch.models import Company, Product
+from listArch.models import Company, Product, Category
 
 
 def admin_dashboard(request):
@@ -22,4 +22,7 @@ def user_dashboard(request):
 
 
 def company_dashboard(request):
-    return render(request, 'dashboard/company.html')
+    user = request.user
+    company = Company.objects.get(user=user)
+    products = Product.objects.filter(company=company)
+    return render(request, 'dashboard/company.html', {'products': products.count()})

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+<style>
+    label {
+        color: #ffffff;
+    }
+</style>
+{% block content2 %}
+    <div class="main-search-container centered dark-overlay" style="height: 100vh !important;">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification error closeable">
+                    <p>{{ message }}</p>
+                    <a class="close"></a>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="main-search-inner">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-6" style="text-align: left">
+
+                        <div class="sign-in-form style-1">
+                            <h3 class=" margin-bottom-35" style="color: #ffffff;">Giriş Yap
+                            </h3>
+
+                            <form method="post" class="login">
+                                {% csrf_token %}
+
+                                <p class="form-row form-row-wide">
+                                    <label style="color: #ffffff" for="username">Email:
+                                        <i class="im im-icon-Male"></i>
+                                        <input type="text" class="input-text" name="username" id="username"
+                                               value=""/>
+
+                                    </label>
+                                </p>
+
+                                <p class="form-row form-row-wide">
+                                    <label style="color: #ffffff" for="password">Şifre:
+                                        <i class="im im-icon-Lock-2"></i>
+                                        <input class="input-text" type="password" name="password"
+                                               id="password"/>
+                                    </label>
+                                </p>
+
+                                <div class="form-row">
+
+                                        <input type="submit" style="background:#fd9116;width: 25%" class="margin-top-5 margin-bottom-20 highlighted-category" name="login" value="Giriş Yap">
+                                </div>
+                                <div class="form-row margin-bottom-20">
+                            <span class="lost_password">
+										<a style="color: #ffffff" href="{% url 'accounts:forgot-user' %}">Lost Your Password?</a>
+									</span></div>
+                                <div class="form-row">
+                                    <a href="{% url 'listArch:kullanici-kaydet' %}">
+                                        <input type="button" style="background:#b7b7b7;width: 100%"
+                                               class="margin-top-5 margin-bottom-20 highlighted-category"
+                                               name="login"
+                                               value="Create New Account"/></a>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Video -->
+        <div class="video-container">
+            <video poster="/media/base2_images/main-search-video.mp4" loop autoplay muted>
+                <source src="/media/base2_images/main-search-video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+{% endblock %}
+
