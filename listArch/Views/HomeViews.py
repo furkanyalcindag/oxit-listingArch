@@ -1,12 +1,16 @@
+import json
+
+from django.contrib.auth import logout
 from django.contrib.postgres.search import SearchVector
-from django.db.models import Count, Q
+from django.core import serializers
+from django.db.models import Count, Q, QuerySet
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 
 from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionProduct, IntroductionPage, \
     IntroductionPageDesc, Blog, CategoryDesc, ProductDesc, BlogDesc, BlogProduct, CompanyBlog, RelatedProduct, \
-    OptionValueDesc
+    OptionValueDesc, List
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.DefinitionDescription import DefinitionDescription
@@ -14,8 +18,11 @@ from listArch.models.Product import Product
 from listArch.models.Category import Category
 from listArch.models.ProductDefinition import ProductDefinition
 from listArch.models.ProductImage import ProductImage
+from listArch.serializers.CompanySerializer import CompanySerializer
+from listArch.serializers.IntroductionPageDescSerializer import IntroductionPageDescSerializer
 from listArch.serializers.ProductSerializer import ProductSerializer
 from listArch.serializers.ProductValueSerializer import ProductValueSerializer
+from listArch.services import general_methods
 
 
 def base2(request):
@@ -87,39 +94,43 @@ def product_detail(request, pk):
 
 
 def product_filter_page(request, pk):
-    category = Category.objects.get(pk=pk)
-    cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=1)
-    category_desc = ""
-    if cat_desc.count() > 0:
-        category_desc = cat_desc[0]
-    sub_categories = Category.objects.filter(parent=category)
+    user = request.user
+    if not user.is_anonymous:
+        list = List.objects.filter(user=user)
 
-    array = []
-    options_value = OptionValue.objects.values('option', 'option__type').annotate(count=Count('value'))
-    for option in options_value:
-        option_dict = dict()
-        option_dict['option'] = Option.objects.filter(pk=option['option'])[0]
-        option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=1).order_by('?')[:5]
-        if len(option_dict['values']) == 0:
-            option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
-        option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=1)
-        option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=1).count()
-        array.append(option_dict)
-    category_products = Product.objects.filter(Q(category__category__parent=category) |
-                                               Q(category=category) | Q(category__parent=category)).filter(
-        isActive=True)
+        category = Category.objects.get(pk=pk)
+        cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=1)
+        category_desc = ""
+        if cat_desc.count() > 0:
+            category_desc = cat_desc[0]
+        sub_categories = Category.objects.filter(parent=category)
+        array = []
+        options_value = OptionValue.objects.values('option', 'option__type').annotate(count=Count('value'))
+        for option in options_value:
+            option_dict = dict()
+            option_dict['option'] = Option.objects.filter(pk=option['option'])[0]
+            option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=1).order_by('?')[:5]
+            if len(option_dict['values']) == 0:
+                option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
+            option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=1)
+            option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=1).count()
+            array.append(option_dict)
+        category_products = Product.objects.filter(Q(category__category__parent=category) |
+                                                   Q(category=category) | Q(category__parent=category)).filter(
+            isActive=True)
 
-    products = Product.objects.filter(category=category).order_by('?')[:50]
-    advert_product = Product.objects.filter(isAdvert=True).filter(category=category).order_by('id')[:5]
+        products = Product.objects.filter(category=category).order_by('?')[:50]
+        advert_product = Product.objects.filter(isAdvert=True).filter(category=category).order_by('id')[:5]
 
-    option_text = Option.objects.filter(type='text')
+        option_text = Option.objects.filter(type='text')
 
-    return render(request, 'home/product-filter.html',
-                  {'products': products, 'options': array, 'option_text': option_text, 'category': category,
-                   'sub_categories': sub_categories, 'cat_desc': category_desc, 'advert_product': advert_product})
+        return render(request, 'home/product-filter.html',
+                      {'products': products, 'options': array, 'option_text': option_text, 'category': category,
+                       'sub_categories': sub_categories, 'cat_desc': category_desc, 'advert_product': advert_product,
+                       'lists': list})
 
 
 def search_product(request):
@@ -192,23 +203,32 @@ def get_company_info(request, pk):
 def get_product(request):
     if request.POST:
         try:
-            product_name = request.POST.get('product_name')
-            if product_name == '':
+            key = request.POST.get('product_name')
+            if key == '':
                 product = []
             else:
-                products = Product.objects.filter(
-                    Q(name__icontains=product_name) | Q(category__name__icontains=product_name) |
-                    Q(company__name__icontains=product_name))
+                # products = Product.objects.filter(  Q(name__icontains=key) | Q(category__name__icontains=key) |  Q(company__name__icontains=key)).distinct('id')
+
+                products = Product.objects.filter(Q(name__icontains=key))
+                company = Company.objects.filter(name__icontains=key)
+                magazine = IntroductionPageDesc.objects.filter(description__icontains=key)
 
                 array = []
-                for product in products:
-                    if product not in array:
-                        array.append(product)
 
-                data = ProductSerializer(array, many=True)
+                data = ProductSerializer(products, many=True).data
+                data2 = CompanySerializer(company, many=True).data
+                data3 = IntroductionPageDescSerializer(magazine, many=True).data
 
+                data_dict = dict()
+                data_dict['product'] = data
+                data_dict['company'] = data2
+                data_dict['magazine'] = data3
+
+                array.append(data_dict)
                 responseData = dict()
-                responseData['product'] = data.data
+                responseData['product'] = array
+
+                print(array)
 
                 return JsonResponse(responseData, safe=True)
 
@@ -247,8 +267,19 @@ def filtered_products(request):
 
             checks = request.POST['parms[var2]']
             category = request.POST['category']
+            filtered_products = request.POST['filtered_products']
+            product_array = []
+            filtered_array = []
+            if filtered_products != '':
+                filter_product = filtered_products.split(',')
+                for id in filter_product:
+                    product = Product.objects.filter(pk=int(id))
+                    if product.count() > 0:
+                        product_array.append(product[0])
+
             id_list = checks.split(',')
             array = []
+            array_filter = []
             if id_list != ['']:
                 for id in id_list:
                     value = OptionValue.objects.get(pk=int(id))
@@ -256,22 +287,36 @@ def filtered_products(request):
                 products = ProductOptionValue.objects.filter(product__category__id=category).values(
                     'product').annotate(
                     count=Count('product'))
-                filtered_array = []
+                array_filter = []
 
                 for product_value in products:
-                    product = Product.objects.get(pk=int(product_value['product']))
+                    product = ProductOptionValue.objects.filter(product_id=int(product_value['product']))
                     value_array = []
-                    values = ProductOptionValue.objects.filter(product=product)
+                    values = ProductOptionValue.objects.filter(product=product[0].product)
 
                     for value in values:
                         value_array.append(value.option_value.pk)
 
                     if set(value_array).__and__(set(array)) == set(array):
-                        filtered_array.append(product)
+                        array_filter.append(product[0])
             else:
-                filtered_array = Product.objects.filter(category__id=category)
+                filtered_array = ProductOptionValue.objects.filter(product__category__id=category)
+                for product_filter in filtered_array:
+                    if product_filter in array_filter:
+                        array_filter.append(product_filter)
 
-            data = ProductSerializer(filtered_array, many=True)
+            new_array = []
+            if filtered_products != '':
+                for new_product in filtered_array:
+                    for product in product_array:
+                        if new_product == product:
+                            productOptionValue = ProductOptionValue.objects.filter(product=new_product)
+                            new_array.append(productOptionValue[0])
+                            break
+
+                data = ProductValueSerializer(new_array, many=True)
+            else:
+                data = ProductValueSerializer(array_filter, many=True)
 
             responseData = dict()
             responseData['products'] = data.data
@@ -286,46 +331,41 @@ def filtered_products(request):
 def filtered_products_range(request):
     if request.POST:
         try:
-
-            checks = request.POST['parms']
+            tmp = request.POST['options']
             category = request.POST['category']
-            option = Option.objects.get(pk=int(request.POST['option_id']))
-            range_value = OptionValue.objects.get(option=option)
-            min_value = int(request.POST['min_value'])
-            max_value = int(request.POST['max_value'])
+            array = json.loads(tmp)
 
-            id_list = checks.split(',')
-            array = []
-            if id_list != ['']:
-                for id in id_list:
-                    value = OptionValue.objects.get(pk=int(id))
-                    array.append(value.pk)
-                products = ProductOptionValue.objects.filter(option_value=range_value).filter(
-                    range_value__gte=min_value).filter(
-                    range_value__lte=max_value).filter(product__category__id=category).values(
-                    'product').annotate(
-                    count=Count('product'))
-                filtered_array = []
+            if len(array) > 0:
+                product = object()
+                for item in array:
+                    if item['type'] == 'range':
+                        if array.index(item) == 0:
+                            product = ProductOptionValue.objects.filter(product__category__id=int(category)).distinct(
+                                'product').filter(
+                                option_value__option__id=int(item['option_id'])).filter(
+                                option_value__min__gte=int(item['value'].split('-')[0])).filter(
+                                option_value__max__lte=int(item['value'].split('-')[1]))
+                        else:
+                            product = product.filter(
+                                option_value__option__id=int(item['option_id'])).filter(
+                                option_value__min__gte=int(item['value'].split('-')[0])).distinct('product').filter(
+                                option_value__max__lte=int(item['value'].split('-')[1]))
 
-                for product_value in products:
-                    product = Product.objects.get(pk=int(product_value['product']))
-                    value_array = []
-                    values = ProductOptionValue.objects.filter(product=product)
-
-                    for value in values:
-                        value_array.append(value.option_value.pk)
-
-                    if set(value_array).__and__(set(array)) == set(array):
-                        filtered_array.append(product)
+                    elif item['type'] == 'checkbox':
+                        if array.index(item) == 0:
+                            product = ProductOptionValue.objects.filter(product__category__id=int(category)).distinct(
+                                'product').filter(
+                                option_value_id=item['value'])
+                        else:
+                            product = product.filter(option_value_id=item['value'])
+                    else:
+                        print(product)
             else:
-                filtered_array = ProductOptionValue.objects.filter(option_value=range_value).filter(
-                    range_value__gte=min_value).filter(
-                    range_value__lte=max_value).filter(product__category__id=category)
-
-            data = ProductValueSerializer(filtered_array, many=True)
+                product = ProductOptionValue.objects.filter(product__category__id=int(category)).distinct('product')
+            data = ProductValueSerializer(product, many=True)
 
             responseData = dict()
-            responseData['product_list'] = data.data
+            responseData['products'] = data.data
 
             return JsonResponse(responseData, safe=True)
 

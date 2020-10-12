@@ -155,13 +155,13 @@
         <div class="row">
 
             <!-- Listings -->
-            <div class="col-lg-12 col-md-12" style="    padding-right: 0;padding-left: 0;">
+            <div class="col-lg-12 col-md-12" id="liste" style="    padding-right: 0;padding-left: 0;">
                 <div class="dashboard-list-box margin-top-0">
                     <div class="row">
                         <div style="margin-left: 50px">
                             <div class="col-md-6">
                                 <a href="#small-dialog" class="rate-review button default popup-with-zoom-anim"
-                                   style="background: #ffff; color: black; width: 21%; height: 36px; text-align: center; margin-top: 10px; margin-left: 80%;">Liste
+                                   style="; font-family: 'Roboto', sans-serif;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px; font-size: 14px;background: #ffff; color: black;line-height: 30px; height: 37px; text-align: center; margin-top: 10px; margin-left: 80%;">Liste
                                     Oluştur</a>
                             </div>
                             <div class="col-md-6">
@@ -169,10 +169,10 @@
                                     <ul id="responsive">
 
                                         <li><a class="button"
-                                               style="color: #000;width: 100%;background-color: #ffffff;border-radius:0px;">Listelerim</a>
+                                               style=";font-family: 'Roboto',sans-serif;color:#000;width: 100%;background-color: #ffffff;border-radius:0px;">Listelerim</a>
                                             <ul>
-                                                {% for list in lists %}
-                                                <li><a href="">{{ list.list_name}}</a></li>
+                                                {% for list in user_lists %}
+                                                    <li><a href="{% url 'listArch:liste-detay' list.pk%}">{{ list.list_name }}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
@@ -182,8 +182,7 @@
                             </div>
                         </div>
                         <div id="small-dialog" class="zoom-anim-dialog mfp-hide" style="height:400px;">
-                            <div class="small-dialog-header" style="padding: 20px 40px;margin-bottom: 30px;">
-                                <h3 style="color: #000000">Liste Oluştur</h3>
+                            <div class="small-dialog-header" style="padding: 30px 40px;margin-bottom: 30px;">
                             </div>
                             <div class="message-reply margin-top-0" style="margin-top: -15px !important;">
                                 <form action="{% url 'listArch:liste-olustur' %}" method="post">
@@ -192,16 +191,16 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div>
-                                                <select id="reference_list" name="reference_list"
-                                                        class="chosen-select-no-single" style="display: none;">
-                                                    <option label="blank">Bağlantılı Liste</option>
-                                                    <option>Yok</option>
-                                                    {% for list in lists %}
-                                                        <option>{{ list.list_name }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
+
+                                            <select id="reference_list" name="reference_list"
+                                                    class="chosen-select-no-single" style="display: none;">
+                                                <option label="blank">Bağlantılı Liste</option>
+                                                <option>Yok</option>
+                                                {% for list in lists %}
+                                                    <option>{{ list.list_name }}</option>
+                                                {% endfor %}
+                                            </select>
+
                                         </div>
 
 
@@ -237,281 +236,29 @@
                     </div>
 
                     <div class="container">
-                        <div class="row">
+                        {% for list in lists %}
+                            <div class="row">
 
-                            <div class="col-md-12">
-                                <h3 class="headline centered margin-bottom-20 margin-top-30"
-                                    style="border:1px solid;font-size: 18px">INTERIOR > PRODUCTS >
-                                    FURNITURE<span></span>
-                                </h3>
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-                                        <span>14 Listings</span>
+                                <div class="col-md-12">
+                                    <a href=""><h3
+                                            class="headline centered margin-bottom-20 margin-top-30"
+                                            style="border:1px solid;font-size: 18px">{{ list.category.name }} > PRODUCTS
+                                    </h3>
+                                    </a>
+                                </div>
+                                {% for product in list.products %}
+                                    <div class="col-md-2">
+                                        <a href="" class="img-box" style="height: 200px;"
+                                           data-background-image="/media/{{ product.product.cover_image }}">
+                                            <div class="img-box-content visible">
+                                                <span>{{ product.product.name }}</span>
+                                            </div>
+                                            <div class="img-box-background"></div>
+                                        </a>
                                     </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
+                                {% endfor %}
                             </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>24 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-12">
-                                <h3 class="headline centered margin-bottom-20 margin-top-30"
-                                    style="border:1px solid;font-size: 18px">INTERIOR > PRODUCTS >
-                                    FURNITURE<span></span>
-                                </h3>
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-                                        <span>14 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>24 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-
-                        </div>
-                          <div class="row">
-
-                            <div class="col-md-12">
-                                <h3 class="headline centered margin-bottom-20 margin-top-30"
-                                    style="border:1px solid;font-size: 18px">INTERIOR > PRODUCTS >
-                                    FURNITURE<span></span>
-                                </h3>
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-                                        <span>14 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>24 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme2.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-                            <div class="col-md-2">
-
-                                <!-- Image Box -->
-                                <a href="" class="img-box" style="height: 200px;"
-                                   data-background-image="/media/deneme.jpg">
-                                    <div class="img-box-content visible">
-
-                                        <span>12 Listings</span>
-                                    </div>
-                                    <div class="img-box-background"></div>
-                                </a>
-
-                            </div>
-
-
-                        </div>
+                        {% endfor %}
                     </div>
 
                 </div>

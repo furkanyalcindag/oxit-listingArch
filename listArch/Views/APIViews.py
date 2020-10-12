@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from listArch.models import Product
+from listArch.models import Product, Subscriber
 from listArch.models.Company import Company
 from listArch.models.APIObject import APIObject
 from listArch.serializers.CompanySerializer import CompanyResponseSerializer
+from listArch.serializers.SubscriberSerializer import SubscriberResponseSerializer
 
 
 class GetCompany(APIView):
@@ -32,6 +33,34 @@ class GetCompany(APIView):
         }
         serializer = CompanyResponseSerializer(apiObject, context=serializer_context)
         return Response(serializer.data)
+
+class GetSubscriber(APIView):
+
+    def post(self, request, format=None):
+        start = request.data['start']
+        length = request.data['length']
+        end = int(start) + int(length)
+
+        subscriber_total = Subscriber.objects.count()
+        subscribers = Subscriber.objects.filter(
+            email__icontains=request.data['search[value]']).order_by('id')[
+                    int(start):end]
+        filteredTotal = Subscriber.objects.filter(
+            email__icontains=request.data['search[value]']).count()
+
+        apiObject = APIObject()
+        apiObject.data = subscribers
+        apiObject.draw = int(request.POST['draw'])
+        apiObject.recordsTotal = int(subscriber_total)
+        apiObject.recordsFiltered = int(filteredTotal)
+
+        serializer_context = {
+            'request': request,
+        }
+        serializer = SubscriberResponseSerializer(apiObject, context=serializer_context)
+        return Response(serializer.data)
+
+
 
 
 class GetCategoryProduct(APIView):

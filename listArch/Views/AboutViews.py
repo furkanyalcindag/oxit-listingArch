@@ -351,3 +351,6 @@ def delete_headerText(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+

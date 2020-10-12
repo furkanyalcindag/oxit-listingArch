@@ -4,20 +4,52 @@
     <div class="main-search-container centered" style="height: auto !important;">
         <div class="main-search-inner">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="highlighted-categories"
-                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
-
+                <!-- Carousel -->
+                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider">
                         {% for category in parent_categories %}
-                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                               class="highlighted-category">
-                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
-                            </a>
+                            <div class="">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category">
+                                    <img style=" width: 30px;height: 30px;" class="img-responsive"
+                                         src="/media/worker.png"
+                                         alt="Bricks-in-Bytes">
+                                    <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;">{{ category.name }}</h4>
+                                </a>
+
+                            </div>
                         {% endfor %}
+
+
                     </div>
+
+
+                    <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                slidesToShow: 15,
+                                slidesToScroll: 5,
+                                infinite: true,
+                                cssEase: 'linear',
+
+                            });
+
+                        };
+                    </script>
+                    <style>
+                        .slider {
+                            width: 88%;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
                 </div>
+
+                <!-- Carousel / End -->
             </div>
+
+
         </div>
     </div>
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
@@ -30,9 +62,9 @@
                     <div class="col-md-12">
 
 
-                         <h2 style="font-family: 'Allerta Stencil', sans-serif;">
-                                <span class="typed-words">{{ scrolling_text.description }}</span>
-                            </h2>
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
                         <h4>{{ scrolling_text.subTextDesc }}</h4>
                         <div class="main-search-input">
                             <div class="main-search-input-item">
@@ -61,15 +93,16 @@
                 </div>
                 <div class="container">
                     <!-- Features Categories -->
+
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="margin-top: 20px">
 
                             <div class="highlighted-categories">
 
                                 {% for category in sub_categories %}
 
                                     <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category">
+                                       class="highlighted-category" style="padding: 3px 14px;margin: 0px">
                                         <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
                                         <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
                                     </a>
@@ -90,12 +123,12 @@
     </div>
 {% endblock %}
 
-
 {% block content %}
-    <div class="container" style="z-index: 9;position: relative;margin-top: -100px;">
+    <div class="container" style=" width: 100%;
+    border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
         <div class="row">
             <div class="col-md-12">
-                <div class="categories-boxes-container margin-top-5 margin-bottom-30">
+                <div class="categories-boxes-container ">
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
                         <h4>Ürünler</h4>
@@ -113,7 +146,7 @@
                     </a>
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Specs</h4>
+                        <h4>Özellikler</h4>
                         <span class="category-box-counter">250.000+</span>
                     </a>
                     <!-- Box -->
@@ -129,8 +162,8 @@
             </div>
         </div>
     </div>
-    <div id="titlebar" style="border-bottom:1px solid #ffff;border-top:1px solid #ffff;">
-        <div class="container">
+    <div id="titlebar" style="border-bottom:1px solid #fff;">
+        <div class="" style="margin-left: 20px">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Breadcrumbs -->
@@ -144,9 +177,11 @@
             </div>
         </div>
     </div>
-    {% if products.all %}
-        <div class="container" style="    border-left: 1px solid #fff;border-right: 1px solid #fff;">
-            <div class="row">
+    <div class="" style=";padding: 60px;">
+        {% if products.all %}
+            <div style="border: 1px solid;padding: 10px">
+            <div class="row" style="padding-left: 14px;
+    padding-right: 14px;">
                 <div class="col-md-12">
                     <div class="row container margin-bottom-5 margin-top-25">
                         <h3>ÜRÜN REKLAMLARI</h3>
@@ -170,19 +205,21 @@
                     </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
-    {% if blogs %}
-        <div class="container" style=" border-left: 1px solid #fff;border-right: 1px solid #fff;">
-            <div class="blog-page">
-                <div class="row">
 
-                    <div class="col-lg-12 col-md-12 ">
-                        <div class="row container margin-bottom-5 margin-top-25">
+        {% endif %}
+        {% if blogs %}
+
+            <div class="blog-page" style="width: 100%">
+                <div class="row" style="width: 100%">
+
+                    <div class="col-lg-12 col-md-12" style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;width: 100%">
+                        <div class="row container">
                             <h3>BAŞARI HİKAYELERİ</h3></div>
                         {% for blog in blogs %}
-                            <div class="blog-post">
-                                <div class="post-content">
+
+                            <div class="blog-post col-md-3" style="">
+
+                                <div class="post-content" style="height: 120px !important;">
                                     <h3><a href="#">{{ blog.blog.title_desc }}</a></h3>
                                     <ul class="post-meta" style="text-align:center">
                                         <li><a href="#">{{ blog.product.company.name }}</a></li>
@@ -197,11 +234,11 @@
                                     </ul>
                                 </div>
                                 <br>
-                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                <a style="border: 1px solid #ffff;" href="#" class="post-img">
                                     <img src="/media/{{ blog.product.product.cover_image }}" alt="">
                                 </a>
                                 <br>
-                                <div class="post-content">
+                                <div class="post-content" style="height: 108px !important;">
                                     <p>{{ blog.blog.description |truncatechars:80 | safe }}
 
                                     </p>
@@ -217,16 +254,18 @@
 
                 </div>
             </div>
+
+        {% endif %}
         </div>
-    {% endif %}
-    {% if introductions %}
-        <div class="container"
-             style=" border-left: 1px solid #fff;border-right: 1px solid #fff;border-bottom:1px solid #fff;padding-bottom: 15px;">
+        {% if introductions %}
+
             <div class="blog-page">
-                <div class="row">
+                <div class="row" style="border: 1px solid;margin-left: 0px;margin-top: 20px;
+    margin-right: 0px;" >
                     {% for introduction in introductions %}
-                        <div class="col-lg-12 col-md-12 ">
-                            <div class="row container margin-bottom-5 margin-top-25">
+                        <div class="col-lg-12 col-md-12"
+                             style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;">
+                            <div class="row container ">
                                 <h3>TEMEL {{ category.name }} ELEMANLARI</h3>
                             </div>
 
@@ -241,7 +280,9 @@
                                     <div class="post-content">
 
                                         <ul class="post-meta" style="text-align:center">
-                                            <li><a href="{% url 'listArch:urun-detay' product.product.pk %}">{{ product.product.name }}</a></li>
+                                            <li>
+                                                <a href="{% url 'listArch:urun-detay' product.product.pk %}">{{ product.product.name }}</a>
+                                            </li>
                                             <br>
                                             <li><a href="#">(18687)</a></li>
                                             <br>
@@ -256,13 +297,13 @@
 
                             {% endfor %}
 
-
-                        </div> {% endfor %}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-    {% endif %}
 
+        {% endif %}
+    </div>
     <script>
         function getCookie(name) {
             var cookieValue = null;

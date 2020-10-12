@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <head>
-    <title>Bricks-in-Bytes</title>
+    <title>LIST OF ROOM</title>
     <meta name="description" content="Bricks-in-Bytes">
     <meta name="keywords" content="Bricks-in-Bytes">
     <meta charset="utf-8">
@@ -17,6 +17,8 @@
     <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
     <style>
+
+
         .loader {
             border: 16px solid #f3f3f3;
             border-radius: 50%;
@@ -53,15 +55,15 @@
     </style>
 </head>
 <body>
-
 <div id="wrapper">
     <header id="header-container" style="height: 5vh !important;">
         <div id="header">
-            <div class="container">
+            <div class="row" style="margin-left: 20px;margin-right: 20px">
                 <div class="left-side">
                     <div id="logo">
-                        <a href="{% url 'listArch:index' %}"><img src="/media/logo1.png"
-                                                                  alt="Bricks-in-Bytes"></a>
+                        <a href="{% url 'listArch:index' %}"><img style="height: 50px;
+    margin-top: -25px;margin-right: 5px;width: 120px;
+    margin-left: 10px;" src="/media/lofr-logo-beyaz.png" alt="Bricks-in-Bytes"></a>
                     </div>
                     <div class="mmenu-trigger">
                         <button class="hamburger hamburger--collapse" type="button">
@@ -70,16 +72,19 @@
                      </span>
                         </button>
                     </div>
-                    <nav id="navigation" class="style-1">
-                        <ul id="responsive">
+                    <nav id="navigation" class="style-1" style="margin-left: -48px;">
+                        <ul style="margin-top: 10px">
                             <li class=""><a
-                                    style="font-size: 8px;line-height: 12px;overflow-x: inherit;">{{ headerText.description |safe }}</a>
+                                    style="overflow-x: inherit;">{{ headerText.description |safe }}</a>
                             </li>
+                        </ul>
+                        <ul id="responsive" style="margin-left: 100px;margin-top: 10px">
+
                             <li><a href="#">Hakkımızda</a></li>
                             <li><a href="#">Reklam</a></li>
                             <li><a href="#">İletişim</a></li>
                         </ul>
-                        <ul class="social-icons " style="margin-top: -5px;">
+                        <ul class="social-icons " style="margin-top: 5px;">
                             <li><a style="display: contents;" class="twitter" href="#"><i class="icon-twitter"></i></a>
                             </li>
                             <li><a style="display: contents;" class="dribbble" href="#"><i
@@ -92,16 +97,15 @@
                     <div class="clearfix"></div>
                 </div>
                 {% if user.is_authenticated %}
-
                     <div class="right-side">
                         <div class="header-widget">
                             <!-- User Menu -->
                             <div class="user-menu">
-                                <div class="user-name">
+                                <div class="user-name" style="    margin-top: 8px;">
                                     {{ user.first_name }} {{ user.last_name }}
                                 </div>
                                 <ul>
-                                    <li><a href="{% url 'listArch:kullanici-listeleri' %}"><i
+                                    <li><a href="{% url 'listArch:kullanici-listeleri' %}#liste"><i
                                             class="sl sl-icon-list"></i> Listelerim</a></li>
                                     <li><a href="{% url 'listArch:kullanici-firma-bilgileri-guncelle' %}"><i
                                             class="fa fa-user"></i>
@@ -257,322 +261,321 @@
     </div>
 
 </div>
-    <!-- Footer
-       ================================================== -->
+<!-- Footer
+   ================================================== -->
 
-    <!-- Footer / End -->
-    <!-- Back To Top Button -->
-    <input type="hidden" value="{{ scrolling_text.description }}" id="text">
-    <input type="hidden" value="{{ scrolling_text.subTextDesc }}" id="subText">
-
-
-    <!-- Wrapper / End -->
-    <!-- Scripts
-       ================================================== -->
+<!-- Footer / End -->
+<!-- Back To Top Button -->
+<input type="hidden" value="{{ scrolling_text.description }}" id="text">
+<input type="hidden" value="{{ scrolling_text.subTextDesc }}" id="subText">
+<input type="hidden" value="" id="filtered_products" name="filtered_products">
 
 
-    <script type="text/javascript" src="{% static 'base2/scripts/mmenu.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/chosen.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/slick.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/rangeslider.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
+<!-- Wrapper / End -->
+<!-- Scripts
+   ================================================== -->
 
-    <!-- Google Autocomplete -->
 
-    <script>
-        function initAutocomplete() {
-            var input = document.getElementById('autocomplete-input');
-            var autocomplete = new google.maps.places.Autocomplete(input);
+<script type="text/javascript" src="{% static 'base2/scripts/mmenu.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/chosen.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/rangeslider.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
 
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    window.alert("No details available for input: '" + place.name + "'");
-                    return;
-                }
-            });
+<!-- Google Autocomplete -->
 
-            if ($('.main-search-input-item')[0]) {
-                setTimeout(function () {
-                    $(".pac-container").prependTo("#autocomplete-container");
-                }, 300);
-            }
-        }
-    </script>
-    <!-- Typed Script -->
-    <script type="text/javascript" src="{% static 'base2/scripts/typed.js' %}"></script>
-    <script>
-        /*  var typed = new Typed('.typed-words', {
-              strings: [""],
-              typeSpeed: 80,
-              backSpeed: 80,
-              backDelay: 200,
-              startDelay: 200,
-              loop: true,
-              showCursor: true
-          });*/
-    </script>
-    <script>
-        $('.autoplay').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-        });
-    </script>
-    <script>
-        function getCookie(name) {
-            var cookieValue = null;
-            var i = 0;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (i; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
+<script>
+    function initAutocomplete() {
+        var input = document.getElementById('autocomplete-input');
+        var autocomplete = new google.maps.places.Autocomplete(input);
 
-        var csrftoken = getCookie('csrftoken');
-
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-
-        $.ajaxSetup({
-            crossDomain: false, // obviates need for sameOrigin test
-            beforeSend: function (xhr, settings) {
-                if (!csrfSafeMethod(settings.type)) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("No details available for input: '" + place.name + "'");
+                return;
             }
         });
 
+        if ($('.main-search-input-item')[0]) {
+            setTimeout(function () {
+                $(".pac-container").prependTo("#autocomplete-container");
+            }, 300);
+        }
+    }
+</script>
+<!-- Typed Script -->
+<script type="text/javascript" src="{% static 'base2/scripts/typed.js' %}"></script>
+<script>
+    /*  var typed = new Typed('.typed-words', {
+          strings: [""],
+          typeSpeed: 80,
+          backSpeed: 80,
+          backDelay: 200,
+          startDelay: 200,
+          loop: true,
+          showCursor: true
+      });*/
+</script>
+<script>
+    $('.autoplay').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        speed: 1000,
+        autoplaySpeed: 2000,
+    });
+</script>
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
-    </script>
+    var csrftoken = getCookie('csrftoken');
 
-    <script>
-        function searchGetProduct() {
-            debugger;
-            let name = document.getElementById('product_name').value;
-            $.ajax({
-                url: "{% url 'listArch:product-search'%}",
-                type: "post", // or "get"
-                async: false,
-                data: {
-                    product_name: name,
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
 
-                },
-                success: function (result) {
-                    debugger;
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
 
-                    if (result.product.length !== 0) {
-                        let html = '<div id="product-block" style="width:100%;z-index:999;position: absolute;border:2px solid #ffffff;background: white;color: black;font-size:15px;"><ul style="width: 100%; height: auto; overflow: auto" >';
-                        html += '<ul>'
-                        for (let i = 0; i < result.product.length; i++) {
-                            let url = '{% url 'listArch:urun-detay' 0%}'
-                            url = url.replace('0', result.product[i].id)
 
-                            html += '<li style="list-style-type:none;margin: 12px;"><a style="color: #000;" href="' + url + '">' + result.product[i].name + '</a></li>';
+</script>
+
+<script>
+    function searchGetProduct() {
+        debugger;
+        let name = document.getElementById('product_name').value;
+        $.ajax({
+            url: "{% url 'listArch:product-search'%}",
+            type: "post", // or "get"
+            async: false,
+            data: {
+                product_name: name,
+
+            },
+            success: function (result) {
+                debugger;
+
+                if (result.product.length !== 0) {
+
+                    let products = result.product;
+
+                    let html = '<div id="product-block" style="margin-top: -12px;width:100%;z-index:999;position: absolute;border:2px solid #ffffff;background: white;color: black;font-size:15px;"><ul style="width: 100%; height: auto; overflow: auto" >';
+                    html += '<ul>'
+                    for (let i = 0; i < products.length; i++) {
+
+
+                        if (products[i]['product'].length > 0) {
+                            html += '<h3 style="color: #000;">ÜRÜNLER [' + products[i]['product'].length + ']</h3>';
+                            for (let x = 0; x < products[i]['product'].length; x++) {
+                                let url = '{% url 'listArch:urun-detay' 0%}'
+                                url = url.replace(0, products[i]['product'][x].id)
+                                html += '<li style="list-style-type:none;margin-top:5px;margin-left: 20px;margin-right: 20px;"><a style="color: #000;" href="' + url + '">' + products[i]['product'][x].name + '</a></li>';
+
+                            }
+
                         }
-                        html += '</ul></div>';
-                        document.getElementById('search_product').innerHTML = html;
-                    } else {
-                        document.getElementById('product-block').remove();
+                        debugger;
+                        if (products[i]['company'].length > 0) {
+                            html += '<h3 style="color: #000">FİRMALAR [' + products[i]['company'].length + ']</h3>';
+                            for (let a = 0; a < products[i]['company'].length; a++) {
+                                let url = '{% url 'listArch:firma-bilgileri' 0%}'
+                                url = url.replace(0, products[i]['company'][a].id)
+                                html += '<li style="list-style-type:none;margin-top:5px;margin-left: 20px;margin-right: 20px;"><a style="color: #000;" href="' + url + '">' + products[i]['company'][a].name + '</a></li>';
+
+                            }
+
+                        }
+                        if (products[i]['magazine'].length > 0) {
+                            html += '<h3 style="color: #000">TANITIMLAR [' + products[i]['magazine'].length + ']</h3>';
+                        }
 
                     }
+                    html += '</ul></div>';
+                    document.getElementById('search_product').innerHTML = html;
+                } else {
+                    document.getElementById('product-block').remove();
+
                 }
-            });
-        }
+            }
+        });
+    }
 
 
-        function searchGetProductCategory() {
-            debugger;
-            let e = document.getElementById('category');
-            var category_id = e.options[e.selectedIndex].value;
-            let url = "{% url "listArch:urun-filtreleme-sayfasi" 0 %}"
-            url = url.replace('0', category_id)
-            window.location.replace('' + url + '');
-        }
+    function searchGetProductCategory() {
+        debugger;
+        let e = document.getElementById('category');
+        var category_id = e.options[e.selectedIndex].value;
+        let url = "{% url "listArch:urun-filtreleme-sayfasi" 0 %}"
+        url = url.replace('0', category_id)
+        window.location.replace('' + url + '');
+    }
 
 
-        function searchGetProductBrand() {
-            debugger;
-            let e = document.getElementById('company');
-            var brand_id = e.options[e.selectedIndex].value;
-            let url = "{% url "listArch:firmanin-urunleri" 0 %}"
-            url = url.replace('0', brand_id)
-            window.location.replace('' + url + '');
-        }
+    function searchGetProductBrand() {
+        debugger;
+        let e = document.getElementById('company');
+        var brand_id = e.options[e.selectedIndex].value;
+        let url = "{% url "listArch:firmanin-urunleri" 0 %}"
+        url = url.replace('0', brand_id)
+        window.location.replace('' + url + '');
+    }
 
 
-    </script>
+</script>
 
-    <script>
-        let tmp = [];
-        $("input[type='checkbox']").change(function () {
+<script>
+    let tmp = [];
+    let filtered_products = [];
 
-            var checked = $(this).val();
-            if ($(this).is(':checked')) {
-                tmp.push(checked);
-                let list = document.getElementsByName('' + checked + '')
-                for (let i = 0; i < list.length; i++) {
-                    list[i].checked = true;
+
+    function write_range_change(id) {
+        debugger;
+        document.getElementById('range-min[' + id + ']').value = document.getElementById('min[' + id + ']').value;
+        document.getElementById('range-max[' + id + ']').value = document.getElementById('max[' + id + ']').value;
+
+    }
+
+
+    let options = [];
+
+    function option(type, value_id, value) {
+        debugger;
+        let temp;
+        if (type === 'range') {
+            write_range_change(value_id)
+            let min = document.getElementById('range-min[' + value_id + ']').value;
+            let max = document.getElementById('range-max[' + value_id + ']').value;
+
+            temp = {"type": type, "option_id": value_id, "value": min + '-' + max,}
+            for (let i = 0; i < options.length; i++) {
+                if (options[i]['value_id'] === temp['value_id']) {
+                    options.pop(options[i])
                 }
-                document.getElementById('checked_list').value = tmp;
+            }
+            options.push(temp)
+        } else {
+            var checkbox = document.getElementById(value);
+            temp = {"type": type, "option_id": value_id, "value": value}
+            if ($(checkbox).is(':checked')) {
+                options.push(temp)
             } else {
-                tmp.splice($.inArray(checked, tmp), 1);
-                document.getElementById('checked_list').value = tmp;
-                let list = document.getElementsByName('' + checked + '')
-                for (let i = 0; i < list.length; i++) {
-                    list[i].checked = false;
+                options.pop(temp)
+
+            }
+        }
+        console.log(options)
+        let category = document.getElementById('filtered-category').value;
+        $.ajax({
+            url: "{% url 'listArch:urun-filtrele-range'%}",
+            type: "post", // or "get"
+            async: false,
+            dataType: "json",
+            data: {
+                options: JSON.stringify(options),
+                category: category,
+            },
+            success: function (response) {
+                debugger;
+
+                let products = response.products;
+                let html = '';
+                let filter_html = document.getElementById('product-filter');
+
+                html = '<div id="product-filter"> <div class="row"> <div class="col-lg-12">';
+                if (products.length > 0) {
+                    for (let i = 0; i < products.length; i++) {
+
+                        html += '<div class="col-1-5">';
+                        let url = '{% url 'listArch:urun-detay' 0 %}';
+                        url = url.replace(0, '' + products[i].product.id + '')
+                        html += ' <div class="hovereffect" onclick="location.href=\'' + url + '\';">';
+                        html += '<div class="listing-item ">';
+                        html += '<img src="' + products[i].product.cover_image + '" alt="">';
+                        html += '<div class="overlay">';
+                        html += '<h2 style="font-size:16px">' + products[i].product.company.name + '</h2>';
+                        html += '<h2 style="font-size:10px">' + products[i].product.name + '</h2>';
+                        html += '<h2 style="font-size:16px">ID' + products[i].product.code + '</h2>';
+                        html += '<h2 style="font-size:16px">' + products[i].product.price + '$ Sqm</h2>';
+                        html += '<h2 style="font-size:10px">' + products[i].product.company.country.name + '</h2>';
+                        html += '<a style="left: 5px; bottom: 5px; position: absolute; text-align: left; float: left; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>\n'
+                        html += '<a style="right: 5px;  bottom: 5px; position: absolute;  text-align: right; float: right; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>\n'
+                        html += '</div></div></div></div>';
+
+
+                    }
+                } else {
+                    html += '<p><h2 style="text-align: center">Aradığınız Ürün Bulunamadı</h2></p>';
+                }
+                document.getElementById('filtered_products').value = filtered_products;
+                html += ' </div> </div>  </div>';
+
+                let count = products.length;
+                let html2 = "";
+
+                html2 = '<strong id="option_count"> [' + count + '] </strong>';
+
+                document.getElementById('option_count').innerHTML = html2;
+
+                filter_html.innerHTML = html;
+
+            }
+        });
+    }
+
+    function add_list_product(list_id, product_id) {
+        debugger;
+        $.ajax({
+            url: "{% url 'listArch:kullanici-listeye-urun-ekle'%}",
+            type: "post", // or "get"
+            async: false,
+            data: {
+                product_id: product_id,
+                list_id: list_id,
+
+            },
+            success: function (result) {
+                debugger;
+                if (result.status === 'Success') {
+                    document.location.reload(true)
+
+
+                } else {
+                    swal("Başarısız", result.messages, "error");
                 }
 
             }
-
-            let list = document.getElementById('checked_list').value;
-            let category = document.getElementById('filtered-category').value;
-            let parms = {
-                var2: list
-            };
-
-            $('.load').show();
-            $.ajax({
-
-                url: "{% url 'listArch:urun-filtrele'%}",
-                type: "post", // or "get"
-                async: false,
-                dataType: "json",
-                data: {
-                    parms,
-                    category: category,
-                },
-                success: function (response) {
-                    debugger;
-
-
-                    let products = response.products;
-
-                    let filter_html = document.getElementById('product-filter');
-
-                    let html = '';
-                    html = '<div id="product-filter"> <div class="row"> <div class="col-lg-12">';
-                    for (let i = 0; i < products.length; i++) {
-                        if (products[i].isAdvert === false) {
-                            html += '<div class="col-1-5">';
-                            let url = '{% url 'listArch:urun-detay' 0 %}';
-                            url = url.replace(0, '' + products[i].id + '')
-                            html += ' <div class="hovereffect" onclick="location.href=\'' + url + '\';">';
-                            html += '<div class="listing-item ">';
-                            html += '<img src="' + products[i].cover_image + '" alt="">';
-                            html += '<div class="overlay">';
-                            html += '<h2 style="font-size:16px">' + products[i].company.name + '</h2>';
-                            html += '<h2 style="font-size:10px">' + products[i].name + '</h2>';
-                            html += '<h2 style="font-size:16px">ID' + products[i].code + '</h2>';
-                            html += '<h2 style="font-size:16px">' + products[i].price + '$ Sqm</h2>';
-                            html += '<h2 style="font-size:10px">' + products[i].company.country.name + '</h2>';
-                            html += '<a style="left: 5px; bottom: 5px; position: absolute; text-align: left; float: left; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>\n'
-                            html += '<a style="right: 5px;  bottom: 5px; position: absolute;  text-align: right; float: right; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>\n'
-                            html += '</div></div></div></div>';
-
-                        }
-
-                    }
-                    html += ' </div> </div>  </div>';
-
-                    filter_html.innerHTML = html;
-
-
-                }
-
-            });
-            $('.load').hide();
         });
 
+    }
 
-        function write_range_min(id) {
-            debugger;
-            document.getElementById('range-min[' + id + ']').value = document.getElementById('min[' + id + ']').value;
-
-        }
-
-        function write_range_max(id) {
-            debugger;
-            document.getElementById('range-max[' + id + ']').value = document.getElementById('max[' + id + ']').value;
-        }
-
-        function range_filter(id, option_id) {
-            debugger;
-            let list = document.getElementById('checked_list').value;
-            let category = document.getElementById('filtered-category').value;
-            let parms = list;
-            let min_value = document.getElementById('range-min[' + id + ']').value;
-            let max_value = document.getElementById('range-max[' + id + ']').value
-            $.ajax({
-
-                url: "{% url 'listArch:urun-filtrele-range'%}",
-                type: "post", // or "get"
-                async: false,
-                dataType: "json",
-                data: {
-                    parms,
-                    category: category,
-                    min_value: min_value,
-                    max_value: max_value,
-                    option_id: option_id
-                },
-                success: function (response) {
-                    debugger;
-
-
-                    let products = response.product_list;
-
-                    let filter_html = document.getElementById('product-filter');
-
-                    let html = '';
-                    html = '<div id="product-filter"> <div class="row"> <div class="col-lg-12">';
-                    for (let i = 0; i < products.length; i++) {
-                        if (products[i].product.isAdvert === false) {
-                            html += '<div class="col-1-5">';
-                            let url = '{% url 'listArch:urun-detay' 0 %}';
-                            url = url.replace(0, '' + products[i].product.id + '')
-                            html += ' <div class="hovereffect" onclick="location.href=\'' + url + '\';">';
-                            html += '<div class="listing-item ">';
-                            html += '<img src="' + products[i].product.cover_image + '" alt="">';
-                            html += '<div class="overlay">';
-                            html += '<h2 style="font-size:16px">' + products[i].product.company.name + '</h2>';
-                            html += '<h2 style="font-size:10px">' + products[i].product.name + '</h2>';
-                            html += '<h2 style="font-size:16px">ID' + products[i].product.code + '</h2>';
-                            html += '<h2 style="font-size:16px">' + products[i].product.price + '$ Sqm</h2>';
-                            html += '<h2 style="font-size:10px">' + products[i].product.company.country.name + '</h2>';
-                            html += '<a style="left: 5px; bottom: 5px; position: absolute; text-align: left; float: left; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>'
-                            html += '<a style="right: 5px;  bottom: 5px; position: absolute;  text-align: right; float: right; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>'
-                            html += '</div></div></div></div>';
-
-                        }
-
-                    }
-                    html += ' </div> </div>  </div>';
-
-                    filter_html.innerHTML = html;
-
-
-                }
-
-            });
-        }
-
-    </script>
+</script>
 </body>
 </html>

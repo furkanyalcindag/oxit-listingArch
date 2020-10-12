@@ -2,6 +2,7 @@ from django.contrib import auth, messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from accounts.forms import ResetPassword
 from listArch.Forms.CompanyForm import CompanyForm
@@ -9,7 +10,7 @@ from listArch.Forms.CustomerForm import CustomerForm
 from listArch.Forms.CustomerUpdateForm import CustomerUpdateForm
 from listArch.Forms.UserRegisterForm import UserRegisterForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
-from listArch.models import Company, BlogImage, Customer, List
+from listArch.models import Company, BlogImage, Customer, List, ListProduct, Category
 from listArch.models.CompanyBlog import CompanyBlog
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
@@ -98,6 +99,7 @@ def register_customer(request):
 
     return render(request, 'User/user-register.html',
                   {'user_form': user_form})
+
 
 
 def user_login(request):
@@ -190,5 +192,20 @@ def user_company_update(request):
 
 
 def user_listing(request):
-    lists = List.objects.filter(user=request.user)
-    return render(request, 'User/user-listing.html', {'lists': lists})
+    user_lists=List.objects.filter(user=request.user)
+    products = ListProduct.objects.filter(list__user=request.user).values('product__category__id').annotate(dcount=Count('product'))
+    array = []
+    for product in products:
+        dict_product = dict()
+        category = Category.objects.filter(pk=int(product['product__category__id']))
+        if category.count() > 0:
+            category_products = ListProduct.objects.filter(product__category=category[0])
+            dict_product['products'] = category_products
+            dict_product['category'] = category[0]
+
+
+            array.append(dict_product)
+
+    return render(request, 'User/user-list-product.html', {'lists': array,'user_lists':user_lists})
+
+

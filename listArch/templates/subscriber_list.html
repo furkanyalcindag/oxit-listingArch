@@ -1,0 +1,295 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+
+            <div class="modal-content" style="height:fit-content">
+                <div class="modal-header" style="background-color:#3c8dbc ">
+                    <font color="white">Açıklama</font>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body bodys bodys-1234">
+
+                </div>
+
+                <div class="modal-footer footer-1234 ">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+
+
+            {% if message.tags == 'warning' %}
+
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+
+
+            {% if message.tags == 'success' %}
+
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+
+    {% endif %}
+    <!-- success modal -->
+
+    <section class="content-header">
+        <h1>
+            {{ obj.name }}
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">{{ parent.name }}</a></li>
+            <li><a href="">{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-xs-12 ">
+
+
+                <div class="box">
+
+
+                    <div class="box-body">
+
+                        <table id="subscriber" class="table  table-bordered display responsive nowrap "
+                               cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Onay</th>
+                                <th>Email</th>
+                                <th>Aktiflik</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <!-- /.row (main row) -->
+        <div class="modal fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content_messages"></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button style="color: #000" type="button" class="btn btn-default pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button style="color: #000" type="button" class="btn btn-default" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </section>
+
+
+
+    <script>
+        $(function () {
+            $('#subscriber').DataTable({
+
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "ordering": false,
+
+                "ajax": {
+                    "url": "{% url 'listArch:abone-list-api' %}",
+                    "type": "post"
+                },
+                "columns": [
+
+                    {"data": "id"},
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+
+                            if (full.isActive === false) {
+                                html = '<button class="btn btn-success" onclick="subscriber_approve(' + full.id + ')"  title="Onayla"><i class="fa fa-check-square"></i></button>';
+                            } else {
+                                html = '<button class="btn btn-danger"><i class="fa fa-check-square"></i></button>';
+
+                            }
+                            return html;
+                        }
+                    },
+                    {"data": "email"},
+                    {
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+                            if (full.isActive) {
+                                html = '<span class="label label-success">Aktif</span>';
+                            } else {
+                                html = '<span class="label label-danger">Pasif</span>';
+                            }
+
+
+                            return html;
+                        }
+                    },
+
+
+                ]
+
+            })
+
+        })
+    </script>
+
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+
+    <script>
+
+
+        function subscriber_approve(id) {
+            document.getElementById('content_messages').innerHTML = 'Aboneyi onaylamak istediğinizden emin misiniz ?';
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:abone-onayla'%}",
+                        type: "post", // or "get"
+                        async: false,
+                        data: {
+                            subscriber_id: id,
+
+                        },
+                        success: function (result) {
+
+                            if (result.status === 'Success') {
+                                swal("Başarılı", " Abone Onaylandı", "success");
+                                window.location.replace("{% url "listArch:abone-listesi" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
+
+
+    </script>
+
+{% endblock %}
+

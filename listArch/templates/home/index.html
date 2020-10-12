@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block content2 %}
-    <div class="main-search-container centered dark-overlay" style="height: 100vh !important;">
-        <div class="main-search-inner top-15-inner">
+    <div class="main-search-container centered dark-overlay" style="height: 92vh !important;
+    border-top: 2px solid #fd9116;">
+
+        <div class="main-search-inner">
+
             <div class="container">
+
                 <div class="row">
                     <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
                         {% csrf_token %}
 
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="margin-bottom: 50px">
                             <h2 style="font-family: 'Allerta Stencil', sans-serif;">
                                 <span class="typed-words">{{ scrolling_text.description }}</span>
                             </h2>
@@ -28,14 +32,14 @@
                         </div>
                     </form>
                 </div>
-                <div class="row margin-top-25">
+                <div class="row ">
                     <div class="col-md-12">
                         <div class="highlighted-categories">
                             <!-- Box -->
                             {% for category in parent_categories %}
 
-                                <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                   class="highlighted-category">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category" style="width: 120px">
                                     <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
                                     <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
                                 </a>
@@ -54,8 +58,8 @@
         </div>
         <!-- Video -->
         <div class="video-container">
-            <video poster="/media/base2_images/main-search-video-poster.jpg" loop autoplay muted>
-                <source src="/media/base2_images/main-search-video.mp4" type="video/mp4">
+            <video poster="" loop autoplay muted>
+                <source src="/media/deneem2.mp4" type="video/mp4">
             </video>
         </div>
     </div>
@@ -63,11 +67,11 @@
 {% block content %}
     <!-- Category Boxes / End -->
     <!-- Info Section -->
-    <div class="container" style="z-index: 9;position: relative;    width: 100%;
-    border-top: 1px solid #fff;border-bottom: 1px solid #fff;background: #1c3444">
+    <div class="container" style=" width: 100%;
+    border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
         <div class="row">
             <div class="col-md-12">
-                <div class="categories-boxes-container margin-top-20 ">
+                <div class="categories-boxes-container ">
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
                         <h4>Ürünler</h4>
@@ -101,38 +105,70 @@
             </div>
         </div>
     </div>
-    <section class="fullwidth  padding-top-35 padding-bottom-10" style="background: #1c3444;border-top: 1px solid #fff;margin-top: 3px">
-        <!-- Logo Carousel -->
-        <div class="container">
-            <div class="row">
 
+    <!-- Logo Carousel -->
 
-                <!-- Carousel -->
-                <div class="col-md-12">
-                    <div class="logo-slick-carousel dot-navigation">
-                        {% for company in companies %}
-                            <div class="item">
-                                <img src="/media/{{ company.logo }}" alt="">
-                            </div>
-                        {% endfor %}
-
+    <div class="row">
+        <!-- Carousel -->
+        <div class="col-md-12" style=" margin-bottom: 40px;  margin-top: 1px;padding-bottom: 1px;
+    border-bottom: 2px solid #fd9116;">
+            <div class="slider2">
+                {% for company in companies %}
+                    <div class="">
+                        <img src="/media/{{ company.logo }}" alt="" class="img-responsive">
 
                     </div>
-                </div>
-                <!-- Carousel / End -->
+                {% endfor %}
+
+
             </div>
+
+
+            <script>
+                window.onload = function () {
+                    $('.slider').slick({
+                        autoplay: true,
+                        infinite: true,
+                        autoplaySpeed: 1000,
+                        cssEase: 'ease-out',
+                        slidesToShow: 9,
+                        slidesToScroll: 1,
+                        variableWidth: true,
+
+
+                    });
+
+
+                    $('.slider2').slick({
+                        autoplay: true,
+                        infinite: true,
+                        autoplaySpeed: 1000,
+                        cssEase: 'ease-out',
+                        slidesToShow: 9,
+                        slidesToScroll: -1,
+                        variableWidth: true,
+
+
+                    });
+
+                };
+            </script>
         </div>
 
-        <!-- Logo Carousel / End -->
-    </section>
+        <!-- Carousel / End -->
+    </div>
+
+
+    <!-- Logo Carousel / End -->
+
 
     <div id="footer">
 
-        <div class="container">
+        <div class="" style="margin-left: 45px;margin-right: 45px">
             <div class="row">
 
-                <div class="col-md-2 col-sm-6 ">
-                    <h4>Hakkımızda</h4>
+                <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
+                    <h4>HAKKIMIZDA</h4>
                     <ul class="footer-links">
                         <li><a href="#">Biz ne yapıyoruz?</a></li>
                         <li><a href="#">Vizyon</a></li>
@@ -146,8 +182,8 @@
                 </div>
 
 
-                <div class="col-md-2 col-sm-6 ">
-                    <h4>Sosyal Medya</h4>
+                <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
+                    <h4>SOSYAL MEDYA</h4>
                     <ul class="footer-links">
                         <li><a href="#">Facebook</a></li>
                         <li><a href="#">Twitter</a></li>
@@ -162,8 +198,8 @@
                 </div>
 
 
-                <div class="col-md-2  col-sm-12">
-                    <h4>İletişim</h4>
+                <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
+                    <h4>İLETİŞİM</h4>
 
                     <ul class="footer-links">
                         <li><a href="#">Telefon</a></li>
@@ -176,8 +212,8 @@
                 </div>
 
 
-                <div class="col-md-2  col-sm-12">
-                    <h4>Dil</h4>
+                <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
+                    <h4>DİL</h4>
 
                     <ul class="footer-links">
                         <li><a href="#">TR</a></li>
@@ -188,62 +224,78 @@
 
 
                 <div class="col-md-4  col-sm-12">
-                    <h4>Bize Katıl</h4>
+                    <h4>BİZE KATIL</h4>
                     <section id="contact">
 
 
-                        <div id="contact-message"></div>
+                        <div id="contact-message">
 
-                        <form method="post" action=""
-                              name="contactform" id="contactform" autocomplete="on">
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
 
-                                </div>
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
 
-                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                    <div>
-                                        <p style="margin-bottom:2px"><a style="color: #000;
+                            </div>
+
+                            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                <div>
+                                    <p style="margin-bottom:2px"><a style="color: #000;
     width: -webkit-fill-available;
     padding: 5px;background: #fd9116;
-    text-align: center;" href="#" class="button">LOGIN</a></p>
-                                    </div>
+    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}" class="button">LOGIN</a></p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
 
-                                </div>
+                            </div>
 
-                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                    <div>
-                                        <p style="margin-bottom:2px"><a style="color: #000;
+                            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                <div>
+                                    <p style="margin-bottom:2px"><a style="color: #000;
     width: -webkit-fill-available;
     padding: 5px;
-    text-align: center;background: #fd9116" href="#" class="button">SIGN UP</a></p>
-                                    </div>
+    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}" class="button">SIGN UP</a></p>
                                 </div>
                             </div>
-                            <div class="row">
+                        </div>
+                        <div class="row">
+
+                            <form method="post" action="{% url 'listArch:abone-ekle' %}#subscriber"
+                                  autocomplete="on">
+                                {% csrf_token %}
+
                                 <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
-                                    <div>
-                                        <input name="name" type="text" id="name"
-                                               placeholder="Your E-Mail Address for news" required="required"
-                                               class="error">
-                                    </div>
+
+                                    <input name="subscriber" type="text" id="subscriber"
+                                           placeholder="Your E-Mail Address for news" required="required"
+                                           class="error">
+
                                 </div>
 
                                 <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                    <div>
-                                        <input style="width: -webkit-fill-available;background:#fd9116" type="submit"
-                                               class="submit button" id="submit" value="SUBSCRIBE">
-                                    </div>
+
+
+                                    <input style="width: -webkit-fill-available;background:#fd9116" type="submit"
+                                           class="submit button" id="submit" value="SUBSCRIBE">
+
+
                                 </div>
-                            </div>
 
+                            </form>
 
-                        </form>
+                        </div>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="notification success closeable" style="height: 30px;text-align: center">
+                                    <p style="line-height: 1px;text-align: center">{{ message }}</p>
+                                    <a class="close" style="line-height: 0px"></a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </section>
 
                 </div>
@@ -253,121 +305,177 @@
 
         </div>
     </div>
-    <section class="fullwidth  padding-top-10 padding-bottom-10" style="background: #1c3444">
-        <!-- Logo Carousel -->
-        <div class="container">
-            <div class="row">
+
+    <!-- Logo Carousel -->
+
+    <div class="row">
 
 
-                <!-- Carousel -->
-                <div class="col-md-12">
-                    <div class="logo-slick-carousel dot-navigation">
-                        {% for company in companies %}
-                            <div class="item">
-                                <img src="/media/{{ company.logo }}" alt="">
-                            </div>
-                        {% endfor %}
-
+        <!-- Carousel -->
+        <div class="col-md-12" style="margin-top: 40px;border-top: 2px solid #fd9116;padding-top: 1px">
+            <div class="slider">
+                {% for company in companies %}
+                    <div class="">
+                        <img src="/media/{{ company.logo }}" alt="" class="img-responsive">
 
                     </div>
-                </div>
-                <!-- Carousel / End -->
+                {% endfor %}
+
+
             </div>
+
+
+            <script>
+                window.onload = function () {
+                    $('.slider').slick({
+                        infinite: true,
+                        autoplay: true,
+                        autoplaySpeed: 1000,
+                        cssEase: 'ease-out',
+                        slidesToShow: 9,
+                        slidesToScroll: 1,
+                        variableWidth: true,
+                        centerMode: true,
+
+
+                    });
+
+
+                    $('.slider2').slick({
+                        autoplay: true,
+                        infinite: true,
+                        autoplaySpeed: 1000,
+                        cssEase: 'ease-out',
+                        slidesToShow: 9,
+                        slidesToScroll: -1,
+                        variableWidth: true,
+
+
+                    });
+
+                };
+            </script>
         </div>
 
-        <!-- Logo Carousel / End -->
-    </section>
-    <section class="fullwidth padding-top-35 padding-bottom-20" style="background: #1c3444">
+        <!-- Carousel / End -->
+    </div>
+
+
+    <!-- Logo Carousel / End -->
+
+    <section class="fullwidth padding-top-35 padding-bottom-20" style="background: #1c3444;border-top: 2px solid #fd9116;
+    border-bottom: 2px solid #fd9116;
+    margin-top: 1px;">
         <div class="">
             <div class="row icons-container" style="margin:0 25px">
                 <!-- Stage -->
                 <div class="col-md-2">
-                    <div class="icon-box-2 with-line" style="background: #1c3444">
-                        <i class="im im-icon-Bag-Coins"></i>
-                        <h3>Ürünler</h3>
-                        <ul class="list-4 color" style="text-align: initial;">
-                            {% for parent in category_parent %}
-                                <li>
-                                    <a href="{% url 'listArch:anasayfa-urunler' parent.category.pk %}">{{ parent.category.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
+                    <div class="icon-box-2 with-line"
+                         style="background: #1c3444;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Bag-Coins" style="border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px">ÜRÜNLER</h3>
+
                     </div>
+                    <ul class="list-4 color" style="text-align: initial;margin-left: 20%;font-size: 13px;">
+                        {% for parent in category_parent %}
+                            <li style="line-height: 15px;">
+                                <a href="{% url 'listArch:anasayfa-urunler' parent.category.pk %}">{{ parent.category.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <!-- Stage -->
                 <div class="col-md-2">
-                    <div class="icon-box-2" style="background: #ffffff;">
-                        <i class="im im-icon-Checked-User" style="color: #000000"></i>
-                        <h3 style="color: #000000">İnceleme</h3>
-                        <ul class="list-4 color" style="color: #000000">
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                        </ul>
+                    <div class="icon-box-2 with-line"
+                         style="background: #ffffff;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;color: #000000;width: 66px;
+    height: 66px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">İNCELEME</h3>
+
                     </div>
+                    <ul class="list-4 color"
+                        style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                    </ul>
                 </div>
                 <!-- Stage -->
                 <div class="col-md-2">
-                    <div class="icon-box-2" style="background: #1c3444">
-                        <i class="im im-icon-Checked-User"></i>
-                        <h3>Çözümlerimiz</h3>
-                        <ul class="list-4 color">
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                        </ul>
+                    <div class="icon-box-2 with-line"
+                         style="background: #1c3444;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px">ÇÖZÜMLERİMİZ</h3>
+
                     </div>
+                    <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
+                         <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                    </ul>
                 </div>
                 <!-- Stage -->
                 <div class="col-md-2">
-                    <div class="icon-box-2" style="background: #ffffff;">
-                        <i class="im im-icon-Checked-User" style="color: #000000"></i>
-                        <h3 style="color: #000000">İnceleme</h3>
-                        <ul class="list-4 color" style="color: #000000">
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                        </ul>
+                    <div class="icon-box-2 with-line"
+                         style="background: #ffffff;width: 200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="color: #000000;border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000000">İNCELEME</h3>
+
                     </div>
+                    <ul class="list-4 color"
+                        style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                    </ul>
                 </div>
                 <!-- Stage -->
                 <div class="col-md-2">
-                    <div class="icon-box-2" style="background: #1c3444">
-                        <i class="im im-icon-Checked-User"></i>
-                        <h3>İş</h3>
-                        <ul class="list-4 color">
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                            <li><a href="#">Ürünler</a></li>
-                        </ul>
+                    <div class="icon-box-2 with-line"
+                         style="background: #1c3444;width: 200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px">İŞ</h3>
+
                     </div>
+                    <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                    </ul>
                 </div>
                 <!-- Stage -->
                 <div class="col-md-2">
-                    <div class="icon-box-2" style="background: #ffffff;">
-                        <i class="im im-icon-Checked-User" style="color: #000000"></i>
-                        <h3 style="color: #000000">İnceleme</h3>
-                        <ul class="list-4 color" style="color: #000000">
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                            <li><a style="color: #000000" href="#">Ürünler</a></li>
-                        </ul>
+                    <div class="icon-box-2 with-line"
+                         style="background: #ffffff;width: 200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="color: #000000;border: 1px solid;width: 75px;
+    height: 75px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000000">İNCELEME</h3>
                     </div>
+                    <ul class="list-4 color"
+                        style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                    </ul>
                 </div>
             </div>
         </div>

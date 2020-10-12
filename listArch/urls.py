@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import path
 
 from listArch.Views import OptionViews, CategoryViews, ProductViews, DashboardViews, CompanyViews, APIViews, HomeViews, \
-    BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews
+    BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews
 
 app_name = 'listArch'
 
@@ -139,7 +139,7 @@ urlpatterns = [
     # Kullanıcı
     url(r'register-user/$', UserViews.register_customer, name='kullanici-kaydet'),
     url(r'login-user/$', UserViews.user_login, name='kullanici-giris-yap'),
-    url(r'dashboard-user/$', UserViews.user_lists, name='kullanici-listesi'),
+    url(r'lists-user/$', UserViews.user_lists, name='kullanici-listesi'),
     url(r'user-listing/$', UserViews.user_listing, name='kullanici-listeleri'),
     url(r'user-company-update/$', UserViews.user_company_update, name='kullanici-firma-bilgileri-guncelle'),
 
@@ -149,8 +149,22 @@ urlpatterns = [
     url(r'update-headerText/(?P<pk>\d+)$', AboutViews.update_headerText, name='ust-menu-yazi-guncelle'),
     url(r'headerT-text-delete/$', AboutViews.delete_headerText, name='ust-menu-yazi-sil'),
 
-    #list
+    # list
     url(r'add-list/$', ListViews.addList, name='liste-olustur'),
     url(r'delete-list/$', ListViews.delete_list, name='liste-sil'),
+    url(r'list-detail/(?P<pk>\d+)$', ListViews.list_detail, name='liste-detay'),
+    url(r'create-sheet-list/(?P<pk>\d+)$', ListViews.print_list_page, name='liste-sayfasi-olustur'),
+
+    url(r'add-product-to-list/$', ListViews.add_product_list, name='kullanici-listeye-urun-ekle'),
+
+    # Subscribe
+    url(r'add-subscriber/$', SubscriberViews.add_subscriber, name='abone-ekle'),
+    url(r'approved-subscriber/$', SubscriberViews.approve_subscriber, name='abone-onayla'),
+    url(r'get-api-subcriber/$', APIViews.GetSubscriber.as_view(), name='abone-list-api'),
+    url(r'list-subscriber/$', SubscriberViews.subscriber_list, name='abone-listesi'),
+
+    #businessType
+    url(r'add-profile-name/$', BusinessTypeViews.add_businessType, name='profil-adi-ekle'),
+    url(r'delete-business-type/$', BusinessTypeViews.delete_business_type, name='profil-adi-sil'),
 
 ]

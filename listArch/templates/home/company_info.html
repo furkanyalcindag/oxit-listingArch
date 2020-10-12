@@ -2,21 +2,52 @@
 {% block content2 %}
     <div class="main-search-container centered" style="height: auto !important;">
         <div class="main-search-inner">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="highlighted-categories"
-                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
-
+             <div class="row">
+                <!-- Carousel -->
+                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider">
                         {% for category in parent_categories %}
-                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                               class="highlighted-category">
-                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
-                            </a>
+                            <div class="">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category">
+                                    <img style=" width: 30px;height: 30px;margin-left: 6px;" class="img-responsive"
+                                         src="/media/worker.png"
+                                         alt="Bricks-in-Bytes">
+                                    <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;margin-left: 0px; !important;">{{ category.name }}</h4>
+                                </a>
+
+                            </div>
                         {% endfor %}
+
+
                     </div>
+
+
+                    <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                slidesToShow: 15,
+                                slidesToScroll:5,
+                                infinite: true,
+                                cssEase: 'linear',
+
+                            });
+
+                        };
+                    </script>
+                    <style>
+                        .slider {
+                            width: 88%;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
                 </div>
+
+                <!-- Carousel / End -->
             </div>
+
         </div>
     </div>
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
@@ -28,7 +59,7 @@
                         {% csrf_token %}
 
                         <div class="col-md-12">
-                             <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <h2 style="font-family: 'Allerta Stencil', sans-serif;">
                                 <span class="typed-words">{{ scrolling_text.description }}</span>
                             </h2>
                             <h4>{{ scrolling_text.subTextDesc }}</h4>
@@ -57,45 +88,46 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" style="z-index: 9;position: relative;margin-top: -100px;">
+     <div class="container" style=" width: 100%;
+    border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
         <div class="row">
             <div class="col-md-12">
-                <div class="categories-boxes-container margin-top-5 margin-bottom-30">
+                <div class="categories-boxes-container ">
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Products</h4>
+                        <h4>Ürünler</h4>
                         <span class="category-box-counter">500.000+</span>
                     </a>
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Brands</h4>
+                        <h4>Markalar</h4>
                         <span class="category-box-counter">1500+</span>
                     </a>
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Catalogs</h4>
+                        <h4>Kategoriler</h4>
                         <span class="category-box-counter">50.000+</span>
                     </a>
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Specs</h4>
+                        <h4>Özellikler</h4>
                         <span class="category-box-counter">250.000+</span>
                     </a>
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Files</h4>
+                        <h4>Dosyalar</h4>
                         <span class="category-box-counter">6.000.000+</span>
                     </a>
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
-                        <h4>Files</h4>
+                        <h4>Dosyalar</h4>
                         <span class="category-box-counter">6.000.000+</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <div id="titlebar" style="border-bottom:1px solid #ffff;border-top:1px solid #ffff;">
-        <div class="container">
+    <div id="titlebar" style="border-bottom:1px solid #ffff;">
+        <div class="" style="margin-left: 20px">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Breadcrumbs -->
@@ -112,341 +144,459 @@
             </div>
         </div>
     </div>
+
+    <div class="row"
+         style="padding-left: 40px;
+    padding-right: 40px;
+         ">
+        <div class="row  margin-bottom-5 margin-top-5" style="border: 1px solid #fff;
+    padding-top: 10px;padding-left: 15px;">
+            <div class="col-md-1" style="padding-left: 0;
+                     padding-right: 0;">
+                <a href="#"><img height="75" src="/media/user.png" alt=""></a>
+            </div>
+            <div class="col-md-2" style="padding-left: 0;
+                     padding-right: 0;">
+                <h4>{{ company.user.first_name }} {{ company.user.last_name }}</h4>
+                <p>{{ company.country.name }}</p>
+            </div>
+            <div class="col-md-9">
+                <div id="listing-nav" class="listing-nav-container">
+
+
+                    <ul class="listing-nav" style="height: 60px;font-size: 15px;background: transparent;">
+                        <li><a href="#listing-story" class="">STORYLINE</a></li>
+                        <li><a href="#listing-diver">DIVERSIFICATION</a></li>
+                        <li><a href="#listing-class">CLASSIFYING</a></li>
+                        <li><a href="#listing-spec">SPECTRUM</a></li>
+                        <li><a href="#listing-catalog">CATALOGUE</a></li>
+                        <li><a href="#listing-benc">BENCHMARK</a></li>
+                        <li><a href="#listing-edit">EDITORIALS</a></li>
+                        <li><a href="#listing-trade">TRADESHOW</a></li>
+                        <li><a href="#listing-press">PRESS</a></li>
+                        <li><a href="#listing-media">MEDIA BOARD</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row"
+             style="padding-left: 40px;
+    padding-right: 40px;
+         background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/media/back.jpg);">
+            <div class="col-md-9" style="padding-right: 0px;padding-left: 0;">
+
+
+                <div class="row">
+                    <div class="col-md-8  ">
+                        <div class="col-md-6" style="padding-right: 5px;padding-left: 0;">
+                            <div class="col-md-12" style="padding-right: 5px;padding-left: 5px;">
+                                <a style="font-size: 20px;
+    background-color: #ffffff;
+    padding: 20px;"
+                                   class="button book-now fullwidth margin-top-5">MAKE A REQUEST</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Brochure in Prints</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Price & Quotation</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Catalogue in Prints</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">BIM/CAD Files</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Catalogue in Softcopy</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Nearby Dealer List</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Spec Sheet</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Ask a Question</a>
+                            </div>
+
+
+                            <div class="col-md-12" style="padding-right: 5px;padding-left: 5px;">
+                                <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
+                                    <a style="font-size: 20px; background-color: #ffffff; padding: 20px;"
+                                       class="button book-now fullwidth margin-top-5">MAKE A CONTACT</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
+                                    <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">WEB Site</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
+                                    <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">Address</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
+                                    <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">E-Mail</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
+                                    <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">Phone</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
+                                    <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">Internet
+                                        Comunications</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
+                                    <a href="#" style="    font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">Map</a>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-6" style="padding-right: 0px;padding-left: 5px;">
+                            <div class="col-md-12" style="padding-right: 5px;padding-left: 5px;">
+                                <a style="font-size: 20px;
+    background-color: #ffffff;
+    padding: 20px;"
+                                   class="button book-now fullwidth margin-top-5">REQUEST A CALL</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Phone</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">+90 555 555 55 55</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="ffont-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Preferred Time</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">14.30</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Contact Person</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">George Philip</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Request Topic</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="ffont-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">------</a>
+                            </div>
+
+
+                            <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
+                                <div class="col-md-12" style="padding-right: 5px;padding-left: 5px;">
+                                    <a style="font-size: 20px;
+    background-color: #ffffff;
+    padding: 20px;"
+                                       class="button book-now fullwidth margin-top-5">BRANCH OFFICE &
+                                        RETAILERS
+                                        & SUPPLIERS</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">COUNTRY</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">TURKEY</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">STATE</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">TR</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">CITY</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">ANKARA</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">BUSINESS TYPE</a>
+                                </div>
+                                <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                    <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                       class="button book-now fullwidth margin-top-5">BRANCH/DEALER/RESELLER▼</a>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4  " style="    padding-left: 0px;padding-right: 5px;">
+                        <div class="col-md-12" style="padding-right: 15px;padding-left: 0;">
+                            <div class="col-md-12" style="padding-right: 5px;padding-left: 5px;">
+                                <a style="font-size: 20px;
+    background-color: #ffffff;
+    padding: 20px;"
+                                   class="button book-now fullwidth margin-top-5">DOWNLOAD AVAILABLE
+                                    FILES</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">PDF General Catalouge</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Ethics</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Technical Files</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Legal Notes</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">CAD File</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">General Sale Notes</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">BIM File</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Company Profile</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Warranty</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">Company Reports</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">F2</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">C2</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">F3</a>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
+                                <a href="#" style="font-size: 14px;
+    background: #fd9116;
+    padding: 5px;"
+                                   class="button book-now fullwidth margin-top-5">C3</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-3" style="padding-right: 0px;padding-left: 15px;">
+                <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
+                    <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
+                        <a style="    font-size: 20px;
+    background-color: #ffffff;
+    padding: 20px;"
+                           class="button book-now fullwidth margin-top-5">HARİTA</a>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.569435590825!2d32.75022981524414!3d39.995726379416304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34bfd011a82b9%3A0xcc65f5053f664ea3!2zT1hJVCBCxLBMxLDFnsSwTSBURUtOT0xPSsSwTEVSxLAgTFREIMWeVMSw!5e0!3m2!1str!2str!4v1598535733242!5m2!1str!2str"
+                                width="100%" height="225" frameborder="0" style="border:0;    margin-top: 5px;"
+                                allowfullscreen=""
+                                aria-hidden="false" tabindex="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row sticky-wrapper">
             <div class="col-lg-12 col-md-12 ">
-                <div class="row  margin-bottom-5 margin-top-5" style="border: 1px solid #fff;
-    padding-top: 10px;padding-left: 15px;">
-                    <div class="col-md-1" style="padding-left: 0;
-                     padding-right: 0;">
-                        <a href="#"><img height="75" src="/media/user.png" alt=""></a>
-                    </div>
-                    <div class="col-md-2" style="padding-left: 0;
-                     padding-right: 0;">
-                        <h4>{{ company.user.first_name }} {{ company.user.last_name }}</h4>
-                        <p>{{ company.country.name }}</p>
-                    </div>
-                    <div class="col-md-9">
-                        <div id="listing-nav" class="listing-nav-container">
-
-
-                            <ul class="listing-nav" style="height: 60px;    background: #000;">
-                                <li><a href="#listing-story" class="">STORYLINE</a></li>
-                                <li><a href="#listing-diver">DIVERSIFICATION</a></li>
-                                <li><a href="#listing-class">CLASSIFYING</a></li>
-                                <li><a href="#listing-spec">SPECTRUM</a></li>
-                                <li><a href="#listing-catalog">CATALOGUE</a></li>
-                                <li><a href="#listing-benc">BENCHMARK</a></li>
-                                <li><a href="#listing-edit">EDITORIALS</a></li>
-                                <li><a href="#listing-trade">TRADESHOW</a></li>
-                                <li><a href="#listing-press">PRESS</a></li>
-                                <li><a href="#listing-media">MEDIA BOARD</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row  margin-bottom-5 margin-top-5">
-                    <div class="col-md-9" style="padding-right: 0px;padding-left: 0;">
-
-
-                        <div class="row  ">
-                            <div class="col-md-8  ">
-                                <div class="col-md-6" style="padding-right: 5px;padding-left: 0;">
-                                    <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
-                                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
-                                           class="button book-now fullwidth margin-top-5">MAKE A REQUEST</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Brochure in Prints</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Price & Quotation</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Catalogue in Prints</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">BIM/CAD Files</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Catalogue in Softcopy</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Nearby Dealer List</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Spec Sheet</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Ask a Question</a>
-                                    </div>
-
-
-                                    <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
-                                        <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
-                                            <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
-                                               class="button book-now fullwidth margin-top-5">MAKE A CONTACT</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">WEB Site</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">Address</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">E-Mail</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">Phone</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">Internet Comunications</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">Map</a>
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
-
-                                <div class="col-md-6" style="padding-right: 0px;padding-left: 5px;">
-                                    <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
-                                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
-                                           class="button book-now fullwidth margin-top-5">REQUEST A CALL</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Phone</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">+90 555 555 55 55</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Preferred Time</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">14.30</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Contact Person</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">George Philip</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Request Topic</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">------</a>
-                                    </div>
-
-
-                                    <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
-                                        <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
-                                            <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
-                                               class="button book-now fullwidth margin-top-5">BRANCH OFFICE & RETAILERS
-                                                & SUPPLIERS</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">COUNTRY</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">TURKEY</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">STATE</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">TR</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">CITY</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">ANKARA</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">BUSINESS TYPE</a>
-                                        </div>
-                                        <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                            <a href="#" style="border-radius: 15px;font-size:10px"
-                                               class="button book-now fullwidth margin-top-5">BRANCH/DEALER/RESELLER▼</a>
-                                        </div>
-
-
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-                            <div class="col-md-4  " style="    padding-left: 0px;padding-right: 5px;">
-                                <div class="col-md-12" style="padding-right: 15px;padding-left: 0;">
-                                    <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
-                                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
-                                           class="button book-now fullwidth margin-top-5">DOWNLOAD AVAILABLE FILES</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">PDF General Catalouge</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Ethics</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Technical Files</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Legal Notes</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">CAD File</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">General Sale Notes</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">BIM File</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Company Profile</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Warranty</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">Company Reports</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">F2</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">C2</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">F3</a>
-                                    </div>
-                                    <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
-                                        <a href="#" style="border-radius: 15px;font-size:10px"
-                                           class="button book-now fullwidth margin-top-5">C3</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-md-3" style="padding-right: 0px;padding-left: 15px;">
-                        <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
-                            <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
-                                <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
-                                   class="button book-now fullwidth margin-top-5">HARİTA</a>
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.569435590825!2d32.75022981524414!3d39.995726379416304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34bfd011a82b9%3A0xcc65f5053f664ea3!2zT1hJVCBCxLBMxLDFnsSwTSBURUtOT0xPSsSwTEVSxLAgTFREIMWeVMSw!5e0!3m2!1str!2str!4v1598535733242!5m2!1str!2str"
-                                        width="100%" height="225" frameborder="0" style="border:0;" allowfullscreen=""
-                                        aria-hidden="false" tabindex="0"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <br><br>
-                {% for desc in definitions %}
-                    <div id="listing-story" class="row  margin-bottom-5 margin-top-5">
-                        <div class="col-lg-9">
-                            <div class="col-lg-12" style=" border: 2px solid #fd9116;">
-                                <h4 style="font-weight: 800">{{ desc.desc.title_desc }}</h4>
-                                <p>InBytes ID {{ company.pk }}</p>
+                <div class="row">
+                    {% for desc in definitions %}
 
-                            </div>
-                            <div class="col-lg-12"
-                                 style=" border: 1px solid #e0e0e0;margin-top: 10px;margin-right: 10px;">
-
-                                <p> {{ desc.desc.description |safe }}</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3"
-                             style=" border: 1px solid #e0e0e0;width: 24%;padding: 0;">
-                            <img src="/media/about.jpg" alt="">
-                        </div>
-
-
-                    </div>
-                    <br>
-                {% endfor %}
-                <div id="listing-class" class="row  margin-bottom-5 margin-top-5">
-                    <div class="blog-page">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 ">
-                                <div class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
-                                    <h4 style="font-weight: 800">CLASSIFYING BY GROHE</h4>
+                        <div id="listing-story" class="row  margin-bottom-5 margin-top-5">
+                            <div class="col-lg-9" style="padding-left: 0px;">
+                                <div class="col-lg-12" style=" border: 2px solid #fd9116;">
+                                    <h4 style="font-weight: 800">{{ desc.desc.title_desc }}</h4>
+                                    <p>InBytes ID {{ company.pk }}</p>
 
                                 </div>
+                                <div class="col-lg-12"
+                                     style=" border: 1px solid #e0e0e0;margin-top: 10px;margin-right: 10px;">
 
-                                {% for product_cat in category_product %}
-                                    {% for  product in product_cat.product_categories %}
+                                    <p> {{ desc.desc.description |safe }}</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-3"
+                                 style=" border: 1px solid #e0e0e0;padding: 0;">
+                                <img src="/media/about.jpg" alt="">
+                            </div>
 
-                                        <div class="blog-post margin-bottom-5 margin-top-5">
-                                            <a style="border: 1px solid #fff;"
-                                               href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
-                                               class="post-img">
-                                                <img src="/media/{{ product.cover_image }}" alt="">
-                                            </a>
-                                            <br>
-                                            <div class="post-content">
 
-                                                <a style="font-size: 12px;"
+                        </div>
+
+                        <br>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div id="listing-class" class="row  margin-bottom-5 margin-top-5">
+                        <div class="blog-page">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 ">
+                                    <div class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
+                                        <h4 style="font-weight: 800">CLASSIFYING BY GROHE</h4>
+
+                                    </div>
+
+                                    {% for product_cat in category_product %}
+                                        {% for  product in product_cat.product_categories %}
+
+                                            <div class="blog-post margin-bottom-5 margin-top-5">
+                                                <a style="border: 1px solid #fff;"
                                                    href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
-                                                   class=""> {{ product_cat.category.name }} <i
-                                                        class="fa fa-angle-right"></i></a>
-                                            </div>
+                                                   class="post-img">
+                                                    <img src="/media/{{ product.cover_image }}" alt="">
+                                                </a>
+                                                <br>
+                                                <div class="post-content">
 
-                                        </div>
+                                                    <a style="font-size: 12px;"
+                                                       href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
+                                                       class=""> {{ product_cat.category.name }} <i
+                                                            class="fa fa-angle-right"></i></a>
+                                                </div>
+
+                                            </div>
+                                        {% endfor %}
+
                                     {% endfor %}
 
-                                {% endfor %}
 
-
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load static %}
-    <div class="container" style="z-index: 9;position: relative;    width: 100%;
-    border-top: 1px solid #ffffff;">
+    <div class="container" style="z-index: 9;position: relative;width: 100%;
+    border-top: 2px solid #fd9116;">
         <div class="row">
             <div class="col-md-12">
-                <div class="categories-boxes-container margin-top-20 ">
+                <div class="categories-boxes-container ">
                     <!-- Box -->
                     <a href="listings-list-with-sidebar.html" class="category-small-box">
                         <h4>Ürünler</h4>
@@ -39,14 +39,15 @@
             </div>
         </div>
     </div>
-    <div id="titlebar" style="border:1px solid #ffff;margin-right: 2px;">
-        <div class="container" style="margin-left: 0px">
+    <div id="titlebar" style="border-top:2px solid #fd9116;margin-right: 2px;">
+        <div class="" style="margin-left: 20px">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs" style="margin-left: 20px;">
                         <ul>
                             <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">{{ category.parent.name }}</a></li>
                             <li><a href="#">{{ category.name }}</a></li>
                             <li><a href="#">ÜRÜNLER</a></li>
                         </ul>
@@ -61,14 +62,15 @@
     <div class="container" style="width: 100%;">
         <div class="row" style="border-top:1px solid;margin-top: 3px;margin-right: -13px;">
             <div class="col-md-2 col-lg-2" style="padding-left: 9px;
-               padding-right: 9px;border-left: 1px solid;border-right: 1px solid;border-bottom:1px solid">
+               padding-right: 9px;border-right: 1px solid;border-bottom:1px solid">
                 <div class="sidebar">
                     <!-- Widget -->
                     <div class="widget margin-bottom-40">
                         <div class="row with-forms">
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
-                                <h3 class="margin-top-10 margin-left-10 margin-bottom-10">{{ category.name }}
+                                <h3 style="font-size: 25px;
+    font-weight: 600;" class="margin-top-10  margin-bottom-10">{{ category.name }}
                                     FILTERS</h3>
 
 
@@ -88,8 +90,8 @@
                         <div class="row with-forms">
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;border-top: 1px solid;width: 100%">
-                                <h5 style="font-weight: 700">FILTER
-                                    BY-BASIC</h5>
+                                <h4 style="font-weight: 900">FILTER
+                                    BY-BASIC</h4>
 
                             </div>
 
@@ -108,7 +110,7 @@
                                         <div class="col-md-12"
                                              style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
 
-                                            <a href="#"
+                                            <a href="#" style="font-size: 15px;text-transform: uppercase;"
                                                class="more-search-options-trigger margin-bottom-5 margin-top-5"
                                                data-open-title="{{ option.option.key }}"
                                                data-close-title="{{ option.option.key }}"
@@ -124,7 +126,7 @@
                                                     <div id="btnClick">
                                                         {% for value in option.values %}
                                                             <input id="{{ value.option_value.pk }}"
-                                                                   type="checkbox"
+                                                                   type="checkbox" onchange="option('checkbox',{{  value.option_value.option.pk }},this.value)"
                                                                    name="{{ value.option_value.pk }}"
                                                                    value="{{ value.option_value.pk }}">
                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -135,7 +137,7 @@
 
                                                 <a href="#small-dialog-{{ option.option.pk }}"
                                                    class="rate-review popup-with-zoom-anim"
-                                                   style="background: #fd9116;color: white;width: 100%; text-align: center;  margin-bottom: 5px; height: 50%; border-color: #fd9116;">
+                                                   style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
                                                     Tümü [{{ option.count }}]
                                                 </a>
 
@@ -182,7 +184,7 @@
                                                                         {% for value in option.allValues %}
 
                                                                             <input id="{{ value.option_value.pk }}"
-                                                                                   type="checkbox"
+                                                                                   type="checkbox" onchange="option('checkbox',{{ option.option.pk }},this.value)"
                                                                                    name="{{ value.option_value.pk }}"
                                                                                    value="{{ value.option_value.pk }}">
                                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -217,7 +219,11 @@
 
 
                                 {% elif option.option.type == 'text' %}
-                                    <label for="">{{ option.option.key }}</label>
+                                    <a href="#" style=";text-transform: uppercase;"
+                                       class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                       data-open-title="{{ option.option.key }}"
+                                       data-close-title="{{ option.option.key }}"
+                                       id="{{ option.option.pk }}"></a>
                                     <div class="row with-forms">
                                         <!-- Cities -->
                                         <div class="col-md-12">
@@ -229,19 +235,23 @@
                                 {% else %}
                                     <div class="row with-forms">
                                         <div class="col-md-12">
-                                            <label>{{ option.option.key }}</label>
+                                            <a href="#" style=";text-transform: uppercase;"
+                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                               data-open-title="{{ option.option.key }}"
+                                               data-close-title="{{ option.option.key }}"
+                                               id="{{ option.option.pk }}"></a>
                                         </div>
                                         <div class="col-md-6" style="border-top: 1px solid">
                                             <input style="height: 30px;width: 75%" type="text" placeholder="Min"
-                                                   value=""
-                                                   id="range-min[{{ forloop.counter0 }}]"
-                                                   name="range-min[{{ forloop.counter0 }}]"/>
+                                                   value="0" onchange="option('range')"
+                                                   id="range-min[{{ option.option.pk }}]"
+                                                   name="range-min[{{ option.option.pk }}]"/>
                                         </div>
                                         <div class="col-md-6">
                                             <input style="height: 30px;width: 75%" type="text" placeholder="Max"
-                                                   value=""
-                                                   id="range-max[{{ forloop.counter0 }}]"
-                                                   name="range-max[{{ forloop.counter0 }}]"/>
+                                                   value="0"
+                                                   id="range-max[{{ option.option.pk }}]"
+                                                   name="range-max[{{ option.option.pk }}]"/>
                                         </div>
                                     </div>
 
@@ -271,7 +281,7 @@
                     </div>
                     <!-- Widget / End -->
                 </div>
-                <div class=" widget margin-bottom-5 margin-top-5">
+                <div class="widget margin-bottom-5 margin-top-5">
                     <h3 class="margin-top-10 margin-left-10 margin-bottom-10">Most Visited </h3>
                 </div>
                 {% for product in products %}
@@ -284,10 +294,20 @@
                     </div>
                 {% endfor %}
             </div>
+
             <div class="col-md-8 col-lg-8 margin-top-20" style="padding-left: 30px;padding-right: 30px;">
-                <h2 style="margin-top: 30px;">{{ category.name }} [{{ products | length }}]</h2>
-                <p style="text-align: justify;font-size: 13px;">{{ cat_desc.definition }}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="notification warning closeable">
+                            <p>{{ message }}</p>
+                            <a class="close"></a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                   <h2 style="margin-top: 30px;font-weight: 600">{{ category.name }} <strong id="option_count"> [{{ products | length }}] </strong></h2>
+                <p style="text-align: justify;font-size: 13px;">{{ cat_desc.definition |safe }}
                 </p>
+
                 <style>
                     .hovereffect {
                         width: 100%;
@@ -399,13 +419,13 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {% for product in advert_product %}
-                                    <div class="col-1-5" style="margin-bottom: 30px;">
+                                    <div class="col-1-5" style="margin-bottom: 55px;">
                                         <div class="hovereffect"
                                              onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
                                             <div class="listing-item ">
                                                 <img src="/media/{{ product.cover_image }}" alt=""
                                                      style="border: 2px solid #fd9116">
-                                                <div class="overlay">
+                                                <div class="overlay" style="text-align: center">
                                                     <h2 style="font-size:16px">{{ product.company.name }}</h2>
                                                     <h2 style="font-size:10px">{{ product.name }}</h2>
                                                     <h2 style="font-size:16px">ID {{ product.code }}</h2>
@@ -418,13 +438,60 @@
                                        float: left;
                                        font-size: 24px;
                                        color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
-                                                    <a style="right: 5px;
-                                       bottom: 5px;
-                                       position: absolute;
-                                       text-align: right;
-                                       float: right;
-                                       font-size: 24px;
-                                       color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                    <a class=" popup-with-zoom-anim"
+                                                       style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                       href="#small-dialog-{{ product.pk }}"> <i
+                                                            class="im im-icon-Like"></i></a>
+                                                    <div id="small-dialog-{{ product.pk }}"
+                                                         class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                                        <div class="message-reply margin-top-0"
+                                                             style="background: white;width: 100%">
+                                                            <div class="add-listing-section">
+                                                                <!-- Headline -->
+                                                                <div class="add-listing-headline"
+                                                                     style="padding: 8px 40px;">
+                                                                    <h3 style="font-weight: 700">{{ product.name }}</h3>
+                                                                </div>
+                                                                <!-- Title -->
+                                                                <div class="row with-forms">
+                                                                    <div class="col-md-12"
+                                                                         style="margin-top: -21px;  padding-top: 9px;">
+
+                                                                        <div class="col-md-6">
+                                                                            <img style="margin-bottom: 10px"
+                                                                                 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                                                 src="/media/{{ product.cover_image }}"
+                                                                                 alt="">
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <h4>Liste Seç</h4>
+                                                                            <hr>
+                                                                            {% for list in lists %}
+                                                                                <p>
+                                                                                    +
+                                                                                    <a style="color:#000;font-size: 12px;"
+                                                                                       type="button"
+                                                                                       onclick="add_list_product({{ list.pk }},{{ product.pk }})">{{ list.list_name }}: {{ list.description }}</a>
+
+                                                                                </p>
+                                                                            {% endfor %}
+                                                                        </div>
+
+                                                                        <a href="#small-dialog-{{ forloop.counter }}"
+                                                                           class="rate-review button default popup-with-zoom-anim"
+                                                                           style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
+                                                                            Liste
+                                                                            Oluştur</a>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="listing-badge now-open">Ads</div>
                                             </div>
@@ -446,7 +513,8 @@
                                                 <div class="hovereffect"
                                                      onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
                                                     <div class="listing-item ">
-                                                        <img src="/media/{{ product.cover_image }}" alt="">
+                                                        <img
+                                                                src="/media/{{ product.cover_image }}" alt="">
                                                         <div class="overlay">
                                                             <h2 style="font-size:16px">{{ product.company.name }}</h2>
                                                             <h2 style="font-size:10px">{{ product.name }}</h2>
@@ -460,13 +528,167 @@
                                        float: left;
                                        font-size: 24px;
                                        color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
-                                                            <a style="right: 5px;
-                                       bottom: 5px;
-                                       position: absolute;
-                                       text-align: right;
-                                       float: right;
-                                       font-size: 24px;
-                                       color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                            <a class=" popup-with-zoom-anim"
+                                                               style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                               href="#small-dialog-{{ product.pk }}"> <i
+                                                                    class="im im-icon-Like"></i></a>
+                                                        </div>
+
+                                                        <div id="small-dialog-{{ product.pk }}"
+                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                                            <div class="message-reply margin-top-0"
+                                                                 style="background: white;width: 100%">
+                                                                <div class="add-listing-section">
+                                                                    <!-- Headline -->
+                                                                    <div class="add-listing-headline"
+                                                                         style="padding: 8px 40px;">
+                                                                        <h3 style="font-weight: 700">{{ product.name }}</h3>
+                                                                    </div>
+                                                                    <!-- Title -->
+                                                                    <div class="row with-forms">
+                                                                        <div class="col-md-12"
+                                                                             style="margin-top: -21px;  padding-top: 9px;">
+
+                                                                            <div class="col-md-6">
+                                                                                <img style="margin-bottom: 10px"
+                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                                                     src="/media/{{ product.cover_image }}"
+                                                                                     alt="">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <h4>Liste Seç</h4>
+                                                                                <hr>
+                                                                                {% for list in lists %}
+                                                                                    <p>
+                                                                                        +
+                                                                                        <a style="color:#000;font-size: 12px;"
+                                                                                           type="button"
+                                                                                           onclick="add_list_product({{ list.pk }},{{ product.pk }})">{{ list.list_name }}: {{ list.description }}</a>
+
+                                                                                    </p>
+                                                                                {% endfor %}
+                                                                            </div>
+
+                                                                            <a href="#small-dialog-{{ forloop.counter }}"
+                                                                               class="rate-review button default popup-with-zoom-anim"
+                                                                               style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
+                                                                                Liste
+                                                                                Oluştur</a>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div id="small-dialog-{{ forloop.counter }}"
+                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                                            <div class="message-reply margin-top-0"
+                                                                 style="background: white;width: 100%">
+                                                                <div class="add-listing-section">
+                                                                    <!-- Headline -->
+                                                                    <div class="add-listing-headline"
+                                                                         style="padding: 8px 40px;">
+                                                                        <h3 style="font-weight: 700">{{ product.name }}</h3>
+                                                                    </div>
+                                                                    <!-- Title -->
+                                                                    <div class="row with-forms">
+                                                                        <div class="col-md-12"
+                                                                             style="margin-top: -21px;  padding-top: 9px;">
+
+                                                                            <div class="col-md-6">
+                                                                                <img style="margin-top: 9px"
+                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                                                     src="/media/{{ product.cover_image }}"
+                                                                                     alt="">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <h4>Yeni Liste Oluştur</h4>
+                                                                                <form action="{% url 'listArch:liste-olustur' %}"
+                                                                                      method="post">
+                                                                                    {% csrf_token %}
+                                                                                    <input type="hidden" name="product"
+                                                                                           id="product"
+                                                                                           value="{{ product.pk }}">
+                                                                                    <input name="list_name"
+                                                                                           type="text"
+                                                                                           id="list_name"
+                                                                                           placeholder="Liste Adı">
+                                                                                    <br>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6">
+
+                                                                                            <select id="reference_list"
+                                                                                                    name="reference_list"
+                                                                                                    class="chosen-select-no-single"
+                                                                                                    style="display: none;">
+                                                                                                <option label="blank">
+                                                                                                    Bağlantılı
+                                                                                                    Liste
+                                                                                                </option>
+                                                                                                <option>
+                                                                                                    Yok
+                                                                                                </option>
+                                                                                                {% for list in lists %}
+                                                                                                    <option>{{ list.list_name }}</option>
+                                                                                                {% endfor %}
+                                                                                            </select>
+
+                                                                                        </div>
+
+
+                                                                                        <div class="col-md-6">
+
+                                                                                            <select id="list_type"
+                                                                                                    name="list_type"
+                                                                                                    class="chosen-select-no-single"
+                                                                                                    style="display: none;">
+                                                                                                <option label="blank">
+                                                                                                    Liste
+                                                                                                    Tipini
+                                                                                                    Seçiniz
+                                                                                                </option>
+                                                                                                <option>Otel</option>
+                                                                                                <option> Restaurant
+                                                                                                </option>
+                                                                                                <option>Ofis</option>
+                                                                                                <option>Okul</option>
+                                                                                                <option>Ev</option>
+
+                                                                                            </select>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <br>
+
+                                                                                    <textarea
+                                                                                            name="description"
+                                                                                            cols="30"
+                                                                                            rows="2"
+                                                                                            id="description"
+                                                                                            placeholder="Açıklama"
+                                                                                            spellcheck="true"></textarea>
+                                                                                    <button class="button" type="submit"
+                                                                                            style="padding: 5px 20px;  float:left; ">
+                                                                                        Kaydet
+                                                                                    </button>
+
+
+                                                                                </form>
+                                                                            </div>
+
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -479,7 +701,8 @@
                             </div>
                             <div class="row">
                                 <div class=" container margin-bottom-5 margin-top-5">
-                                    <h2>Size uygun filtreleme ile ürüne çok daha kolay
+                                    <h2 style="margin-top: 50px;
+    margin-bottom: 50px;">Size uygun filtreleme ile ürüne çok daha kolay
                                         ulaşabilirsiniz</h2>
                                 </div>
                                 <div class="col-lg-12">
@@ -487,8 +710,8 @@
 
                                         <div class="col-1-5">
                                             <div class="hovereffect"
-                                                 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
-                                                <div class="listing-item ">
+                                                 onclick="{% url 'listArch:urun-detay' product.pk %}">
+                                                <div class="listing-item">
                                                     <img src="/media/{{ product.cover_image }}" alt="">
                                                     <div class="overlay">
                                                         <h2 style="font-size:16px">{{ product.company.name }}</h2>
@@ -503,13 +726,60 @@
                                        float: left;
                                        font-size: 24px;
                                        color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
-                                                        <a style="right: 5px;
-                                       bottom: 5px;
-                                       position: absolute;
-                                       text-align: right;
-                                       float: right;
-                                       font-size: 24px;
-                                       color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                        <a class=" popup-with-zoom-anim"
+                                                           style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                           href="#small-dialog-{{ product.pk }}"> <i
+                                                                class="im im-icon-Like"></i></a>
+                                                        <div id="small-dialog-{{ product.pk }}"
+                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                                            <div class="message-reply margin-top-0"
+                                                                 style="background: white;width: 100%">
+                                                                <div class="add-listing-section">
+                                                                    <!-- Headline -->
+                                                                    <div class="add-listing-headline"
+                                                                         style="padding: 8px 40px;">
+                                                                        <h3 style="font-weight: 700">{{ product.name }}</h3>
+                                                                    </div>
+                                                                    <!-- Title -->
+                                                                    <div class="row with-forms">
+                                                                        <div class="col-md-12"
+                                                                             style="margin-top: -21px;  padding-top: 9px;">
+
+                                                                            <div class="col-md-6">
+                                                                                <img style="margin-bottom: 10px"
+                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                                                     src="/media/{{ product.cover_image }}"
+                                                                                     alt="">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <h4>Liste Seç</h4>
+                                                                                <hr>
+                                                                                {% for list in lists %}
+                                                                                    <p>
+                                                                                        +
+                                                                                        <a style="color:#000;font-size: 12px;"
+                                                                                           type="button"
+                                                                                           onclick="add_list_product({{ list.pk }},{{ product.pk }})">{{ list.list_name }}: {{ list.description }}</a>
+
+                                                                                    </p>
+                                                                                {% endfor %}
+                                                                            </div>
+
+                                                                            <a href="#small-dialog-{{ forloop.counter }}"
+                                                                               class="rate-review button default popup-with-zoom-anim"
+                                                                               style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
+                                                                                Liste
+                                                                                Oluştur</a>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -524,15 +794,18 @@
                 </div>
             </div>
             <div class="col-md-2 col-lg-2 " style="padding-left: 9px;
-               padding-right: 9px;border-left: 1px solid;border-right: 1px solid;border-bottom:1px solid">
+               padding-right: 9px;border-left: 1px solid;border-bottom:1px solid">
                 <div class="sidebar">
                     <!-- Widget -->
                     <div class="widget margin-bottom-40">
                         <div class="row with-forms">
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
-                                <h3 class="margin-top-10 margin-left-10 margin-bottom-10">{{ category.name }}
-                                    FILTERS</h3>
+
+                                    <h3 style="font-size: 25px;
+    font-weight: 600;" class="margin-top-10  margin-bottom-10"> {{ category.name }}
+                                        FILTERS</h3>
+
 
 
                             </div>
@@ -551,8 +824,8 @@
                         <div class="row with-forms">
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;border-top: 1px solid;width: 100%">
-                                <h5 style="font-weight: 700">FILTER
-                                    BY-ADVANCED</h5>
+                                <h4 style="font-weight: 900">FILTER
+                                    BY-ADVANCED</h4>
 
                             </div>
 
@@ -571,12 +844,11 @@
                                         <div class="col-md-12"
                                              style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
 
-                                            <a href="#"
+                                            <a href="#" style=";text-transform: uppercase;"
                                                class="more-search-options-trigger margin-bottom-5 margin-top-5"
                                                data-open-title="{{ option.option.key }}"
                                                data-close-title="{{ option.option.key }}"
-                                               id="{{ option.option.pk }}"
-                                            ></a>
+                                               id="{{ option.option.pk }}"></a>
 
 
                                             <div class="more-search-options relative"
@@ -588,7 +860,7 @@
                                                     <div id="btnClick">
                                                         {% for value in option.values %}
                                                             <input id="{{ value.option_value.pk }}"
-                                                                   type="checkbox"
+                                                                   type="checkbox" onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
                                                                    name="{{ value.option_value.pk }}"
                                                                    value="{{ value.option_value.pk }}">
                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -599,7 +871,7 @@
 
                                                 <a href="#small-dialog-{{ option.option.pk }}"
                                                    class="rate-review popup-with-zoom-anim"
-                                                   style="background: #fd9116;color: white;width: 100%; text-align: center;  margin-bottom: 5px; height: 50%; border-color: #fd9116;">
+                                                   style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
                                                     Tümü [{{ option.count }}]
                                                 </a>
 
@@ -635,6 +907,7 @@
                                                                                class="rate-review popup-with-zoom-anim"
                                                                                style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
                                                                                 {{ option.option.key }}
+                                                                                ad {{ option.option.key }}
                                                                             </a> <br>
                                                                         {% endif %}
                                                                     {% endfor %}
@@ -674,7 +947,11 @@
 
 
                                 {% elif option.option.type == 'text' %}
-                                    <label for="">{{ option.option.key }}</label>
+                                    <a href="#" style=";text-transform: uppercase;"
+                                       class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                       data-open-title="{{ option.option.key }}"
+                                       data-close-title="{{ option.option.key }}"
+                                       id="{{ option.option.pk }}"></a>
                                     <div class="row with-forms">
                                         <!-- Cities -->
                                         <div class="col-md-12">
@@ -685,52 +962,56 @@
                                     </div>
                                 {% elif option.option.type == 'range' %}
 
-                                        <div class="row with-forms" style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid
+                                    <div class="row with-forms" style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid
 ">
-                                            <div class="col-md-12" style="margin-top: 5px">
-                                                <label>{{ option.option.key }}</label>
-                                                <input type="hidden" id="value_key" name="value_key"
-                                                       value="{{ option.option.pk }}">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input style="height: 30px;width: 100%" type="text"
-                                                       placeholder="Min({{ option.range.min }})"
-                                                       value=""
-                                                       id="range-min[{{ forloop.counter }}]"
-                                                       name="range-min[{{ forloop.counter }}]"/>
+                                        <div class="col-md-12" style="margin-top: 5px">
+                                            <a href="#" style=";text-transform: uppercase;"
+                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                               data-open-title="{{ option.option.key }}"
+                                               data-close-title="{{ option.option.key }}"
+                                               id="{{ option.option.pk }}"></a>
+                                            <input type="hidden" id="value_key" name="value_key"
+                                                   value="{{ option.option.pk }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input style="height: 30px;width: 100%" type="text"
+                                                   placeholder="Min({{ option.range.min }})"
+                                                   value=""
+                                                   id="range-min[{{ option.option.pk }}]"
+                                                   name="range-min[{{ option.option.pk }}]"/>
 
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input style="height: 30px;width: 100%" type="text"
-                                                       placeholder="Max({{ option.range.max }})"
-                                                       value=""
-                                                       id="range-max[{{ forloop.counter }}]"
-                                                       name="range-max[{{ forloop.counter }}]"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input style="height: 30px;width: 100%" type="text"
+                                                   placeholder="Max({{ option.range.max }})"
+                                                   value=""
+                                                   id="range-max[{{ option.option.pk }}]"
+                                                   name="range-max[{{ option.option.pk }}]"/>
 
 
-                                            </div>
+                                        </div>
 
-                                            <div slider id="slider-distance"
-                                                 style="margin-top: 90px; width: 100%;margin-left: 2px;">
-                                                <div>
-                                                    <div inverse-left style="width:0%;"></div>
-                                                    <div inverse-right style="width:50%;"></div>
-                                                    <div range style="left:0%;right:0%;"></div>
-                                                    <span thumb style="left:0%;"></span>
-                                                    <span thumb style="left:100%;"></span>
-                                                    <div sign style="left:0%;">
-                                                        <span id="value">0</span>
-                                                    </div>
-                                                    <div sign style="left:100%;">
-                                                        <span id="value">{{ option.range.max }}</span>
-                                                    </div>
+                                        <div slider id="slider-distance"
+                                             style="margin-top: 90px; width: 100%;margin-left: 2px;">
+                                            <div>
+                                                <div inverse-left style="width:0%;"></div>
+                                                <div inverse-right style="width:50%;"></div>
+                                                <div range style="left:0%;right:0%;"></div>
+                                                <span thumb style="left:0%;"></span>
+                                                <span thumb style="left:100%;"></span>
+                                                <div sign style="left:0%;">
+                                                    <span id="value">0</span>
                                                 </div>
+                                                <div sign style="left:100%;">
+                                                    <span id="value">{{ option.range.max }}</span>
+                                                </div>
+                                            </div>
 
-
-                                                <input id="min[{{ forloop.counter }}]" type="range" value="0"
-                                                       max="{{ option.range.max }}"
-                                                       min="0" step="1" onclick="write_range_min({{ forloop.counter }})"
-                                                       oninput="this.value = Math.min(this.value, this.parentNode.childNodes[5].value - 1);
+                                            <input id="min[{{ option.option.pk }}]" type="range" value="0"
+                                                   max="{{ option.range.max }}"
+                                                   onchange="option('range',{{ option.option.pk }},this.value)"
+                                                   min="0" step="1"
+                                                   oninput="this.value = Math.min(this.value, this.parentNode.childNodes[5].value - 1);
         let value = (this.value / parseInt(this.max)) * 100
         var children = this.parentNode.childNodes[1].childNodes;
         children[1].style.width = value + '%';
@@ -739,11 +1020,12 @@
         children[11].style.left = value + '%';
         children[11].childNodes[1].innerHTML = this.value;"/>
 
-                                                <input id="max[{{ forloop.counter }}]" type="range"
-                                                       value="{{ option.range.max }}"
-                                                       max="{{ option.range.max }}" min="0" step="1"
-                                                       onclick="write_range_max({{ forloop.counter }})"
-                                                       oninput=" this.value = Math.max(this.value, this.parentNode.childNodes[3].value - (-1));
+                                            <input id="max[{{ option.option.pk }}]" type="range"
+                                                   value="{{ option.range.max }}"
+                                                   onchange="option('range',{{ option.option.pk }},this.value)"
+                                                   max="{{ option.range.max }}" min="0" step="1"
+
+                                                   oninput=" this.value = Math.max(this.value, this.parentNode.childNodes[3].value - (-1));
         let value = (this.value / parseInt(this.max)) * 100
         var children = this.parentNode.childNodes[1].childNodes;
         children[3].style.width = (100 - value) + '%';
@@ -751,154 +1033,154 @@
         children[9].style.left = value + '%';
         children[13].style.left = value + '%';
         children[13].childNodes[1].innerHTML = this.value;"/>
-                                                <style>
-                                                    [slider] {
-                                                        width: 300px;
-                                                        position: relative;
-                                                        height: 5px;
-                                                        margin: 45px 0 10px 0;
-                                                    }
+                                            <style>
+                                                [slider] {
+                                                    width: 300px;
+                                                    position: relative;
+                                                    height: 5px;
+                                                    margin: 45px 0 10px 0;
+                                                }
 
-                                                    [slider] > div {
-                                                        position: absolute;
-                                                        left: 13px;
-                                                        right: 15px;
-                                                        height: 5px;
-                                                    }
+                                                [slider] > div {
+                                                    position: absolute;
+                                                    left: 13px;
+                                                    right: 15px;
+                                                    height: 5px;
+                                                }
 
-                                                    [slider] > div > [inverse-left] {
-                                                        position: absolute;
-                                                        left: 0;
-                                                        height: 5px;
-                                                        border-radius: 10px;
-                                                        background-color: #fd9116;
-                                                        margin: 0 7px;
-                                                    }
+                                                [slider] > div > [inverse-left] {
+                                                    position: absolute;
+                                                    left: 0;
+                                                    height: 5px;
+                                                    border-radius: 10px;
+                                                    background-color: #fd9116;
+                                                    margin: 0 7px;
+                                                }
 
-                                                    [slider] > div > [inverse-right] {
-                                                        position: absolute;
-                                                        right: 0;
-                                                        height: 5px;
-                                                        border-radius: 10px;
-                                                        background-color: #fd9116;
-                                                        margin: 0 7px;
-                                                    }
+                                                [slider] > div > [inverse-right] {
+                                                    position: absolute;
+                                                    right: 0;
+                                                    height: 5px;
+                                                    border-radius: 10px;
+                                                    background-color: #fd9116;
+                                                    margin: 0 7px;
+                                                }
 
 
-                                                    [slider] > div > [range] {
-                                                        position: absolute;
-                                                        left: 0;
-                                                        height: 5px;
-                                                        border-radius: 14px;
-                                                        background-color: #ccc;
-                                                    }
+                                                [slider] > div > [range] {
+                                                    position: absolute;
+                                                    left: 0;
+                                                    height: 5px;
+                                                    border-radius: 14px;
+                                                    background-color: #ccc;
+                                                }
 
-                                                    [slider] > div > [thumb] {
-                                                        position: absolute;
-                                                        top: -7px;
-                                                        z-index: 2;
-                                                        height: 20px;
-                                                        width: 20px;
-                                                        text-align: left;
-                                                        margin-left: -11px;
-                                                        cursor: pointer;
-                                                        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-                                                        background-color: #FFF;
-                                                        border-radius: 50%;
-                                                        outline: none;
-                                                    }
+                                                [slider] > div > [thumb] {
+                                                    position: absolute;
+                                                    top: -7px;
+                                                    z-index: 2;
+                                                    height: 20px;
+                                                    width: 20px;
+                                                    text-align: left;
+                                                    margin-left: -11px;
+                                                    cursor: pointer;
+                                                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+                                                    background-color: #FFF;
+                                                    border-radius: 50%;
+                                                    outline: none;
+                                                }
 
-                                                    [slider] > input[type=range] {
-                                                        position: absolute;
-                                                        pointer-events: none;
-                                                        -webkit-appearance: none;
-                                                        z-index: 3;
-                                                        height: 14px;
-                                                        top: -2px;
-                                                        width: 100%;
-                                                        opacity: 0;
-                                                    }
+                                                [slider] > input[type=range] {
+                                                    position: absolute;
+                                                    pointer-events: none;
+                                                    -webkit-appearance: none;
+                                                    z-index: 3;
+                                                    height: 14px;
+                                                    top: -2px;
+                                                    width: 100%;
+                                                    opacity: 0;
+                                                }
 
-                                                    div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
-                                                        background: transparent;
-                                                        border: transparent;
-                                                    }
+                                                div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
+                                                    background: transparent;
+                                                    border: transparent;
+                                                }
 
-                                                    div[slider] > input[type=range]:focus {
-                                                        outline: none;
-                                                    }
+                                                div[slider] > input[type=range]:focus {
+                                                    outline: none;
+                                                }
 
-                                                    div[slider] > input[type=range]::-webkit-slider-thumb {
-                                                        pointer-events: all;
-                                                        width: 28px;
-                                                        height: 28px;
-                                                        border-radius: 0px;
-                                                        border: 0 none;
-                                                        background: #ccc;
-                                                        -webkit-appearance: none;
-                                                    }
+                                                div[slider] > input[type=range]::-webkit-slider-thumb {
+                                                    pointer-events: all;
+                                                    width: 28px;
+                                                    height: 28px;
+                                                    border-radius: 0px;
+                                                    border: 0 none;
+                                                    background: #ccc;
+                                                    -webkit-appearance: none;
+                                                }
 
-                                                    div[slider] > input[type=range]::-ms-fill-lower {
-                                                        background: transparent;
-                                                        border: 0 none;
-                                                    }
+                                                div[slider] > input[type=range]::-ms-fill-lower {
+                                                    background: transparent;
+                                                    border: 0 none;
+                                                }
 
-                                                    div[slider] > input[type=range]::-ms-fill-upper {
-                                                        background: transparent;
-                                                        border: 0 none;
-                                                    }
+                                                div[slider] > input[type=range]::-ms-fill-upper {
+                                                    background: transparent;
+                                                    border: 0 none;
+                                                }
 
-                                                    div[slider] > input[type=range]::-ms-tooltip {
-                                                        display: none;
-                                                    }
+                                                div[slider] > input[type=range]::-ms-tooltip {
+                                                    display: none;
+                                                }
 
-                                                    [slider] > div > [sign] {
-                                                        opacity: 0;
-                                                        position: absolute;
-                                                        margin-left: -11px;
-                                                        top: -39px;
-                                                        z-index: 3;
-                                                        background-color: #fd9116;
-                                                        color: #fff;
-                                                        width: 28px;
-                                                        height: 28px;
-                                                        border-radius: 28px;
-                                                        -webkit-border-radius: 28px;
-                                                        align-items: center;
-                                                        -webkit-justify-content: center;
-                                                        justify-content: center;
-                                                        text-align: center;
-                                                    }
+                                                [slider] > div > [sign] {
+                                                    opacity: 0;
+                                                    position: absolute;
+                                                    margin-left: -11px;
+                                                    top: -39px;
+                                                    z-index: 3;
+                                                    background-color: #fd9116;
+                                                    color: #fff;
+                                                    width: 28px;
+                                                    height: 28px;
+                                                    border-radius: 28px;
+                                                    -webkit-border-radius: 28px;
+                                                    align-items: center;
+                                                    -webkit-justify-content: center;
+                                                    justify-content: center;
+                                                    text-align: center;
+                                                }
 
-                                                    [slider] > div > [sign]:after {
-                                                        position: absolute;
-                                                        content: '';
-                                                        left: 0;
-                                                        border-radius: 16px;
-                                                        top: 19px;
-                                                        border-left: 14px solid transparent;
-                                                        border-right: 14px solid transparent;
-                                                        border-top-width: 16px;
-                                                        border-top-style: solid;
-                                                        border-top-color: #fd9116;
-                                                    }
+                                                [slider] > div > [sign]:after {
+                                                    position: absolute;
+                                                    content: '';
+                                                    left: 0;
+                                                    border-radius: 16px;
+                                                    top: 19px;
+                                                    border-left: 14px solid transparent;
+                                                    border-right: 14px solid transparent;
+                                                    border-top-width: 16px;
+                                                    border-top-style: solid;
+                                                    border-top-color: #fd9116;
+                                                }
 
-                                                    [slider] > div > [sign] > span {
-                                                        font-size: 12px;
-                                                        font-weight: 700;
-                                                        line-height: 28px;
-                                                    }
+                                                [slider] > div > [sign] > span {
+                                                    font-size: 12px;
+                                                    font-weight: 700;
+                                                    line-height: 28px;
+                                                }
 
-                                                    [slider]:hover > div > [sign] {
-                                                        opacity: 1;
-                                                    }</style>
-                                            </div>
-                                            <button type="submit" class="button margin-top-15"
-                                                    onclick="range_filter({{ forloop.counter }},{{ option.option.pk }})"
-                                                    style="color: #fff; margin-bottom: 10px; float: right; width: 60px; height: 25px; border: 1px solid #fd9116;border-radius: 50px;">
-                                                Uygula
-                                            </button>
+                                                [slider]:hover > div > [sign] {
+                                                    opacity: 1;
+                                                }</style>
                                         </div>
+                                        <button type="submit" class="button margin-top-15"
+                                                onclick=""
+                                                style="color: #fff; margin-bottom: 10px; float: right; width: 60px; height: 25px; border: 1px solid #fd9116;">
+                                            Uygula
+                                        </button>
+                                    </div>
 
 
                                 {% endif %}
@@ -945,32 +1227,61 @@
     <div class="main-search-container centered" style="height: auto !important;">
         <div class="main-search-inner">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="highlighted-categories"
-                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
-
+                <!-- Carousel -->
+                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider">
                         {% for category in parent_categories %}
-                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                               class="highlighted-category">
-                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
-                            </a>
+                            <div class="">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category">
+                                    <img style=" width: 30px;height: 30px;" class="img-responsive"
+                                         src="/media/worker.png"
+                                         alt="Bricks-in-Bytes">
+                                    <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;">{{ category.name }}</h4>
+                                </a>
+
+                            </div>
                         {% endfor %}
+
+
                     </div>
+
+
+                    <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                slidesToShow: 15,
+                                slidesToScroll: 5,
+                                infinite: true,
+                                cssEase: 'linear',
+
+                            });
+
+                        };
+                    </script>
+                    <style>
+                        .slider {
+                            width: 88%;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
                 </div>
+
+                <!-- Carousel / End -->
             </div>
+
+
         </div>
     </div>
-    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg">
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
+         style="height: 215px;">
         <div class="main-search-inner">
 
             <div class="">
-
-
                 <div class="row">
                     <div class="col-md-12">
-
-
                         <h2 style="font-family: 'Allerta Stencil', sans-serif;">
                             <span class="typed-words">{{ scrolling_text.description }}</span>
                         </h2>
@@ -1064,6 +1375,10 @@
             }
         }
     });
+
+    function close(id) {
+        $('#small-dialog-' + id + '').modal('hide');
+    }
 
 
     $(document).ready(function () {

@@ -4,24 +4,57 @@
     <div class="main-search-container centered" style="height: auto !important;">
         <div class="main-search-inner">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="highlighted-categories"
-                         style="border-bottom: 1px solid #fff;    border-top: 1px solid #fff;">
-
+                <!-- Carousel -->
+                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider">
                         {% for category in parent_categories %}
-                            <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                               class="highlighted-category">
-                                <img height="16" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                <h4 style="margin-top: 5px;display: block;font-size: 8px;">{{ category.name }}</h4>
-                            </a>
+                            <div class="">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category">
+                                    <img style=" width: 30px;height: 30px;" class="img-responsive"
+                                         src="/media/worker.png"
+                                         alt="Bricks-in-Bytes">
+                                    <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;">{{ category.name }}</h4>
+                                </a>
+
+                            </div>
                         {% endfor %}
+
+
                     </div>
+
+
+                    <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                slidesToShow: 15,
+                                slidesToScroll: 5,
+                                infinite: true,
+                                cssEase: 'linear',
+
+
+                            });
+
+                        };
+                    </script>
+                    <style>
+                        .slider {
+                            width: 88%;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
                 </div>
+
+                <!-- Carousel / End -->
             </div>
+
+
         </div>
     </div>
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
-         style="height: 360px;background-image: url(&quot;/media/main-search-background-01.jpg&quot;);">
+         style="height: 215px;">
         <div class="main-search-inner">
             <div class="container">
                 <div class="row">
@@ -58,52 +91,57 @@
 
 
 {% block content %}
-    <div class="container" style="z-index: 9;position: relative;">
+    <div class="container" style=" width: 100%;
+    border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
         <div class="row">
             <div class="col-md-12">
-                <div class="categories-boxes-container margin-top-5 margin-bottom-30">
+                <div class="categories-boxes-container ">
                     <!-- Box -->
-                    <a href="#" class="category-small-box">
-                        <h4>Products</h4>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
                         <span class="category-box-counter">500.000+</span>
                     </a>
                     <!-- Box -->
-                    <a href="#" class="category-small-box">
-                        <h4>Brands</h4>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
                         <span class="category-box-counter">1500+</span>
                     </a>
                     <!-- Box -->
-                    <a href="#" class="category-small-box">
-                        <h4>Catalogs</h4>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
                         <span class="category-box-counter">50.000+</span>
                     </a>
                     <!-- Box -->
-                    <a href="#" class="category-small-box">
-                        <h4>Specs</h4>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Özellikler</h4>
                         <span class="category-box-counter">250.000+</span>
                     </a>
                     <!-- Box -->
-                    <a href="#" class="category-small-box">
-                        <h4>Files</h4>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
                         <span class="category-box-counter">6.000.000+</span>
                     </a>
-                    <a href="#" class="category-small-box">
-                        <h4>Files</h4>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
                         <span class="category-box-counter">6.000.000+</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <div id="titlebar" style="border-bottom:1px solid #fff;border-top:1px solid #fff;">
-        <div class="container">
+    <div id="titlebar" style="border-bottom:1px solid #fff;margin-bottom: 3px;">
+        <div class="" style="margin-left: 20px">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs">
                         <ul>
                             <li><a href="#">HOME</a></li>
-                            <li><a href="#">{{ category.name }}</a></li>
+                            <li><a href="#">
+
+                                {{ category.name }}
+
+                            </a></li>
                             <li><a href="#">PRODUCTS</a></li>
                             <li><a href="#">{{ product.name }}</a></li>
 
@@ -113,577 +151,604 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row sticky-wrapper">
-            <div class="col-lg-9 col-md-9 padding-right-30">
-                <br>
-                <div class="row  margin-bottom-5 margin-top-5" style="    border: 1px solid;">
-                    <div class="col-md-2" style="padding-left: 0;
+    <div class="" style="border-top: 1px solid;border-bottom: 1px solid">
+        <div class="row sticky-wrapper ">
+            <div class="col-lg-9 col-md-9" style="border-bottom: 1px solid;border-right: 1px solid;">
+                <div style="padding-left: 30px;">
+                    <div class="row" style="border-bottom: 1px solid;height: 80px">
+                        <div class="col-md-2" style="padding-left: 0;
                      padding-right: 0;">
-                        <a href="{% url 'listArch:firma-bilgileri'  product.company.pk %}"><img
-                                src="/media/{{ product.company.logo }}" alt=""></a>
-                    </div>
+                            <a href="{% url 'listArch:firma-bilgileri'  product.company.pk %}"><img
+                                    src="/media/{{ product.company.logo }}" alt=""></a>
+                        </div>
 
-                    <div class="col-md-1" style="padding-left: 0;
+                        <div class="col-md-1" style="padding-left: 0;
                      padding-right: 0;">
-
-                    </div>
-
-                    <div class="col-md-9">
-
-                        <div id="listing-nav" class="listing-nav-container">
-                            <ul class="listing-nav" style="background:#000">
-                                <li>
-                                    <a style="border: 1px solid;border-radius: 50px;width: 26px;height: 26px;text-align: center;"
-                                       href="#listing-1" class="active">1</a>
-                                </li>
-                                {% for count in definitions %}
-                                    <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 26px;height: 26px;text-align: center;"
-                                           href="#listing-{{ forloop.counter }}">{{ forloop.counter }}</a>
-                                    </li>
-                                {% endfor %}
-
-                            </ul>
 
                         </div>
 
-                    </div>
-                </div>
+                        <div class="col-md-9">
 
-                <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                            <div id="listing-nav" class="listing-nav-container">
+                                <ul class="listing-nav" style="background:#000">
+                                    <li>
+                                        <a style="border: 1px solid;border-radius: 50px;width: 26px;height: 26px;text-align: center;"
+                                           href="#listing-1" class="active">1</a>
+                                    </li>
+                                    {% for count in definitions %}
+                                        <li>
+                                            <a style="border: 1px solid;border-radius: 50px;width: 26px;height: 26px;text-align: center;"
+                                               href="#listing-{{ forloop.counter }}">{{ forloop.counter }}</a>
+                                        </li>
+                                    {% endfor %}
 
-                    <div class="col-md-12">
-                        <a href="{% url 'listArch:firma-bilgileri'  product.company.pk %}"><h4
-                                style="font-weight: 800">{{ product.company.name }}</h4></a>
-                        <p>BricksInBytes ID {{ product.company_code }}</p>
-                    </div>
+                                </ul>
 
-
-                    <div class="col-md-12" style="margin-top:10px;padding-left: 0;
-    padding-right: 0;    border: 1px solid;">
-                        <script type="text/javascript"
-                                src="{% static 'base2/js/jssor.slider-28.0.0.min.js' %}"></script>
-
-                        <script type="text/javascript">
-                            window.jssor_1_slider_init = function () {
-                                var jssor_1_SlideshowTransitions = [
-                                    {
-                                        $Duration: 1200,
-                                        $Zoom: 1,
-                                        $Easing: {$Zoom: $Jease$.$InCubic, $Opacity: $Jease$.$OutQuad},
-                                        $Opacity: 2
-                                    },
-                                    {
-                                        $Duration: 1000,
-                                        $Zoom: 11,
-                                        $SlideOut: true,
-                                        $Easing: {$Zoom: $Jease$.$InExpo, $Opacity: $Jease$.$Linear},
-                                        $Opacity: 2
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        $Zoom: 1,
-                                        $Rotate: 1,
-                                        $During: {$Zoom: [0.2, 0.8], $Rotate: [0.2, 0.8]},
-                                        $Easing: {
-                                            $Zoom: $Jease$.$Swing,
-                                            $Opacity: $Jease$.$Linear,
-                                            $Rotate: $Jease$.$Swing
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.5}
-                                    },
-                                    {
-                                        $Duration: 1000,
-                                        $Zoom: 11,
-                                        $Rotate: 1,
-                                        $SlideOut: true,
-                                        $Easing: {
-                                            $Zoom: $Jease$.$InQuint,
-                                            $Opacity: $Jease$.$Linear,
-                                            $Rotate: $Jease$.$InQuint
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.8}
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: 0.5,
-                                        $Cols: 2,
-                                        $Zoom: 1,
-                                        $Assembly: 2049,
-                                        $ChessMode: {$Column: 15},
-                                        $Easing: {
-                                            $Left: $Jease$.$InCubic,
-                                            $Zoom: $Jease$.$InCubic,
-                                            $Opacity: $Jease$.$Linear
-                                        },
-                                        $Opacity: 2
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: 4,
-                                        $Cols: 2,
-                                        $Zoom: 11,
-                                        $SlideOut: true,
-                                        $Assembly: 2049,
-                                        $ChessMode: {$Column: 15},
-                                        $Easing: {
-                                            $Left: $Jease$.$InExpo,
-                                            $Zoom: $Jease$.$InExpo,
-                                            $Opacity: $Jease$.$Linear
-                                        },
-                                        $Opacity: 2
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: 0.6,
-                                        $Zoom: 1,
-                                        $Rotate: 1,
-                                        $During: {$Left: [0.2, 0.8], $Zoom: [0.2, 0.8], $Rotate: [0.2, 0.8]},
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.5}
-                                    },
-                                    {
-                                        $Duration: 1000,
-                                        x: -4,
-                                        $Zoom: 11,
-                                        $Rotate: 1,
-                                        $SlideOut: true,
-                                        $Easing: {
-                                            $Left: $Jease$.$InQuint,
-                                            $Zoom: $Jease$.$InQuart,
-                                            $Opacity: $Jease$.$Linear,
-                                            $Rotate: $Jease$.$InQuint
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.8}
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: -0.6,
-                                        $Zoom: 1,
-                                        $Rotate: 1,
-                                        $During: {$Left: [0.2, 0.8], $Zoom: [0.2, 0.8], $Rotate: [0.2, 0.8]},
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.5}
-                                    },
-                                    {
-                                        $Duration: 1000,
-                                        x: 4,
-                                        $Zoom: 11,
-                                        $Rotate: 1,
-                                        $SlideOut: true,
-                                        $Easing: {
-                                            $Left: $Jease$.$InQuint,
-                                            $Zoom: $Jease$.$InQuart,
-                                            $Opacity: $Jease$.$Linear,
-                                            $Rotate: $Jease$.$InQuint
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.8}
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: 0.5,
-                                        y: 0.3,
-                                        $Cols: 2,
-                                        $Zoom: 1,
-                                        $Rotate: 1,
-                                        $Assembly: 2049,
-                                        $ChessMode: {$Column: 15},
-                                        $Easing: {
-                                            $Left: $Jease$.$InCubic,
-                                            $Top: $Jease$.$InCubic,
-                                            $Zoom: $Jease$.$InCubic,
-                                            $Opacity: $Jease$.$OutQuad,
-                                            $Rotate: $Jease$.$InCubic
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.7}
-                                    },
-                                    {
-                                        $Duration: 1000,
-                                        x: 0.5,
-                                        y: 0.3,
-                                        $Cols: 2,
-                                        $Zoom: 1,
-                                        $Rotate: 1,
-                                        $SlideOut: true,
-                                        $Assembly: 2049,
-                                        $ChessMode: {$Column: 15},
-                                        $Easing: {
-                                            $Left: $Jease$.$InExpo,
-                                            $Top: $Jease$.$InExpo,
-                                            $Zoom: $Jease$.$InExpo,
-                                            $Opacity: $Jease$.$Linear,
-                                            $Rotate: $Jease$.$InExpo
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.7}
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: -4,
-                                        y: 2,
-                                        $Rows: 2,
-                                        $Zoom: 11,
-                                        $Rotate: 1,
-                                        $Assembly: 2049,
-                                        $ChessMode: {$Row: 28},
-                                        $Easing: {
-                                            $Left: $Jease$.$InCubic,
-                                            $Top: $Jease$.$InCubic,
-                                            $Zoom: $Jease$.$InCubic,
-                                            $Opacity: $Jease$.$OutQuad,
-                                            $Rotate: $Jease$.$InCubic
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.7}
-                                    },
-                                    {
-                                        $Duration: 1200,
-                                        x: 1,
-                                        y: 2,
-                                        $Cols: 2,
-                                        $Zoom: 11,
-                                        $Rotate: 1,
-                                        $Assembly: 2049,
-                                        $ChessMode: {$Column: 19},
-                                        $Easing: {
-                                            $Left: $Jease$.$InCubic,
-                                            $Top: $Jease$.$InCubic,
-                                            $Zoom: $Jease$.$InCubic,
-                                            $Opacity: $Jease$.$OutQuad,
-                                            $Rotate: $Jease$.$InCubic
-                                        },
-                                        $Opacity: 2,
-                                        $Round: {$Rotate: 0.8}
-                                    }
-                                ];
-                                var jssor_1_options = {
-                                    $AutoPlay: 1,
-                                    $SlideshowOptions: {
-                                        $Class: $JssorSlideshowRunner$,
-                                        $Transitions: jssor_1_SlideshowTransitions,
-                                        $TransitionsOrder: 1
-                                    },
-                                    $ArrowNavigatorOptions: {
-                                        $Class: $JssorArrowNavigator$
-                                    },
-                                    $ThumbnailNavigatorOptions: {
-                                        $Class: $JssorThumbnailNavigator$,
-                                        $Rows: 2,
-                                        $SpacingX: 14,
-                                        $SpacingY: 12,
-                                        $Orientation: 2,
-                                        $Align: 156
-                                    }
-                                };
-                                var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-                                /*#region responsive code begin*/
-                                var MAX_WIDTH = 960;
-
-                                function ScaleSlider() {
-                                    var containerElement = jssor_1_slider.$Elmt.parentNode;
-                                    var containerWidth = containerElement.clientWidth;
-                                    if (containerWidth) {
-                                        var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
-                                        jssor_1_slider.$ScaleWidth(expectedWidth);
-                                    } else {
-                                        window.setTimeout(ScaleSlider, 30);
-                                    }
-                                }
-
-                                ScaleSlider();
-                                $Jssor$.$AddEvent(window, "load", ScaleSlider);
-                                $Jssor$.$AddEvent(window, "resize", ScaleSlider);
-                                $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
-                                /*#endregion responsive code end*/
-                            };
-                        </script>
-                        <style>
-                            /*jssor slider loading skin spin css*/
-                            .jssorl-009-spin img {
-                                animation-name: jssorl-009-spin;
-                                animation-duration: 1.6s;
-                                animation-iteration-count: infinite;
-                                animation-timing-function: linear;
-                            }
-
-                            @keyframes jssorl-009-spin {
-                                from {
-                                    transform: rotate(0deg);
-                                }
-                                to {
-                                    transform: rotate(360deg);
-                                }
-                            }
-
-                            /*jssor slider arrow skin 093 css*/
-                            .jssora093 {
-                                display: block;
-                                position: absolute;
-                                cursor: pointer;
-                            }
-
-                            .jssora093 .c {
-                                fill: none;
-                                stroke: #fff;
-                                stroke-width: 400;
-                                stroke-miterlimit: 10;
-                            }
-
-                            .jssora093 .a {
-                                fill: none;
-                                stroke: #fff;
-                                stroke-width: 400;
-                                stroke-miterlimit: 10;
-                            }
-
-                            .jssora093:hover {
-                                opacity: .8;
-                            }
-
-                            .jssora093.jssora093dn {
-                                opacity: .6;
-                            }
-
-                            .jssora093.jssora093ds {
-                                opacity: .3;
-                                pointer-events: none;
-                            }
-
-                            /*jssor slider thumbnail skin 101 css*/
-                            .jssort101 .p {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                box-sizing: border-box;
-                                background: #000;
-                            }
-
-                            .jssort101 .p .cv {
-                                position: relative;
-                                top: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
-                                border: 2px solid #000;
-                                box-sizing: border-box;
-                                z-index: 1;
-                            }
-
-                            .jssort101 .a {
-                                fill: none;
-                                stroke: #fff;
-                                stroke-width: 400;
-                                stroke-miterlimit: 10;
-                                visibility: hidden;
-                            }
-
-                            .jssort101 .p:hover .cv, .jssort101 .p.pdn .cv {
-                                border: none;
-                                border-color: transparent;
-                            }
-
-                            .jssort101 .p:hover {
-                                padding: 2px;
-                            }
-
-                            .jssort101 .p:hover .cv {
-                                background-color: rgba(0, 0, 0, 6);
-                                opacity: .35;
-                            }
-
-                            .jssort101 .p:hover.pdn {
-                                padding: 0;
-                            }
-
-                            .jssort101 .p:hover.pdn .cv {
-                                border: 2px solid #fff;
-                                background: none;
-                                opacity: .35;
-                            }
-
-                            .jssort101 .pav .cv {
-                                border-color: #fff;
-                                opacity: .35;
-                            }
-
-                            .jssort101 .pav .a, .jssort101 .p:hover .a {
-                                visibility: visible;
-                            }
-
-                            .jssort101 .t {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
-                                border: none;
-                                opacity: .6;
-                            }
-
-                            .jssort101 .pav .t, .jssort101 .p:hover .t {
-                                opacity: 1;
-                            }
-                        </style>
-                        <div id="jssor_1"
-                             style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:480px;overflow:hidden;visibility:hidden;background-color:#24262e;">
-                            <!-- Loading Screen -->
-                            <div data-u="loading" class="jssorl-009-spin"
-                                 style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgba(0,0,0,0.7);">
-                                <img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;"
-                                     src="/media/spin.svg"/>
                             </div>
-                            <div data-u="slides"
-                                 style="cursor:default;position:relative;top:0px;left:0px;width:720px;height:480px;overflow:hidden;">
-                                {% for image in images %}
-                                    <div>
-                                        <img data-u="image" src="/media/{{ image.image.image }}"/>
-                                        <img data-u="thumb" src="/media/{{ image.image.image }}"/>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style="border: 1px solid;    width: 99%;">
+                            <a href="{% url 'listArch:firma-bilgileri'  product.company.pk %}"><h4
+                                    style="font-weight: 800">{{ product.company.name }}</h4></a>
+                            <p>BricksInBytes ID {{ product.company_code }}</p>
+                        </div>
+                        <div class="col-md-1" style="    width: 1.333333%;"></div>
+
+                        <div class="row">
+                            <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                            <div class="col-md-10" style="width: 93%;    margin-left: 33px;
+    margin-top: 30px;">
+                                <script type="text/javascript"
+                                        src="{% static 'base2/js/jssor.slider-28.0.0.min.js' %}"></script>
+                                <script type="text/javascript">
+                                    window.jssor_1_slider_init = function () {
+                                        var jssor_1_SlideshowTransitions = [
+                                            {
+                                                $Duration: 1200,
+                                                $Zoom: 1,
+                                                $Easing: {$Zoom: $Jease$.$InCubic, $Opacity: $Jease$.$OutQuad},
+                                                $Opacity: 2
+                                            },
+                                            {
+                                                $Duration: 1000,
+                                                $Zoom: 11,
+                                                $SlideOut: true,
+                                                $Easing: {$Zoom: $Jease$.$InExpo, $Opacity: $Jease$.$Linear},
+                                                $Opacity: 2
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                $Zoom: 1,
+                                                $Rotate: 1,
+                                                $During: {$Zoom: [0.2, 0.8], $Rotate: [0.2, 0.8]},
+                                                $Easing: {
+                                                    $Zoom: $Jease$.$Swing,
+                                                    $Opacity: $Jease$.$Linear,
+                                                    $Rotate: $Jease$.$Swing
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.5}
+                                            },
+                                            {
+                                                $Duration: 1000,
+                                                $Zoom: 11,
+                                                $Rotate: 1,
+                                                $SlideOut: true,
+                                                $Easing: {
+                                                    $Zoom: $Jease$.$InQuint,
+                                                    $Opacity: $Jease$.$Linear,
+                                                    $Rotate: $Jease$.$InQuint
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.8}
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: 0.5,
+                                                $Cols: 2,
+                                                $Zoom: 1,
+                                                $Assembly: 2049,
+                                                $ChessMode: {$Column: 15},
+                                                $Easing: {
+                                                    $Left: $Jease$.$InCubic,
+                                                    $Zoom: $Jease$.$InCubic,
+                                                    $Opacity: $Jease$.$Linear
+                                                },
+                                                $Opacity: 2
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: 4,
+                                                $Cols: 2,
+                                                $Zoom: 11,
+                                                $SlideOut: true,
+                                                $Assembly: 2049,
+                                                $ChessMode: {$Column: 15},
+                                                $Easing: {
+                                                    $Left: $Jease$.$InExpo,
+                                                    $Zoom: $Jease$.$InExpo,
+                                                    $Opacity: $Jease$.$Linear
+                                                },
+                                                $Opacity: 2
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: 0.6,
+                                                $Zoom: 1,
+                                                $Rotate: 1,
+                                                $During: {$Left: [0.2, 0.8], $Zoom: [0.2, 0.8], $Rotate: [0.2, 0.8]},
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.5}
+                                            },
+                                            {
+                                                $Duration: 1000,
+                                                x: -4,
+                                                $Zoom: 11,
+                                                $Rotate: 1,
+                                                $SlideOut: true,
+                                                $Easing: {
+                                                    $Left: $Jease$.$InQuint,
+                                                    $Zoom: $Jease$.$InQuart,
+                                                    $Opacity: $Jease$.$Linear,
+                                                    $Rotate: $Jease$.$InQuint
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.8}
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: -0.6,
+                                                $Zoom: 1,
+                                                $Rotate: 1,
+                                                $During: {$Left: [0.2, 0.8], $Zoom: [0.2, 0.8], $Rotate: [0.2, 0.8]},
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.5}
+                                            },
+                                            {
+                                                $Duration: 1000,
+                                                x: 4,
+                                                $Zoom: 11,
+                                                $Rotate: 1,
+                                                $SlideOut: true,
+                                                $Easing: {
+                                                    $Left: $Jease$.$InQuint,
+                                                    $Zoom: $Jease$.$InQuart,
+                                                    $Opacity: $Jease$.$Linear,
+                                                    $Rotate: $Jease$.$InQuint
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.8}
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: 0.5,
+                                                y: 0.3,
+                                                $Cols: 2,
+                                                $Zoom: 1,
+                                                $Rotate: 1,
+                                                $Assembly: 2049,
+                                                $ChessMode: {$Column: 15},
+                                                $Easing: {
+                                                    $Left: $Jease$.$InCubic,
+                                                    $Top: $Jease$.$InCubic,
+                                                    $Zoom: $Jease$.$InCubic,
+                                                    $Opacity: $Jease$.$OutQuad,
+                                                    $Rotate: $Jease$.$InCubic
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.7}
+                                            },
+                                            {
+                                                $Duration: 1000,
+                                                x: 0.5,
+                                                y: 0.3,
+                                                $Cols: 2,
+                                                $Zoom: 1,
+                                                $Rotate: 1,
+                                                $SlideOut: true,
+                                                $Assembly: 2049,
+                                                $ChessMode: {$Column: 15},
+                                                $Easing: {
+                                                    $Left: $Jease$.$InExpo,
+                                                    $Top: $Jease$.$InExpo,
+                                                    $Zoom: $Jease$.$InExpo,
+                                                    $Opacity: $Jease$.$Linear,
+                                                    $Rotate: $Jease$.$InExpo
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.7}
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: -4,
+                                                y: 2,
+                                                $Rows: 2,
+                                                $Zoom: 11,
+                                                $Rotate: 1,
+                                                $Assembly: 2049,
+                                                $ChessMode: {$Row: 28},
+                                                $Easing: {
+                                                    $Left: $Jease$.$InCubic,
+                                                    $Top: $Jease$.$InCubic,
+                                                    $Zoom: $Jease$.$InCubic,
+                                                    $Opacity: $Jease$.$OutQuad,
+                                                    $Rotate: $Jease$.$InCubic
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.7}
+                                            },
+                                            {
+                                                $Duration: 1200,
+                                                x: 1,
+                                                y: 2,
+                                                $Cols: 2,
+                                                $Zoom: 11,
+                                                $Rotate: 1,
+                                                $Assembly: 2049,
+                                                $ChessMode: {$Column: 19},
+                                                $Easing: {
+                                                    $Left: $Jease$.$InCubic,
+                                                    $Top: $Jease$.$InCubic,
+                                                    $Zoom: $Jease$.$InCubic,
+                                                    $Opacity: $Jease$.$OutQuad,
+                                                    $Rotate: $Jease$.$InCubic
+                                                },
+                                                $Opacity: 2,
+                                                $Round: {$Rotate: 0.8}
+                                            }
+                                        ];
+                                        var jssor_1_options = {
+                                            $AutoPlay: 1,
+                                            $SlideshowOptions: {
+                                                $Class: $JssorSlideshowRunner$,
+                                                $Transitions: jssor_1_SlideshowTransitions,
+                                                $TransitionsOrder: 1
+                                            },
+                                            $ArrowNavigatorOptions: {
+                                                $Class: $JssorArrowNavigator$
+                                            },
+                                            $ThumbnailNavigatorOptions: {
+                                                $Class: $JssorThumbnailNavigator$,
+                                                $Rows: 2,
+                                                $SpacingX: 14,
+                                                $SpacingY: 12,
+                                                $Orientation: 2,
+                                                $Align: 156
+                                            }
+                                        };
+                                        var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+                                        /*#region responsive code begin*/
+                                        var MAX_WIDTH = 960;
+
+                                        function ScaleSlider() {
+                                            var containerElement = jssor_1_slider.$Elmt.parentNode;
+                                            var containerWidth = containerElement.clientWidth;
+                                            if (containerWidth) {
+                                                var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
+                                                jssor_1_slider.$ScaleWidth(expectedWidth);
+                                            } else {
+                                                window.setTimeout(ScaleSlider, 30);
+                                            }
+                                        }
+
+                                        ScaleSlider();
+                                        $Jssor$.$AddEvent(window, "load", ScaleSlider);
+                                        $Jssor$.$AddEvent(window, "resize", ScaleSlider);
+                                        $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
+                                        /*#endregion responsive code end*/
+                                    };
+                                </script>
+                                <style>
+                                    /*jssor slider loading skin spin css*/
+                                    .jssorl-009-spin img {
+                                        animation-name: jssorl-009-spin;
+                                        animation-duration: 1.6s;
+                                        animation-iteration-count: infinite;
+                                        animation-timing-function: linear;
+                                    }
+
+                                    @keyframes jssorl-009-spin {
+                                        from {
+                                            transform: rotate(0deg);
+                                        }
+                                        to {
+                                            transform: rotate(360deg);
+                                        }
+                                    }
+
+                                    /*jssor slider arrow skin 093 css*/
+                                    .jssora093 {
+                                        display: block;
+                                        position: absolute;
+                                        cursor: pointer;
+                                    }
+
+                                    .jssora093 .c {
+                                        fill: none;
+                                        stroke: #fff;
+                                        stroke-width: 400;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .jssora093 .a {
+                                        fill: none;
+                                        stroke: #fff;
+                                        stroke-width: 400;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .jssora093:hover {
+                                        opacity: .8;
+                                    }
+
+                                    .jssora093.jssora093dn {
+                                        opacity: .6;
+                                    }
+
+                                    .jssora093.jssora093ds {
+                                        opacity: .3;
+                                        pointer-events: none;
+                                    }
+
+                                    /*jssor slider thumbnail skin 101 css*/
+                                    .jssort101 .p {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        box-sizing: border-box;
+                                        background: #000;
+                                    }
+
+                                    .jssort101 .p .cv {
+                                        position: relative;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        border: 2px solid #000;
+                                        box-sizing: border-box;
+                                        z-index: 1;
+                                    }
+
+                                    .jssort101 .a {
+                                        fill: none;
+                                        stroke: #fff;
+                                        stroke-width: 400;
+                                        stroke-miterlimit: 10;
+                                        visibility: hidden;
+                                    }
+
+                                    .jssort101 .p:hover .cv, .jssort101 .p.pdn .cv {
+                                        border: none;
+                                        border-color: transparent;
+                                    }
+
+                                    .jssort101 .p:hover {
+                                        padding: 2px;
+                                    }
+
+                                    .jssort101 .p:hover .cv {
+                                        background-color: rgba(0, 0, 0, 6);
+                                        opacity: .35;
+                                    }
+
+                                    .jssort101 .p:hover.pdn {
+                                        padding: 0;
+                                    }
+
+                                    .jssort101 .p:hover.pdn .cv {
+                                        border: 2px solid #fff;
+                                        background: none;
+                                        opacity: .35;
+                                    }
+
+                                    .jssort101 .pav .cv {
+                                        border-color: #fff;
+                                        opacity: .35;
+                                    }
+
+                                    .jssort101 .pav .a, .jssort101 .p:hover .a {
+                                        visibility: visible;
+                                    }
+
+                                    .jssort101 .t {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        border: none;
+                                        opacity: .6;
+                                    }
+
+                                    .jssort101 .pav .t, .jssort101 .p:hover .t {
+                                        opacity: 1;
+                                    }
+                                </style>
+
+                                <div id="jssor_1"
+                                     style="position:relative;margin:0 auto;top:0px;left:0px;width:960px;height:480px;overflow:hidden;visibility:hidden;background-color:#24262e;">
+                                    <!-- Loading Screen -->
+                                    <div data-u="loading" class="jssorl-009-spin"
+                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgba(0,0,0,0.7);">
+                                        <img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;"
+                                             src="/media/spin.svg"/>
                                     </div>
-                                {% endfor %}
+                                    <div data-u="slides"
+                                         style="cursor:default;position:relative;top:0px;left:0px;width:720px;height:480px;overflow:hidden;">
+                                        {% for image in images %}
+                                            <div>
+                                                <img data-u="image" src="/media/{{ image.image.image }}"/>
+                                                <img data-u="thumb" src="/media/{{ image.image.image }}"/>
+                                            </div>
+                                        {% endfor %}
 
-                            </div>
-                            <a data-scale="0" href="https://www.jssor.com" style="display:none;position:absolute;">web
-                                animation composer</a>
-                            <!-- Thumbnail Navigator -->
-                            <div data-u="thumbnavigator" class="jssort101"
-                                 style="position:absolute;right:0px;top:0px;width:240px;height:480px;background-color:#000; "
-                                 data-autocenter="2" data-scale-left="0.75">
-                                <div data-u="slides">
-                                    <div data-u="prototype" class="p" style="width:99px;height:66px;">
-                                        <div data-u="thumbnailtemplate" class="t"></div>
-                                        <svg viewbox="0 0 16000 16000" class="cv">
-                                            <circle class="a" cx="8000" cy="8000" r="3238.1"></circle>
-                                            <line class="a" x1="6190.5" y1="8000" x2="9809.5" y2="8000"></line>
-                                            <line class="a" x1="8000" y1="9809.5" x2="8000" y2="6190.5"></line>
+                                    </div>
+                                    <a data-scale="0" href="https://www.jssor.com"
+                                       style="display:none;position:absolute;">web
+                                        animation composer</a>
+                                    <!-- Thumbnail Navigator -->
+                                    <div data-u="thumbnavigator" class="jssort101"
+                                         style="position:absolute;right:0px;top:0px;width:240px;height:480px;background-color:#000; "
+                                         data-autocenter="2" data-scale-left="0.75">
+                                        <div data-u="slides">
+                                            <div data-u="prototype" class="p" style="width:99px;height:66px;">
+                                                <div data-u="thumbnailtemplate" class="t"></div>
+                                                <svg viewbox="0 0 16000 16000" class="cv">
+                                                    <circle class="a" cx="8000" cy="8000" r="3238.1"></circle>
+                                                    <line class="a" x1="6190.5" y1="8000" x2="9809.5" y2="8000"></line>
+                                                    <line class="a" x1="8000" y1="9809.5" x2="8000" y2="6190.5"></line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Arrow Navigator -->
+                                    <div data-u="arrowleft" class="jssora093"
+                                         style="width:50px;height:50px;top:0px;left:0px;"
+                                         data-autocenter="2">
+                                        <svg viewbox="0 0 16000 16000"
+                                             style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                            <circle class="c" cx="8000" cy="8000" r="5920"></circle>
+                                            <polyline class="a"
+                                                      points="7777.8,6080 5857.8,8000 7777.8,9920 "></polyline>
+                                            <line class="a" x1="10142.2" y1="8000" x2="5857.8" y2="8000"></line>
+                                        </svg>
+                                    </div>
+                                    <div data-u="arrowright" class="jssora093"
+                                         style="width:50px;height:50px;top:0px;right:240px;" data-autocenter="2">
+                                        <svg viewbox="0 0 16000 16000"
+                                             style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                            <circle class="c" cx="8000" cy="8000" r="5920"></circle>
+                                            <polyline class="a"
+                                                      points="8222.2,6080 10142.2,8000 8222.2,9920 "></polyline>
+                                            <line class="a" x1="5857.8" y1="8000" x2="10142.2" y2="8000"></line>
                                         </svg>
                                     </div>
                                 </div>
+
+                                <script type="text/javascript">jssor_1_slider_init();
+                                </script>
                             </div>
-                            <!-- Arrow Navigator -->
-                            <div data-u="arrowleft" class="jssora093" style="width:50px;height:50px;top:0px;left:0px;"
-                                 data-autocenter="2">
-                                <svg viewbox="0 0 16000 16000"
-                                     style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                                    <circle class="c" cx="8000" cy="8000" r="5920"></circle>
-                                    <polyline class="a" points="7777.8,6080 5857.8,8000 7777.8,9920 "></polyline>
-                                    <line class="a" x1="10142.2" y1="8000" x2="5857.8" y2="8000"></line>
-                                </svg>
-                            </div>
-                            <div data-u="arrowright" class="jssora093"
-                                 style="width:50px;height:50px;top:0px;right:240px;" data-autocenter="2">
-                                <svg viewbox="0 0 16000 16000"
-                                     style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                                    <circle class="c" cx="8000" cy="8000" r="5920"></circle>
-                                    <polyline class="a" points="8222.2,6080 10142.2,8000 8222.2,9920 "></polyline>
-                                    <line class="a" x1="5857.8" y1="8000" x2="10142.2" y2="8000"></line>
-                                </svg>
-                            </div>
+                            <div class="col-md-1" style="width: 1.333333%;"></div>
                         </div>
-                        <script type="text/javascript">jssor_1_slider_init();
-                        </script>
+
 
                     </div>
-
-
+                    <br>
                 </div>
-                <br>
                 <style>
                     #product td {
                         padding-right: 100px;
 
                     }
                 </style>
-                <div id="listing-1" class="row   margin-bottom-5 margin-top-5">
-                    <div class="col-md-12" style="border: 2px solid #fd9116;margin-bottom: -15px">
-                        <h4 style="font-weight: 800">Ürün Özeti</h4>
-                        <p>InBytes ID {{ product.code }}</p>
-                        <h4 style="float:right;margin-top: -50px;">1</h4>
+                <div id="listing-1" class="row" style="border-top: 1px solid; border-bottom: 1px solid;padding: 10px;">
+                    <div class="row">
+                        <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style="border: 2px solid #fd9116;    width: 93%;">
+                            <h3 style="font-weight: 800">Ürün Özeti</h3>
+                            <p>InBytes ID {{ product.code }}</p>
+                            <h3 style="float:right;margin-top: -50px;">1</h3>
+                        </div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style="border: 1px solid #fff;margin-top: 5px;width: 93%;">
+                            <div class="col-md-6" style="padding-left: 0;padding-right: 5px;">
+                                <br>
+                                <table id="product" class="table table-bordered">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">List Of Room ID</th>
+                                        <td>{{ product.company_code }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Company ID</th>
+                                        <td>{{ product.company.pk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Product</th>
+                                        <td>{{ product.name }}</td>
+                                    </tr>
+
+                                    {% for option in options %}
+                                       {% if forloop.counter0|divisibleby:2 == 0%}
+                                        <tr>
+                                            {% if option.option.isBasic %}
+                                                <th scope="row">{{ option.option.key }}</th>
+                                                {% for value in option.values %}
+                                                    {% if option.option.type == 'range' %}
+                                                        <td>{{ value.min }}-{{ value.max }}</td>
+                                                    {% else %}
+                                                        <td>{{ value.value }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6" style="padding-left: 5px;padding-right: 0;">
+                                <br>
+                                <table id="product" class="table table-bordered">
+                                    <tbody>
+                                    {% for option in options %}
+                                        <tr>
+                                               {% if forloop.counter0|divisibleby:2 == 1 %}
+                                                <th scope="row">{{ option.option.key }}</th>
+                                                {% for value in option.values %}
+                                                    {% if option.option.type == 'range' %}
+                                                        <td>{{ option.range_value.range_value }}</td>
+                                                    {% else %}
+                                                        <td>{{ value.value }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
                     </div>
 
-                    <div class="col-md-6" style="padding-left: 0;padding-right: 5px;">
-                        <br>
-                        <table id="product" class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <th scope="row">Bricks-In-Bytes ID</th>
-                                <td>{{ product.company_code }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Company ID</th>
-                                <td>{{ product.company.pk }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Product</th>
-                                <td>{{ product.name }}</td>
-                            </tr>
 
-                            {% for option in options %}
-                                <tr>
-                                    {% if option.option.isBasic %}
-                                        <th scope="row">{{ option.option.key }}</th>
-                                        {% for value in option.values %}
-                                            {% if option.option.type == 'range' %}
-                                                <td>{{ value.min }}-{{ value.max }}</td>
-                                            {% else %}
-                                                <td>{{ value.value }}</td>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-md-6" style="padding-left: 5px;
-    padding-right: 0;">
-                        <br>
-                        <table id="product" class="table table-bordered">
-                            <tbody>
-                            {% for option in options %}
-                                <tr>
-                                    {% if not option.option.isBasic %}
-                                        <th scope="row">{{ option.option.key }}</th>
-                                        {% for value in option.values %}
-                                            {% if option.option.type == 'range' %}
-                                                <td>{{ option.range_value.range_value }}</td>
-                                            {% else %}
-                                                <td>{{ value.value }}</td>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
                 <br>
                 {% for definition in definitions %}
-                    <div id="listing-{{ forloop.counter }}" class="row  margin-bottom-5 margin-top-5">
-                        <div class="col-md-12" style="border: 2px solid #fd9116;">
-                            <h4 style="font-weight: 800">{{ definition.desc.title_desc }}</h4>
-                            <p>InBytes ID {{ product.code }}</p>
-                            <h4 style="float:right;margin-top: -50px;">{{ forloop.counter }}</h4>
+                    <div id="listing-{{ forloop.counter }}" class="row" style="    border-bottom: 1px solid;
+    padding-bottom: 24px;">
+                        <div class="row">
+                            <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                            <div class="col-md-10" style="border: 2px solid #fd9116;    width: 93%;">
+                                <h3 style="font-weight: 800">{{ definition.desc.title_desc }}</h3>
+                                <p>InBytes ID {{ product.code }}</p>
+                                <h3 style="float:right;margin-top: -50px;">{{ forloop.counter }}</h3>
+                            </div>
+                            <div class="col-md-1" style="width: 1.333333%;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                            <div class="col-md-10" style="border: 1px solid #fff;margin-top: 5px;    width: 93%;">
+                                <p style="margin-top:10px">
+                                    {{ definition.desc.description |safe }}
+                                </p>
+                            </div>
+                            <div class="col-md-1" style="width: 1.333333%;"></div>
                         </div>
 
-                        <div class="col-md-12" style=" border: 1px solid #e0e0e0;margin-top: 4px;">
-
-                            <p style="margin-top:10px">
-                                {{ definition.desc.description |safe }}
-                            </p>
-
-                        </div>
                     </div>
-                    <br><br>
+                    <br>
                 {% endfor %}
-                <br><br>
+                <br>
 
 
                 <style>
@@ -779,101 +844,149 @@
                 </style>
 
 
-                <div id="listing-{{ definitions |length }}" class="row  margin-bottom-5 margin-top-5">
-
-                    <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Interconnected Collections</h4>
-                        <h4 style="float:right;margin-top: -30px;"></h4>
+                <div id="listing-{{ definitions |length }}" class="row" style="    border-bottom: 1px solid;
+    padding-bottom: 24px;">
+                    <div class="row">
+                        <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style="border: 2px solid #fd9116;    width: 93%;">
+                            <h3 style="font-weight: 800">Benzer Ürünler</h3>
+                            <h3 style="float:right;margin-top: -30px;"></h3>
+                        </div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
                     </div>
-                    <div class="col-md-12" style="padding-left:0;padding-right:0">
-                        <div id="listing-gallery" class="listing-section">
-                            <br>
-                            <div class="listing-slider-small mfp-gallery-container margin-bottom-0" style="margin-top: -15px;">
-                                {% for related in related_products %}
-                                    <div class="hovereffect" onclick="location.href='#';">
-                                        <div class="listing-item" style="background:#fff;margin: 0 10px;">
-                                            <img style="border: 1px solid #e0e0e0;"
-                                                 src="/media/{{ related.related_product.cover_image }}"
-                                                 alt="">
-                                            <div class="overlay">
-                                                <h2 style="position: relative;font-size: 16px;color: #fff;">{{ related.related_product.company.name }}</h2>
-                                                <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.related_product.name }} </h2>
-                                                <h2 style="position: relative;font-size: 16px;color: #fff;">ID
-                                                    {{ related.related_product.code }}</h2>
-                                                <h2 style="position: relative;font-size: 16px;color: #fff;">250$
-                                                    Sqm</h2>
-                                                <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.related_product.company.country.name }}</h2>
+                    <script> $('.slider-nav').slick({
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        asNavFor: '.slider-for',
+                        dots: true,
+                        focusOnSelect: true
+                    });</script>
+                    <style>
+                        .main {
+                        font-family: Arial;
+                        width: 500px;
+                        display: block;
+                        margin: 0 auto;
+                    }</style>
+                    <div class="row">
+                        <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style=";margin-top: 5px;width: 93%;">
+                            <div id="listing-gallery" class="listing-section">
+                                <br>
+                                <div class="listing-slider-small mfp-gallery-container margin-bottom-0"
+                                     style="margin-top: -15px;">
+                                    {% for related in related_products %}
+                                        <div class="hovereffect"
+                                             onclick="location.href='{% url 'listArch:urun-detay' related.related_product.pk %}';">
+                                            <div class="listing-item"
+                                                 style="background:#fff;margin: 0 10px;">
+                                                <img style="border: 1px solid #e0e0e0;"
+                                                     src="/media/{{ related.related_product.cover_image }}"
+                                                     alt="">
+                                                <div class="overlay">
+                                                    <h2 style="position: relative;font-size: 16px;color: #fff;">{{ related.related_product.company.name }}</h2>
+                                                    <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.related_product.name }} </h2>
+                                                    <h2 style="position: relative;font-size: 16px;color: #fff;">ID
+                                                        {{ related.related_product.code }}</h2>
+                                                    <h2 style="position: relative;font-size: 16px;color: #fff;">250$
+                                                        Sqm</h2>
+                                                    <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.related_product.company.country.name }}</h2>
 
-                                                <a style="left: 5px;
+                                                    <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
                                        color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
-                                                <a style="right: 5px;
+                                                    <a style="right: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: right;
                                        float: right;
                                        font-size: 24px;
                                        color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
                     </div>
+
                 </div>
                 <br>
 
 
-                <div id="listing-{{ definitions | length }}" class="row  margin-bottom-5 margin-top-5">
+                <div id="listing-{{ definitions | length }}" class="row">
+                    <div class="row">
+                        <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style="border: 2px solid #fd9116;width: 93%;">
+                            <h3 style="font-weight: 800">Videos</h3>
+                            <p>InBytes ID {{ product.code }}</p>
+                            <h3 style="float:right;margin-top: -50px;"></h3>
+                        </div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
+                        <div class="col-md-10" style=";width: 93%;">
+                            <div class="col-md-3" style="padding-left:0;padding-right:5px;margin-top: -15px;">
+                                <br>
+                                <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
+                                        src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-3" style="padding-left:0;padding-right:5px;margin-top: -15px;">
+                                <br>
+                                <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
+                                        src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-3" style="padding-left:0;padding-right:5px;margin-top: -15px;">
+                                <br>
+                                <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
+                                        src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-3" style="padding-left:0;padding-right:5px;margin-top: -15px;">
+                                <br>
+                                <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
+                                        src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
+                    </div>
 
-                    <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Videos</h4>
-                        <p>InBytes ID {{ product.code }}</p>
-                        <h4 style="float:right;margin-top: -50px;"></h4>
-                    </div>
-                    <div class="col-md-4" style="padding-left:0;padding-right:5px;margin-top: -15px;">
-                        <br>
-                        <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
-                                src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="col-md-4" style="padding-left:5px;padding-right:0;margin-top: -15px;"><br>
-                        <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
-                                src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                    </div>
-                    <div class="col-md-4" style="padding-left:5px;padding-right:0;    margin-top: -15px;"><br>
-                        <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="250"
-                                src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                    </div>
 
                 </div>
                 <br>
             </div>
             <!-- Sidebar
                ================================================== -->
-            <div class="col-lg-3 col-md-3  sticky" style="padding-right: 2px;">
-                <div class="row  margin-bottom-5 margin-top-5">
-                    <div class="col-md-4">
-                        <a href="#" style="border-radius: 15px;font-size:12px;background: white"
-                           class="button book-now fullwidth margin-top-5">Product Range</a>
+            <div class="col-lg-3 col-md-3 sticky" style=";padding-bottom: 20px;padding-right: 30px;">
+                <div class="row" style="border-bottom: 1px solid;height: 80px">
+                    <div class="col-md-4 " style="margin-top: 18px;
+    margin-bottom: 5px;">
+                        <a href="#" style="font-size:12px;background: white"
+                           class="button book-now fullwidth">Product <br> Range</a>
                     </div>
-                    <div class="col-md-4">
-                        <a href="#" style="border-radius: 15px;font-size:13px;background: white"
-                           class="button book-now fullwidth margin-top-5">Create Sheet</a>
+                    <div class="col-md-4 " style="margin-top: 17px;
+    margin-bottom: 5px;">
+                        <a href="#" style="font-size:13px;background: white"
+                           class="button book-now fullwidth ">Create <br> Sheet</a>
                     </div>
-                    <div class="col-md-4">
-                        <a href="#" style="border-radius: 15px;font-size:12px;background: white"
-                           class="button book-now fullwidth margin-top-5">Supplier Summary</a>
+                    <div class="col-md-4 " style="margin-top: 17px;
+    margin-bottom: 5px;">
+                        <a href="#" style="font-size:12px;background: white"
+                           class="button book-now fullwidth ">Supplier <br> Summary</a>
                     </div>
                 </div>
                 <br>
@@ -885,172 +998,227 @@
                     <div class="col-md-6">
                         <a href="#"><img style="    float: right;" height="75" src="/media/qr.png" alt=""></a>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12" style="">
                         <h4 style="font-weight: 800">{{ product.company.name }}</h4>
                         <h4>STONE NATURAL SERIES</h4>
                         <p>Ceramic materials for Wall/Floor with natural effects.</p>
                     </div>
                 </div>
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
                     <div class="col-md-12" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
+                        <a style="font-size: 17px; height: 40px; padding-top: 9px; background-color: #ffffff;"
                            class="button book-now fullwidth margin-top-5">MAKE A REQUEST</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="font-size: 10px;background: #fd9116;"
                            class="button book-now fullwidth margin-top-5">Brochure in Prints</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Price & Quotation</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Catalogue in Prints</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">BIM/CAD Files</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Catalogue in Softcopy</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Nearby Dealer List</a>
                     </div>
                 </div>
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
                     <div class="col-md-12" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
+                        <a style="font-size: 17px;
+    height: 40px;
+    padding-top: 8px;
+    background-color: #ffffff;"
                            class="button book-now fullwidth margin-top-5">REQUEST A CALL</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="tel:{{ product.company.phone }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Phone</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="tel:{{ product.company.phone }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">{{ product.company.phone }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Preferred Time</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">14:30</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Contact Person</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">{{ product.company.user.first_name }} {{ product.company.user.last_name }}</a>
                     </div>
                 </div>
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
                     <div class="col-md-12" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
+                        <a style="font-size: 15px; height: 40px;  padding-top: 2px;background-color: #ffffff;"
                            class="button book-now fullwidth margin-top-5">BRANCH OFFICE & RETAILERS & SUPPLIERS</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Country</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">{{ product.company.country.name }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">State</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">{{ product.company.country.code }}</a>
                     </div>
 
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">City</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">{{ product.company.city.name }}</a>
                     </div>
 
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Business Type</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">{{ product.company.business_type }}</a>
                     </div>
 
                 </div>
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
                     <div class="col-md-12" style="padding-right: 0px;">
-                        <a style="border-radius: 15px;font-size:10px;background-color:#ffffff"
+                        <a style="font-size: 15px; height: 35px; padding-top: 7px; background-color: #ffffff;"
                            class="button book-now fullwidth margin-top-5">MAKE A CONTACT</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="{{ product.company.website }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">WEB Site</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="{{ product.company.address_link }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Address</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="mailto:{{ product.company.email }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">E-Mail</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="tel:{{ product.company.phone }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Phone</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="border-radius: 15px;font-size:10px;background:#ef4700"
+                        <a href="#" style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Internet Comunications</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="{{ product.company.address_link }}"
-                           style="border-radius: 15px;font-size:10px;background:#ef4700"
+                           style="    font-size: 10px;
+    background: #fd9116;
+"
                            class="button book-now fullwidth margin-top-5">Map</a>
                     </div>
                 </div>
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row" style="margin: 2px;">
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Business Description</h4>
+                        <h3 style="font-weight: 800">Firma Açıklaması</h3>
                     </div>
                     <div class="col-md-12 margin-bottom-5 margin-top-5" style="border: 1px solid #e0e0e0;">
                         {% for company_desc in company_definitions %}
-                            <h4 style="font-size: 10px;font-weight: 600;">{{ company_desc.desc.title_desc }}</h4>
+                            <h4 style="font-size: 13px;font-weight: bold;">{{ company_desc.desc.title_desc }}</h4>
                             <p style="font-size: 10px;">
                                 {{ company_desc.desc.description |safe }}
                             </p>
+
                         {% endfor %}
                     </div>
+
                 </div>
 
 
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row" style="margin: 2px">
 
 
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
@@ -1069,17 +1237,16 @@
 
 
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row" style="margin: 2px">
 
 
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Business Details</h4>
-
+                        <h3 style="font-weight: 800">Business Details</h3>
                     </div>
 
-                    <div class="col-md-12 margin-top-5" style="padding-left:0;padding-right:0;">
+                    <div class="col-md-12 margin-top-5 " style="padding-left:0;padding-right:0;">
                         <table class="table table-bordered">
-                            <tbody>
+                            <tbody style="">
                             <tr>
                                 <th scope="row">Company Registered Name</th>
                                 <td>{{ product.company.name }}</td>
@@ -1129,11 +1296,9 @@
 
 
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
-
-
+                <div class="row" style="margin: 2px">
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Products / Services Offered</h4>
+                        <h3 style="font-weight: 800">Products / Services Offered</h3>
 
                     </div>
 
@@ -1184,11 +1349,11 @@
 
 
                 <br>
-                <div class="row  margin-bottom-5 margin-top-5">
+                <div class="row" style="margin: 2px">
 
 
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Assistant / Need Help?</h4>
+                        <h3 style="font-weight: 800">Assistant / Need Help?</h3>
 
                     </div>
 
