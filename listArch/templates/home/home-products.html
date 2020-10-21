@@ -5,30 +5,31 @@
         <div class="main-search-inner">
             <div class="row">
                 <!-- Carousel -->
-                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
-                    <div class="slider">
+                <div class="col-md-12" style="    height: 55px;
+;border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider"  >
                         {% for category in parent_categories %}
-                            <div class="">
+                            <div class="" style="align-content: center">
                                 <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
                                    class="highlighted-category">
-                                    <img style=" width: 30px;height: 30px;" class="img-responsive"
+
+                                    <img style="width: 20px;height: 20px;" class="img-responsive"
                                          src="/media/worker.png"
                                          alt="Bricks-in-Bytes">
-                                    <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;">{{ category.name }}</h4>
+                                    <h5 style="margin-bottom: 5px;margin-top: 10px;display: block;font-size: 8px;">{{ category.name }}</h5>
                                 </a>
 
                             </div>
                         {% endfor %}
-
-
                     </div>
 
 
                     <script>
                         window.onload = function () {
                             $('.slider').slick({
-                                slidesToShow: 15,
-                                slidesToScroll: 5,
+                                autoplay:false,
+                                slidesToShow: 20,
+                                slidesToScroll: -5,
                                 infinite: true,
                                 cssEase: 'linear',
 
@@ -38,7 +39,8 @@
                     </script>
                     <style>
                         .slider {
-                            width: 88%;
+                            width: 90%;
+                            height: 70px;
                             margin: 0 auto;
                             background: transparent;
                         }
@@ -102,10 +104,34 @@
                                 {% for category in sub_categories %}
 
                                     <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="padding: 3px 14px;margin: 0px">
+                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
                                         <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
                                         <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
                                     </a>
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+
+
+
+
+
 
                                 {% endfor %}
 
@@ -212,7 +238,8 @@
             <div class="blog-page" style="width: 100%">
                 <div class="row" style="width: 100%">
 
-                    <div class="col-lg-12 col-md-12" style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;width: 100%">
+                    <div class="col-lg-12 col-md-12"
+                         style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;width: 100%">
                         <div class="row container">
                             <h3>BAŞARI HİKAYELERİ</h3></div>
                         {% for blog in blogs %}
@@ -261,7 +288,7 @@
 
             <div class="blog-page">
                 <div class="row" style="border: 1px solid;margin-left: 0px;margin-top: 20px;
-    margin-right: 0px;" >
+    margin-right: 0px;">
                     {% for introduction in introductions %}
                         <div class="col-lg-12 col-md-12"
                              style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;">
