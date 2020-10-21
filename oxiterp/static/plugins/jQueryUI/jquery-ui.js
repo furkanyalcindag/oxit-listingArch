@@ -1,6 +1,6 @@
 /*! jQuery UI - v1.11.4 - 2015-03-11
 * http://jqueryui.com
-* Includes: core.js, widget.js, mouse.js, position.js, accordion.js, autocomplete.js, button.js, datepicker.js, dialog.js, draggable.js, droppable.js, effect.js, effect-blind.js, effect-bounce.js, effect-clip.js, effect-drop.js, effect-explode.js, effect-fade.js, effect-fold.js, effect-highlight.js, effect-puff.js, effect-pulsate.js, effect-scale.js, effect-shake.js, effect-size.js, effect-slide.js, effect-transfer.js, menu.js, progressbar.js, resizable.js, selectable.js, selectmenu.js, slider.js, sortable.js, spinner.js, tabs.js, tooltip.js
+* Includes: core.scripts, widget.scripts, mouse.scripts, position.scripts, accordion.scripts, autocomplete.scripts, button.scripts, datepicker.scripts, dialog.scripts, draggable.scripts, droppable.scripts, effect.scripts, effect-blind.scripts, effect-bounce.scripts, effect-clip.scripts, effect-drop.scripts, effect-explode.scripts, effect-fade.scripts, effect-fold.scripts, effect-highlight.scripts, effect-puff.scripts, effect-pulsate.scripts, effect-scale.scripts, effect-shake.scripts, effect-size.scripts, effect-slide.scripts, effect-transfer.scripts, menu.scripts, progressbar.scripts, resizable.scripts, selectable.scripts, selectmenu.scripts, slider.scripts, sortable.scripts, spinner.scripts, tabs.scripts, tooltip.scripts
 * Copyright 2015 jQuery Foundation and other contributors; Licensed MIT */
 
 (function( factory ) {
@@ -10001,7 +10001,7 @@ jQuery.cssHooks.borderColor = {
 
 // Basic color names only.
 // Usage of any of the other color names requires adding yourself or including
-// jquery.color.svg-names.js.
+// jquery.color.svg-names.scripts.
 colors = jQuery.Color.names = {
 	// 4.1. Basic color keywords
 	aqua: "#00ffff",

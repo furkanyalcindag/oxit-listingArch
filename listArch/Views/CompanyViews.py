@@ -174,14 +174,14 @@ def update_company(request, pk):
                 company.user.username = user_form.cleaned_data['email']
                 company.user.is_active = True
                 company.user.save()
-                company.logo=company_form.cleaned_data['logo']
+                company.logo = company_form.cleaned_data['logo']
                 company.save()
                 company_form.save()
 
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
-                    logo = request.POST['retail-logo']
-                    retail_company = Company(isRetail=True, name=name, logo=logo)
+                    logo = request.FILES['retail-logo']
+                    retail_company = Company(user=None, isRetail=True, name=name, logo=logo)
                     retail_company.save()
                     company.retail = retail_company
                     company.save()
@@ -227,7 +227,7 @@ def update_company(request, pk):
 
     return render(request, 'company/update-company.html',
                   {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
-                   'loop': social_accounts.count(),'companies':companies
+                   'loop': social_accounts.count(), 'companies': companies
                    })
 
 

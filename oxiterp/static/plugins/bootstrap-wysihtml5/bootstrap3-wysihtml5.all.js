@@ -4043,7 +4043,7 @@ var wysihtml5 = {
     });
     
 }, this);;/*
-	Base.js, version 1.1a
+	Base.scripts, version 1.1a
 	Copyright 2006-2010, Dean Edwards
 	License: http://www.opensource.org/licenses/mit-license.php
 */
@@ -6429,7 +6429,7 @@ wysihtml5.dom.parse = function(elementOrHtml_current, config_current) {
 
     // set attributes on newNode
     for (attributeName in attributes) {
-      // Setting attributes can cause a js error in IE under certain circumstances
+      // Setting attributes can cause a scripts error in IE under certain circumstances
       // eg. on a <img> under https when it's new attribute value is non-https
       // TODO: Investigate this further and check for smarter handling
       try {
@@ -6833,7 +6833,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
  *    - sandboxing doesn't work correctly with inlined content (src="javascript:'<html>...</html>'")
  *    - sandboxing of physical documents causes that the dom isn't accessible anymore from the outside (iframe.contentWindow, ...)
  *    - setting the "allow-same-origin" flag would fix that, but then still javascript and dom events refuse to fire
- *    - therefore the "allow-scripts" flag is needed, which then would deactivate any security, as the js executed inside the iframe
+ *    - therefore the "allow-scripts" flag is needed, which then would deactivate any security, as the scripts executed inside the iframe
  *      can do anything as if the sandbox attribute wasn't set
  *
  * @param {Function} [readyCallback] Method that gets invoked when the sandbox is ready
@@ -6990,7 +6990,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       this.getWindow = function() { return iframe.contentWindow; };
       this.getDocument = function() { return iframe.contentWindow.document; };
 
-      // Catch js errors and pass them to the parent's onerror event
+      // Catch scripts errors and pass them to the parent's onerror event
       // addEventListener("error") doesn't work properly in some browsers
       // TODO: apparently this doesn't work in IE9!
       iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
@@ -7124,7 +7124,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         this.getWindow = function() { return element.ownerDocument.defaultView; };
         this.getDocument = function() { return element.ownerDocument; };
 
-        // Catch js errors and pass them to the parent's onerror event
+        // Catch scripts errors and pass them to the parent's onerror event
         // addEventListener("error") doesn't work properly in some browsers
         // TODO: apparently this doesn't work in IE9!
         // TODO: figure out and bind the errors logic for contenteditble mode
@@ -10833,7 +10833,7 @@ wysihtml5.Commands = Base.extend(
   };
 })(wysihtml5);
 ;/* Formats block for as a <pre><code class="classname"></code></pre> block
- * Useful in conjuction for sytax highlight utility: highlight.js
+ * Useful in conjuction for sytax highlight utility: highlight.scripts
  *
  * Usage:
  *
@@ -12105,7 +12105,7 @@ wysihtml5.views.View = Base.extend(
 
     focus: function(setToEnd) {
       // IE 8 fires the focus event after .focus()
-      // This is needed by our simulate_placeholder.js to work
+      // This is needed by our simulate_placeholder.scripts to work
       // therefore we clear it ourselves this time
       if (wysihtml5.browser.doesAsyncFocus() && this.hasPlaceholderSet()) {
         this.clear();
@@ -12542,7 +12542,7 @@ wysihtml5.views.View = Base.extend(
    */
   var focusWithoutScrolling = function(element) {
     if (element.setActive) {
-      // Following line could cause a js error when the textarea is invisible
+      // Following line could cause a scripts error when the textarea is invisible
       // See https://github.com/xing/wysihtml5/issues/9
       try { element.setActive(); } catch(e) {}
     } else {
@@ -13239,7 +13239,7 @@ wysihtml5.views.View = Base.extend(
     // Tab key inserts tab into text as default behaviour. It can be disabled to regain keyboard navigation
     handleTabKey:         true,
     // Object which includes parser rules to apply when html gets cleaned
-    // See parser_rules/*.js for examples
+    // See parser_rules/*.scripts for examples
     parserRules:          { tags: { br: {}, span: {}, div: {}, p: {} }, classes: {} },
     // Object which includes parser when the user inserts content via copy & paste. If null parserRules will be used instead
     pasteParserRulesets: null,

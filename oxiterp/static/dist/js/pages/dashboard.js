@@ -2,7 +2,7 @@
  * Author: Abdullah A Almsaeed
  * Date: 4 Jan 2014
  * Description:
- *      This is a demo file used only for the main anasayfa (index.html)
+ *      This is a demo file used only for the main anasayfa (company-products.html)
  **/
 
 $(function () {
@@ -124,7 +124,7 @@ $(function () {
     height: '250px'
   });
 
-  /* Morris.js Charts */
+  /* Morris.scripts Charts */
   // Sales chart
   var area = new Morris.Area({
     element   : 'revenue-chart',

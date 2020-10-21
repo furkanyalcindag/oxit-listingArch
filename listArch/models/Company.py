@@ -7,7 +7,7 @@ from listArch.models.City import City
 
 
 class Company(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(blank=True, null=True, verbose_name='Firma Adı', max_length=250)
     logo = models.ImageField(upload_to='logo/', null=True, blank=True, verbose_name='Dosya', default='logo1.png')
     date = models.DateField(null=True, blank=True, verbose_name='Kuruluş Tarihi')

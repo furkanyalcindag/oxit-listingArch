@@ -279,7 +279,7 @@
     };
 
     $(document).ready(function() {
-        $(".js-inline-admin-formset").each(function() {
+        $(".scripts-inline-admin-formset").each(function() {
             var data = $(this).data(),
                 inlineOptions = data.inlineFormset,
                 selector;

@@ -3,7 +3,7 @@ $(document).ready(function() {
   prettyPrint();
 
   // Bootstrap tooltips.
-  $('.js-tooltip').tooltip({
+  $('.scripts-tooltip').tooltip({
     delay: 1000,
     container: 'body'
   });
