@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<!-- Mirrored from www.vasterad.com/themes/listeo/dashboard-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 05 Jul 2020 22:21:17 GMT -->
+<head>
+    <title>LIST OF ROOM</title>
+    <meta name="description" content="Bricks-in-Bytes">
+    <meta name="keywords" content="Bricks-in-Bytes">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{% static 'base2/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'base2/css/main-color.css' %}" id="colors">
+    <link rel="stylesheet" href="{% static 'base2/css/bootstrap-grid.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap"
+          rel="stylesheet">
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
+</head>
+
+<body style="color:#000">
+
+<!-- Print Button -->
+<a href="javascript:window.print()" style="line-height: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    background-color: #e6e6e6;
+    border-radius: 50px;
+    padding: 10px 20px;
+    display: block;
+    text-align: center;
+    margin: 40px auto 40px auto;
+    max-width: 190px;
+    transition: 0.3s;
+    text-decoration: none !important;
+    outline: none !important;" class="print-button">Print this invoice</a>
+
+<!-- Invoice -->
+<div id="invoice">
+    <div class="container">
+        <!-- Header -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <div id="logo">
+                    <img style="width: 70px;height: 70px;margin-bottom: 10px;" src="/media/list_of_room_logo.jpg" alt="">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <p id="details" style="margin-top: 30px">
+                    <strong>Tarih:</strong> {{ list.creationDate.date }} <br>
+                </p>
+            </div>
+        </div>
+
+
+        <!-- Client & Supplier -->
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="col-md-6">
+                    <strong class="margin-bottom-5">Tedarikçi</strong>
+                    <p>
+                        LIST OF ROOM <br>
+                        21 St Andrews Lane <br>
+                        London, CF44 6ZL, UK <br>
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <strong class="margin-bottom-5">Müşteri</strong>
+                    <p>
+                        {{ user.first_name }} {{ user.last_name }} <br>
+                        {{ company.name }} <br>
+                        {{ company.address }}<br>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Invoice -->
+    <div class="row">
+        <!-- Listings -->
+        <div class="col-lg-12 col-md-12" style="padding-right: 0;padding-left: 0;">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="dashboard-list-box">
+                    <div class="col-md-12 margin-top-5" style="border: 1px solid;">
+                        <div class="col-md-5">
+                            <div class="col-md-4">
+                                {% if customer.isCompany %}
+                                    <img src="/media/{{ customer.logo }}" alt="" style=" margin-top: 10px;">
+                                {% else %}
+                                    <img src="/media/list_of_room_logo.jpg" alt="" style=" margin-top: 10px;">
+                                {% endif %}
+
+                            </div>
+                            <div class="col-md-7 margin-top-10">
+                                <p>kullanıcı Adı : {{ user.first_name }} {{ user.last_name }}</p>
+                                <p>Tarih:{{ list.creationDate.date }}</p>
+                                <p>Refr LIST :{{ list.reference_list.list_name }}</p>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 margin-top-10">
+                            <p>Proje : {{ list.list_name }}</p>
+                            <P>Açıklama :{{ list.description }}</P>
+                        </div>
+                    </div>
+
+                    <table id="product" class="table table-bordered">
+                        <thead>
+                        <tr class="text-left">
+                            <th>NO</th>
+                            <th>KATEGORİ</th>
+                            <th>FONKSİYON</th>
+                            <th>KOD1</th>
+                            <th>KOD2</th>
+                            <th>MARKA</th>
+                            <th>ÜRÜN AÇIKLAMASI</th>
+                            <th>BİRİM</th>
+                            <th>MİKTAR</th>
+                            <th>BİRİM ORANI</th>
+                            <th>TOPLAM TUTAR</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for product in list_product %}
+                            <tr>
+                                <td>{{ forloop.counter0 }}</td>
+                                <td>
+                                    {% for cat in product.product.category.all %}
+                                        {% if cat.parent %}
+                                            {{ cat.name }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {{ product.product.category.all.0.name }}
+                                </td>
+                                <td>{{ product.product.code }}</td>
+                                <td>{{ product.product.company_code }}</td>
+                                <td>{{ product.product.company.name }}</td>
+                                <td>{{ product.product.company.name }} - {{ product.product.name }}</td>
+                                <td>{{ product.product.unit_rate }}</td>
+                                <td>89</td>
+                                <td>250 $/m2</td>
+                                <td>22,250.00 $</td>
+                            </tr>
+
+
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <!-- Copyrights -->
+    </div>
+
+
+</div>
+
+<script type="text/javascript" src="{% static 'base2/scripts/mmenu.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/chosen.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/rangeslider.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
+
+<!-- Google Autocomplete -->
+
+<script>
+    function initAutocomplete() {
+        var input = document.getElementById('autocomplete-input');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("No details available for input: '" + place.name + "'");
+                return;
+            }
+        });
+
+        if ($('.main-search-input-item')[0]) {
+            setTimeout(function () {
+                $(".pac-container").prependTo("#autocomplete-container");
+            }, 300);
+        }
+    }
+</script>
+<!-- Typed Script -->
+<script type="text/javascript" src="{% static 'base2/scripts/typed.js' %}"></script>
+</body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo/dashboard-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 05 Jul 2020 22:21:18 GMT -->
+</html>

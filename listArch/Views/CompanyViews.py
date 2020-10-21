@@ -29,10 +29,6 @@ from listArch.services import general_methods
 from oxiterp.settings.base import EMAIL_HOST_USER
 
 
-
-
-
-
 # Firma Ekle
 def add_company(request):
     perm = general_methods.control_access(request)
@@ -43,6 +39,7 @@ def add_company(request):
     company_form = CompanyForm(initial={'date': datetime.datetime.today().strftime("%d-%b-%Y")})
     user_form = UserCompanyForm()
     i = 0
+    company = Company.objects.all()
     if request.method == 'POST':
         company_form = CompanyForm(request.POST or None, request.FILES or None)
 
@@ -77,7 +74,9 @@ def add_company(request):
                                   noOfEmployees=company_form.cleaned_data['noOfEmployees'],
                                   annualSales=company_form.cleaned_data['annualSales'],
                                   date=company_form.cleaned_data['date'],
-                                  address_link=company_form.cleaned_data['address_link']
+                                  address_link=company_form.cleaned_data['address_link'],
+                                  business_type=company_form.cleaned_data['business_type'],
+
                                   )
                 company.save()
                 if request.POST['company_social[0][name]'] != "":
@@ -107,7 +106,8 @@ def add_company(request):
         except Exception as e:
             print(e)
 
-    return render(request, 'company/add-company.html', {'company_form': company_form, 'user_form': user_form})
+    return render(request, 'company/add-company.html',
+                  {'company_form': company_form, 'user_form': user_form, 'company': company})
 
 
 def return_companies(request):
@@ -283,7 +283,7 @@ def add_companyDefinition(request, pk):
             company_definition.save()
 
             messages.success(request, "Açıklama Başarıyla Kayıt Edildi.")
-            return redirect('listArch:urunler')
+            return redirect('listArch:firma-listesi')
 
     except Exception as e:
         print(e)

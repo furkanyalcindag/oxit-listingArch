@@ -37,14 +37,25 @@
                         <div class="highlighted-categories">
                             <!-- Box -->
                             {% for category in parent_categories %}
-
-                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
-                                   class="highlighted-category" style="width: 120px">
-                                    <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                    <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
-                                </a>
-
-
+                                {% if forloop.counter <= 8 %}
+                                    <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                       class="highlighted-category" style="width:110px">
+                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
+                                    </a>
+                                {% elif forloop.counter > 8 and forloop.counter <= 19 %}
+                                    <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                       class="highlighted-category" style="width:80px">
+                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                       class="highlighted-category" style="width: 110px">
+                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
+                                    </a>
+                                {% endif %}
 
                             {% endfor %}
                             <!-- Box -->
@@ -59,7 +70,7 @@
         <!-- Video -->
         <div class="video-container">
             <video poster="" loop autoplay muted>
-                <source src="/media/deneem2.mp4" type="video/mp4">
+                <source src="/media/3-clipchamp.mp4" type="video/mp4">
             </video>
         </div>
     </div>
@@ -115,7 +126,7 @@
             <div class="slider2">
                 {% for company in companies %}
                     <div class="">
-                        <img src="/media/{{ company.logo }}" alt="" class="img-responsive">
+                        <img  style=" filter: grayscale(100%); height: 45px" src="/media/{{ company.logo }}" alt="" class="img-responsive">
 
                     </div>
                 {% endfor %}
@@ -124,35 +135,6 @@
             </div>
 
 
-            <script>
-                window.onload = function () {
-                    $('.slider').slick({
-                        autoplay: true,
-                        infinite: true,
-                        autoplaySpeed: 1000,
-                        cssEase: 'ease-out',
-                        slidesToShow: 9,
-                        slidesToScroll: 1,
-                        variableWidth: true,
-
-
-                    });
-
-
-                    $('.slider2').slick({
-                        autoplay: true,
-                        infinite: true,
-                        autoplaySpeed: 1000,
-                        cssEase: 'ease-out',
-                        slidesToShow: 9,
-                        slidesToScroll: -1,
-                        variableWidth: true,
-
-
-                    });
-
-                };
-            </script>
         </div>
 
         <!-- Carousel / End -->
@@ -231,7 +213,6 @@
                         <div id="contact-message">
 
                         </div>
-
 
                         <div class="row">
                             <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
@@ -316,7 +297,7 @@
             <div class="slider">
                 {% for company in companies %}
                     <div class="">
-                        <img src="/media/{{ company.logo }}" alt="" class="img-responsive">
+                        <img  style=" filter: grayscale(100%);height: 45px" src="/media/{{ company.logo }}" alt="" class="img-responsive">
 
                     </div>
                 {% endfor %}
@@ -414,7 +395,7 @@
 
                     </div>
                     <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
-                         <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
                         <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
                         <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
                         <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
@@ -460,12 +441,13 @@
                     </ul>
                 </div>
                 <!-- Stage -->
-                <div class="col-md-2">
+                               <div class="col-md-2">
                     <div class="icon-box-2 with-line"
-                         style="background: #ffffff;width: 200px;height: 150px; margin-left: 27px;">
-                        <i class="im im-icon-Checked-User" style="color: #000000;border: 1px solid;width: 75px;
-    height: 75px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px;color: #000000">İNCELEME</h3>
+                         style="background: #ffffff;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;color: #000000;width: 66px;
+    height: 66px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">İNCELEME</h3>
+
                     </div>
                     <ul class="list-4 color"
                         style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
@@ -477,6 +459,7 @@
                         <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </section>

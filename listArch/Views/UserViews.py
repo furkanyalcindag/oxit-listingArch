@@ -197,15 +197,12 @@ def user_listing(request):
     array = []
     for product in products:
         dict_product = dict()
-        category = Category.objects.filter(pk=int(product['product__category__id']))
+        category = Category.objects.filter(pk=int(product['product__category__id'])).filter(is_parent=True)
         if category.count() > 0:
-            category_products = ListProduct.objects.filter(product__category=category[0])
+            category_products = ListProduct.objects.filter(product__category=category[0]).distinct('product')
             dict_product['products'] = category_products
             dict_product['category'] = category[0]
-
-
             array.append(dict_product)
-
-    return render(request, 'User/user-list-product.html', {'lists': array,'user_lists':user_lists})
+    return render(request, 'User/user-list-product.html', {'lists': array,'user_lists':user_lists,'user':request.user})
 
 

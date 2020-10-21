@@ -2,7 +2,8 @@ from django.conf.urls import url
 from django.urls import path
 
 from listArch.Views import OptionViews, CategoryViews, ProductViews, DashboardViews, CompanyViews, APIViews, HomeViews, \
-    BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews
+    BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews, \
+    CollectionViews
 
 app_name = 'listArch'
 
@@ -151,11 +152,15 @@ urlpatterns = [
 
     # list
     url(r'add-list/$', ListViews.addList, name='liste-olustur'),
+    url(r'list/$', ListViews.list, name='listele'),
+
     url(r'delete-list/$', ListViews.delete_list, name='liste-sil'),
     url(r'list-detail/(?P<pk>\d+)$', ListViews.list_detail, name='liste-detay'),
     url(r'create-sheet-list/(?P<pk>\d+)$', ListViews.print_list_page, name='liste-sayfasi-olustur'),
 
-    url(r'add-product-to-list/$', ListViews.add_product_list, name='kullanici-listeye-urun-ekle'),
+    url(r'add-product-to-list/(?P<product_id>\d+)/(?P<list_id>\d+)$', ListViews.add_product_list,
+        name='kullanici-listeye-urun-ekle'),
+    url(r'remove-product-to-list/$', ListViews.remove_product_list, name='kullanici-listeden-urun-cikar'),
 
     # Subscribe
     url(r'add-subscriber/$', SubscriberViews.add_subscriber, name='abone-ekle'),
@@ -163,8 +168,17 @@ urlpatterns = [
     url(r'get-api-subcriber/$', APIViews.GetSubscriber.as_view(), name='abone-list-api'),
     url(r'list-subscriber/$', SubscriberViews.subscriber_list, name='abone-listesi'),
 
-    #businessType
+    # businessType
     url(r'add-profile-name/$', BusinessTypeViews.add_businessType, name='profil-adi-ekle'),
     url(r'delete-business-type/$', BusinessTypeViews.delete_business_type, name='profil-adi-sil'),
+
+    url(r'error/$', HomeViews.error_page, name='404-sayfasi'),
+
+    # koleksiyon
+    url(r'create-collection/$', CollectionViews.add_collection, name='koleksiyon-kaydet'),
+    url(r'get-collection/$', CollectionViews.get_collection, name='koleksiyon-getir'),
+
+    url(r'add-collection-product/$', CollectionViews.add_product_to_collection, name='koleksiyona-urun-ekle'),
+    url(r'add-collection-company/(?P<pk>\d+)$', CollectionViews.add_collection_company, name='firmaya-koleksiyon-ekle'),
 
 ]

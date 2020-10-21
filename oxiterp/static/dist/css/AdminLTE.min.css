@@ -3349,10 +3349,11 @@ table.text-center th {
 }
 
 .users-list>li {
-    width: 33%;
+    width: 20%;
     float: left;
-    padding: 10px;
-    text-align: center
+    padding: 5px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .users-list>li img {

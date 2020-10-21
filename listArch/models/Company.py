@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from listArch.models.BusinessType import BusinessType
 from listArch.models.Country import Country
 from listArch.models.City import City
 
@@ -22,9 +23,11 @@ class Company(models.Model):
     annualSales = models.DecimalField(max_digits=10, decimal_places=2, null=True,
                                       verbose_name='Yıllık Satış Tutarı')
     address_link = models.TextField(null=True, blank=True, verbose_name='Konum Linki')
-    business_type = models.TextField(null=True, blank=True, verbose_name='Firma Tipi')
+    business_type = models.ForeignKey(BusinessType, null=True, blank=True, verbose_name='Firma Tipi',
+                                      on_delete=models.CASCADE)
     cover_image = models.ImageField(upload_to='company_image/', null=True, blank=True, verbose_name='Kapak Fotoğrafı',
                                     default='logo1.png')
+    retail = models.CharField(max_length=250, null=True, blank=True, verbose_name='Mağaza')
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)

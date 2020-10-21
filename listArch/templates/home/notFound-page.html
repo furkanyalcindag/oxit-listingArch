@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <div class="container brc" style="background:#000;">
+        <div class="row">
+            <div class="col-md-12" >
+
+                <section id="not-found" class="center" style="">
+                    <h2>404 <i class="fa fa-question-circle"></i></h2>
+                    <p>Üzgünüz ama aradığınız sayfa mevcut değil.</p>
+
+                    <!-- Search -->
+
+                    <!-- Search Section / End -->
+
+
+                </section>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script> function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    </script>
+{% endblock %}
+

@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+{% block content2 %}
+    <div class="main-search-container centered" style="height: auto !important;">
+        <div class="main-search-inner">
+            <div class="row">
+                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider">
+                        {% for category in parent_categories %}
+                            <div class="">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category">
+                                    <img style=" width: 30px;height: 30px;margin-bottom: 5px" class="img-responsive"
+                                         src="/media/worker.png"
+                                         alt="Bricks-in-Bytes">
+                                    <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;">{{ category.name }}</h4>
+                                </a>
+
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                    <style>
+                        .slider {
+                            width: 90%;
+                            height: 70px;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
+
+                    <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                slidesToShow: 15,
+                                slidesToScroll: -5,
+                                infinite: true,
+                                cssEase: 'linear',
+
+                            });
+
+                        };
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
+         style="height: 215px">
+        <div class="main-search-inner">
+
+            <div class="">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <!-- Features Categories -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="highlighted-categories">
+
+                                {% for category in sub_categories %}
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+                                {% endfor %}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <!-- Titlebar -->
+        <div class="container" style="z-index: 9;position: relative;width: 100%;
+    border-top: 2px solid #fd9116;">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="categories-boxes-container ">
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Özellikler</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a>
+                    <!-- Box -->
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                    <a href="listings-list-with-sidebar.html" class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="titlebar" style="border-top:2px solid #fd9116;margin-right: 2px;">
+        <div class="container" style="margin-left: 0px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" style="margin-left: 20px;">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">LİSTELERİM</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="notification success closeable">
+                <p>{{ message }}</p>
+                <a class="close"></a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container" style="background:#000;width: 100%;border-top: 1px solid #fff;border-bottom:2px solid #fd9116 ;margin-top: 2px ">
+
+        <div class="row">
+            <div style="margin-left: 50px">
+                <div class="col-md-6">
+                    <a href="{% url 'listArch:liste-sayfasi-olustur' list.pk %}" class=" button default "
+                       style=";padding-right: 20px; font-family: 'Roboto', sans-serif; font-size: 14px;background: #ffff; color: black;line-height: 30px; height: 37px; text-align: center; margin-top: 10px; margin-left: 80%;">Sayfa
+                        Oluştur</a>
+                </div>
+                <div class="col-md-6">
+                    <nav id="navigation" class="style-1" style="margin-top: 10px;">
+                        <ul id="responsive">
+
+                            <li><a class="button"
+                                   style=";font-family: 'Roboto',sans-serif;color:#000;width: 100%;background-color: #ffffff;border-radius:0px;">Listelerim</a>
+                                <ul>
+                                    {% for list in user_list %}
+                                        <li><a href="{% url 'listArch:liste-detay' list.pk %}">{{ list.list_name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div id="small-dialog" class="zoom-anim-dialog mfp-hide" style="height:400px;">
+                <div class="small-dialog-header" style="padding: 30px 40px;margin-bottom: 30px;">
+                </div>
+                <div class="message-reply margin-top-0" style="margin-top: -15px !important;">
+                    <form action="{% url 'listArch:liste-olustur' %}" method="post">
+                        {% csrf_token %}
+                        <input name="list_name" type="text" id="list_name" placeholder="Liste Adı">
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <select id="reference_list" name="reference_list"
+                                        class="chosen-select-no-single" style="display: none;">
+                                    <option label="blank">Bağlantılı Liste</option>
+                                    <option>Yok</option>
+                                    {% for list in user_list %}
+                                        <option>{{ list.list_name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <select id="list_type" name="list_type" class="chosen-select-no-single"
+                                        style="display: none;">
+                                    <option label="blank">Liste Tipini Seçiniz</option>
+                                    <option>Otel</option>
+                                    <option>Restaurant</option>
+                                    <option>Ofis</option>
+                                    <option>Okul</option>
+                                    <option>Ev</option>
+
+                                </select>
+
+                            </div>
+                        </div>
+                        <br>
+
+                        <textarea name="description" cols="30" rows="2" id="description"
+                                  placeholder="Açıklama"
+                                  spellcheck="true"></textarea>
+
+
+                        <button class="button"
+                                style="padding: 5px 20px;  float: right; margin-top: 20px; margin-right: 0px !important;">
+                            Kaydet
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Listings -->
+            <div class="col-lg-12 col-md-12 list-brc" style="padding-right: 0;padding-left: 0;">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="dashboard-list-box">
+                        <div class="col-md-12 margin-top-5" style="border: 1px solid;">
+                            <div class="col-md-5">
+                                <div class="col-md-4">
+                                    {% if customer.isCompany %}
+                                        <img src="/media/{{ customer.logo }}" alt="" style=" margin-top: 10px;">
+                                    {% else %}
+                                        <img src="/media/list_of_room_logo.jpg" alt="" style=" margin-top: 10px;">
+                                    {% endif %}
+
+                                </div>
+                                <div class="col-md-7 margin-top-10">
+                                    <p>kullanıcı Adı : {{ user.first_name }} {{ user.last_name }}</p>
+                                    <p>Tarih:{{ list.creationDate.date }}</p>
+                                    <p>Refr LIST :{{ list.reference_list.list_name }}</p>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 margin-top-10">
+                                <p>Proje : {{ list.list_name }}</p>
+                                <P>Açıklama :{{ list.description }}</P>
+                            </div>
+                        </div>
+
+                        <table id="product" class="table table-bordered">
+
+                            <thead>
+
+                            <tr class="text-left">
+                                <th>NO</th>
+                                <th>KATEGORİ</th>
+                                <th>FONKSİYON</th>
+                                <th>KOD1</th>
+                                <th>KOD2</th>
+                                <th>MARKA</th>
+                                <th>ÜRÜN AÇIKLAMASI</th>
+                                <th>BAĞLANTI</th>
+                                <th>BİRİM</th>
+                                <th>MİKTAR</th>
+                                <th>BİRİM ORANI</th>
+                                <th>TOPLAM TUTAR</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+
+                            {% for product in list_product %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        {% for cat in product.product.category.all %}
+                                            {% if cat.parent %}
+                                                {{ cat.name }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {{ product.product.category.all.0.name }}
+                                    </td>
+                                    <td>{{ product.product.code }}</td>
+                                    <td>{{ product.product.company_code }}</td>
+                                    <td>{{ product.product.company.name }}</td>
+                                    <td>{{ product.product.company.name }} - {{ product.product.name }}</td>
+                                    <td>
+                                        <a style="display: flex; justify-content: center; align-items: center;height: 20px;"
+                                           href="{% url 'listArch:urun-detay' product.product.pk %}" type="button wr"
+                                           >Link</a></td>
+                                    <td>{{ product.product.unit_rate }}</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+
+
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            <!-- Copyrights -->
+        </div>
+    </div>
+    <script> function getCookie(name) {
+        var cookieValue = null;
+        var i = 0;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (i; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        crossDomain: false, // obviates need for sameOrigin test
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    </script>
+
+{% endblock %}

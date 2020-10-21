@@ -81,87 +81,101 @@
                                     <div class="row">
                                         <div class="panel panel-default">
                                             <div class="panel-body" style="margin:10px;">
-                                                <div class="form-group">
 
-                                                    <div class="col-md-6">
-                                                        <label>Profil Adı </label>
-                                                        <input type="text" id="business-type" name="business-type"
-                                                               class="form-control"></div>
-                                                    <div class="col-md-6" style="margin-top: 25px">
+                                                <div class="form-group required">
+                                                    <label class="col-sm-2 control-label">Profil Adı</label>
+                                                    <div class="col-sm-8">
+                                                        <div class="input-group"><span class="input-group-addon">
+                                                            <img src="/media/en-gb.png" title="ENg"></span>
+                                                           <input type="text" name="eng-type"
+                                                                   value=""
+                                                                   placeholder="Profil Adı" class="form-control">
+                                                        </div>
+                                                        <div class="input-group"><span class="input-group-addon">
+                                                            <img src="/media/tr-tr.png" title="TR"></span>
+                                                            {{ form.key }}
+                                                        </div>
+                                                        {{ form.isProduct_based }}
+                                                        <label class=" control-label">Ürün bazlı profil</label>
+                                                    </div>
+                                                    <div class="col-sm-2" style="margin-top: 15px">
                                                         <button type="submit" form="form-option" data-toggle="tooltip"
                                                                 title=""
                                                                 class="btn btn-primary" data-original-title="Kaydet"><i
                                                                 class="fa fa-save"></i></button>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                            </div>
+                            </form>
 
 
-                                <div class="row">
+                            <div class="row">
 
-                                    <div class="panel panel-default">
+                                <div class="panel panel-default">
 
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title"><i class="fa fa-list"></i>Profiller</h3>
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="fa fa-list"></i>Profiller</h3>
 
-                                        </div>
+                                    </div>
 
-                                        <div class="panel-body">
+                                    <div class="panel-body">
 
-                                            <form method="post" enctype="multipart/form-data" id="form-product">
+                                        <form method="post" enctype="multipart/form-data" id="form-product">
 
-                                                <div class="table-responsive">
-                                                    <table id="profile" class="display responsive nowrap"
-                                                           cellspacing="0"
-                                                           width="100%">
-                                                        <thead>
-                                                        <tr class="text-left">
+                                            <div class="table-responsive">
+                                                <table id="profile" class="display responsive nowrap"
+                                                       cellspacing="0"
+                                                       width="100%">
+                                                    <thead>
+                                                    <tr class="text-left">
 
-                                                            <td>#</td>
-                                                            <td>İşlem</td>
-                                                            <td>Profil Adı</td>
+                                                        <td>#</td>
+                                                        <td>İşlem</td>
+                                                        <td>Profil Adı</td>
 
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for business_type in business_types %}
+                                                        <tr>
+
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td>
+
+                                                                <a onclick="business_type_delete({{ business_type.business_type.pk }})"
+                                                                   data-toggle="tooltip" title=""
+                                                                   class="btn btn-danger"
+                                                                   data-original-title="Sil"><i
+                                                                        class="fa fa-close"></i></a>
+                                                            </td>
+
+                                                            <td>{{ business_type.description }}</td>
 
                                                         </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {% for business_type in business_types %}
-                                                            <tr>
-
-                                                                <td>{{ forloop.counter }}</td>
-                                                                <td>
-
-                                                                    <a onclick="business_type_delete({{ business_type.pk }})"
-                                                                       data-toggle="tooltip" title=""
-                                                                       class="btn btn-danger"
-                                                                       data-original-title="Sil"><i
-                                                                            class="fa fa-close"></i></a>
-                                                                </td>
-
-                                                                <td>{{ business_type.type }}</td>
-
-                                                            </tr>
-                                                        {% endfor %}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
+
                 </div>
-
-            </section>
-
         </div>
+
+    </section>
+
+    </div>
     </section>
 
     <script>

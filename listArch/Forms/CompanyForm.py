@@ -9,7 +9,7 @@ class CompanyForm(ModelForm):
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link',
+            'noOfEmployees', 'date', 'address_link', 'business_type','retail'
         )
 
         widgets = {
@@ -43,5 +43,8 @@ class CompanyForm(ModelForm):
 
             'noOfEmployees': forms.NumberInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Çalışan Sayısı'}),
+            'business_type': forms.Select(
+                attrs={'class': 'form-control select2 select2-hidden-accessible', 'name': 'type',
+                       'style': 'width: 100%;', 'required': 'required'}),
 
         }

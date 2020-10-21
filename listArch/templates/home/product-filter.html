@@ -72,8 +72,6 @@
                                 <h3 style="font-size: 25px;
     font-weight: 600;" class="margin-top-10  margin-bottom-10">{{ category.name }}
                                     FILTERS</h3>
-
-
                             </div>
 
                         </div>
@@ -126,7 +124,8 @@
                                                     <div id="btnClick">
                                                         {% for value in option.values %}
                                                             <input id="{{ value.option_value.pk }}"
-                                                                   type="checkbox" onchange="option('checkbox',{{  value.option_value.option.pk }},this.value)"
+                                                                   type="checkbox"
+                                                                   onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
                                                                    name="{{ value.option_value.pk }}"
                                                                    value="{{ value.option_value.pk }}">
                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -184,7 +183,8 @@
                                                                         {% for value in option.allValues %}
 
                                                                             <input id="{{ value.option_value.pk }}"
-                                                                                   type="checkbox" onchange="option('checkbox',{{ option.option.pk }},this.value)"
+                                                                                   type="checkbox"
+                                                                                   onchange="option('checkbox',{{ option.option.pk }},this.value)"
                                                                                    name="{{ value.option_value.pk }}"
                                                                                    value="{{ value.option_value.pk }}">
                                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -202,12 +202,7 @@
 
                                                 </div>
 
-                                                <script>
-                                                    $('#close_window').on('click', function () {
-                                                        window.opener = self;
-                                                        window.close();
-                                                    });
-                                                </script>
+
                                                 <!-- Row -->
 
                                                 <!-- Row / End -->
@@ -304,8 +299,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                   <h2 style="margin-top: 30px;font-weight: 600">{{ category.name }} <strong id="option_count"> [{{ products | length }}] </strong></h2>
-                <p style="text-align: justify;font-size: 13px;">{{ cat_desc.definition |safe }}
+                <h2 style="margin-top: 30px;font-weight: 600">{{ category.name }} <strong id="option_count">
+                    [{{ products | length }}] </strong></h2>
+                <p style="text-align: justify;font-size: 13px;">{{ cat_desc.definition | safe }}
                 </p>
 
                 <style>
@@ -437,7 +433,7 @@
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i class="im im-icon-Phone-2"></i></a>
                                                     <a class=" popup-with-zoom-anim"
                                                        style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                        href="#small-dialog-{{ product.pk }}"> <i
@@ -472,7 +468,7 @@
                                                                                     +
                                                                                     <a style="color:#000;font-size: 12px;"
                                                                                        type="button"
-                                                                                       onclick="add_list_product({{ list.pk }},{{ product.pk }})">{{ list.list_name }}: {{ list.description }}</a>
+                                                                                       href="{% url 'listArch:kullanici-listeye-urun-ekle' list.pk product.pk %}">{{ list.list_name }}: {{ list.description }}</a>
 
                                                                                 </p>
                                                                             {% endfor %}
@@ -510,24 +506,30 @@
                                     {% for product in products %}
                                         {% if not product.isAdvert %}
                                             <div class="col-1-5">
-                                                <div class="hovereffect"
-                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                <div class="hovereffect">
                                                     <div class="listing-item ">
                                                         <img
                                                                 src="/media/{{ product.cover_image }}" alt="">
                                                         <div class="overlay">
-                                                            <h2 style="font-size:16px">{{ product.company.name }}</h2>
-                                                            <h2 style="font-size:10px">{{ product.name }}</h2>
-                                                            <h2 style="font-size:16px">ID {{ product.code }}</h2>
-                                                            <h2 style="font-size:16px">250$ Sqm</h2>
-                                                            <h2 style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                            <h2 style="font-size:16px"
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.name }}</h2>
+                                                            <h2 style="font-size:10px"
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.name }}</h2>
+                                                            <h2 style="font-size:16px"
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                                ID {{ product.code }}</h2>
+                                                            <h2 style="font-size:16px"
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                                250$ Sqm</h2>
+                                                            <h2 style="font-size:10px"
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.country.name }}</h2>
                                                             <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;" href="{%  url 'listArch:firma-bilgileri' product.company.pk %}"> <i class="im im-icon-Phone-2"></i></a>
                                                             <a class=" popup-with-zoom-anim"
                                                                style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                                href="#small-dialog-{{ product.pk }}"> <i
@@ -564,7 +566,7 @@
                                                                                         +
                                                                                         <a style="color:#000;font-size: 12px;"
                                                                                            type="button"
-                                                                                           onclick="add_list_product({{ list.pk }},{{ product.pk }})">{{ list.list_name }}: {{ list.description }}</a>
+                                                                                           href="{% url 'listArch:kullanici-listeye-urun-ekle' product.pk list.pk %}">{{ list.list_name }}: {{ list.description }}</a>
 
                                                                                     </p>
                                                                                 {% endfor %}
@@ -709,23 +711,29 @@
                                     {% for product in products %}
 
                                         <div class="col-1-5">
-                                            <div class="hovereffect"
-                                                 onclick="{% url 'listArch:urun-detay' product.pk %}">
+                                            <div class="hovereffect">
                                                 <div class="listing-item">
                                                     <img src="/media/{{ product.cover_image }}" alt="">
                                                     <div class="overlay">
-                                                        <h2 style="font-size:16px">{{ product.company.name }}</h2>
-                                                        <h2 style="font-size:10px">{{ product.name }}</h2>
-                                                        <h2 style="font-size:16px">ID {{ product.code }}</h2>
-                                                        <h2 style="font-size:16px">250$ Sqm</h2>
-                                                        <h2 style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                        <h2 style="font-size:16px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.name }}</h2>
+                                                        <h2 style="font-size:10px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.name }}</h2>
+                                                        <h2 style="font-size:16px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                            ID {{ product.code }}</h2>
+                                                        <h2 style="font-size:16px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                            250$ Sqm</h2>
+                                                        <h2 style="font-size:10px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.country.name }}</h2>
                                                         <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i class="im im-icon-Phone-2"></i></a>
                                                         <a class=" popup-with-zoom-anim"
                                                            style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                            href="#small-dialog-{{ product.pk }}"> <i
@@ -760,7 +768,7 @@
                                                                                         +
                                                                                         <a style="color:#000;font-size: 12px;"
                                                                                            type="button"
-                                                                                           onclick="add_list_product({{ list.pk }},{{ product.pk }})">{{ list.list_name }}: {{ list.description }}</a>
+                                                                                           href="{% url 'listArch:kullanici-listeye-urun-ekle' product.pk list.pk %}">{{ list.list_name }}: {{ list.description }}</a>
 
                                                                                     </p>
                                                                                 {% endfor %}
@@ -802,10 +810,9 @@
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
 
-                                    <h3 style="font-size: 25px;
+                                <h3 style="font-size: 25px;
     font-weight: 600;" class="margin-top-10  margin-bottom-10"> {{ category.name }}
-                                        FILTERS</h3>
-
+                                    FILTERS</h3>
 
 
                             </div>
@@ -833,9 +840,8 @@
 
                         <!-- Row / End -->
                         <!-- More Search Options -->
-                        {% for option in options %}
+                        {% for option in advanced_options %}
 
-                            {% if not option.option.isBasic %}
                                 <!-- Row -->
                                 {% if option.option.type == 'checkbox' %}
 
@@ -860,7 +866,8 @@
                                                     <div id="btnClick">
                                                         {% for value in option.values %}
                                                             <input id="{{ value.option_value.pk }}"
-                                                                   type="checkbox" onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
+                                                                   type="checkbox"
+                                                                   onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
                                                                    name="{{ value.option_value.pk }}"
                                                                    value="{{ value.option_value.pk }}">
                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -1185,7 +1192,6 @@
 
                                 {% endif %}
 
-                            {% endif %}
 
                         {% endfor %}
                         {% for option_text in option_text %}
@@ -1251,7 +1257,7 @@
                         window.onload = function () {
                             $('.slider').slick({
                                 slidesToShow: 15,
-                                slidesToScroll: 5,
+                                slidesToScroll: -5,
                                 infinite: true,
                                 cssEase: 'linear',
 
@@ -1261,7 +1267,8 @@
                     </script>
                     <style>
                         .slider {
-                            width: 88%;
+                            width: 90%;
+                            height: 70px;
                             margin: 0 auto;
                             background: transparent;
                         }
@@ -1276,7 +1283,7 @@
         </div>
     </div>
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
-         style="height: 215px;">
+         style="height: 250px">
         <div class="main-search-inner">
 
             <div class="">
@@ -1309,29 +1316,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <!-- Features Categories -->
-                    <div class="row">
-                        <div class="col-md-12">
 
-                            <div class="highlighted-categories">
-
-                                {% for category in sub_categories %}
-
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
-                                    </a>
-
-                                {% endfor %}
-
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
                 <!-- Featured Categories - End -->
 
             </div>
@@ -1374,17 +1359,6 @@
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
         }
-    });
-
-    function close(id) {
-        $('#small-dialog-' + id + '').modal('hide');
-    }
-
-
-    $(document).ready(function () {
-
-        document.getElementById("container").scrollIntoView({block: "center"});
-
     });
 
 

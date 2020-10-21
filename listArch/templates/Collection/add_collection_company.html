@@ -1,0 +1,285 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <section class="content-header">
+        <h1>
+            Koleksiyon Oluştur
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a href="">Katalog</a></li>
+            <li><a href="">Firma Ekle</a></li>
+        </ol>
+
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+            <section class="col-lg-12 ">
+
+                <div class="box box-primary">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>Koleksiyon Adı</h4>
+                                <select name="collection" onchange="select_collection()"
+                                        id="collection"
+                                        class="form-control">
+                                    <option value="">-----</option>
+
+                                    {% for collection in collections %}
+                                        <option value="{{ collection.pk }}">{{ collection.name }}</option>
+                                    {% endfor %}
+                                    <option value="news">YENİ</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div id="new-collection" style="display: none">
+                                <div class="col-md-8">
+                                    <input id="collection_name" name="collection_name" type="text" class="form-control"
+                                           placeholder="Koleksiyon Adı">
+                                </div>
+                                <div class="col-md-4" id="new-collection-button">
+                                    <button onclick="add_collection()" style="" type="button"
+                                            class="btn  btn-info btn-sm">Oluştur
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="hidden" id="company" name="company" value="{{ company }}">
+                            <input type="hidden" id="collection_id" name="collection_id" value="">
+
+                        </div>
+                    </div>
+                    <div id="product-show">
+                        <div id="opacity" style="opacity: 0.4">
+                            <ul class="users-list clearfix">
+                                {% for product in company_products %}
+                                    <li id="{{ product.pk }}">
+                                        <img src="/media/{{ product.cover_image }}" alt="User Image">
+                                        <a class="users-list-name" href="#">{{ product.name }}</a>
+                                        <span class="users-list-date">{{ product.code }}</span>
+                                        <button onclick="add_collection_product({{ product.pk }})" id="btn-col"
+                                                name="btn-col"
+                                                style="width: 40%" type="button" disabled
+                                                class="btn btn-warning btn-sm">
+                                            Ekle
+                                        </button>
+                                    </li>
+
+
+
+                                {% endfor %}
+
+                            </ul>
+                            <!-- /.users-list -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+
+                <!-- /.box-footer -->
+        </div>
+        <!--/.box -->
+
+
+    </section>
+
+
+    <script>
+
+
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+    <script>
+        function add_collection() {
+            debugger;
+            $.ajax({
+                url: "{% url 'listArch:koleksiyon-kaydet' %}",
+                type: "post", // or "get"
+                data: {
+                    company_id: document.getElementById('company').value,
+                    name: document.getElementById('collection_name').value,
+
+                },
+                success: function (result) {
+                    debugger;
+                    if (result.status === 'Success') {
+                        document.getElementById("opacity").style = " ";
+                        let buttons = document.getElementsByName('btn-col');
+                        for (let i = 0; i < buttons.length; i++) {
+                            buttons[i].disabled = false;
+                        }
+
+                        document.getElementById('collection_id').value = result.id;
+
+                        swal("Başarılı", "Koleksiyon Oluşturuldu Ürün Ekleyebilirsiniz.", "success");
+
+                    } else {
+                        swal("Başarısız", result.messages, "error");
+                    }
+                }
+            });
+
+        }
+
+        function add_collection_product(id) {
+            debugger;
+
+            $.ajax({
+                url: "{% url 'listArch:koleksiyona-urun-ekle' %}",
+                type: "post", // or "get"
+                data: {
+                    product: id,
+                    collection_id: document.getElementById('collection_id').value,
+
+
+                },
+                success: function (result) {
+                    debugger;
+                    if (result.status === 'Success') {
+                        document.getElementById('' + id + '').remove();
+                        swal("Başarılı", "Ürün Eklendi.", "success");
+
+
+                    } else {
+                        swal("Başarısız", result.messages, "error");
+                    }
+                }
+            });
+
+        }
+
+        function select_collection() {
+            debugger;
+            let e = document.getElementById("collection");
+            let collection_id = e.options[e.selectedIndex].value;
+
+            if (collection_id === "news") {
+                document.getElementById('new-collection').style.display = 'block';
+
+            } else {
+
+                $.ajax({
+                    url: "{% url 'listArch:koleksiyon-getir' %}",
+                    type: "post", // or "get"
+                    data: {
+                        collection: collection_id,
+
+                    },
+                    success: function (response) {
+                        debugger;
+                        let products = response.products;
+
+                        let html = "";
+
+
+                        html = '<ul class="users-list clearfix">'
+                        for (let i = 0; i < products.length; i++) {
+                            html += '<li id="' + products[i].id + '">';
+                            html += '<img src="' + products[i].cover_image + '" alt="User Image">';
+                            html += ' <a class="users-list-name" href="#">' + products[i].name + '</a>';
+                            html += '<span class="users-list-date">' + products[i].code + '</span>';
+                            html += '<button onclick="add_collection_product(' + products[i].id + ')" id="btn" style="width: 40%" type="button" class="btn  btn-warning btn-sm">Ekle </button></li>';
+                        }
+
+                        html += '</ul>';
+                        document.getElementById('collection_id').value = collection_id;
+                        document.getElementById('product-show').innerHTML = html;
+
+
+                    }
+                });
+            }
+
+        }
+
+    </script>
+
+
+
+{% endblock %}
+

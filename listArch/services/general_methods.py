@@ -1,4 +1,5 @@
 from django.contrib.auth.models import Group, User, Permission
+from django.shortcuts import render
 from django.urls import resolve
 from django.utils.crypto import get_random_string
 
@@ -133,7 +134,7 @@ def get_random_secret_key():
 
 def parent_categories_list(request):
     from listArch.models import Category
-    categories = Category.objects.filter(is_parent=True).filter(isBasic=True)
+    categories = Category.objects.filter(is_parent=True).filter(isBasic=True).order_by('order')
     return {"parent_categories": categories}
 
 
@@ -171,3 +172,5 @@ def headerText(request):
     if headerText.count() > 0:
         return {'headerText': headerText[0]}
     return {}
+
+

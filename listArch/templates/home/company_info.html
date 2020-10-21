@@ -23,13 +23,14 @@
                     </div>
 
 
-                    <script>
+                   <script>
                         window.onload = function () {
                             $('.slider').slick({
                                 slidesToShow: 15,
-                                slidesToScroll:5,
+                                slidesToScroll: -5,
                                 infinite: true,
                                 cssEase: 'linear',
+                                variableWidth: true,
 
                             });
 
@@ -37,7 +38,8 @@
                     </script>
                     <style>
                         .slider {
-                            width: 88%;
+                            width: 90%;
+                            height: 70px;
                             margin: 0 auto;
                             background: transparent;
                         }
@@ -133,9 +135,9 @@
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs">
                         <ul>
-                            <li><a href="#">ANASAYFA</a></li>
-                            <li><a href="#">MARKALAR</a></li>
-                            <li><a href="">{{ company.name }}</a></li>
+                            <li><a href="{% url 'listArch:index' %}">ANASAYFA</a></li>
+                            <li><a href="#">PROFİL</a></li>
+                            <li><a href="{% url 'listArch:firma-bilgileri' company.pk %}">{{ company.name }}</a></li>
 
 
                         </ul>
@@ -155,12 +157,12 @@
                      padding-right: 0;">
                 <a href="#"><img height="75" src="/media/user.png" alt=""></a>
             </div>
-            <div class="col-md-2" style="padding-left: 0;
+            <div class="col-md-1" style="padding-left: 0;
                      padding-right: 0;">
                 <h4>{{ company.user.first_name }} {{ company.user.last_name }}</h4>
                 <p>{{ company.country.name }}</p>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <div id="listing-nav" class="listing-nav-container">
 
 
@@ -197,49 +199,57 @@
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Brochure in Prints</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Price & Quotation</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Catalogue in Prints</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">BIM/CAD Files</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Catalogue in Softcopy</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Nearby Dealer List</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Spec Sheet</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Ask a Question</a>
                             </div>
@@ -252,38 +262,44 @@
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
                                     <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">WEB Site</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
                                     <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">Address</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
                                     <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">E-Mail</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
                                     <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">Phone</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
                                     <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">Internet
                                         Comunications</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
                                     <a href="#" style="    font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">Map</a>
                                 </div>
@@ -302,49 +318,57 @@
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Phone</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">+90 555 555 55 55</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="ffont-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Preferred Time</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">14.30</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Contact Person</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">George Philip</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Request Topic</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="ffont-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">------</a>
                             </div>
@@ -361,49 +385,57 @@
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">COUNTRY</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">TURKEY</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">STATE</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">TR</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">CITY</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">ANKARA</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">BUSINESS TYPE</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                        class="button book-now fullwidth margin-top-5">BRANCH/DEALER/RESELLER▼</a>
                                 </div>
@@ -426,85 +458,99 @@
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">PDF General Catalouge</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Ethics</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Technical Files</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Legal Notes</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">CAD File</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">General Sale Notes</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">BIM File</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Company Profile</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Warranty</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">Company Reports</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">F2</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">C2</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">F3</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
-    background: #fd9116;
+    background: #fd9116;    line-height: 12px;
+
     padding: 5px;"
                                    class="button book-now fullwidth margin-top-5">C3</a>
                             </div>

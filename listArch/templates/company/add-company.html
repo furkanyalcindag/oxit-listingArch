@@ -19,20 +19,17 @@
         {% if messages %}
             {% for message in messages %}
 
-
                 {% if message.tags == 'warning' %}
 
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4><i class="icon fa fa-ban"></i> Hata !</h4>
 
-
                         <ul class="messages">
                             {% for message in messages %}
                                 <li class="{{ message.tags }}">{{ message }}</li>
                             {% endfor %}
                         </ul>
-
 
                     </div>
 
@@ -129,6 +126,31 @@
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Email</label>
                                                         <div class="col-sm-10">{{ user_form.email }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Profil Adı</label>
+                                                        <div class="col-sm-10">{{ company_form.business_type }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                        >Mağaza</label>
+                                                        <div class="col-sm-10"><select onchange="add_retail()"
+                                                                                       name="retail"
+                                                                                       id="retail"
+                                                                                       class="form-control">
+                                                            <option value="">---</option>
+                                                            {% for company in company %}
+                                                                <option value="{{ company.name }}">{{ company.name }}</option>
+                                                            {% endfor %}
+                                                            <option value="news">Yeni</option>
+                                                        </select></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div id="new-retail" name="new-retail">
+
                                                         </div>
                                                     </div>
 
@@ -231,7 +253,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">
-                                                <label class="col-sm-1 control-label" for="input-type">Yöneticinin Hikayesi</label>
+                                                <label class="col-sm-1 control-label" for="input-type">Yönetici
+                                                    Hikayesi</label>
                                                 <div class="col-sm-11">
                                                     {{ company_form.userDescription }}
                                                 </div>
@@ -329,7 +352,7 @@
             html += '<option value="instagram">Instagram</option><option value="facebook">Facebook</option>';
             html += '<option value="twitter">Twitter</option><option value="pinterest">Pinterest</option></select></td>';
             html += '  <td class="text-right"><input type="text" name="company_social[' + social_row + '][link]" value="" placeholder="Link" class="form-control" /></td>';
-            html += '  <td class="text-left"><button type="button" onclick="remove_row('+social_row+')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-left"><button type="button" onclick="remove_row(' + social_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
 
             $('#social tbody').append(html);
@@ -349,7 +372,24 @@
             social_row = social_row - 1;
         }
 
+        function add_retail() {
+            debugger;
+            let e = document.getElementById("retail");
+            let retail = e.options[e.selectedIndex].value;
+            let html = "";
+            if (retail === "news") {
+                html = '<div class="form-group">';
+                html += '<label class="col-sm-2 control-label" for="input-type">Mağaza Adı</label>';
+                html += '<div class="col-sm-10"><input id="new-retail" name="new-retail" type="text" class="form-control" placeholder="Firma Adı">';
+                html += '</div></div>';
+                html += '<div class="form-group"><label class="col-sm-2 control-label" for="input-type">Mağaza Logo</label>';
+                html += '<div class="col-sm-10">';
+                html += '<input id="retail-image" name="retail-image" type="file" class="form-control"></div></div>';
+            }
 
+            document.getElementById('new-retail').innerHTML = html;
+
+        }
     </script>
 
 

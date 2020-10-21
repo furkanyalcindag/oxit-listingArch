@@ -192,7 +192,11 @@
                             let url = '{% url 'listArch:firma-düzenle' 0 %}';
                             url = url.replace(0, full.id);
                             let url2 = '{% url 'listArch:firma-aciklama-ekle' 0 %}'.replace(0, full.id);
+                            let url3 = '{% url 'listArch:firmaya-koleksiyon-ekle' 0 %}'.replace(0, full.id);
+
                             html = '<a class="btn btn-primary" type="btn" title="Düzenle" href="' + url + '"><i class="fa fa-edit"></i></a>';
+                            html += '<a style="margin-left: 5px;" class="btn btn-success" type="btn" title="Koleksiyon Ekle" href="'+url3+'"><i class="fa  fa-picture-o"></i></a>';
+
                             html += '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Açıklama Ekle" href="' + url2 + '"><i class="fa fa-plus"></i></a>';
                             html += '<button type="button" style="margin-left: 5px;" onclick="delete_company(' + full.id + ')" class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
 
@@ -310,7 +314,7 @@
                     html += ' <table class="table table-hover">';
                     html += ' <tbody><tr>';
                     html += '<th>Açıklama</th></tr><tr>';
-                    html += '<td>' + company.description + '</td>';
+                    html += '<td>' + company.userDescription + '</td>';
                     html += '</tr>';
                     html += '</tbody></table></div>';
 
@@ -342,7 +346,7 @@
                         },
                         success: function (result) {
 
-                            if (result.status == 'Success') {
+                            if (result.status === 'Success') {
                                 swal("Başarılı", " Firma Silindi", "success");
                                 window.location.replace("{% url "listArch:firma-listesi" %}");
 

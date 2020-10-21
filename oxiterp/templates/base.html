@@ -6,16 +6,20 @@
     <meta name="keywords" content="Bricks-in-Bytes">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'base2/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'base2/css/main-color.css' %}" id="colors">
     <link rel="stylesheet" href="{% static 'base2/css/bootstrap-grid.css' %}">
+
 
     <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;800&display=swap"
           rel="stylesheet">
-    <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'base2/chart/style-gauge.css' %}">
+
     <style>
 
 
@@ -286,6 +290,9 @@
 <script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
+<script src='https://cdn3.devexpress.com/jslib/17.1.6/js/dx.all.js'></script>
+<script src="{% static 'base2/chart/canvasjs.min.js' %}"></script>
+
 
 <!-- Google Autocomplete -->
 
@@ -367,7 +374,9 @@
 
 
 </script>
+<script>
 
+</script>
 <script>
     function searchGetProduct() {
         debugger;
@@ -380,12 +389,12 @@
                 product_name: name,
 
             },
-            success: function (result) {
+            success: function (response) {
                 debugger;
 
-                if (result.product.length !== 0) {
+                if (response.product.length !== 0) {
 
-                    let products = result.product;
+                    let products = response.product;
 
                     let html = '<div id="product-block" style="margin-top: -12px;width:100%;z-index:999;position: absolute;border:2px solid #ffffff;background: white;color: black;font-size:15px;"><ul style="width: 100%; height: auto; overflow: auto" >';
                     html += '<ul>'
@@ -451,6 +460,7 @@
 
 </script>
 
+
 <script>
     let tmp = [];
     let filtered_products = [];
@@ -476,7 +486,7 @@
 
             temp = {"type": type, "option_id": value_id, "value": min + '-' + max,}
             for (let i = 0; i < options.length; i++) {
-                if (options[i]['value_id'] === temp['value_id']) {
+                if (options[i]['option_id'] === temp['option_id']) {
                     options.pop(options[i])
                 }
             }
@@ -550,10 +560,10 @@
         });
     }
 
-    function add_list_product(list_id, product_id) {
+    function remove_item_list(list_id, product_id) {
         debugger;
         $.ajax({
-            url: "{% url 'listArch:kullanici-listeye-urun-ekle'%}",
+            url: "{% url 'listArch:kullanici-listeden-urun-cikar'%}",
             type: "post", // or "get"
             async: false,
             data: {
@@ -575,6 +585,7 @@
         });
 
     }
+
 
 </script>
 </body>

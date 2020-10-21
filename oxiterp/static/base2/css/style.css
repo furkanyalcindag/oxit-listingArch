@@ -1815,7 +1815,7 @@ em.mm-counter + a.mm-fullsubopen + a, em.mm-counter + a.mm-fullsubopen + span {
 .main-search-inner .highlighted-category {
     float: left;
     border-radius: 50px;
-    margin: 10px 5px 0 0;
+    margin: 5px 5px 0 0;
     padding: 3px 17px;
     text-align: center;
     transition: .4s;
@@ -1955,7 +1955,7 @@ body .typed-cursor.typed-cursor--blink.typed-fade-out {
 }
 
 .main-search-container h2 {
-    font-size: 65px
+    font-size: 75px
 }
 
 .main-search-container h4 {
@@ -17595,12 +17595,12 @@ img.mfp-img {
 
 .slick-prev {
     left: 3px;
-    transform: translate3d(-90px, -50%, 0)
+    transform: translate3d(-70px, -85%, 0)
 }
 
 .slick-next {
     right: 3px;
-    transform: translate3d(90px, -50%, 0)
+    transform: translate3d(70px, -85%, 0)
 }
 
 .slick-prev:before {

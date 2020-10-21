@@ -45,3 +45,9 @@ from .HeaderText import HeaderText
 from .HeaderTextDesc import HeaderTextDesc
 from .List import List
 from .ListProduct import ListProduct
+from .Subscriber import Subscriber
+from .BusinessType import BusinessType
+from .BusinessTypeDesc import BusinessTypeDesc
+from .Collection import Collection
+from .CollectionProduct import CollectionProduct
+from .Advert import Advert
