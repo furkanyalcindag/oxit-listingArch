@@ -76,9 +76,22 @@ def add_company(request):
                                   date=company_form.cleaned_data['date'],
                                   address_link=company_form.cleaned_data['address_link'],
                                   business_type=company_form.cleaned_data['business_type'],
-
                                   )
                 company.save()
+                if request.POST['retail'] == 'news':
+                    name = request.POST['retail-name']
+                    logo = request.POST['retail-logo']
+                    retail_company = Company(isRetail=True, name=name, logo=logo)
+                    retail_company.save()
+                    company.retail = retail_company
+                    company.save()
+                elif request.POST['retail'] == '':
+                    print('mağaza yok')
+                else:
+                    retail = Company.objects.get(pk=int(request.POST['retail']))
+                    company.retail = retail
+                    company.save()
+
                 if request.POST['company_social[0][name]'] != "":
                     while i <= social_row:
                         social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
@@ -149,6 +162,7 @@ def update_company(request, pk):
                                initial={'date': company.date.strftime('%Y-%m-%d')})
     social_accounts = CompanySocialAccount.objects.filter(company=company)
     i = 0
+    companies = Company.objects.all()
 
     if request.method == 'POST':
 
@@ -160,10 +174,23 @@ def update_company(request, pk):
                 company.user.username = user_form.cleaned_data['email']
                 company.user.is_active = True
                 company.user.save()
-                if request.FILES:
-                    company.logo = request.FILES['logo']
+                company.logo=company_form.cleaned_data['logo']
                 company.save()
                 company_form.save()
+
+                if request.POST['retail'] == 'news':
+                    name = request.POST['retail-name']
+                    logo = request.POST['retail-logo']
+                    retail_company = Company(isRetail=True, name=name, logo=logo)
+                    retail_company.save()
+                    company.retail = retail_company
+                    company.save()
+                elif request.POST['retail'] == '':
+                    print('mağaza yok')
+                else:
+                    retail = Company.objects.get(pk=int(request.POST['retail']))
+                    company.retail = retail
+                    company.save()
 
                 social_row = int(request.POST['row_number'])
 
@@ -200,7 +227,7 @@ def update_company(request, pk):
 
     return render(request, 'company/update-company.html',
                   {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
-                   'loop': social_accounts.count()
+                   'loop': social_accounts.count(),'companies':companies
                    })
 
 

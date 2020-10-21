@@ -27,7 +27,9 @@ class Company(models.Model):
                                       on_delete=models.CASCADE)
     cover_image = models.ImageField(upload_to='company_image/', null=True, blank=True, verbose_name='Kapak Fotoğrafı',
                                     default='logo1.png')
-    retail = models.CharField(max_length=250, null=True, blank=True, verbose_name='Mağaza')
+    retail = models.ForeignKey('self', max_length=250, null=True, blank=True, verbose_name='Mağaza',
+                               on_delete=models.CASCADE)
+    isRetail = models.BooleanField(default=False)
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)

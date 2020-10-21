@@ -148,11 +148,11 @@
                                                             <option value="news">Yeni</option>
                                                         </select></div>
                                                     </div>
-                                                    <div class="form-group">
+
                                                         <div id="new-retail" name="new-retail">
 
                                                         </div>
-                                                    </div>
+
 
                                                 </div>
                                             </div>
@@ -380,11 +380,11 @@
             if (retail === "news") {
                 html = '<div class="form-group">';
                 html += '<label class="col-sm-2 control-label" for="input-type">Mağaza Adı</label>';
-                html += '<div class="col-sm-10"><input id="new-retail" name="new-retail" type="text" class="form-control" placeholder="Firma Adı">';
+                html += '<div class="col-sm-10"><input id="retail-name" name="retail-name" type="text" class="form-control" placeholder="Firma Adı">';
                 html += '</div></div>';
                 html += '<div class="form-group"><label class="col-sm-2 control-label" for="input-type">Mağaza Logo</label>';
                 html += '<div class="col-sm-10">';
-                html += '<input id="retail-image" name="retail-image" type="file" class="form-control"></div></div>';
+                html += '<input id="retail-logo" name="retail-logo" type="file" class="form-control"></div></div>';
             }
 
             document.getElementById('new-retail').innerHTML = html;

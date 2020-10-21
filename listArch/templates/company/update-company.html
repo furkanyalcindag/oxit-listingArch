@@ -167,6 +167,27 @@
                                                             <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                        >Mağaza</label>
+                                                        <div class="col-sm-10">
+                                                            <select onchange="add_retail()"
+                                                                    name="retail"
+                                                                    id="retail"
+                                                                    class="form-control">
+                                                                <option value="">{{ company_from.retail }}</option>
+                                                                <option value="">---</option>
+                                                                {% for company in companies %}
+                                                                    <option value="{{ company.name }}">{{ company.name }}</option>
+                                                                {% endfor %}
+                                                                <option value="news">Yeni</option>
+                                                            </select></div>
+                                                    </div>
+
+                                                    <div id="new-retail" name="new-retail">
+
+                                                    </div>
+
 
                                                 </div>
                                             </div>
@@ -180,7 +201,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Adres Linki</label>
+                                                <label class="col-sm-2 control-label" for="input-type">Adres
+                                                    Linki</label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.address_link }}
                                                 </div>
@@ -531,7 +553,30 @@
             });
 
 
-        }</script>
+        }
+
+
+        function add_retail() {
+            debugger;
+            let e = document.getElementById("retail");
+            let retail = e.options[e.selectedIndex].value;
+            let html = "";
+            if (retail === "news") {
+                html = '<div class="form-group">';
+                html += '<label class="col-sm-2 control-label" for="input-type">Mağaza Adı</label>';
+                html += '<div class="col-sm-10"><input id="retail-name" name="retail-name" type="text" class="form-control" placeholder="Firma Adı">';
+                html += '</div></div>';
+                html += '<div class="form-group"><label class="col-sm-2 control-label" for="input-type">Mağaza Logo</label>';
+                html += '<div class="col-sm-10">';
+                html += '<input id="retail-logo" name="retail-logo" type="file" class="form-control"></div></div>';
+            }
+
+            document.getElementById('new-retail').innerHTML = html;
+
+        }
+
+
+    </script>
 
 
 
