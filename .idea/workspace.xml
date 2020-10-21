@@ -115,7 +115,6 @@
       <change afterPath="$PROJECT_DIR$/listArch/migrations/0086_auto_20201020_1700.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/1-youcompress.mp4" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/2-clideo.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/3-clipchamp.mp4" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/Drawing2-2 Model.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/JPEG - 09.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/MP4-Format-mainpage12MB.mp4" afterDir="false" />
@@ -595,30 +594,19 @@
       <change afterPath="$PROJECT_DIR$/media/main-search-video-poster.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/qr.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/spin.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/tr-tr.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/user.jpeg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/media/user.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/worker.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/chart/canvasjs.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/chart/script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/chart/style-gauge.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/assets/coloredbg.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/assets/gridtile.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/assets/gridtile_3x3.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/assets/gridtile_3x3_white.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/assets/gridtile_white.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/bootstrap-grid.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/icons.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/images/geocoder.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/images/layers-2x.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/images/layers.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/images/marker-icon.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/images/throbber.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/invoice.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/main-color.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/plugins/closedhand.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/plugins/openhand.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/css/plugins/revolutionslider.css" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/fonts/fontawesome-webfont5b62.eot" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/fonts/fontawesome-webfont5b62.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/fonts/fontawesome-webfont5b62.svg" afterDir="false" />
@@ -656,8 +644,6 @@
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/bricks/marazzi-4.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/bricks/marazzi-logo.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/bricks/qr.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/bricks/worker-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/bricks/worker.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/category-box-01.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/category-box-03.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/category-box-04.jpg" afterDir="false" />
@@ -714,66 +700,13 @@
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/slider-bg-02.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/user-avatar.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/images/user-profile-avatar.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/js/jssor.slider-28.0.0.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/chosen.min.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/counterup.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/custom.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/daterangepicker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/dropzone.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.actions.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.carousel.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.kenburn.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.layeranimation.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.migration.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.navigation.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.parallax.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.slideanims.min.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/extensions/revolution.extension.video.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/infobox.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/isotope.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/jquery-3.4.1.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/jquery-migrate-3.1.0.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/jquery-ui.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/jquery.countdown.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/leaflet-autocomplete.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/leaflet-control-geocoder.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/leaflet-gesture-handling.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/leaflet-listeo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/leaflet-markercluster.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/leaflet.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/magnific-popup.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/maps.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/markerclusterer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/mmenu.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/moment.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/quantityButtons.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/rangeslider.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/slick.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/switcher.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/themepunch.revolution.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/themepunch.tools.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/tooltips.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/typed.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oxiterp/static/base2/scripts/waypoints.min.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/oxiterp/templates/base_layout_user.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/listArch/Forms/ProductCategoryForm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/listArch/Views/CompanyViews.py" beforeDir="false" afterPath="$PROJECT_DIR$/listArch/Views/CompanyViews.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/listArch/migrations/0087_auto_20201021_1012.py" beforeDir="false" afterPath="$PROJECT_DIR$/listArch/migrations/0087_auto_20201021_1120.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/listArch/models/Company.py" beforeDir="false" afterPath="$PROJECT_DIR$/listArch/models/Company.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/settings/dev.py" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/settings/dev.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/SelectFilter2.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/SelectFilter2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/calendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/inlines.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/inlines.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/inlines.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/inlines.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/prepopulate.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/prepopulate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/jquery/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/jquery/jquery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/select2/select2.full.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/select2/select2.full.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/xregexp/xregexp.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/admin/js/vendor/xregexp/xregexp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/cart/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/cart/bootstrap.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/dist/js/adminlte.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/dist/js/adminlte.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/dist/js/adminlte.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/dist/js/adminlte.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/dist/js/pages/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/dist/js/pages/dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/static/images/beyaz.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/static/images/default.gif" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/static/images/doublearrow.png" beforeDir="false" />
@@ -786,19 +719,7 @@
       <change beforePath="$PROJECT_DIR$/oxiterp/static/images/urunler/saglik/img-2.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/static/images/urunler/temizlik/img-1.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/static/images/urunler/temizlik/img-2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/loader/loader.css" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/loader/loader.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-slider/bootstrap-slider.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-slider/bootstrap-slider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/input-mask/jquery.inputmask.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/input-mask/jquery.inputmask.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/jQueryUI/jquery-ui.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/jQueryUI/jquery-ui.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/plugins/jQueryUI/jquery-ui.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/plugins/jQueryUI/jquery-ui.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/css/bootstrap-tweaks.css" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/css/bootstrap-tweaks.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/docs/css/highlight.css" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/docs/css/highlight.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/docs/js/highlight.pack.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/docs/js/highlight.pack.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/bootstrap.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/coreapi-0.1.1.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/coreapi-0.1.1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/default.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/default.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/prettify-min.js" beforeDir="false" afterPath="$PROJECT_DIR$/oxiterp/static/rest_framework/js/prettify-min.js" afterDir="false" />
     </list>
     <list id="1a3e1ac9-5d8a-4168-acce-89a160210a06" name="ignored" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -1144,7 +1065,7 @@
       <workItem from="1602914779809" duration="14904000" />
       <workItem from="1603092422962" duration="16385000" />
       <workItem from="1603172313072" duration="26019000" />
-      <workItem from="1603262092506" duration="6697000" />
+      <workItem from="1603262092506" duration="7660000" />
     </task>
     <task id="LOCAL-00001" summary="aasasasa">
       <created>1566145297658</created>
@@ -1272,7 +1193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603267714374</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="abone kayıt etme , listeye ürün ekleme/görüntüleme ,profil adı ekleme">
+      <created>1603269207755</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1603269207755</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1564,10 +1492,10 @@
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="2041" y="454" width="612" height="178" key="VCS.ChangelistChooser/0.27.1366.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603267809351" />
-    <state x="1734" y="154" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1603267750376">
+    <state x="1734" y="154" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1603269217889">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state x="1734" y="154" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1366.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603267750376" />
+    <state x="1734" y="154" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1366.741/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603269217889" />
     <state x="1734" y="154" key="Vcs.Push.Dialog.v2/1366.0.1920.1080/52.27.1314.741@1366.0.1920.1080" timestamp="1600668608758" />
     <state x="304" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/52.27.1314.741/1366.0.1024.768@52.27.1314.741" timestamp="1595019252186" />
     <state x="304" y="133" width="800" height="535" key="Vcs.Push.Dialog.v2/52.27.1314.741/1366.0.1920.1080/3286.0.1024.768@52.27.1314.741" timestamp="1595051925908" />

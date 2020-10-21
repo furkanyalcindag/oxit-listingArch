@@ -6,7 +6,7 @@ from oxiterp.settings.base import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Oxit',
+        'NAME': 'listArch',
         'USER': 'postgres',
         'PASSWORD': 'oxit2016',
         'HOST': 'localhost',
