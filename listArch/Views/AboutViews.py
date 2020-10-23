@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 
 from listArch.Forms.ContactForm import ContactForm
 from listArch.Forms.HeaderTextForm import HeaderTextForm
+from listArch.models.Log import Log
 from listArch.models.ScrollingText import ScrollingText
 from listArch.Forms.ScrollingTextForm import ScrollingTextForm
 from listArch.models import About, AboutDesc, Contact, ScrollingTextDesc, HeaderTextDesc, HeaderText
@@ -35,6 +36,10 @@ def add_about(request):
                                    title_desc=request.POST['title[eng]'],
                                    description=request.POST['content[eng]'])
             aboutDesc2.save()
+            log_content = '<p><strong style="color:red">ADMIN , HAKKIMIZDA </strong> yazısı ekledi.</p>'
+
+            log = Log(user=request.user, content=log_content)
+            log.save()
 
             messages.success(request, "Açıklama Başarıyla Kayıt Edildi.")
             return redirect('listArch:hakkimizda')
@@ -61,6 +66,10 @@ def delete_about(request):
             about_id = request.POST['about_id']
             about = About.objects.get(pk=about_id)
             about.delete()
+            log_content = '<p><strong style="color:red">ADMIN , HAKKIMIZDA ID:' + about_id + ' </strong> yazısı sildi.</p>'
+            log = Log(user=request.user, content=log_content)
+
+            log.save()
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 
         except Exception as e:
@@ -92,6 +101,10 @@ def about_update(request, pk):
             about_eng[0].description = request.POST['content[eng]']
             about_eng[0].save()
 
+            log_content = '<p><strong style="color:red">ADMIN , HAKKIMIZDA ID:' + about.pk + ' </strong> yazısı güncellendi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
+
             messages.success(request, "Açıklama Başarıyla Güncellendi.")
             return redirect('listArch:hakkimizda-guncelle', pk)
 
@@ -115,6 +128,10 @@ def add_contact(request):
                               isActive=form.cleaned_data['isActive'])
             contact.save()
 
+            log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisi ekledi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
+
             messages.success(request, "İletişim Bilgileri Kayıt Edildi.")
             return redirect('listArch:iletisim-bilgisi')
 
@@ -137,6 +154,10 @@ def update_contact(request, pk):
             contact.email = form.cleaned_data['email']
             contact.isActive = form.cleaned_data['isActive']
             contact.save()
+
+            log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisini güncelledi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
 
             messages.success(request, "İletişim Bilgileri Kayıt Edildi.")
             return redirect('listArch:iletisim-bilgisi')
@@ -162,7 +183,12 @@ def delete_contact(request):
 
             contact_id = request.POST['contact_id']
             contact = Contact.objects.get(pk=contact_id)
+            log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM:' + contact.phone + ' - ' + contact.email + ' </strong> bilgisini sildi.</p>'
             contact.delete()
+
+            log = Log(user=request.user, content=log_content)
+            log.save()
+
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 
         except Exception as e:
@@ -193,6 +219,10 @@ def add_scrolling(request):
             scrolling_eng = ScrollingTextDesc(text=scrolling_text, description=request.POST['scrolling[eng]'],
                                               lang_code=2, subTextDesc=request.POST['subText[eng]'])
             scrolling_eng.save()
+
+            log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + scrolling_tr.description + ' </strong> bilgisini ekledi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
 
             messages.success(request, "Yazı Kayıt Edildi.")
             return redirect('listArch:kayan-yazi')
@@ -235,6 +265,10 @@ def update_scrolling(request, pk):
             scrolling_eng.subTextDesc = request.POST['subText[eng]']
             scrolling_eng.save()
 
+            log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + scrolling[
+                0].pk + ' </strong> bilgisini güncelledi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
             messages.success(request, "Yazı Kayıt Edildi.")
 
     except Exception as e:
@@ -255,7 +289,11 @@ def delete_scrolling(request):
 
             id = request.POST['id']
             text = ScrollingText.objects.get(pk=id)
+            log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + text.key + ' </strong> bilgisini sildi.</p>'
             text.delete()
+
+            log = Log(user=request.user, content=log_content)
+            log.save()
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 
         except Exception as e:
@@ -284,6 +322,10 @@ def add_header_text(request):
             headerTextDesc2 = HeaderTextDesc(headerText=headerText, lang_code=2,
                                              description=request.POST['content[eng]'])
             headerTextDesc2.save()
+
+            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazısı:' + headerTextDesc.description + ' </strong>  ekledi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
 
             messages.success(request, "Üst Menü Yazısı Başarıyla Kayıt Edildi.")
             return redirect('listArch:ust-menu-yazi')
@@ -325,6 +367,10 @@ def update_headerText(request, pk):
             header_eng[0].description = request.POST['content[eng]']
             header_eng[0].save()
 
+            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazısını </strong> güncelledi.</p>'
+            log = Log(user=request.user, content=log_content)
+            log.save()
+
             messages.success(request, "Üst Menü Yazısı Başarıyla Güncellendi.")
             return redirect('listArch:ust-menu-yazi')
 
@@ -345,12 +391,14 @@ def delete_headerText(request):
 
             id = request.POST['id']
             text = HeaderText.objects.get(pk=id)
+            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazı ID: '+text.pk+' </strong> güncelledi.</p>'
+
             text.delete()
+
+            log = Log(user=request.user, content=log_content)
+            log.save()
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
-
-
-

@@ -168,6 +168,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
+
                                                         <label class="col-sm-2 control-label"
                                                         >Mağaza</label>
                                                         <div class="col-sm-10">
@@ -178,10 +179,18 @@
                                                                 <option value="">{{ company_from.retail }}</option>
                                                                 <option value="">---</option>
                                                                 {% for company in companies %}
-                                                                    <option value="{{ company.name }}">{{ company.name }}</option>
+                                                                    <option value="{{ company.pk }}">{{ company.name }}</option>
                                                                 {% endfor %}
                                                                 <option value="news">Yeni</option>
-                                                            </select></div>
+                                                            </select>
+
+                                                            {% for retail in retails %}
+                                                                <button id="retail-{{ retail.pk }}" type="button" onclick="retail_delete({{ retail.pk }})" class="btn bg- margin"><span><i
+                                                                        class="fa fa-close"></i></span>
+                                                                    {{ retail.name }}</button>
+
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
 
                                                     <div id="new-retail" name="new-retail">
@@ -364,6 +373,30 @@
 
             </section>
         </div>
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content"></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
 
     </section>
 
@@ -431,7 +464,7 @@
 
         function addSocial() {
             debugger;
-            if (social_row == "")
+            if (social_row === "")
                 social_row = 0
 
             let html = '<tr id="social-row' + social_row + '">';
@@ -573,6 +606,39 @@
 
             document.getElementById('new-retail').innerHTML = html;
 
+        }
+
+
+        function retail_delete(id) {
+            let html = 'Mağazayı kaldırmak istediğinizden emin misiniz?';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:magaza-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            retail_id: id,
+
+
+                        },
+                        success: function (result) {
+
+                            if (result.status === 'Success') {
+                                swal("Başarılı", " Mağaza  Kaldırıldı.", "success");
+                                document.getElementById('retail-'+id+'').remove();
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
         }
 
 

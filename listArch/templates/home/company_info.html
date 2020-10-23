@@ -2,15 +2,16 @@
 {% block content2 %}
     <div class="main-search-container centered" style="height: auto !important;">
         <div class="main-search-inner">
-             <div class="row">
+            <div class="row">
                 <!-- Carousel -->
-                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                <div class="col-md-12"
+                     style="height: 55px;border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
                     <div class="slider">
                         {% for category in parent_categories %}
                             <div class="">
                                 <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
                                    class="highlighted-category">
-                                    <img style=" width: 30px;height: 30px;margin-left: 6px;" class="img-responsive"
+                                    <img style=" width: 20px;height: 20px;margin-left: 6px;" class="img-responsive"
                                          src="/media/worker.png"
                                          alt="Bricks-in-Bytes">
                                     <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;margin-left: 0px; !important;">{{ category.name }}</h4>
@@ -19,11 +20,9 @@
                             </div>
                         {% endfor %}
 
-
                     </div>
 
-
-                   <script>
+                    <script>
                         window.onload = function () {
                             $('.slider').slick({
                                 slidesToShow: 15,
@@ -90,7 +89,7 @@
 {% endblock %}
 
 {% block content %}
-     <div class="container" style=" width: 100%;
+    <div class="container" style=" width: 100%;
     border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
         <div class="row">
             <div class="col-md-12">
@@ -164,8 +163,6 @@
             </div>
             <div class="col-md-10">
                 <div id="listing-nav" class="listing-nav-container">
-
-
                     <ul class="listing-nav" style="height: 60px;font-size: 15px;background: transparent;">
                         <li><a href="#listing-story" class="">STORYLINE</a></li>
                         <li><a href="#listing-diver">DIVERSIFICATION</a></li>
@@ -601,8 +598,6 @@
                                  style=" border: 1px solid #e0e0e0;padding: 0;">
                                 <img src="/media/about.jpg" alt="">
                             </div>
-
-
                         </div>
 
                         <br>
@@ -629,27 +624,21 @@
                                                 </a>
                                                 <br>
                                                 <div class="post-content">
-
                                                     <a style="font-size: 12px;"
                                                        href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
                                                        class=""> {{ product_cat.category.name }} <i
                                                             class="fa fa-angle-right"></i></a>
                                                 </div>
-
                                             </div>
                                         {% endfor %}
-
                                     {% endfor %}
-
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-
-
 {% endblock %}

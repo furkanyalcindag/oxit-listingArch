@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 
 from listArch.models import ListProduct, Product, ProductDesc, Customer, Company
 from listArch.models.List import List
-from listArch.serializers.ListSerializer import ListSerializer
 from listArch.services import general_methods
 
 
@@ -15,7 +14,7 @@ def addList(request):
 
     if not perm:
         logout(request)
-        return redirect('accounts:login')
+        return redirect('listArch:kullanici-giris-yap')
 
     try:
 
@@ -50,7 +49,7 @@ def delete_list(request):
 
     if not perm:
         logout(request)
-        return redirect('accounts:login')
+        return redirect('listArch:kullanici-giris-yap')
     if request.POST:
         try:
 

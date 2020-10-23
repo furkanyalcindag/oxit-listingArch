@@ -416,17 +416,16 @@
                             <div class="col-lg-12">
                                 {% for product in advert_product %}
                                     <div class="col-1-5" style="margin-bottom: 55px;">
-                                        <div class="hovereffect"
-                                             onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                        <div class="hovereffect">
                                             <div class="listing-item ">
                                                 <img src="/media/{{ product.cover_image }}" alt=""
                                                      style="border: 2px solid #fd9116">
                                                 <div class="overlay" style="text-align: center">
-                                                    <h2 style="font-size:16px">{{ product.company.name }}</h2>
-                                                    <h2 style="font-size:10px">{{ product.name }}</h2>
-                                                    <h2 style="font-size:16px">ID {{ product.code }}</h2>
-                                                    <h2 style="font-size:16px">250$ Sqm</h2>
-                                                    <h2 style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:16px">{{ product.company.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:10px">{{ product.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:16px">ID {{ product.code }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:16px">250$ Sqm</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:10px">{{ product.company.country.name }}</h2>
                                                     <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
@@ -1234,13 +1233,13 @@
         <div class="main-search-inner">
             <div class="row">
                 <!-- Carousel -->
-                <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                <div class="col-md-12" style="height: 55px;border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
                     <div class="slider">
                         {% for category in parent_categories %}
                             <div class="">
                                 <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
                                    class="highlighted-category">
-                                    <img style=" width: 30px;height: 30px;" class="img-responsive"
+                                    <img style=" width: 20px;height: 20px;" class="img-responsive"
                                          src="/media/worker.png"
                                          alt="Bricks-in-Bytes">
                                     <h4 style=";text-align: center;margin-top: 5px;display: block;font-size: 10px;">{{ category.name }}</h4>

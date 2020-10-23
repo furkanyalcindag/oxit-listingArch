@@ -55,6 +55,8 @@ def add_blog_desc(request):
                                            company=Company.objects.get(pk=int(request.POST['company_id'])))
                 blog_company.save()
 
+                
+
                 messages.success(request, "Blog Bilgileri Başarıyla Kayıt Edildi.")
                 return redirect('listArch:blog-ekle')
             else:

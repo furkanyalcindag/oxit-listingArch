@@ -89,6 +89,7 @@ urlpatterns = [
 
     url(r'company-social-edit/$', CompanyViews.edit_social_account,
         name='firma-sosyalMedya-düzenle'),
+    url(r'delete-retail/$', CompanyViews.delete_retail, name='magaza-sil'),
 
     # Blog
     url(r'add-blog/$', BlogViews.add_blog_desc, name='blog-ekle'),

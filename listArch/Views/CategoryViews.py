@@ -17,11 +17,9 @@ def add_category(request):
         return redirect('accounts:login')
     categories = Category.objects.all()
     category_form = CategoryForm()
-    if request.method == 'POST':
-        category_form = CategoryForm(request.POST)
-
-        try:
-
+    try:
+        if request.method == 'POST':
+            category_form = CategoryForm(request.POST)
             category_tr = request.POST['category_description[tr][name]']
             category_eng = request.POST['category_description[eng][name]']
 
@@ -50,8 +48,8 @@ def add_category(request):
 
             messages.success(request, "Kategori Başarıyla eklendi.")
             return redirect('listArch:kategori-ekle')
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        print(e)
 
     return render(request, 'category/add-category.html', {'categories': categories, 'category_form': category_form})
 

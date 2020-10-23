@@ -94,6 +94,7 @@ def update_introduction_desc(request, pk):
 
                 for product in products:
                     product.delete()
+
                 for product in introduction_product_form.cleaned_data['product']:
                     introduction_product = IntroductionProduct(introduction=introduction, product=product)
                     introduction_product.save()

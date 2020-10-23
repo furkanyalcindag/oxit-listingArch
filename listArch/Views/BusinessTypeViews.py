@@ -75,3 +75,5 @@ def delete_business_type(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+

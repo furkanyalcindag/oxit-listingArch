@@ -15,7 +15,7 @@ from listArch.Forms.UserCompanyForm import UserCompanyForm
 from listArch.Forms.UserForm import UserForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
 from listArch.models import Company, SocialMedia, City, Product, Category, ProductFile, ProductOptionValue, Option, \
-    OptionValue
+    OptionValue, CompanyRetail
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.Definition import Definition
@@ -163,6 +163,7 @@ def update_company(request, pk):
     social_accounts = CompanySocialAccount.objects.filter(company=company)
     i = 0
     companies = Company.objects.all()
+    retails = CompanyRetail.objects.filter(company=company)
 
     if request.method == 'POST':
 
@@ -181,16 +182,14 @@ def update_company(request, pk):
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
                     logo = request.FILES['retail-logo']
-                    retail_company = Company(user=None, isRetail=True, name=name, logo=logo)
+                    retail_company = CompanyRetail(name=name, logo=logo, company=company)
                     retail_company.save()
-                    company.retail = retail_company
-                    company.save()
                 elif request.POST['retail'] == '':
                     print('mağaza yok')
                 else:
                     retail = Company.objects.get(pk=int(request.POST['retail']))
-                    company.retail = retail
-                    company.save()
+                    retail_company = CompanyRetail(company=company, name=retail.name, logo=retail.logo)
+                    retail_company.save()
 
                 social_row = int(request.POST['row_number'])
 
@@ -227,7 +226,7 @@ def update_company(request, pk):
 
     return render(request, 'company/update-company.html',
                   {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
-                   'loop': social_accounts.count(), 'companies': companies
+                   'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
                    })
 
 
@@ -384,3 +383,22 @@ def company_product_detail(request, pk):
     return render(request, 'company/company-product-detail.html',
                   {'product': product, 'product_images': product_image, 'files': product_file,
                    'options': array, 'definitions': descriptions})
+
+
+def delete_retail(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+
+            retail_id = request.POST['retail_id']
+            retail = CompanyRetail.objects.get(pk=retail_id)
+            retail.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})

@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 
 from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionProduct, IntroductionPage, \
     IntroductionPageDesc, CategoryDesc, BlogDesc, CompanyBlog, RelatedProduct, \
-    OptionValueDesc, List
+    OptionValueDesc, List, CompanyRetail
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.DefinitionDescription import DefinitionDescription
@@ -89,9 +89,10 @@ def product_detail(request, pk):
 
 
 def product_filter_page(request, pk):
-    user = request.user
-
-    list = List.objects.filter(user=user)
+    list = ""
+    if not request.user.is_anonymous:
+        user = request.user
+        list = List.objects.filter(user=user)
 
     category = Category.objects.get(pk=pk)
     cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=1)
@@ -100,7 +101,8 @@ def product_filter_page(request, pk):
         category_desc = cat_desc[0]
     sub_categories = Category.objects.filter(parent=category)
     array = []
-    basic_options_value = OptionValue.objects.filter(option__isBasic=True).values('option', 'option__type').annotate(count=Count('value'))
+    basic_options_value = OptionValue.objects.filter(option__isBasic=True).values('option', 'option__type').annotate(
+        count=Count('value'))
     for option in basic_options_value:
         option_dict = dict()
         option_dict['option'] = Option.objects.filter(pk=option['option'])[0]
@@ -113,9 +115,10 @@ def product_filter_page(request, pk):
         option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
             lang_code=1).count()
         array.append(option_dict)
-    advanced_options_value = OptionValue.objects.filter(option__category=category).filter(option__isBasic=False).values('option', 'option__type').annotate(
+    advanced_options_value = OptionValue.objects.filter(option__category=category).filter(option__isBasic=False).values(
+        'option', 'option__type').annotate(
         count=Count('value'))
-    array_advanced=[]
+    array_advanced = []
     for option in advanced_options_value:
         option_dict = dict()
         option_dict['option'] = Option.objects.filter(pk=option['option'])[0]
@@ -138,7 +141,8 @@ def product_filter_page(request, pk):
     option_text = Option.objects.filter(type='text')
 
     return render(request, 'home/product-filter.html',
-                  {'products': products, 'options': array,'advanced_options':array_advanced, 'option_text': option_text, 'category': category,
+                  {'products': products, 'options': array, 'advanced_options': array_advanced,
+                   'option_text': option_text, 'category': category,
                    'sub_categories': sub_categories, 'cat_desc': category_desc, 'advert_product': advert_product,
                    'lists': list})
 
@@ -186,7 +190,7 @@ def search_product(request):
 def get_company_info(request, pk):
     company = Company.objects.get(pk=pk)
     products = Product.objects.filter(company=company)
-
+    retails = CompanyRetail.objects.filter(company=company)
     array = []
     company_definitions = CompanyDefinition.objects.filter(company=company)
     company_definition_array = []
@@ -206,7 +210,7 @@ def get_company_info(request, pk):
 
     return render(request, 'home/company_info.html',
                   {'products': products, 'company': company, 'definitions': company_definition_array,
-                   'category_product': array})
+                   'category_product': array, 'retails': retails})
 
 
 @api_view(http_method_names=['POST'])

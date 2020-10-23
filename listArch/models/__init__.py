@@ -51,3 +51,4 @@ from .BusinessTypeDesc import BusinessTypeDesc
 from .Collection import Collection
 from .CollectionProduct import CollectionProduct
 from .Advert import Advert
+from .CompanyRetail import CompanyRetail

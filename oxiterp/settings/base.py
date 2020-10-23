@@ -119,7 +119,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'listArch',
         'USER': 'postgres',
-        'PASSWORD': 'oxit2016',
+        'PASSWORD': 'asdasvas',
         'HOST': 'localhost',
         'PORT': '5432',
     }
