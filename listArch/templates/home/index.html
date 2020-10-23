@@ -32,36 +32,19 @@
                         </div>
                     </form>
                 </div>
-                <div class="row ">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="highlighted-categories">
                             <!-- Box -->
                             {% for category in parent_categories %}
-                                {% if forloop.counter <= 8 %}
+
                                     <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
-                                       class="highlighted-category" style="width:110px">
+                                       class="highlighted-category" style="">
                                         <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
                                         <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
                                     </a>
-                                {% elif forloop.counter > 8 and forloop.counter <= 19 %}
-                                    <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
-                                       class="highlighted-category" style="width:80px">
-                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
-                                       class="highlighted-category" style="width: 110px">
-                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
-                                    </a>
-                                {% endif %}
 
                             {% endfor %}
-                            <!-- Box -->
-
-                            <!-- Box -->
-
                         </div>
                     </div>
                 </div>

@@ -52,29 +52,23 @@
                                 {% for category in sub_categories %}
 
                                     <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
+                                       class="highlighted-category" style="">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                    </a>
+
+
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                       class="highlighted-category" style="">
                                         <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
                                         <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
                                     </a>
 
                                     <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
+                                       class="highlighted-category" style="">
                                         <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
                                         <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
                                     </a>
-
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
-                                    </a>
-
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="width:150px;padding: 3px 14px;margin: 0px">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
-                                    </a>
-
 
 
 
@@ -98,7 +92,7 @@
 {% endblock %}
 
 {% block content %}
-{% include 'count_box.html' %}
+    {% include 'count_box.html' %}
 
     <div id="titlebar" style="border-bottom:1px solid #fff;">
         <div class="" style="margin-left: 20px">
