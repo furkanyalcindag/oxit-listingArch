@@ -1,0 +1,53 @@
+    <div class="main-search-container centered" style="height: auto !important;">
+        <div class="main-search-inner">
+            <div class="row">
+                <!-- Carousel -->
+                <div class="col-md-12" style="height: 55px;
+;border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
+                    <div class="slider"  >
+                        {% for category in parent_categories %}
+                            <div class="" style="align-content: center">
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                   class="highlighted-category">
+
+                                    <img style="width: 20px;height: 20px;" class="img-responsive"
+                                         src="/media/worker.png"
+                                         alt="Bricks-in-Bytes">
+                                    <h5 style="margin-bottom: 5px;margin-top: 10px;display: block;font-size: 8px;">{{ category.name }}</h5>
+                                </a>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                autoplay:false,
+                                slidesToShow: 20,
+                                slidesToScroll: -5,
+                                infinite: true,
+                                cssEase: 'linear',
+
+                            });
+
+                        };
+                    </script>
+                    <style>
+                        .slider {
+                            width: 90%;
+                            height: 70px;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
+                </div>
+
+                <!-- Carousel / End -->
+            </div>
+
+
+        </div>
+    </div>
