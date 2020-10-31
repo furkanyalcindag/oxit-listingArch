@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content2 %}
+                {% load change_lang %}
+
     <div class="main-search-container centered dark-overlay" style="height: 92vh !important;
     border-top: 2px solid #fd9116;">
 
@@ -24,7 +26,7 @@
                                     <div id="search_product"></div>
                                 </div>
                                 <button class="button" type="submit">
-                                    Search
+                                    {{ 'search'| get_item_by_lang }}
                                 </button>
 
                             </div>
@@ -38,11 +40,11 @@
                             <!-- Box -->
                             {% for category in parent_categories %}
 
-                                    <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.name }}</h4>
-                                    </a>
+                                <a href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
+                                   class="highlighted-category" style="">
+                                    <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                    <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.description }}</h4>
+                                </a>
 
                             {% endfor %}
                         </div>
@@ -61,7 +63,7 @@
 {% block content %}
     <!-- Category Boxes / End -->
     <!-- Info Section -->
-{% include 'count_box.html' %}
+    {% include 'count_box.html' %}
 
     <!-- Logo Carousel -->
 
@@ -72,7 +74,8 @@
             <div class="slider2">
                 {% for company in companies %}
                     <div class="">
-                        <img  style=" filter: grayscale(100%); height: 45px" src="/media/{{ company.logo }}" alt="" class="img-responsive">
+                        <img style=" filter: grayscale(100%); height: 45px" src="/media/{{ company.logo }}" alt=""
+                             class="img-responsive">
 
                     </div>
                 {% endfor %}
@@ -96,14 +99,14 @@
             <div class="row">
 
                 <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
-                    <h4>HAKKIMIZDA</h4>
+                    <h4>{{ 'about'| get_item_by_lang }}</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Biz ne yapıyoruz?</a></li>
-                        <li><a href="#">Vizyon</a></li>
-                        <li><a href="#">Yatırımcı İlişkileri</a></li>
-                        <li><a href="#">Reklamlar</a></li>
-                        <li><a href="#">Müşteri Hizmetleri</a></li>
-                        <li><a href="#">Kariyer</a></li>
+                        <li><a href="#">{{ 'What_we_do'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'Philosophy'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'investor_relations'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'advertises'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'client_center'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'careers'| get_item_by_lang }}</a></li>
                     </ul>
 
                     <div class="clearfix"></div>
@@ -111,7 +114,7 @@
 
 
                 <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
-                    <h4>SOSYAL MEDYA</h4>
+                    <h4>{{ 'connect'| get_item_by_lang }}</h4>
                     <ul class="footer-links">
                         <li><a href="#">Facebook</a></li>
                         <li><a href="#">Twitter</a></li>
@@ -127,10 +130,10 @@
 
 
                 <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
-                    <h4>İLETİŞİM</h4>
+                    <h4>{{ 'contact'| get_item_by_lang }}</h4>
 
                     <ul class="footer-links">
-                        <li><a href="#">Telefon</a></li>
+                        <li><a href="#">{{ 'phone'| get_item_by_lang }}</a></li>
                         <li><a href="#">Mail</a></li>
                         <li><a href="#">Whatsapp</a></li>
                         <li><a href="#">Telefon</a></li>
@@ -141,7 +144,7 @@
 
 
                 <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
-                    <h4>DİL</h4>
+                    <h4>{{ 'language'| get_item_by_lang }}</h4>
 
                     <ul class="footer-links">
                         <li><a href="#">TR</a></li>
@@ -152,7 +155,7 @@
 
 
                 <div class="col-md-4  col-sm-12">
-                    <h4>BİZE KATIL</h4>
+                    <h4>{{ 'join_today'| get_item_by_lang }}</h4>
                     <section id="contact">
 
 
@@ -170,7 +173,7 @@
                                     <p style="margin-bottom:2px"><a style="color: #000;
     width: -webkit-fill-available;
     padding: 5px;background: #fd9116;
-    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}" class="button">LOGIN</a></p>
+    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}" class="button">{{ 'login'| get_item_by_lang }}</a></p>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +187,7 @@
                                     <p style="margin-bottom:2px"><a style="color: #000;
     width: -webkit-fill-available;
     padding: 5px;
-    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}" class="button">SIGN UP</a></p>
+    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}" class="button">{{ 'sign_up'| get_item_by_lang }}</a></p>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +246,8 @@
             <div class="slider">
                 {% for company in companies %}
                     <div class="">
-                        <img  style=" filter: grayscale(100%);height: 45px" src="/media/{{ company.logo }}" alt="" class="img-responsive">
+                        <img style=" filter: grayscale(100%);height: 45px" src="/media/{{ company.logo }}" alt=""
+                             class="img-responsive">
 
                     </div>
                 {% endfor %}
@@ -273,7 +277,7 @@
                         infinite: true,
                         autoplaySpeed: 1000,
                         cssEase: 'ease-out',
-                        slidesToShow: 9,
+                        slidesToShow: 18,
                         slidesToScroll: -1,
                         variableWidth: true,
 
@@ -294,20 +298,20 @@
     border-bottom: 2px solid #fd9116;
     margin-top: 1px;">
         <div class="">
-            <div class="row icons-container" style="margin:0 25px">
+            <div class="row icons-container" style="margin:0 25px;">
                 <!-- Stage -->
                 <div class="col-md-2">
                     <div class="icon-box-2 with-line"
                          style="background: #1c3444;width:200px;height: 150px; margin-left: 27px;">
                         <i class="im im-icon-Bag-Coins" style="border: 1px solid;width: 70px;
     height: 70px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px">ÜRÜNLER</h3>
+                        <h3 style="margin-top: 3px;font-size: 20px">{{ 'product'| get_item_by_lang }}</h3>
 
                     </div>
                     <ul class="list-4 color" style="text-align: initial;margin-left: 20%;font-size: 13px;">
                         {% for parent in category_parent %}
                             <li style="line-height: 15px;">
-                                <a href="{% url 'listArch:anasayfa-urunler' parent.category.pk %}">{{ parent.category.name }}</a>
+                                <a href="{% url 'listArch:anasayfa-urunler' parent.category.pk %}">{{ parent.description }}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -318,17 +322,16 @@
                          style="background: #ffffff;width:200px;height: 150px; margin-left: 27px;">
                         <i class="im im-icon-Checked-User" style="border: 1px solid;color: #000000;width: 66px;
     height: 66px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">İNCELEME</h3>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">{{ 'explore'| get_item_by_lang }}</h3>
 
                     </div>
                     <ul class="list-4 color"
                         style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'brand'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'retails'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'fairs'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'smart_life'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'testing_tools'| get_item_by_lang }}</a></li>
                     </ul>
                 </div>
                 <!-- Stage -->
@@ -337,16 +340,15 @@
                          style="background: #1c3444;width:200px;height: 150px; margin-left: 27px;">
                         <i class="im im-icon-Checked-User" style="border: 1px solid;width: 70px;
     height: 70px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px">ÇÖZÜMLERİMİZ</h3>
+                        <h3 style="margin-top: 3px;font-size: 20px">{{ 'solutions'| get_item_by_lang }}</h3>
 
                     </div>
                     <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'prerogative'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'credentialing'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'trade_show'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'software'| get_item_by_lang }}</a></li>
+
                     </ul>
                 </div>
                 <!-- Stage -->
@@ -355,17 +357,16 @@
                          style="background: #ffffff;width: 200px;height: 150px; margin-left: 27px;">
                         <i class="im im-icon-Checked-User" style="color: #000000;border: 1px solid;width: 70px;
     height: 70px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px;color: #000000">İNCELEME</h3>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000000">{{ 'research'| get_item_by_lang }}</h3>
 
                     </div>
                     <ul class="list-4 color"
                         style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'regulations'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'news'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'competitions'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'events'| get_item_by_lang }}</a></li>
+
                     </ul>
                 </div>
                 <!-- Stage -->
@@ -374,35 +375,34 @@
                          style="background: #1c3444;width: 200px;height: 150px; margin-left: 27px;">
                         <i class="im im-icon-Checked-User" style="border: 1px solid;width: 70px;
     height: 70px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px">İŞ</h3>
+                        <h3 style="margin-top: 3px;font-size: 20px">{{ 'business'| get_item_by_lang }}</h3>
 
                     </div>
                     <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'designers'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'consultants'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'contractor'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ '3d_modelers'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'retails'| get_item_by_lang }}</a></li>
                     </ul>
                 </div>
                 <!-- Stage -->
-                               <div class="col-md-2">
+                <div class="col-md-2">
                     <div class="icon-box-2 with-line"
                          style="background: #ffffff;width:200px;height: 150px; margin-left: 27px;">
                         <i class="im im-icon-Checked-User" style="border: 1px solid;color: #000000;width: 66px;
     height: 66px;"></i>
-                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">İNCELEME</h3>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">{{ 'company'| get_item_by_lang }}</h3>
 
                     </div>
                     <ul class="list-4 color"
                         style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
-                        <li style="line-height: 15px;"><a href="#">ÜRÜNLER</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'What_we_do'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'Philosophy'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'investor_relations'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'client_center'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'careers'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'advertise'| get_item_by_lang }}</a></li>
                     </ul>
                 </div>
 

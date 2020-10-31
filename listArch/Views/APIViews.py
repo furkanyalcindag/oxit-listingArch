@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from listArch.models import Product, Subscriber
+from listArch.models import Product, Subscriber, Profile
 from listArch.models.Company import Company
 from listArch.models.APIObject import APIObject
 from listArch.serializers.CompanySerializer import CompanyResponseSerializer
+from listArch.serializers.ProfileSerializer import ProfileResponseSerializer
 from listArch.serializers.SubscriberSerializer import SubscriberResponseSerializer
 
 
@@ -87,4 +88,31 @@ class GetCategoryProduct(APIView):
             'request': request,
         }
         serializer = CompanyResponseSerializer(apiObject, context=serializer_context)
+        return Response(serializer.data)
+
+
+class GetProfile(APIView):
+
+    def post(self, request, format=None):
+        start = request.data['start']
+        length = request.data['length']
+        end = int(start) + int(length)
+
+        profile_total = Profile.objects.count()
+        profile = Profile.objects.filter(
+            user__first_name__icontains=request.data['search[value]']).order_by('id')[
+                    int(start):end]
+        filteredTotal = Profile.objects.filter(
+            user__first_name__icontains=request.data['search[value]']).count()
+
+        apiObject = APIObject()
+        apiObject.data = profile
+        apiObject.draw = int(request.POST['draw'])
+        apiObject.recordsTotal = int(profile_total)
+        apiObject.recordsFiltered = int(filteredTotal)
+
+        serializer_context = {
+            'request': request,
+        }
+        serializer = ProfileResponseSerializer(apiObject, context=serializer_context)
         return Response(serializer.data)

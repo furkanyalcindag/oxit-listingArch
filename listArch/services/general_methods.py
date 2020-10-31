@@ -1,5 +1,5 @@
+from django import template
 from django.contrib.auth.models import Group, User, Permission
-from django.shortcuts import render
 from django.urls import resolve
 from django.utils.crypto import get_random_string
 
@@ -9,6 +9,10 @@ from listArch.models.ScrollingTextDesc import ScrollingTextDesc
 from listArch.models.Company import Company
 from listArch.models.Log import Log
 from listArch.models.Menu import Menu
+from oxiterp.settings.base import home_lang_code
+
+import json
+from django.conf import settings
 
 
 def activeMenu(request):
@@ -133,8 +137,9 @@ def get_random_secret_key():
 
 
 def parent_categories_list(request):
-    from listArch.models import Category
-    categories = Category.objects.filter(is_parent=True).filter(isBasic=True).order_by('order')
+    from listArch.models import CategoryDesc
+    categories = CategoryDesc.objects.filter(lang_code=int(home_lang_code)).filter(category__is_parent=True).filter(
+        category__isBasic=True).order_by('category__order')
     return {"parent_categories": categories}
 
 
@@ -162,15 +167,16 @@ def get_user(request):
 def get_scrolling_text(request):
     scrolling = ScrollingText.objects.filter(isActive=True)
     if scrolling.count() > 0:
-        scrolling_tr = ScrollingTextDesc.objects.filter(text=scrolling[0]).filter(lang_code=1)[0]
+        scrolling_tr = ScrollingTextDesc.objects.filter(text=scrolling[0]).filter(lang_code=home_lang_code)[0]
         return {'scrolling_text': scrolling_tr}
     return {}
 
 
 def headerText(request):
-    headerText = HeaderTextDesc.objects.filter(headerText__isActive=True).filter(lang_code=1)
+    headerText = HeaderTextDesc.objects.filter(headerText__isActive=True).filter(lang_code=home_lang_code)
     if headerText.count() > 0:
         return {'headerText': headerText[0]}
     return {}
+
 
 

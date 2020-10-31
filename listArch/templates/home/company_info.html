@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content2 %}
+    {% load change_lang %}
+
     {% include 'parent_category_slider.html' %}
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
          style="height: 360px;background-image: url(&quot;/media/main-search-background-01.jpg&quot;);">
@@ -22,7 +24,7 @@
                                     <div id="search_product"></div>
                                 </div>
                                 <button class="button" type="submit">
-                                    Search
+                                    {{ 'search'|get_item_by_lang }}
                                 </button>
 
                             </div>
@@ -39,7 +41,7 @@
 {% endblock %}
 
 {% block content %}
-{% include 'count_box.html' %}
+    {% include 'count_box.html' %}
     <div id="titlebar" style="border-bottom:1px solid #ffff;">
         <div class="" style="margin-left: 20px">
             <div class="row">
@@ -47,8 +49,8 @@
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs">
                         <ul>
-                            <li><a href="{% url 'listArch:index' %}">ANASAYFA</a></li>
-                            <li><a href="#">PROFİL</a></li>
+                            <li><a href="{% url 'listArch:index' %}"> {{ 'home_page'|get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ 'profile'|get_item_by_lang }}</a></li>
                             <li><a href="{% url 'listArch:firma-bilgileri' company.pk %}">{{ company.name }}</a></li>
 
 
@@ -77,16 +79,16 @@
             <div class="col-md-10">
                 <div id="listing-nav" class="listing-nav-container">
                     <ul class="listing-nav" style="height: 60px;font-size: 15px;background: transparent;">
-                        <li><a href="#listing-story" class="">STORYLINE</a></li>
-                        <li><a href="#listing-diver">DIVERSIFICATION</a></li>
-                        <li><a href="#listing-class">CLASSIFYING</a></li>
-                        <li><a href="#listing-spec">SPECTRUM</a></li>
-                        <li><a href="#listing-catalog">CATALOGUE</a></li>
-                        <li><a href="#listing-benc">BENCHMARK</a></li>
-                        <li><a href="#listing-edit">EDITORIALS</a></li>
-                        <li><a href="#listing-trade">TRADESHOW</a></li>
-                        <li><a href="#listing-press">PRESS</a></li>
-                        <li><a href="#listing-media">MEDIA BOARD</a></li>
+                        <li><a href="#listing-story" class="">{{ 'storyline'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-diver">{{ 'diversification'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-class">{{ 'classifying'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-spec">{{ 'spectrum'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-catalog">{{ 'catalogue'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-benc">{{ 'benchmark'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-edit">{{ 'editorials'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-trade">{{ 'trade_show'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-press">{{ 'press'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-media">{{ 'media_board'|get_item_by_lang }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -105,113 +107,111 @@
                                 <a style="font-size: 20px;
     background-color: #ffffff;
     padding: 20px;"
-                                   class="button book-now fullwidth margin-top-5">MAKE A REQUEST</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'make_request'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Brochure in Prints</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'brochure_in_prints'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Price & Quotation</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'price_quotation'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Catalogue in Prints</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'catalogue_prints'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">BIM/CAD Files</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'BIM/CAD_files'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Catalogue in Softcopy</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'catalog_soft_copy'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Nearby Dealer List</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'nearby_dealer_list'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Spec Sheet</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'spec_sheet'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Ask a Question</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'ask_a_question'|get_item_by_lang }}</a>
                             </div>
 
 
                             <div class="col-md-12" style="padding-right: 5px;padding-left: 5px;">
                                 <div class="col-md-12" style="padding-right: 0px;padding-left: 1px;">
                                     <a style="font-size: 20px; background-color: #ffffff; padding: 20px;"
-                                       class="button book-now fullwidth margin-top-5">MAKE A CONTACT</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'make_a_contact'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
                                     <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">WEB Site</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'web_site'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
                                     <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">Address</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'address'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
                                     <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">E-Mail</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'e-mail'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
                                     <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">Phone</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'phone'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:1px">
                                     <a href="#" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">Internet
-                                        Comunications</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'internet_communications'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 1px;padding-left:5px">
-                                    <a href="#" style="    font-size: 14px;
+                                    <a href="" style="    font-size: 14px;
     background: #fd9116;    line-height: 12px;
-
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">Map</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'map'|get_item_by_lang }}</a>
                                 </div>
 
                             </div>
@@ -224,14 +224,14 @@
                                 <a style="font-size: 20px;
     background-color: #ffffff;
     padding: 20px;"
-                                   class="button book-now fullwidth margin-top-5">REQUEST A CALL</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'request_call'|get_item_by_lang}}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Phone</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'phone' |get_item_by_lang}}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -245,7 +245,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Preferred Time</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'preferred_time'|get_item_by_lang}}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -259,7 +259,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Contact Person</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'contact_person'|get_item_by_lang}}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -273,7 +273,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Request Topic</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'request_topic'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="ffont-size: 14px;
@@ -289,16 +289,14 @@
                                     <a style="font-size: 20px;
     background-color: #ffffff;
     padding: 20px;"
-                                       class="button book-now fullwidth margin-top-5">BRANCH OFFICE &
-                                        RETAILERS
-                                        & SUPPLIERS</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'BRANCH_OFFICE_RETAILER_SUPPLIERS'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">COUNTRY</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'country'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
@@ -312,7 +310,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">STATE</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'state'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
@@ -326,7 +324,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">CITY</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'city'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
@@ -340,14 +338,14 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">BUSINESS TYPE</a>
+                                       class="button book-now fullwidth margin-top-5">{{ 'business_type'|get_item_by_lang }}</a>
                                 </div>
                                 <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                     <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                       class="button book-now fullwidth margin-top-5">BRANCH/DEALER/RESELLER▼</a>
+                                       class="button book-now fullwidth margin-top-5">BRANCH</a>
                                 </div>
 
 
@@ -363,78 +361,77 @@
                                 <a style="font-size: 20px;
     background-color: #ffffff;
     padding: 20px;"
-                                   class="button book-now fullwidth margin-top-5">DOWNLOAD AVAILABLE
-                                    FILES</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'download_available_files'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">PDF General Catalouge</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'PDF_general_catalog'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Ethics</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'ethics'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Technical Files</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'technical_files'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Legal Notes</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'legal_notes'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">CAD File</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'CAD_file'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">General Sale Notes</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'general_sale_notes'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">BIM File</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'BIM_file'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Company Profile</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'company_profile'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Warranty</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'warranty'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">Company Reports</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'company_reports'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -475,8 +472,8 @@
                     <div class="col-md-12" style="padding-right: 0px;padding-left: 0;">
                         <a style="    font-size: 20px;
     background-color: #ffffff;
-    padding: 20px;"
-                           class="button book-now fullwidth margin-top-5">HARİTA</a>
+    padding: 20px;" id="map"
+                           class="button book-now fullwidth margin-top-5">{{ 'map_'|get_item_by_lang }}</a>
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.569435590825!2d32.75022981524414!3d39.995726379416304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d34bfd011a82b9%3A0xcc65f5053f664ea3!2zT1hJVCBCxLBMxLDFnsSwTSBURUtOT0xPSsSwTEVSxLAgTFREIMWeVMSw!5e0!3m2!1str!2str!4v1598535733242!5m2!1str!2str"
                                 width="100%" height="225" frameborder="0" style="border:0;    margin-top: 5px;"
                                 allowfullscreen=""
@@ -522,7 +519,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 ">
                                     <div class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
-                                        <h4 style="font-weight: 800">CLASSIFYING BY GROHE</h4>
+                                        <h4 style="font-weight: 800">{{ 'CLASSIFYING_BY'|get_item_by_lang }} {{ company.name }}</h4>
 
                                     </div>
 

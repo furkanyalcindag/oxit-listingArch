@@ -7,13 +7,13 @@
                     <div class="slider"  >
                         {% for category in parent_categories %}
                             <div class="" style="align-content: center">
-                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                <a href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
                                    class="highlighted-category">
 
                                     <img style="width: 20px;height: 20px;" class="img-responsive"
                                          src="/media/worker.png"
                                          alt="Bricks-in-Bytes">
-                                    <h5 style="margin-bottom: 5px;margin-top: 10px;display: block;font-size: 8px;">{{ category.name }}</h5>
+                                    <h5 style="margin-bottom: 5px;margin-top: 10px;display: block;font-size: 8px;">{{ category.description }}</h5>
                                 </a>
 
                             </div>

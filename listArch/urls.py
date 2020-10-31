@@ -3,7 +3,7 @@ from django.urls import path
 
 from listArch.Views import OptionViews, CategoryViews, ProductViews, DashboardViews, CompanyViews, APIViews, HomeViews, \
     BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews, \
-    CollectionViews
+    CollectionViews, ProfileViews
 
 app_name = 'listArch'
 
@@ -12,6 +12,8 @@ urlpatterns = [
     # HOME
     path(r'', HomeViews.base2, name='index'),
     url(r'user-logout/$', UserViews.user_logout, name='logout-user'),
+    url(r'contact/$', HomeViews.contact_page, name='anasayfa-iletisim-sayfasi'),
+    url(r'about/$', HomeViews.about_page, name='anasayfa-hakkimizda-sayfasi'),
 
     url(r'category-products/(?P<pk>\d+)$', HomeViews.get_company_products, name='firmanin-urunleri'),
     url(r'product-detail/(?P<pk>\d+)/$', HomeViews.product_detail, name='urun-detay'),
@@ -63,6 +65,8 @@ urlpatterns = [
     url(r'get-product-definition/$', ProductViews.get_product_definition, name='urun-aciklamasi-getir'),
     url(r'product-apply-filter/$', HomeViews.filtered_products, name='urun-filtrele'),
     url(r'product-apply-filter-range/$', HomeViews.filtered_products_range, name='urun-filtrele-range'),
+    url(r'add-product-graphic/(?P<pk>\d+)$', ProductViews.add_graphic, name='urun-performans-grafigi-ekle'),
+    url(r'add-product-chart/(?P<pk>\d+)$', ProductViews.add_chart_graphic, name='urune-grafik-ekle'),
 
     # Company
     url(r'profile/$', UserViews.company_information, name='firma-profil'),
@@ -181,5 +185,12 @@ urlpatterns = [
 
     url(r'add-collection-product/$', CollectionViews.add_product_to_collection, name='koleksiyona-urun-ekle'),
     url(r'add-collection-company/(?P<pk>\d+)$', CollectionViews.add_collection_company, name='firmaya-koleksiyon-ekle'),
+
+    #Profile
+    url(r'profile-add/$', ProfileViews.add_profile, name='profil-kaydet'),
+    url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
+    url(r'/$', ProfileViews.profile_list, name='profil-listesi'),
+
+
 
 ]

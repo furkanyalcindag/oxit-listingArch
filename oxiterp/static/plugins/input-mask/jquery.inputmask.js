@@ -273,7 +273,7 @@
                         chrs += c;
                     }
 
-                    //return is false or a json object => { pos: ??, c: ??} or true
+                    //return is false or a jsons object => { pos: ??, c: ??} or true
                     return activeMaskset['tests'][testPos].fn != null ?
                         activeMaskset['tests'][testPos].fn.test(chrs, buffer, position, strict, opts)
                         : (c == getBufferElement(activeMaskset['_buffer'], position, true) || c == opts.skipOptionalPartCharacter) ?

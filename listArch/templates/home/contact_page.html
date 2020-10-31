@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include 'count_box.html' %}
+    <div id="titlebar" style="border-bottom:1px solid #fff;">
+        <div class="" style="margin-left: 20px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">İLETİŞİM</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin: 10px">
+        <div class="row" style="border-bottom: 1px solid #fd9116;">
+            <!-- Contact Details -->
+            <div class="col-md-4">
+
+                <h4 class="headline margin-bottom-30">Bize Ulaşın</h4>
+
+                <!-- Contact Details -->
+                <div class="sidebar-textbox">
+
+
+                    <ul class="contact-details">
+                        <li><i class="im im-icon-Phone-2"></i> <strong>Telefon:</strong> <span><a href="tel:{{contact.phone}}"><span
+                                class="__cf_email__" data-cfemail="">{{ contact.phone }}</span></a></span></li>
+                        <li><i class="im im-icon-Envelope"></i> <strong>E-Mail:</strong> <span><a href="mailto:{{contact.email}}"><span
+                                class="__cf_email__" data-cfemail="7d121b1b141e183d18051c100d1118531e1210">{{ contact.email }}</span></a></span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-md-8" style="width: 50%;" >
+
+                <section id="contact">
+                    <h4 class="headline margin-bottom-35">İletişim Formu</h4>
+
+                    <div id="contact-message"></div>
+
+                    <form method="post" action="" name="contactform"
+                          id="contactform" autocomplete="on">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div>
+                                    <input name="name" type="text" id="name" placeholder="Adınız"
+                                           required="required">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div>
+                                    <input name="email" type="email" id="email" placeholder="Email"
+                                           pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$"
+                                           required="required">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input name="subject" type="text" id="subject" placeholder="Konu" required="required">
+                        </div>
+
+                        <div>
+                            <textarea name="comments" cols="40" rows="3" id="comments" placeholder="Mesaj"
+                                      spellcheck="true" required="required"></textarea>
+                        </div>
+
+                        <input type="submit" class="submit button" id="submit" value="Gönder">
+
+                    </form>
+                </section>
+            </div>
+            <!-- Contact Form / End -->
+        </div>
+
+    </div>
+{% endblock %}
+
+
+
+{% block content2 %}
+    {% include 'parent_category_slider.html' %}
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
+         style="height: 250px">
+        <div class="main-search-inner">
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

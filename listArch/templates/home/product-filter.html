@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load static %}
-{% include 'count_box.html' %}
+    {% load change_lang %}
+
+    {% include 'count_box.html' %}
     <div id="titlebar" style="border-top:2px solid #fd9116;margin-right: 2px;">
         <div class="" style="margin-left: 20px">
             <div class="row">
@@ -9,10 +11,10 @@
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs" style="margin-left: 20px;">
                         <ul>
-                            <li><a href="#">ANASAYFA</a></li>
-                            <li><a href="#">{{ category.parent.name }}</a></li>
-                            <li><a href="#">{{ category.name }}</a></li>
-                            <li><a href="#">ÜRÜNLER</a></li>
+                            <li><a href="#">{{ 'home_page'| get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ parent_cat.description }}</a></li>
+                            <li><a href="#">{{ 'products'| get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ category.description }}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -20,6 +22,7 @@
         </div>
     </div>
     <!-- breadcrumbs -->
+
 
     <!-- breadcrumbs -->
     <div class="container" style="width: 100%;">
@@ -33,8 +36,8 @@
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
                                 <h3 style="font-size: 25px;
-    font-weight: 600;" class="margin-top-10  margin-bottom-10">{{ category.name }}
-                                    FILTERS</h3>
+    font-weight: 600;" class="margin-top-10  margin-bottom-10">{{ category.description }}
+                                    {{ 'filters'| get_item_by_lang }}</h3>
                             </div>
 
                         </div>
@@ -51,8 +54,7 @@
                         <div class="row with-forms">
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;border-top: 1px solid;width: 100%">
-                                <h4 style="font-weight: 900">FILTER
-                                    BY-BASIC</h4>
+                                <h4 style="font-weight: 900">{{ 'filter_basic'| get_item_by_lang }}</h4>
 
                             </div>
 
@@ -62,9 +64,9 @@
                         <!-- More Search Options -->
                         {% for option in options %}
 
-                            {% if option.option.isBasic %}
+                            {% if option.option.option.isBasic %}
                                 <!-- Row -->
-                                {% if option.option.type == 'checkbox' %}
+                                {% if option.option.option.type == 'checkbox' %}
 
                                     <div class="row with-forms">
                                         <!-- Cities -->
@@ -73,9 +75,9 @@
 
                                             <a href="#" style="font-size: 15px;text-transform: uppercase;"
                                                class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                               data-open-title="{{ option.option.key }}"
-                                               data-close-title="{{ option.option.key }}"
-                                               id="{{ option.option.pk }}"
+                                               data-open-title="{{ option.option.description }}"
+                                               data-close-title="{{ option.option.description }}"
+                                               id="{{ option.option.option.pk }}"
                                             ></a>
 
 
@@ -97,10 +99,10 @@
 
                                                 </div>
 
-                                                <a href="#small-dialog-{{ option.option.pk }}"
+                                                <a href="#small-dialog-{{ option.option.option.pk }}"
                                                    class="rate-review popup-with-zoom-anim"
                                                    style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
-                                                    Tümü [{{ option.count }}]
+                                                    {{ 'all'| get_item_by_lang }} [{{ option.count }}]
                                                 </a>
 
                                                 <!-- Checkboxes / End -->
@@ -110,14 +112,14 @@
                                         </div>
 
                                     </div>
-                                    <div id="small-dialog-{{ option.option.pk }}"
+                                    <div id="small-dialog-{{ option.option.option.pk }}"
                                          class="zoom-anim-dialog mfp-hide" style="color: black">
 
                                         <div class="message-reply margin-top-0" style="background: white;width: 100%">
                                             <div class="add-listing-section">
                                                 <!-- Headline -->
                                                 <div class="add-listing-headline">
-                                                    <h3 style="font-weight: 700">{{ option.option.key }}</h3>
+                                                    <h3 style="font-weight: 700">{{ option.option.description }}</h3>
                                                 </div>
                                                 <!-- Title -->
                                                 <div class="row with-forms">
@@ -130,11 +132,11 @@
                                                                 <div class="col-md-4"
                                                                      style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
                                                                     {% for option in options %}
-                                                                        {% if option.option.isBasic %}
-                                                                            <a href="#small-dialog-{{ option.option.pk }}"
+                                                                        {% if option.option.option.isBasic %}
+                                                                            <a href="#small-dialog-{{ option.option.option.pk }}"
                                                                                class="rate-review popup-with-zoom-anim"
                                                                                style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
-                                                                                {{ option.option.key }}
+                                                                                {{ option.option.description }}
                                                                             </a> <br>
                                                                         {% endif %}
                                                                     {% endfor %}
@@ -147,7 +149,7 @@
 
                                                                             <input id="{{ value.option_value.pk }}"
                                                                                    type="checkbox"
-                                                                                   onchange="option('checkbox',{{ option.option.pk }},this.value)"
+                                                                                   onchange="option('checkbox',{{ option.option.option.pk }},this.value)"
                                                                                    name="{{ value.option_value.pk }}"
                                                                                    value="{{ value.option_value.pk }}">
                                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -176,12 +178,12 @@
                                     </div>
 
 
-                                {% elif option.option.type == 'text' %}
+                                {% elif option.option.option.type == 'text' %}
                                     <a href="#" style=";text-transform: uppercase;"
                                        class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                       data-open-title="{{ option.option.key }}"
-                                       data-close-title="{{ option.option.key }}"
-                                       id="{{ option.option.pk }}"></a>
+                                       data-open-title="{{ option.option.description }}"
+                                       data-close-title="{{ option.option.description }}"
+                                       id="{{ option.option.option.pk }}"></a>
                                     <div class="row with-forms">
                                         <!-- Cities -->
                                         <div class="col-md-12">
@@ -195,21 +197,21 @@
                                         <div class="col-md-12">
                                             <a href="#" style=";text-transform: uppercase;"
                                                class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                               data-open-title="{{ option.option.key }}"
-                                               data-close-title="{{ option.option.key }}"
-                                               id="{{ option.option.pk }}"></a>
+                                               data-open-title="{{ option.option.description }}"
+                                               data-close-title="{{ option.option.description }}"
+                                               id="{{ option.option.option.pk }}"></a>
                                         </div>
                                         <div class="col-md-6" style="border-top: 1px solid">
                                             <input style="height: 30px;width: 75%" type="text" placeholder="Min"
                                                    value="0" onchange="option('range')"
-                                                   id="range-min[{{ option.option.pk }}]"
-                                                   name="range-min[{{ option.option.pk }}]"/>
+                                                   id="range-min[{{ option.option.option.pk }}]"
+                                                   name="range-min[{{ option.option.option.pk }}]"/>
                                         </div>
                                         <div class="col-md-6">
                                             <input style="height: 30px;width: 75%" type="text" placeholder="Max"
                                                    value="0"
-                                                   id="range-max[{{ option.option.pk }}]"
-                                                   name="range-max[{{ option.option.pk }}]"/>
+                                                   id="range-max[{{ option.option.option.pk }}]"
+                                                   name="range-max[{{ option.option.option.pk }}]"/>
                                         </div>
                                     </div>
 
@@ -222,7 +224,7 @@
                             {% if option_text.isBasic %}
                                 <div class="row with-forms">
                                     <div class="col-md-12">
-                                        <label>{{ option_text.key }}</label>
+                                        <label>{{ option_text.option.description }}</label>
 
                                         <input style="width: 100%;height:30px;" type="text"
                                                id="text-{{ forloop.counter0 }}">
@@ -234,7 +236,7 @@
 
                         <!-- More Search Options / End -->
                         <button style="height: 40px;background: #fd9116" class="button fullwidth margin-top-25">
-                            Filtrele
+                            {{ 'filter'| get_item_by_lang }}
                         </button>
                     </div>
                     <!-- Widget / End -->
@@ -262,9 +264,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                <h2 style="margin-top: 30px;font-weight: 600">{{ category.name }} <strong id="option_count">
+                <h2 style="margin-top: 30px;font-weight: 600">{{ category.description }} <strong id="option_count">
                     [{{ products | length }}] </strong></h2>
-                <p style="text-align: justify;font-size: 13px;">{{ cat_desc.definition | safe }}
+                <p style="text-align: justify;font-size: 13px;">{{ category.definition | safe }}
                 </p>
 
                 <style>
@@ -384,18 +386,24 @@
                                                 <img src="/media/{{ product.cover_image }}" alt=""
                                                      style="border: 2px solid #fd9116">
                                                 <div class="overlay" style="text-align: center">
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:16px">{{ product.company.name }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:10px">{{ product.name }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:16px">ID {{ product.code }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:16px">250$ Sqm</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';" style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                        style="font-size:16px">{{ product.company.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                        style="font-size:10px">{{ product.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                        style="font-size:16px">ID {{ product.code }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                        style="font-size:16px">250$ Sqm</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                        style="font-size:10px">{{ product.company.country.name }}</h2>
                                                     <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i
+                                                            class="im im-icon-Phone-2"></i></a>
                                                     <a class=" popup-with-zoom-anim"
                                                        style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                        href="#small-dialog-{{ product.pk }}"> <i
@@ -491,7 +499,8 @@
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="{%  url 'listArch:firma-bilgileri' product.company.pk %}"> <i class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i
+                                                                    class="im im-icon-Phone-2"></i></a>
                                                             <a class=" popup-with-zoom-anim"
                                                                style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                                href="#small-dialog-{{ product.pk }}"> <i
@@ -666,8 +675,7 @@
                             <div class="row">
                                 <div class=" container margin-bottom-5 margin-top-5">
                                     <h2 style="margin-top: 50px;
-    margin-bottom: 50px;">Size uygun filtreleme ile ürüne çok daha kolay
-                                        ulaşabilirsiniz</h2>
+    margin-bottom: 50px;">{{ 'filter_page_text' |get_item_by_lang }}</h2>
                                 </div>
                                 <div class="col-lg-12">
                                     {% for product in products %}
@@ -695,7 +703,8 @@
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i
+                                                                class="im im-icon-Phone-2"></i></a>
                                                         <a class=" popup-with-zoom-anim"
                                                            style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                            href="#small-dialog-{{ product.pk }}"> <i
@@ -773,8 +782,8 @@
                             <div class="col-md-12" style="border-bottom: 1px solid;width: 100%;margin-bottom: 12px">
 
                                 <h3 style="font-size: 25px;
-    font-weight: 600;" class="margin-top-10  margin-bottom-10"> {{ category.name }}
-                                    FILTERS</h3>
+    font-weight: 600;" class="margin-top-10  margin-bottom-10"> {{ category.description }}
+                                    {{ 'filters'| get_item_by_lang }}</h3>
 
 
                             </div>
@@ -793,8 +802,7 @@
                         <div class="row with-forms">
                             <!-- Cities -->
                             <div class="col-md-12" style="border-bottom: 1px solid;border-top: 1px solid;width: 100%">
-                                <h4 style="font-weight: 900">FILTER
-                                    BY-ADVANCED</h4>
+                                <h4 style="font-weight: 900"> {{ 'filter_advanced'| get_item_by_lang }}</h4>
 
                             </div>
 
@@ -804,183 +812,183 @@
                         <!-- More Search Options -->
                         {% for option in advanced_options %}
 
-                                <!-- Row -->
-                                {% if option.option.type == 'checkbox' %}
+                            <!-- Row -->
+                            {% if option.option.option.type == 'checkbox' %}
 
-                                    <div class="row with-forms">
-                                        <!-- Cities -->
-                                        <div class="col-md-12"
-                                             style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
+                                <div class="row with-forms">
+                                    <!-- Cities -->
+                                    <div class="col-md-12"
+                                         style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
 
-                                            <a href="#" style=";text-transform: uppercase;"
-                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                               data-open-title="{{ option.option.key }}"
-                                               data-close-title="{{ option.option.key }}"
-                                               id="{{ option.option.pk }}"></a>
+                                        <a href="#" style=";text-transform: uppercase;"
+                                           class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                           data-open-title="{{ option.option.description }}"
+                                           data-close-title="{{ option.option.description }}"
+                                           id="{{ option.option.option.pk }}"></a>
 
 
-                                            <div class="more-search-options relative"
-                                                 style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
-                                                <!-- Checkboxes -->
+                                        <div class="more-search-options relative"
+                                             style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
+                                            <!-- Checkboxes -->
 
-                                                <div class="checkboxes one-in-row ">
+                                            <div class="checkboxes one-in-row ">
 
-                                                    <div id="btnClick">
-                                                        {% for value in option.values %}
-                                                            <input id="{{ value.option_value.pk }}"
-                                                                   type="checkbox"
-                                                                   onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
-                                                                   name="{{ value.option_value.pk }}"
-                                                                   value="{{ value.option_value.pk }}">
-                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
-                                                        {% endfor %}
-                                                    </div>
-
+                                                <div id="btnClick">
+                                                    {% for value in option.values %}
+                                                        <input id="{{ value.option_value.pk }}"
+                                                               type="checkbox"
+                                                               onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
+                                                               name="{{ value.option_value.pk }}"
+                                                               value="{{ value.option_value.pk }}">
+                                                        <label for="{{ value.option_value.pk }}">{{ value }}</label>
+                                                    {% endfor %}
                                                 </div>
 
-                                                <a href="#small-dialog-{{ option.option.pk }}"
-                                                   class="rate-review popup-with-zoom-anim"
-                                                   style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
-                                                    Tümü [{{ option.count }}]
-                                                </a>
-
-                                                <!-- Checkboxes / End -->
                                             </div>
 
+                                            <a href="#small-dialog-{{ option.option.option.pk }}"
+                                               class="rate-review popup-with-zoom-anim"
+                                               style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
+                                                {{ 'all'| get_item_by_lang }} [{{ option.count }}]
+                                            </a>
 
+                                            <!-- Checkboxes / End -->
                                         </div>
 
+
                                     </div>
-                                    <div id="small-dialog-{{ option.option.pk }}"
-                                         class="zoom-anim-dialog mfp-hide" style="color: black">
 
-                                        <div class="message-reply margin-top-0" style="background: white;width: 100%">
-                                            <div class="add-listing-section">
-                                                <!-- Headline -->
-                                                <div class="add-listing-headline">
-                                                    <h3>{{ option.option.key }}</h3>
-                                                </div>
-                                                <!-- Title -->
-                                                <div class="row with-forms">
-                                                    <div class="col-md-12"
-                                                         style="border: 1px solid;margin-top: -21px;  padding-top: 9px;">
+                                </div>
+                                <div id="small-dialog-{{ option.option.option.pk }}"
+                                     class="zoom-anim-dialog mfp-hide" style="color: black">
 
-                                                        <div class="checkboxes one-in-row ">
+                                    <div class="message-reply margin-top-0" style="background: white;width: 100%">
+                                        <div class="add-listing-section">
+                                            <!-- Headline -->
+                                            <div class="add-listing-headline">
+                                                <h3>{{ option.option.description }}</h3>
+                                            </div>
+                                            <!-- Title -->
+                                            <div class="row with-forms">
+                                                <div class="col-md-12"
+                                                     style="border: 1px solid;margin-top: -21px;  padding-top: 9px;">
 
-                                                            <div id="btnClick" style="color: black">
-                                                                <div class="col-md-3"
-                                                                     style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
-                                                                    {% for option in options %}
-                                                                        {% if not option.option.isBasic  and option.option.type == 'checkbox' %}
-                                                                            <a href="#small-dialog-{{ option.option.pk }}"
-                                                                               class="rate-review popup-with-zoom-anim"
-                                                                               style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
-                                                                                {{ option.option.key }}
-                                                                                ad {{ option.option.key }}
-                                                                            </a> <br>
-                                                                        {% endif %}
+                                                    <div class="checkboxes one-in-row ">
+
+                                                        <div id="btnClick" style="color: black">
+                                                            <div class="col-md-3"
+                                                                 style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
+                                                                {% for option in options %}
+                                                                    {% if not option.option.option.isBasic  and option.option.option.type == 'checkbox' %}
+                                                                        <a href="#small-dialog-{{ option.option.option.pk }}"
+                                                                           class="rate-review popup-with-zoom-anim"
+                                                                           style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
+                                                                            {{ option.option.description }}
+                                                                            ad {{ option.option.description }}
+                                                                        </a> <br>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+
+                                                            <div id="advanced-option">
+                                                                <div class="col-md-6">
+                                                                    {% for value in option.allValues %}
+
+                                                                        <input id="{{ value.option_value.pk }}"
+                                                                               type="checkbox"
+                                                                               name="{{ value.option_value.pk }}"
+                                                                               value="{{ value.option_value.pk }}">
+                                                                        <label for="{{ value.option_value.pk }}">{{ value }}</label>
+
+
+
                                                                     {% endfor %}
-                                                                </div>
 
-                                                                <div id="advanced-option">
-                                                                    <div class="col-md-6">
-                                                                        {% for value in option.allValues %}
-
-                                                                            <input id="{{ value.option_value.pk }}"
-                                                                                   type="checkbox"
-                                                                                   name="{{ value.option_value.pk }}"
-                                                                                   value="{{ value.option_value.pk }}">
-                                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
-
-
-
-                                                                        {% endfor %}
-
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </div>
 
                                                 </div>
 
-                                                <!-- Row -->
-
-                                                <!-- Row / End -->
-
                                             </div>
 
+                                            <!-- Row -->
+
+                                            <!-- Row / End -->
+
                                         </div>
+
                                     </div>
+                                </div>
 
 
-                                {% elif option.option.type == 'text' %}
-                                    <a href="#" style=";text-transform: uppercase;"
-                                       class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                       data-open-title="{{ option.option.key }}"
-                                       data-close-title="{{ option.option.key }}"
-                                       id="{{ option.option.pk }}"></a>
-                                    <div class="row with-forms">
-                                        <!-- Cities -->
-                                        <div class="col-md-12">
-                                            <input style="width: 100%;height:30px;" type="text"
-                                                   name="text-{{ forloop.counter0 }}"
-                                                   id="text-{{ forloop.counter0 }}" placeholder="Keywords">
-                                        </div>
+                            {% elif option.option.option.type == 'text' %}
+                                <a href="#" style=";text-transform: uppercase;"
+                                   class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                   data-open-title="{{ option.option.description }}"
+                                   data-close-title="{{ option.option.description }}"
+                                   id="{{ option.option.option.pk }}"></a>
+                                <div class="row with-forms">
+                                    <!-- Cities -->
+                                    <div class="col-md-12">
+                                        <input style="width: 100%;height:30px;" type="text"
+                                               name="text-{{ forloop.counter0 }}"
+                                               id="text-{{ forloop.counter0 }}" placeholder="Keywords">
                                     </div>
-                                {% elif option.option.type == 'range' %}
+                                </div>
+                            {% elif option.option.option.type == 'range' %}
 
-                                    <div class="row with-forms" style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid
+                                <div class="row with-forms" style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid
 ">
-                                        <div class="col-md-12" style="margin-top: 5px">
-                                            <a href="#" style=";text-transform: uppercase;"
-                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                               data-open-title="{{ option.option.key }}"
-                                               data-close-title="{{ option.option.key }}"
-                                               id="{{ option.option.pk }}"></a>
-                                            <input type="hidden" id="value_key" name="value_key"
-                                                   value="{{ option.option.pk }}">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input style="height: 30px;width: 100%" type="text"
-                                                   placeholder="Min({{ option.range.min }})"
-                                                   value=""
-                                                   id="range-min[{{ option.option.pk }}]"
-                                                   name="range-min[{{ option.option.pk }}]"/>
+                                    <div class="col-md-12" style="margin-top: 5px">
+                                        <a href="#" style=";text-transform: uppercase;"
+                                           class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                           data-open-title="{{ option.option.description }}"
+                                           data-close-title="{{ option.option.description }}"
+                                           id="{{ option.option.option.pk }}"></a>
+                                        <input type="hidden" id="value_key" name="value_key"
+                                               value="{{ option.option.option.pk }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input style="height: 30px;width: 100%" type="text"
+                                               placeholder="Min({{ option.range.min }})"
+                                               value=""
+                                               id="range-min[{{ option.option.option.pk }}]"
+                                               name="range-min[{{ option.option.option.pk }}]"/>
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input style="height: 30px;width: 100%" type="text"
-                                                   placeholder="Max({{ option.range.max }})"
-                                                   value=""
-                                                   id="range-max[{{ option.option.pk }}]"
-                                                   name="range-max[{{ option.option.pk }}]"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input style="height: 30px;width: 100%" type="text"
+                                               placeholder="Max({{ option.range.max }})"
+                                               value=""
+                                               id="range-max[{{ option.option.option.pk }}]"
+                                               name="range-max[{{ option.option.option.pk }}]"/>
 
 
-                                        </div>
+                                    </div>
 
-                                        <div slider id="slider-distance"
-                                             style="margin-top: 90px; width: 100%;margin-left: 2px;">
-                                            <div>
-                                                <div inverse-left style="width:0%;"></div>
-                                                <div inverse-right style="width:50%;"></div>
-                                                <div range style="left:0%;right:0%;"></div>
-                                                <span thumb style="left:0%;"></span>
-                                                <span thumb style="left:100%;"></span>
-                                                <div sign style="left:0%;">
-                                                    <span id="value">0</span>
-                                                </div>
-                                                <div sign style="left:100%;">
-                                                    <span id="value">{{ option.range.max }}</span>
-                                                </div>
+                                    <div slider id="slider-distance"
+                                         style="margin-top: 90px; width: 100%;margin-left: 2px;">
+                                        <div>
+                                            <div inverse-left style="width:0%;"></div>
+                                            <div inverse-right style="width:50%;"></div>
+                                            <div range style="left:0%;right:0%;"></div>
+                                            <span thumb style="left:0%;"></span>
+                                            <span thumb style="left:100%;"></span>
+                                            <div sign style="left:0%;">
+                                                <span id="value">0</span>
                                             </div>
+                                            <div sign style="left:100%;">
+                                                <span id="value">{{ option.range.max }}</span>
+                                            </div>
+                                        </div>
 
-                                            <input id="min[{{ option.option.pk }}]" type="range" value="0"
-                                                   max="{{ option.range.max }}"
-                                                   onchange="option('range',{{ option.option.pk }},this.value)"
-                                                   min="0" step="1"
-                                                   oninput="this.value = Math.min(this.value, this.parentNode.childNodes[5].value - 1);
+                                        <input id="min[{{ option.option.option.pk }}]" type="range" value="0"
+                                               max="{{ option.range.max }}"
+                                               onchange="option('range',{{ option.option.option.pk }},this.value)"
+                                               min="0" step="1"
+                                               oninput="this.value = Math.min(this.value, this.parentNode.childNodes[5].value - 1);
         let value = (this.value / parseInt(this.max)) * 100
         var children = this.parentNode.childNodes[1].childNodes;
         children[1].style.width = value + '%';
@@ -989,12 +997,12 @@
         children[11].style.left = value + '%';
         children[11].childNodes[1].innerHTML = this.value;"/>
 
-                                            <input id="max[{{ option.option.pk }}]" type="range"
-                                                   value="{{ option.range.max }}"
-                                                   onchange="option('range',{{ option.option.pk }},this.value)"
-                                                   max="{{ option.range.max }}" min="0" step="1"
+                                        <input id="max[{{ option.option.option.pk }}]" type="range"
+                                               value="{{ option.range.max }}"
+                                               onchange="option('range',{{ option.option.option.pk }},this.value)"
+                                               max="{{ option.range.max }}" min="0" step="1"
 
-                                                   oninput=" this.value = Math.max(this.value, this.parentNode.childNodes[3].value - (-1));
+                                               oninput=" this.value = Math.max(this.value, this.parentNode.childNodes[3].value - (-1));
         let value = (this.value / parseInt(this.max)) * 100
         var children = this.parentNode.childNodes[1].childNodes;
         children[3].style.width = (100 - value) + '%';
@@ -1002,157 +1010,157 @@
         children[9].style.left = value + '%';
         children[13].style.left = value + '%';
         children[13].childNodes[1].innerHTML = this.value;"/>
-                                            <style>
-                                                [slider] {
-                                                    width: 300px;
-                                                    position: relative;
-                                                    height: 5px;
-                                                    margin: 45px 0 10px 0;
-                                                }
+                                        <style>
+                                            [slider] {
+                                                width: 300px;
+                                                position: relative;
+                                                height: 5px;
+                                                margin: 45px 0 10px 0;
+                                            }
 
-                                                [slider] > div {
-                                                    position: absolute;
-                                                    left: 13px;
-                                                    right: 15px;
-                                                    height: 5px;
-                                                }
+                                            [slider] > div {
+                                                position: absolute;
+                                                left: 13px;
+                                                right: 15px;
+                                                height: 5px;
+                                            }
 
-                                                [slider] > div > [inverse-left] {
-                                                    position: absolute;
-                                                    left: 0;
-                                                    height: 5px;
-                                                    border-radius: 10px;
-                                                    background-color: #fd9116;
-                                                    margin: 0 7px;
-                                                }
+                                            [slider] > div > [inverse-left] {
+                                                position: absolute;
+                                                left: 0;
+                                                height: 5px;
+                                                border-radius: 10px;
+                                                background-color: #fd9116;
+                                                margin: 0 7px;
+                                            }
 
-                                                [slider] > div > [inverse-right] {
-                                                    position: absolute;
-                                                    right: 0;
-                                                    height: 5px;
-                                                    border-radius: 10px;
-                                                    background-color: #fd9116;
-                                                    margin: 0 7px;
-                                                }
+                                            [slider] > div > [inverse-right] {
+                                                position: absolute;
+                                                right: 0;
+                                                height: 5px;
+                                                border-radius: 10px;
+                                                background-color: #fd9116;
+                                                margin: 0 7px;
+                                            }
 
 
-                                                [slider] > div > [range] {
-                                                    position: absolute;
-                                                    left: 0;
-                                                    height: 5px;
-                                                    border-radius: 14px;
-                                                    background-color: #ccc;
-                                                }
+                                            [slider] > div > [range] {
+                                                position: absolute;
+                                                left: 0;
+                                                height: 5px;
+                                                border-radius: 14px;
+                                                background-color: #ccc;
+                                            }
 
-                                                [slider] > div > [thumb] {
-                                                    position: absolute;
-                                                    top: -7px;
-                                                    z-index: 2;
-                                                    height: 20px;
-                                                    width: 20px;
-                                                    text-align: left;
-                                                    margin-left: -11px;
-                                                    cursor: pointer;
-                                                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-                                                    background-color: #FFF;
-                                                    border-radius: 50%;
-                                                    outline: none;
-                                                }
+                                            [slider] > div > [thumb] {
+                                                position: absolute;
+                                                top: -7px;
+                                                z-index: 2;
+                                                height: 20px;
+                                                width: 20px;
+                                                text-align: left;
+                                                margin-left: -11px;
+                                                cursor: pointer;
+                                                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+                                                background-color: #FFF;
+                                                border-radius: 50%;
+                                                outline: none;
+                                            }
 
-                                                [slider] > input[type=range] {
-                                                    position: absolute;
-                                                    pointer-events: none;
-                                                    -webkit-appearance: none;
-                                                    z-index: 3;
-                                                    height: 14px;
-                                                    top: -2px;
-                                                    width: 100%;
-                                                    opacity: 0;
-                                                }
+                                            [slider] > input[type=range] {
+                                                position: absolute;
+                                                pointer-events: none;
+                                                -webkit-appearance: none;
+                                                z-index: 3;
+                                                height: 14px;
+                                                top: -2px;
+                                                width: 100%;
+                                                opacity: 0;
+                                            }
 
-                                                div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
-                                                    background: transparent;
-                                                    border: transparent;
-                                                }
+                                            div[slider] > input[type=range]:focus::-webkit-slider-runnable-track {
+                                                background: transparent;
+                                                border: transparent;
+                                            }
 
-                                                div[slider] > input[type=range]:focus {
-                                                    outline: none;
-                                                }
+                                            div[slider] > input[type=range]:focus {
+                                                outline: none;
+                                            }
 
-                                                div[slider] > input[type=range]::-webkit-slider-thumb {
-                                                    pointer-events: all;
-                                                    width: 28px;
-                                                    height: 28px;
-                                                    border-radius: 0px;
-                                                    border: 0 none;
-                                                    background: #ccc;
-                                                    -webkit-appearance: none;
-                                                }
+                                            div[slider] > input[type=range]::-webkit-slider-thumb {
+                                                pointer-events: all;
+                                                width: 28px;
+                                                height: 28px;
+                                                border-radius: 0px;
+                                                border: 0 none;
+                                                background: #ccc;
+                                                -webkit-appearance: none;
+                                            }
 
-                                                div[slider] > input[type=range]::-ms-fill-lower {
-                                                    background: transparent;
-                                                    border: 0 none;
-                                                }
+                                            div[slider] > input[type=range]::-ms-fill-lower {
+                                                background: transparent;
+                                                border: 0 none;
+                                            }
 
-                                                div[slider] > input[type=range]::-ms-fill-upper {
-                                                    background: transparent;
-                                                    border: 0 none;
-                                                }
+                                            div[slider] > input[type=range]::-ms-fill-upper {
+                                                background: transparent;
+                                                border: 0 none;
+                                            }
 
-                                                div[slider] > input[type=range]::-ms-tooltip {
-                                                    display: none;
-                                                }
+                                            div[slider] > input[type=range]::-ms-tooltip {
+                                                display: none;
+                                            }
 
-                                                [slider] > div > [sign] {
-                                                    opacity: 0;
-                                                    position: absolute;
-                                                    margin-left: -11px;
-                                                    top: -39px;
-                                                    z-index: 3;
-                                                    background-color: #fd9116;
-                                                    color: #fff;
-                                                    width: 28px;
-                                                    height: 28px;
-                                                    border-radius: 28px;
-                                                    -webkit-border-radius: 28px;
-                                                    align-items: center;
-                                                    -webkit-justify-content: center;
-                                                    justify-content: center;
-                                                    text-align: center;
-                                                }
+                                            [slider] > div > [sign] {
+                                                opacity: 0;
+                                                position: absolute;
+                                                margin-left: -11px;
+                                                top: -39px;
+                                                z-index: 3;
+                                                background-color: #fd9116;
+                                                color: #fff;
+                                                width: 28px;
+                                                height: 28px;
+                                                border-radius: 28px;
+                                                -webkit-border-radius: 28px;
+                                                align-items: center;
+                                                -webkit-justify-content: center;
+                                                justify-content: center;
+                                                text-align: center;
+                                            }
 
-                                                [slider] > div > [sign]:after {
-                                                    position: absolute;
-                                                    content: '';
-                                                    left: 0;
-                                                    border-radius: 16px;
-                                                    top: 19px;
-                                                    border-left: 14px solid transparent;
-                                                    border-right: 14px solid transparent;
-                                                    border-top-width: 16px;
-                                                    border-top-style: solid;
-                                                    border-top-color: #fd9116;
-                                                }
+                                            [slider] > div > [sign]:after {
+                                                position: absolute;
+                                                content: '';
+                                                left: 0;
+                                                border-radius: 16px;
+                                                top: 19px;
+                                                border-left: 14px solid transparent;
+                                                border-right: 14px solid transparent;
+                                                border-top-width: 16px;
+                                                border-top-style: solid;
+                                                border-top-color: #fd9116;
+                                            }
 
-                                                [slider] > div > [sign] > span {
-                                                    font-size: 12px;
-                                                    font-weight: 700;
-                                                    line-height: 28px;
-                                                }
+                                            [slider] > div > [sign] > span {
+                                                font-size: 12px;
+                                                font-weight: 700;
+                                                line-height: 28px;
+                                            }
 
-                                                [slider]:hover > div > [sign] {
-                                                    opacity: 1;
-                                                }</style>
-                                        </div>
-                                        <button type="submit" class="button margin-top-15"
-                                                onclick=""
-                                                style="color: #fff; margin-bottom: 10px; float: right; width: 60px; height: 25px; border: 1px solid #fd9116;">
-                                            Uygula
-                                        </button>
+                                            [slider]:hover > div > [sign] {
+                                                opacity: 1;
+                                            }</style>
                                     </div>
+                                    <button type="submit" class="button margin-top-15"
+                                            onclick=""
+                                            style="color: #fff; margin-bottom: 10px; float: right; width: 60px; height: 25px; border: 1px solid #fd9116;">
+                                        Uygula
+                                    </button>
+                                </div>
 
 
-                                {% endif %}
+                            {% endif %}
 
 
                         {% endfor %}
@@ -1160,7 +1168,7 @@
                             {% if not option_text.isBasic %}
                                 <div class="row with-forms">
                                     <div class="col-md-12">
-                                        <label>{{ option_text.key }}</label>
+                                        <label>{{ option_text.option.description }}</label>
 
                                         <input style="width: 100%;height:30px;border-bottom: 1px solid;margin-bottom: 1px"
                                                type="text"
@@ -1173,7 +1181,7 @@
 
                         <!-- More Search Options / End -->
                         <button style="height: 40px;background: #fd9116" class="button fullwidth margin-top-25">
-                            Filtrele
+                            {{ 'filter'| get_item_by_lang }}
                         </button>
                     </div>
                     <!-- Widget / End -->
@@ -1182,7 +1190,7 @@
         </div>
     </div>
     <input type="hidden" value="" id="checked_list" name="checked_list">
-    <input type="hidden" value="{{ category.pk }}" id="filtered-category" name="filtered-category">
+    <input type="hidden" value="{{ category.category.pk }}" id="filtered-category" name="filtered-category">
 
 
 
@@ -1221,7 +1229,7 @@
                             </div>
 
                             <button class="button" onclick="">
-                                Search
+                                {{ 'search'| get_item_by_lang }}
                             </button>
 
                         </div>

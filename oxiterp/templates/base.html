@@ -8,10 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'base2/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'base2/css/main-color.css' %}" id="colors">
     <link rel="stylesheet" href="{% static 'base2/css/bootstrap-grid.css' %}">
-
 
     <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -19,6 +20,9 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'base2/chart/style-gauge.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/morris.js/morris.css' %}">
+    <script type="text/javascript" src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
 
     <style>
 
@@ -59,6 +63,8 @@
     </style>
 </head>
 <body>
+{% load change_lang %}
+
 <div id="wrapper">
     <header id="header-container" style="height: 5vh !important;">
         <div id="header">
@@ -84,9 +90,9 @@
                         </ul>
                         <ul id="responsive" style="margin-left: 100px;margin-top: 10px">
 
-                            <li><a href="#">Hakkımızda</a></li>
-                            <li><a href="#">Reklam</a></li>
-                            <li><a href="#">İletişim</a></li>
+                            <li><a href="#">{{ 'about'| get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ 'advertises'| get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ 'connect'| get_item_by_lang }}</a></li>
                         </ul>
                         <ul class="social-icons " style="margin-top: 5px;">
                             <li><a style="display: contents;" class="twitter" href="#"><i class="icon-twitter"></i></a>
@@ -125,7 +131,7 @@
                     <div class="right-side">
                         <div class="header-widget">
                             <a href="{% url 'listArch:kullanici-giris-yap' %}" class="sign-in"><i
-                                    class="sl sl-icon-login"></i> Giriş Yap</a>
+                                    class="sl sl-icon-login"></i> {{ 'login'| get_item_by_lang }}</a>
                         </div>
                     </div>
                 {% endif %}
@@ -240,12 +246,17 @@
             <!-- Copyright -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="copyrights">© 2020 List Of Room <a
-                            style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Terms Of Service</a> | <a
-                            style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Privacy Police</a>
-                        | <a style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Data Disclaimer</a> | <a
-                                style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Cookie Policy</a> |
-                        <a style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Site Map</a>
+                    <div class="copyrights">© 2020 {{ 'site_name'| get_item_by_lang }} <a
+                            style="margin-left: 10px;margin-right: 10px;color:#fff"
+                            href="#">{{ 'terms_of_service'| get_item_by_lang }}</a> | <a
+                            style="margin-left: 10px;margin-right: 10px;color:#fff"
+                            href="#">{{ 'privacy_policy'| get_item_by_lang }}</a>
+                        | <a style="margin-left: 10px;margin-right: 10px;color:#fff"
+                             href="#">{{ 'data_disclaimer'| get_item_by_lang }}</a> | <a
+                                style="margin-left: 10px;margin-right: 10px;color:#fff"
+                                href="#">{{ 'cookie_policy'| get_item_by_lang }}</a> |
+                        <a style="margin-left: 10px;margin-right: 10px;color:#fff"
+                           href="#">{{ 'site_map'| get_item_by_lang }}</a>
                     </div>
                 </div>
             </div>
@@ -287,7 +298,6 @@
 <script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
 <script src='https://cdn3.devexpress.com/jslib/17.1.6/js/dx.all.js'></script>
@@ -402,18 +412,18 @@
 
 
                         if (products[i]['product'].length > 0) {
-                            html += '<h3 style="color: #000;">ÜRÜNLER [' + products[i]['product'].length + ']</h3>';
+                            html += '<h3 style="color: #000;"> {{ 'products'| get_item_by_lang }} [' + products[i]['product'].length + ']</h3>';
                             for (let x = 0; x < products[i]['product'].length; x++) {
-                                let url = '{% url 'listArch:urun-detay' 0%}'
-                                url = url.replace(0, products[i]['product'][x].id)
-                                html += '<li style="list-style-type:none;margin-top:5px;margin-left: 20px;margin-right: 20px;"><a style="color: #000;" href="' + url + '">' + products[i]['product'][x].name + '</a></li>';
+                                let url = '{% url 'listArch:urun-detay' 0  %}'
+                                url = url.replace(0, products[i]['product'][x].product.id)
+                                html += '<li style="list-style-type:none;margin-top:5px;margin-left: 20px;margin-right: 20px;"><a style="color: #000;" href="' + url + '">' + products[i]['product'][x].product.name + '</a></li>';
 
                             }
 
                         }
                         debugger;
                         if (products[i]['company'].length > 0) {
-                            html += '<h3 style="color: #000">FİRMALAR [' + products[i]['company'].length + ']</h3>';
+                            html += '<h3 style="color: #000">{{ 'company'| get_item_by_lang }} [' + products[i]['company'].length + ']</h3>';
                             for (let a = 0; a < products[i]['company'].length; a++) {
                                 let url = '{% url 'listArch:firma-bilgileri' 0%}'
                                 url = url.replace(0, products[i]['company'][a].id)
@@ -423,7 +433,7 @@
 
                         }
                         if (products[i]['magazine'].length > 0) {
-                            html += '<h3 style="color: #000">TANITIMLAR [' + products[i]['magazine'].length + ']</h3>';
+                            html += '<h3 style="color: #000">{{ 'introductions'| get_item_by_lang }} [' + products[i]['magazine'].length + ']</h3>';
                         }
 
                     }

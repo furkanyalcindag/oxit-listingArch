@@ -76,12 +76,13 @@ def add_company(request):
                                   date=company_form.cleaned_data['date'],
                                   address_link=company_form.cleaned_data['address_link'],
                                   business_type=company_form.cleaned_data['business_type'],
+
                                   )
                 company.save()
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
                     logo = request.POST['retail-logo']
-                    retail_company = Company(isRetail=True, name=name, logo=logo)
+                    retail_company = CompanyRetail(company=company,name=name, logo=logo)
                     retail_company.save()
                     company.retail = retail_company
                     company.save()
@@ -89,8 +90,8 @@ def add_company(request):
                     print('mağaza yok')
                 else:
                     retail = Company.objects.get(pk=int(request.POST['retail']))
-                    company.retail = retail
-                    company.save()
+                    retail_company = CompanyRetail(company=retail,name=retail.name, logo=retail.logo)
+                    retail_company.save()
 
                 if request.POST['company_social[0][name]'] != "":
                     while i <= social_row:

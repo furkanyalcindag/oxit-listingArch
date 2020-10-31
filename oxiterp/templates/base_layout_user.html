@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+{% load static %}
+
+<head>
+
+    <!-- Basic Page Needs
+    ============================Build your next Website====================== -->
+    <title>Listeo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{% static 'base2/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'base2/css/main-color.css' %}" id="colors">
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
+</head>
+
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Header Container
+    ================================================== -->
+    <header id="header-container">
+        <div id="header">
+            <div class="container">
+                <div class="left-side">
+                    <div id="logo">
+                        <a href="{% url 'listArch:index' %}"><img src="/media/logo1.png"
+                                                                  alt="Bricks-in-Bytes"></a>
+                    </div>
+                    <div class="mmenu-trigger">
+                        <button class="hamburger hamburger--collapse" type="button">
+                     <span class="hamburger-box">
+                     <span class="hamburger-inner"></span>
+                     </span>
+                        </button>
+                    </div>
+                    <nav id="navigation" class="style-1">
+                        <ul id="responsive">
+                            <li class=""><a style="font-size: 9px;line-height: 12px;overflow-x: inherit;">We bring
+                                internet of Building Materials and
+                                code of Industry 4.0 into the 21st century.<br>
+                                Construction Companies & Engineers must get smart or get left behind.<br> Form Follows
+                                Code of Bricks in Bytes for Smart Cities.</a>
+                            </li>
+                            <li><a href="#">Hakkımızda</a></li>
+                            <li><a href="#">Reklam</a></li>
+                            <li><a href="#">İletişim</a></li>
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
+                </div>
+                {% if user.is_authenticated %}
+
+                    <div class="right-side">
+                        <div class="header-widget">
+                            <!-- User Menu -->
+                            <div class="user-menu">
+                                <div class="user-name">
+                                    {{ user.first_name }} {{ user.last_name }}
+                                </div>
+                                <ul>
+                                    <li><a href="{% url 'listArch:kullanici-profil-sayfasi' %}"><i
+                                            class="sl sl-icon-settings"></i> Dashboard</a></li>
+                                    <li><a href="dashboard-messages.html"><i class="sl sl-icon-envelope-open"></i>
+                                        Messages</a></li>
+                                    <li><a href="{% url 'listArch:kullanici-listesi' %}"><i
+                                            class="fa fa-calendar-check-o"></i>
+                                        Listem</a>
+                                    </li>
+                                    <li><a href="{% url 'listArch:logout-user' %}"><i class="sl sl-icon-power"></i>
+                                        Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="right-side">
+                        <div class="header-widget">
+                            <a href="{% url 'listArch:kullanici-giris-yap' %}" class="sign-in"><i
+                                    class="sl sl-icon-login"></i> Giriş Yap</a>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- Sign In Popup / End -->
+            </div>
+        </div>
+        <!-- Header / End -->
+    </header>
+
+    <div class="clearfix"></div>
+    <!-- Header Container / End -->
+
+
+    <!-- Dashboard -->
+
+    {% block content %}
+
+
+    {% endblock %}
+
+ <div id="backtotop"><a href="#"></a></div>
+
+    <div id="footer">
+        <!-- Main -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <img class="footer-logo" src="/media/logo1.png" alt="">
+                    <br><br>
+                    <p>We bring internet of Building Materials and
+                        code of Industry 4.0 into the 21st century.
+                        Construction Companies & Engineers must get smart or get left behind. Form Follows Code of
+                        Bricks in Bytes for Smart Cities.
+                    </p>
+                </div>
+                <div class="col-md-5 col-sm-6 ">
+                    <h4>About</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">What We Do</a></li>
+                        <li><a href="#">Philosophy</a></li>
+                        <li><a href="#">Investor Relations</a></li>
+                    </ul>
+                    <ul class="footer-links">
+                        <li><a href="#">Advertise</a></li>
+                        <li><a href="#">Client Center</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                    <ul class="social-icons margin-top-20">
+                        <li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+                        <li><a class="instagram" href="#"><i class="icon-instagram"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-3  col-sm-12">
+                    <h4>İletişim</h4>
+                    <div class="sidebar-textbox">
+                        <ul class="contact-details">
+                            <li><i class="im im-icon-Phone-2"></i> <strong>Phone: </strong> <span> (123) 123-456 </span>
+                            </li>
+                            <li><i class="im im-icon-Fax"></i> <strong>Fax: </strong> <span> (123) 123-456 </span></li>
+                            <li><i class="im im-icon-Envelope"></i> <strong>E-Mail: </strong> <span><a href="#"><span> info@oxityazilim.com</span></a></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyrights">© 2020 Bricks In Bytes <a style="margin-left: 10px;margin-right: 10px;"
+                                                                      href="#">Terms Of Service</a> | <a
+                            style="margin-left: 10px;margin-right: 10px;" href="#">Privacy Police</a>
+                        | <a style="margin-left: 10px;margin-right: 10px;" href="#">Data Disclaimer</a> | <a
+                                style="margin-left: 10px;margin-right: 10px;" href="#">Cookie Policy</a> |
+                        <a style="margin-left: 10px;margin-right: 10px;" href="#">Site Map</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" src="{% static 'base2/scripts/mmenu.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/chosen.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/rangeslider.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
+
+
+</body>
+
+</html>

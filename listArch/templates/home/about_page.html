@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content2 %}
+    {% include 'parent_category_slider.html' %}
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
+         style="height: 250px">
+        <div class="main-search-inner">
+
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <span class="typed-words">{{ scrolling_text.description }}</span>
+                        </h2>
+                        <h4>{{ scrolling_text.subTextDesc }}</h4>
+                        <div class="main-search-input">
+                            <div class="main-search-input-item">
+                                <select data-placeholder="All Categories" class="chosen-select">
+                                    <option selected>Architecture</option>
+                                    <option>Hotels</option>
+                                    <option>Restaurants</option>
+                                    <option>Fitness</option>
+                                    <option>Events</option>
+                                </select>
+
+                            </div>
+
+                            <div class="main-search-input-item">
+                                <input type="text" placeholder="Start to search" value="">
+                            </div>
+
+                            <button class="button" onclick="">
+                                Search
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Categories - End -->
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block content %}
+    {% include 'count_box.html' %}
+    <div id="titlebar" style="border-bottom:1px solid #fff;">
+        <div class="" style="margin-left: 20px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">ANASAYFA</a></li>
+                            <li><a href="#">HAKKIMIZDA</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 0;border: 1px solid #fd9116">
+
+				<h2>Blog</h2>
+
+				<!-- Breadcrumbs -->
+
+        <div class="blog-post">
+            <!-- Content -->
+            <div class="post-content">
+                <h3><a href="#">Hotels for All Budgets </a></h3>
+
+
+                <p style="">{{ about.description | safe }}</p>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

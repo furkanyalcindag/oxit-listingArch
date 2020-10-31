@@ -4,19 +4,25 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
+
+from listArch.Forms.GraphicValueForm import GraphicValueForm
 from listArch.Forms.DefinitionDescriptionForm import DefinitionDescriptionForm
 from listArch.Forms.DefinitionForm import DefinitionForm
 from listArch.Forms.ProductFileForm import ProductFileForm
 from listArch.Forms.ProductForm import ProductForm
 from listArch.Forms.ProductImageForm import ProductImageForm
 from listArch.Forms.RelatedProductForm import RelatedProductForm
-from listArch.models import ProductFile, RelatedProduct, OptionDesc, OptionValue
+from listArch.models import ProductFile, RelatedProduct, OptionDesc, OptionValue, GraphicValue, ProductPerform, \
+    GraphicValueDesc, Value, ChartValue
+from listArch.models.Chart import Chart
+from listArch.models.ChartDesc import ChartDesc
 from listArch.models.Company import Company
 from listArch.models.Definition import Definition
 from listArch.models.DefinitionDescription import DefinitionDescription
 from listArch.models.Product import Product
 from listArch.models.Image import Image
 from listArch.models.Category import Category
+from listArch.models.ProductChart import ProductChart
 from listArch.models.ProductDefinition import ProductDefinition
 from listArch.models.ProductDesc import ProductDesc
 from listArch.models.ProductOptionValue import ProductOptionValue
@@ -99,7 +105,7 @@ def add_product(request):
                             option_value = OptionValue.objects.get(option=Option.objects.get(
                                 pk=int(request.POST['option_range_id' + str(x) + ''])))
                             product_option = ProductOptionValue(product=product, option_value=option_value,
-                                                                range_value=request.POST['range_value'+str(x)+''])
+                                                                range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
                             x = x + 1
 
@@ -241,7 +247,8 @@ def product_edit(request, pk):
                     while x <= int(option_range):
                         option_value = OptionValue.objects.get(option=Option.objects.get(
                             pk=int(request.POST['option_range_id' + str(x) + ''])))
-                        product_option = ProductOptionValue(product=product, option_value=option_value,range_value=request.POST['range_value'+str(x)+''])
+                        product_option = ProductOptionValue(product=product, option_value=option_value,
+                                                            range_value=request.POST['range_value' + str(x) + ''])
                         product_option.save()
                         x = x + 1
 
@@ -342,7 +349,7 @@ def add_productDefinition(request, pk):
             definitionDesc = DefinitionDescription(definition=definition, lang_code=1,
                                                    title_desc=request.POST['title[tr]'],
                                                    description=request.POST['content[tr]'])
-            definitionDesc.save()
+            definitionDesc.save()(request.POST or None)
 
             definitionDesc2 = DefinitionDescription(definition=definition, lang_code=2,
                                                     title_desc=request.POST['title[eng]'],
@@ -444,3 +451,80 @@ def get_products(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+def add_graphic(request, pk):
+    try:
+        graph_form = GraphicValueForm()
+        product = Product.objects.get(pk=pk)
+        graphics = ProductPerform.objects.filter(product=product)
+        if request.POST:
+            graph_form = GraphicValueForm(request.POST or None)
+
+            if graph_form.is_valid():
+                graphValue = GraphicValue(min=graph_form.cleaned_data['min'], max=graph_form.cleaned_data['max'],
+                                          current_value=graph_form.cleaned_data['current_value'],
+                                          middle=graph_form.cleaned_data['middle'],
+                                          unit=graph_form.cleaned_data['unit'])
+                graphValue.save()
+
+                graph_desc = GraphicValueDesc(lang_code=1, graphValue=graphValue,
+                                              description=request.POST['graphic[tr][name]'])
+                graph_desc.save()
+
+                graph_desc = GraphicValueDesc(lang_code=2, graphValue=graphValue,
+                                              description=request.POST['graphic[eng][name]'])
+                graph_desc.save()
+
+                productGraph = ProductPerform(product=product, graphValue=graphValue)
+                productGraph.save()
+                messages.success(request, "Grafik Bilgileri Başarıyla Kayıt Edildi.")
+                return redirect('listArch:urunler')
+
+    except Exception as e:
+
+        return JsonResponse({'status': 'Fail', 'msg': e})
+    return render(request, 'product/productGraphValue.html',
+                  {'graph_form': graph_form, 'product': product, 'graphic': graphics})
+
+
+def add_chart_graphic(request, pk):
+    product = ""
+    try:
+        product = Product.objects.get(pk=pk)
+        if request.POST:
+            count = request.POST['count']
+            count = count.split(',')
+            array = []
+            for count in count:
+                array.append(count)
+
+            i = 0
+            chart = Chart(key=request.POST['graphic[tr][name]'])
+            chart.save()
+
+            chart_tr = ChartDesc(lang_code=1, description=request.POST['graphic[tr][name]'], chart=chart)
+            chart_tr.save()
+
+            chart_eng = ChartDesc(lang_code=2, description=request.POST['graphic[eng][name]'], chart=chart)
+            chart_eng.save()
+
+            while i < array.__len__():
+                value = Value(year=request.POST['graphic_year[' + str(i) + ']'],
+                              value=request.POST['graphic_value[' + str(i) + ']'])
+                value.save()
+                chart_value = ChartValue(chart=chart, value=value)
+                chart_value.save()
+                i = i + 1
+
+            product_chart = ProductChart(product=product, chart=chart)
+            product_chart.save()
+
+            messages.success(request, "Grafik Bilgileri Başarıyla Kayıt Edildi.")
+            return redirect('listArch:urunler')
+
+    except Exception as e:
+
+        return JsonResponse({'status': 'Fail', 'msg': e})
+    return render(request, 'product/productChartValue.html',
+                  {'product': product, })

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load change_lang %}
 
 {% block content2 %}
     {% include 'parent_category_slider.html' %}
@@ -6,11 +7,8 @@
         <div class="main-search-inner">
 
             <div class="">
-
-
                 <div class="row">
                     <div class="col-md-12">
-
 
                         <h2 style="font-family: 'Allerta Stencil', sans-serif;">
                             <span class="typed-words">{{ scrolling_text.description }}</span>
@@ -51,28 +49,11 @@
 
                                 {% for category in sub_categories %}
 
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
+                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.category.pk %}"
                                        class="highlighted-category" style="">
                                         <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
+                                        <h4 style="margin-top: 10px;display: block;">{{ category.description }}</h4>
                                     </a>
-
-
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
-                                    </a>
-
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
-                                    </a>
-
-
-
-
 
 
                                 {% endfor %}
@@ -101,8 +82,10 @@
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs">
                         <ul>
-                            <li><a href="#">ANASAYFA</a></li>
-                            <li><a href="#">{{ category.name }}</a></li>
+                            <li><a href="#">{{ 'home_page'| get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ category.description }}</a></li>
+                            <li><a href="#">{{ 'products'| get_item_by_lang }}</a></li>
+
                         </ul>
                     </nav>
                 </div>
@@ -116,15 +99,15 @@
     padding-right: 14px;">
                 <div class="col-md-12">
                     <div class="row container margin-bottom-5 margin-top-25">
-                        <h3>ÜRÜN REKLAMLARI</h3>
+                        <h3>{{ 'product_advisory'| get_item_by_lang }}</h3>
                     </div>
                     <div class="row">
                         {% for product in products %}
                             <div class="col-lg-2 col-md-6">
-                                <a href="{% url 'listArch:urun-detay' product.pk %}"
+                                <a href="{% url 'listArch:urun-detay' product.product.pk %}"
                                    class="listing-item-container compact">
                                     <div class="listing-item">
-                                        <img src="/media/{{ product.cover_image }}"
+                                        <img src="/media/{{ product.product.cover_image }}"
                                              alt="">
                                         <div class="listing-badge now-open">
                                             Ads
@@ -147,7 +130,7 @@
                     <div class="col-lg-12 col-md-12"
                          style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;width: 100%">
                         <div class="row container">
-                            <h3>BAŞARI HİKAYELERİ</h3></div>
+                            <h3>{{ 'success_story'| get_item_by_lang }}</h3></div>
                         {% for blog in blogs %}
 
                             <div class="blog-post col-md-3" style="">
@@ -172,10 +155,10 @@
                                 </a>
                                 <br>
                                 <div class="post-content" style="height: 108px !important;">
-                                    <p>{{ blog.blog.description |truncatechars:80 | safe }}
+                                    <p>{{ blog.blog.description | truncatechars:80 | safe }}
 
                                     </p>
-                                    <a style="font-size: 12px;" href="#" class="">Read More <i
+                                    <a style="font-size: 12px;" href="#" class="">{{ 'read_more'| get_item_by_lang }}<i
                                             class="fa fa-angle-right"></i></a>
                                 </div>
                             </div>
@@ -199,7 +182,7 @@
                         <div class="col-lg-12 col-md-12"
                              style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;">
                             <div class="row container ">
-                                <h3>TEMEL {{ category.name }} ELEMANLARI</h3>
+                                <h3>{{ 'essential'| get_item_by_lang }} {{ category.description }} {{ 'elements'| get_item_by_lang }}</h3>
                             </div>
 
                             {% for product in introduction.products %}
@@ -217,12 +200,12 @@
                                                 <a href="{% url 'listArch:urun-detay' product.product.pk %}">{{ product.product.name }}</a>
                                             </li>
                                             <br>
-                                            <li><a href="#">(18687)</a></li>
+                                            <li><a href="#">({{ introduction.products |length }})</a></li>
                                             <br>
-                                            <li><a href="#">{{ category.name }}</a></li>
+                                            <li><a href="#">{{ category.description }}</a></li>
                                         </ul>
                                         <br>
-                                        <a style="font-size: 12px;" href="#" class="">MORE <i
+                                        <a style="font-size: 12px;" href="#" class="">{{ 'more'| get_item_by_lang }} <i
                                                 class="fa fa-angle-right"></i></a>
                                     </div>
                                 </div>

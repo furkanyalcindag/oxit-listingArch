@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content2 %}
+    {% load change_lang %}
+
     {% include 'parent_category_slider.html' %}
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
          style="height: 215px;">
@@ -23,7 +25,7 @@
                                     <div id="search_product"></div>
                                 </div>
                                 <button class="button" type="submit">
-                                    Search
+                                    {{ 'search'| get_item_by_lang }}
                                 </button>
 
                             </div>
@@ -40,7 +42,7 @@
 
 
 {% block content %}
-{% include 'count_box.html' %}
+    {% include 'count_box.html' %}
     <div id="titlebar" style="border-bottom:1px solid #fff;margin-bottom: 3px;">
         <div class="" style="margin-left: 20px">
             <div class="row">
@@ -48,13 +50,13 @@
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs">
                         <ul>
-                            <li><a href="#">HOME</a></li>
+                            <li><a href="#">{{ 'home_page'| get_item_by_lang }}</a></li>
                             <li><a href="#">
 
-                                {{ category.name }}
+                                {{ category.description }}
 
                             </a></li>
-                            <li><a href="#">PRODUCTS</a></li>
+                            <li><a href="#">{{ 'products'| get_item_by_lang }}</a></li>
                             <li><a href="#">{{ product.company.name }}</a></li>
 
                         </ul>
@@ -63,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div class="" style="border-top: 1px solid;border-bottom: 1px solid">
+    <div class="" style="border-top: 1px solid;border-bottom: 1px solid #fd9116">
         <div class="row sticky-wrapper ">
             <div class="col-lg-9 col-md-9" style="border-right: 1px solid;">
                 <div style="padding-left: 30px;">
@@ -108,7 +110,7 @@
                                     style="font-weight: 800">{{ product.company.name }}</h4></a>
                             <p>BricksInBytes ID {{ product.company_code }}</p>
                         </div>
-                        <div class="col-md-1" style="    width: 1.333333%;"></div>
+                        <div class="col-md-1" style="width: 1.333333%;"></div>
 
                         <div class="row">
                             <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
@@ -562,7 +564,7 @@
                     <div class="row">
                         <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
                         <div class="col-md-10" style="border: 2px solid #fd9116;    width: 93%;">
-                            <h3 style="font-weight: 800">Ürün Özeti</h3>
+                            <h3 style="font-weight: 800">{{ 'principal_product' | get_item_by_lang }}</h3>
                             <p>InBytes ID {{ product.code }}</p>
                             <h3 style="float:right;margin-top: -50px;">1</h3>
                         </div>
@@ -576,28 +578,28 @@
                                 <table id="product" class="table table-bordered">
                                     <tbody>
                                     <tr>
-                                        <th scope="row">List Of Room ID</th>
+                                        <th scope="row">{{ 'site_name'|get_item_by_lang }} ID</th>
                                         <td>{{ product.company_code }}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Company ID</th>
+                                        <th scope="row">{{ 'company'| get_item_by_lang }} ID</th>
                                         <td>{{ product.company.pk }}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Product</th>
+                                        <th scope="row">{{ 'product'|get_item_by_lang }}</th>
                                         <td>{{ product.name }}</td>
                                     </tr>
 
                                     {% for option in options %}
                                         {% if forloop.counter0|divisibleby:2 == 0 %}
                                             <tr>
-                                                {% if option.option.isBasic %}
-                                                    <th scope="row">{{ option.option.key }}</th>
+                                                {% if option.option.option.isBasic %}
+                                                    <th scope="row">{{ option.option.description }}</th>
                                                     {% for value in option.values %}
-                                                        {% if option.option.type == 'range' %}
-                                                            <td>{{ value.min }}-{{ value.max }}</td>
+                                                        {% if option.option.option.type == 'range' %}
+                                                            <td>{{ value.option_value.min }}-{{ value.option_value.max }}</td>
                                                         {% else %}
-                                                            <td>{{ value.value }}</td>
+                                                            <td>{{ value.description }}</td>
                                                         {% endif %}
                                                     {% endfor %}
                                                 {% endif %}
@@ -614,12 +616,12 @@
                                     {% for option in options %}
                                         <tr>
                                             {% if forloop.counter0|divisibleby:2 == 1 %}
-                                                <th scope="row">{{ option.option.key }}</th>
+                                                <th scope="row">{{ option.option.description }}</th>
                                                 {% for value in option.values %}
-                                                    {% if option.option.type == 'range' %}
-                                                        <td>{{ option.range_value.range_value }}</td>
+                                                    {% if option.option.option.type == 'range' %}
+                                                        <td>{{ value.option_value.min }}-{{ value.option_value.max }}</td>
                                                     {% else %}
-                                                        <td>{{ value.value }}</td>
+                                                        <td>{{ value.description }}</td>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}
@@ -761,7 +763,7 @@
                     <div class="row">
                         <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
                         <div class="col-md-10" style="border: 2px solid #fd9116;    width: 93%;">
-                            <h3 style="font-weight: 800">Benzer Ürünler</h3>
+                            <h3 style="font-weight: 800">{{ 'interconnected_collections'| get_item_by_lang }}</h3>
                             <h3 style="float:right;margin-top: -30px;"></h3>
                         </div>
                         <div class="col-md-1" style="width: 1.333333%;"></div>
@@ -823,7 +825,7 @@
                     <div class="row">
                         <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
                         <div class="col-md-10" style="border: 2px solid #fd9116;width: 93%;">
-                            <h3 style="font-weight: 800">Videos</h3>
+                            <h3 style="font-weight: 800">{{ 'videos'|get_item_by_lang }}</h3>
                             <p>InBytes ID {{ product.code }}</p>
                             <h3 style="float:right;margin-top: -50px;"></h3>
                         </div>
@@ -870,35 +872,149 @@
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
                         <div class="col-md-10" style="border: 2px solid #fd9116;width: 93%;">
-                            <h3 style="font-weight: 800;">Performance Benchmarks</h3>
+                            <h3 style="font-weight: 800;">{{ 'performance_benchmarks'|get_item_by_lang }}</h3>
                             <p>InBytes ID {{ product.code }}</p>
                             <h3 style="float:right;margin-top: -50px;"></h3>
                         </div>
                         <div class="col-md-1" style="width: 1.333333%;"></div>
                     </div>
-                    <div class="row">
-
-                        <div class="gauge-container" style="margin-bottom: 20px;">
+                    <div class="row" style="margin-left: 0;margin-right: 0">
+                        <div class="gauge"
+                             style=" margin-top: 20px;display: flex;justify-content: flex-end;margin-bottom: 20px;">
                             <svg width="0" height="0" version="1.1" class="gradient-mask"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <defs>
                                     <linearGradient id="gradientGauge">
                                         <stop class="color-red" offset="0%"/>
-                                        <stop class="color-yellow" offset="17%"/>
-                                        <stop class="color-green" offset="40%"/>
-                                        <stop class="color-yellow" offset="87%"/>
-                                        <stop class="color-red" offset="100%"/>
+                                        <stop class="color-yellow" offset="40%"/>
+                                        <stop class="color-green" offset="100%"/>
                                     </linearGradient>
                                 </defs>
                             </svg>
+                            {% for graph in graphics %}
+                                <div class="col-md-3">
+                                    <div class="gauge{{ forloop.counter0 }}" style=""></div>
+                                </div>
+                            {% endfor %}
+                            <script>
+                                $(function () {
+                                    let array = []
+                                    array ={{ graphics | safe }};
+                                    for (let i = 0; i < array.length; i++) {
+                                        class GaugeChart {
+                                            constructor(element, params) {
+                                                this._element = element;
+                                                this._initialValue = params.initialValue;
+                                                this._higherValue = params.higherValue;
+                                                this._title = params.title;
+                                                this._subtitle = params.subtitle;
+                                            }
 
-                            <div class="gauge" style=""></div>
+                                            _buildConfig() {
+                                                let element = this._element;
 
-                            <div class="gauge" style=""></div>
+                                                return {
+                                                    value: this._initialValue,
+                                                    valueIndicator: {
+                                                        color: '#fff'
+                                                    },
 
-                            <div class="gauge" style=""></div>
+                                                    geometry: {
+                                                        startAngle: 180,
+                                                        endAngle: 360
+                                                    },
 
-                            <div class="gauge" style=""></div>
+                                                    scale: {
+                                                        startValue: array[i].min,
+                                                        endValue: array[i].max,
+                                                        customTicks: [array[i].min, array[i].middle, array[i].max],
+                                                        tick: {
+                                                            length: 8
+                                                        },
+
+                                                        label: {
+                                                            font: {
+                                                                color: '#87959f',
+                                                                size: 9,
+                                                                family: '"Open Sans", sans-serif'
+                                                            }
+                                                        }
+                                                    },
+
+
+                                                    title: {
+                                                        verticalAlignment: 'bottom',
+                                                        text: this._title,
+                                                        font: {
+                                                            family: '"Open Sans", sans-serif',
+                                                            color: '#fff',
+                                                            size: 10
+                                                        },
+
+                                                        subtitle: {
+                                                            text: this._subtitle,
+                                                            font: {
+                                                                family: '"Open Sans", sans-serif',
+                                                                color: '#fff',
+                                                                weight: 700,
+                                                                size: 28
+                                                            }
+                                                        },
+
+                                                    },
+
+
+                                                    onInitialized: function () {
+                                                        let currentGauge = $(element);
+                                                        let circle = currentGauge.find('.dxg-spindle-hole').clone();
+                                                        let border = currentGauge.find('.dxg-spindle-border').clone();
+
+                                                        currentGauge.find('.dxg-title text').first().attr('y', 48);
+                                                        currentGauge.find('.dxg-title text').last().attr('y', 28);
+                                                        currentGauge.find('.dxg-value-indicator').append(border, circle);
+                                                    }
+                                                };
+
+
+                                            }
+
+                                            init() {
+                                                $(this._element).dxCircularGauge(this._buildConfig());
+                                            }
+                                        }
+
+
+                                        $(document).ready(function () {
+
+                                            $('.gauge' + i + '').each(function (index, item) {
+                                                let params = {
+                                                    initialValue: array[i].current_value,
+                                                    higherValue: array[i].max,
+                                                    title: array[i].name,
+                                                    subtitle: array[i].current_value,
+                                                };
+
+                                                let gauge = new GaugeChart(item, params);
+                                                gauge.init();
+                                            });
+
+                                            $('#random').click(function () {
+
+                                                $('.gauge' + i + '').each(function (index, item) {
+                                                    let gauge = $(item).dxCircularGauge('instance');
+                                                    let randomNum = Math.round(Math.random() * array[i].max);
+                                                    let gaugeElement = $(gauge._$element[0]);
+
+                                                    gaugeElement.find('.dxg-title text').last().html(`${randomNum}`);
+                                                    gauge.value(randomNum);
+                                                });
+                                            });
+
+
+                                        });
+                                    }
+                                });
+                            </script>
 
                         </div>
 
@@ -906,127 +1022,13 @@
                     </div>
 
                 </div>
-                <script>$(function () {
-
-                    class GaugeChart {
-                        constructor(element, params) {
-                            this._element = element;
-                            this._initialValue = params.initialValue;
-                            this._higherValue = params.higherValue;
-                            this._title = params.title;
-                            this._subtitle = params.subtitle;
-                        }
-
-                        _buildConfig() {
-                            let element = this._element;
-
-                            return {
-                                value: this._initialValue,
-                                valueIndicator: {
-                                    color: '#fff'
-                                },
-
-                                geometry: {
-                                    startAngle: 180,
-                                    endAngle: 360
-                                },
-
-                                scale: {
-                                    startValue: 0,
-                                    endValue: this._higherValue,
-                                    customTicks: [0, 250, 500, 780, 1050, 1300, 1560],
-                                    tick: {
-                                        length: 8
-                                    },
-
-                                    label: {
-                                        font: {
-                                            color: '#87959f',
-                                            size: 9,
-                                            family: '"Open Sans", sans-serif'
-                                        }
-                                    }
-                                },
 
 
-                                title: {
-                                    verticalAlignment: 'bottom',
-                                    text: this._title,
-                                    font: {
-                                        family: '"Open Sans", sans-serif',
-                                        color: '#fff',
-                                        size: 10
-                                    },
-
-                                    subtitle: {
-                                        text: this._subtitle,
-                                        font: {
-                                            family: '"Open Sans", sans-serif',
-                                            color: '#fff',
-                                            weight: 700,
-                                            size: 28
-                                        }
-                                    }
-                                },
-
-
-                                onInitialized: function () {
-                                    let currentGauge = $(element);
-                                    let circle = currentGauge.find('.dxg-spindle-hole').clone();
-                                    let border = currentGauge.find('.dxg-spindle-border').clone();
-
-                                    currentGauge.find('.dxg-title text').first().attr('y', 48);
-                                    currentGauge.find('.dxg-title text').last().attr('y', 28);
-                                    currentGauge.find('.dxg-value-indicator').append(border, circle);
-                                }
-                            };
-
-
-                        }
-
-                        init() {
-                            $(this._element).dxCircularGauge(this._buildConfig());
-                        }
-                    }
-
-
-                    $(document).ready(function () {
-
-                        $('.gauge').each(function (index, item) {
-                            let params = {
-                                initialValue: 1050,
-                                higherValue: 1560,
-                                title: `[Fire Perform] ${index + 1}`,
-                                subtitle: '780 ºC'
-                            };
-
-
-                            let gauge = new GaugeChart(item, params);
-                            gauge.init();
-                        });
-
-                        $('#random').click(function () {
-
-                            $('.gauge').each(function (index, item) {
-                                let gauge = $(item).dxCircularGauge('instance');
-                                let randomNum = Math.round(Math.random() * 1560);
-                                let gaugeElement = $(gauge._$element[0]);
-
-                                gaugeElement.find('.dxg-title text').last().html(`${randomNum} ºC`);
-                                gauge.value(randomNum);
-                            });
-                        });
-                    });
-
-                });</script>
-
-
-
-                <div id="listing-graph" class="row" >
-                    <div class="row" >
+                <div id="listing-graph" class="row">
+                    <div class="row">
                         <div class="col-md-1" style="width: 6.333333%;margin-left: -24px;"></div>
                         <div class="col-md-10" style="border: 2px solid #fd9116;width: 93%;">
-                            <h3 style="font-weight: 800;">Price & Output Index</h3>
+                            <h3 style="font-weight: 800;">{{ 'price_output_index' |get_item_by_lang }}</h3>
                             <p>InBytes ID {{ product.code }}</p>
                             <h3 style="float:right;margin-top: -50px;"></h3>
                         </div>
@@ -1034,18 +1036,63 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 margin-top-25 margin-bottom-10">
-                        <div class="col-md-6" style="">
-                            <div id="chartContainer" style="height: 300px;margin-left: 35px;"></div>
+                        <div class="col-md-12 margin-top-25 margin-bottom-30">
+
+                            {% for chart in charts %}
+                                <div class="col-md-6 graph-container">
+                                    <h3 class="margin-left-35"
+                                        style="margin-left: 30px">{{ chart.product_chart.description }}</h3>
+                                    <div class="margin-left-20" id="chart-{{ chart.product_chart }}"
+                                         style="height: 200px;"></div>
+                                </div>
+                            {% endfor %}
+                            <script>
+                                $(function () {
+                                    debugger;
+                                    "use strict";
+
+                                    // AREA CHART
+
+                                    var x = [];
+                                    x ={{ charts|safe }};
+                                    // LINE CHART
+
+
+                                    let value = [];
+
+
+                                    for (var i = 0; i < x.length; i++) {
+                                        let graphArray = [];
+                                        for (var y = 0; y < x[i].values.length; y++) {
+                                            graphArray.push({
+                                                year: x[i].values[y].year.toString(),
+                                                value: x[i].values[y].value,
+                                            })
+                                        }
+                                        let id = x[i].product_chart;
+                                        new Morris.Line({
+                                            // ID of the element in which to draw the chart.
+                                            element: 'chart-' + id,
+                                            // Chart data records -- each entry in this array corresponds to a point on
+                                            // the chart.
+                                            data: graphArray,
+                                            // The name of the data record attribute that contains x-values.
+                                            xkey: 'year',
+                                            // A list of names of data record attributes that contain y-values.
+                                            ykeys: ['value'],
+                                            // Labels for the ykeys -- will be displayed when you hover over the
+                                            // chart.
+                                            labels: ['Value']
+                                        });
+                                    }
+
+
+                                });
+                            </script>
+                            <script>
+
+                            </script>
                         </div>
-                         <div class="col-md-6" style="">
-                            <div id="chartContainer-2" style="height: 300px;margin-left: 30px;"></div>
-                        </div>
-                        </div>
-
-
-
-
                     </div>
 
                 </div>
@@ -1059,17 +1106,20 @@
                     <div class="col-md-4 " style="margin-top: 18px;
     margin-bottom: 5px;">
                         <a href="#" style="font-size:12px;background: white"
-                           class="button book-now fullwidth">Product <br> Range</a>
+                           class="button book-now fullwidth">{{ 'product'|get_item_by_lang }}
+                            <br> {{ 'range'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-4 " style="margin-top: 17px;
     margin-bottom: 5px;">
                         <a href="#" style="font-size:13px;background: white"
-                           class="button book-now fullwidth ">Create <br> Sheet</a>
+                           class="button book-now fullwidth ">{{ 'create'|get_item_by_lang }}
+                            <br> {{ 'sheet'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-4 " style="margin-top: 17px;
     margin-bottom: 5px;">
                         <a href="#" style="font-size:12px;background: white"
-                           class="button book-now fullwidth ">Supplier <br> Summary</a>
+                           class="button book-now fullwidth ">{{ 'supplier'|get_item_by_lang }}
+                            <br> {{ 'summary'|get_item_by_lang }}</a>
                     </div>
                 </div>
                 <br>
@@ -1091,41 +1141,41 @@
                 <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
                     <div class="col-md-12" style="padding-right: 0px;">
                         <a style="font-size: 17px; height: 40px; padding-top: 9px; background-color: #ffffff;"
-                           class="button book-now fullwidth margin-top-5">MAKE A REQUEST</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'make_request' |get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="#" style="font-size: 12px;background: #fd9116;"
-                           class="button book-now fullwidth margin-top-5">Brochure in Prints</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'brochure_in_prints'| get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="#" style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Price & Quotation</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'price_quotation'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="#" style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Catalogue in Prints</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'catalogue_prints'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="#" style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">BIM/CAD Files</a>
+                           class="button book-now fullwidth margin-top-5">BIM/CAD {{ 'files'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="#" style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Catalogue in Softcopy</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'catalog_soft_copy'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="#" style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Nearby Dealer List</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'nearby_dealer_list'|get_item_by_lang }}</a>
                     </div>
                 </div>
                 <br>
@@ -1135,14 +1185,14 @@
     height: 40px;
     padding-top: 8px;
     background-color: #ffffff;"
-                           class="button book-now fullwidth margin-top-5">REQUEST A CALL</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'request_call'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="tel:{{ product.company.phone }}"
                            style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Phone</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'phone'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="tel:{{ product.company.phone }}"
@@ -1155,7 +1205,7 @@
                         <a style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Preferred Time</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'preferred_time'| get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size: 12px;
@@ -1167,7 +1217,7 @@
                         <a style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Contact Person</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'contact_person'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size: 12px;
@@ -1181,13 +1231,13 @@
                     <div class="col-md-12" style="padding-right: 0px;">
                         <a style="font-size: 15px; height: 45px;      padding-top: 8px;
 ;background-color: #ffffff;"
-                           class="button book-now fullwidth margin-top-5">BRANCH OFFICE & RETAILERS & SUPPLIERS</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'BRANCH_OFFICE_RETAILER_SUPPLIERS'| get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size:12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Country</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'country'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size: 12px;
@@ -1199,7 +1249,7 @@
                         <a style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">State</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'state'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size: 12px;
@@ -1212,7 +1262,7 @@
                         <a style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">City</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'city'| get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size: 12px;
@@ -1225,7 +1275,7 @@
                         <a style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Business Type</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'business_type' |get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a style="    font-size: 12px;
@@ -1239,7 +1289,7 @@
                 <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
                     <div class="col-md-12" style="padding-right: 0px;">
                         <a style="font-size: 15px; height: 35px; padding-top: 7px; background-color: #ffffff;"
-                           class="button book-now fullwidth margin-top-5">MAKE A CONTACT</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'make_contact' |get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="{{ product.company.website }}"
@@ -1253,7 +1303,7 @@
                            style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Address</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'address'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="mailto:{{ product.company.email }}"
@@ -1267,26 +1317,24 @@
                            style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Phone</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'phone'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
-                        <a href="#" style="    font-size: 12px;
+                        <a href="{{ product.company.website }}" style="    font-size: 12px;
     background: #fd9116;
 "
-                           class="button book-now fullwidth margin-top-5">Internet Comunications</a>
+                           class="button book-now fullwidth margin-top-5">{{ 'internet_communications'| get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-6" style="padding-right: 0px;">
                         <a href="{{ product.company.address_link }}"
                            style="    font-size: 12px;
-    background: #fd9116;
-"
-                           class="button book-now fullwidth margin-top-5">Map</a>
+    background: #fd9116;" class="button book-now fullwidth margin-top-5">{{ 'map'|get_item_by_lang }}</a>
                     </div>
                 </div>
                 <br>
                 <div class="row" style="margin: 2px;">
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">Firma Açıklaması</h3>
+                        <h3 style="font-weight: 800">{{ 'company_description'|get_item_by_lang }}</h3>
                     </div>
                     <div class="col-md-12 margin-bottom-5 margin-top-5" style="border: 1px solid #e0e0e0;">
                         {% for company_desc in company_definitions %}
@@ -1306,7 +1354,7 @@
 
 
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">Business Advert Video</h4>
+                        <h4 style="font-weight: 800">{{ 'business_advert_video'|get_item_by_lang }}</h4>
 
                     </div>
 
@@ -1319,36 +1367,33 @@
                     </div>
                 </div>
 
-
                 <br>
                 <div class="row" style="margin: 2px">
-
-
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">Business Details</h3>
+                        <h3 style="font-weight: 800">{{ 'business_details'|get_item_by_lang }}</h3>
                     </div>
 
                     <div class="col-md-12 margin-top-5 " style="padding-left:0;padding-right:0;">
                         <table class="table table-bordered">
                             <tbody style="">
                             <tr>
-                                <th scope="row">Company Registered Name</th>
+                                <th scope="row">{{ 'company_registered_name'|get_item_by_lang }}</th>
                                 <td>{{ product.company.name }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Company Registration Number</th>
+                                <th scope="row">{{ 'company_registration_number'|get_item_by_lang }}</th>
                                 <td>{{ product.company.pk }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Date of Incorporation</th>
+                                <th scope="row">{{ 'date_incorporation'|get_item_by_lang }}</th>
                                 <td>{{ product.company.date.year }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Company Home Address</th>
+                                <th scope="row">{{ 'company_address'|get_item_by_lang }}</th>
                                 <td>{{ product.company.address }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Phone</th>
+                                <th scope="row">{{ 'phone'| get_item_by_lang }}</th>
                                 <td>{{ product.company.phone }}</td>
                             </tr>
                             <tr>
@@ -1360,15 +1405,15 @@
                                 <td>{{ product.company.email }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Board of Directors</th>
+                                <th scope="row">{{ 'board_directors' |get_item_by_lang }}</th>
                                 <td>{{ product.company.user.first_name }} {{ product.company.user.last_name }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">No of Emplyees</th>
+                                <th scope="row">{{ 'no_of_employees'|get_item_by_lang }}</th>
                                 <td>{{ product.company.noOfEmployees }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Annual Sales</th>
+                                <th scope="row">{{ 'annual_sales'| get_item_by_lang }}</th>
                                 <td>{{ product.company.annualSales }}</td>
                             </tr>
 
@@ -1382,7 +1427,7 @@
                 <br>
                 <div class="row" style="margin: 2px">
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">Products / Services Offered</h3>
+                        <h3 style="font-weight: 800">{{ 'product_service'|get_item_by_lang }}</h3>
 
                     </div>
 
@@ -1437,112 +1482,19 @@
 
 
                     <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">Assistant / Need Help?</h3>
+                        <h3 style="font-weight: 800">{{ 'assistant_need'|get_item_by_lang }}</h3>
 
                     </div>
 
                     <div class="col-md-12 margin-top-5" style="line-height:20px;border: 1px solid #e0e0e0;">
-                        <a href="">Chat / Leave Message</a>
+                        <a href="">{{ 'chat_message'|get_item_by_lang }}</a>
                     </div>
                 </div>
-
 
             </div>
             <!-- Sidebar / End -->
         </div>
     </div>
 
-    <script>
 
-    window.onload = function () {
-
-        var chart = new CanvasJS.Chart("chartContainer", {
-            animationEnabled: true,
-            theme: "light2",
-            title: {
-                text: "Price Index ($/year)"
-            },
-            data: [{
-                type: "line",
-                indexLabelFontSize: 16,
-                dataPoints: [
-                    {y: 1450},
-                    {y: 414},
-                    {
-                        y: 1520,
-                        indexLabel: "\u2191 highest",
-                        markerColor: "red",
-                        markerType: "triangle"
-                    },
-                    {y: 1200},
-                    {y: 450},
-                    {y: 500},
-                    {y: 1000},
-                    {y: 980},
-                    {
-                        y: 500,
-                        indexLabel: "\u2193 lowest",
-                        markerColor: "DarkSlateGrey",
-                        markerType: "cross"
-                    },
-                    {y: 500},
-                    {y: 480},
-                    {y: 510}
-                ]
-            }]
-        });
-        chart.render();
-
-        var chart2 = new CanvasJS.Chart("chartContainer-2", {
-            animationEnabled: true,
-            theme: "light2",
-            title: {
-                text: "Manufacturing Index (qty/year)"
-            },
-            data: [{
-                type: "line",
-                indexLabelFontSize: 16,
-                dataPoints: [
-                    {y: 250},
-                    {y: 80},
-                    {
-                        y: 520,
-                        indexLabel: "\u2191 highest",
-                        markerColor: "red",
-                        markerType: "triangle"
-                    },
-                    {y: 460},
-                    {y: 450},
-                    {y: 500},
-                    {y: 480},
-                    {y: 480},
-                    {
-                        y: 410,
-                        indexLabel: "\u2193 lowest",
-                        markerColor: "DarkSlateGrey",
-                        markerType: "cross"
-                    },
-                    {y: 500},
-                    {y: 480},
-                    {y: 510}
-                ]
-            }]
-        });
-        chart2.render();
-
-
-        $('.slider').slick({
-            slidesToShow: 15,
-            slidesToScroll: -5,
-            infinite: true,
-            cssEase: 'linear',
-            variableWidth: true,
-
-        });
-
-
-    }
-
-
-</script>
 {% endblock %}

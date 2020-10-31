@@ -52,3 +52,13 @@ from .Collection import Collection
 from .CollectionProduct import CollectionProduct
 from .Advert import Advert
 from .CompanyRetail import CompanyRetail
+from .Profile import Profile
+from .ProfileBlogDesc import ProfileBlogDesc
+from .ProductPerform import ProductPerform
+from .GraphicValue import GraphicValue
+from .GraphicValueDesc import GraphicValueDesc
+from .ChartDesc import ChartDesc
+from .ChartValue import ChartValue
+from .Chart import Chart
+from .ProductChart import ProductChart
+from .Value import Value

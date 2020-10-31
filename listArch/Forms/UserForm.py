@@ -12,9 +12,9 @@ class UserForm(ModelForm):
         fields = ('first_name', 'last_name', 'username', 'email')
         widgets = {
             'first_name': forms.TextInput(
-                attrs={'class': 'input-text', 'placeholder': 'Ad', }),
+                attrs={'class': 'form-control', 'placeholder': 'Ad', }),
             'last_name': forms.TextInput(
-                attrs={'class': 'input-text ', 'placeholder': ' Soyad', }),
+                attrs={'class': 'form-control', 'placeholder': ' Soyad', }),
             'username': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Kullanıcı Adı'}),
             'email': forms.TextInput(

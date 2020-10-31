@@ -156,6 +156,16 @@
                                                                    class="btn btn-warning"
                                                                    data-original-title="Açıklama Ekle"><i
                                                                         class="fa fa-plus"></i></a>
+                                                                <a href="{% url 'listArch:urune-grafik-ekle' product.product.pk %}"
+                                                                   data-toggle="tooltip" title="Grafik Ekle"
+                                                                   class="btn btn-success"
+                                                                   data-original-title="Grafik Ekle"><i
+                                                                        class="fa fa-line-chart"></i></a>
+                                                                <a href="{% url 'listArch:urun-performans-grafigi-ekle' product.product.pk %}"
+                                                                   data-toggle="tooltip" title="Performans Bilgisi Ekle"
+                                                                   class="btn btn-info"
+                                                                   data-original-title="Performans Bilgisi Ekle"><i
+                                                                        class="fa fa-plus"></i></a>
 
                                                                 <button type="button"
                                                                         onclick="getDefinition({{ product.product.pk }})"

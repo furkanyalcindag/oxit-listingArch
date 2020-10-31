@@ -17,6 +17,7 @@ from django.conf.locale.tr import formats as tr_formats
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.core.management.utils import get_random_secret_key
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
     'listArch',
+    'widget_tweaks',
+    'django_filters',
 
 ]
 
@@ -148,7 +151,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'tr'
 
-home_lang_code = 'tr'
+home_lang_code = '1'
 
 TIME_ZONE = 'Europe/Istanbul'
 
