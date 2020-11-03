@@ -173,26 +173,29 @@
                                             {% else %}
                                                 <tr id="option-value-row{{ forloop.counter0 }}">
                                                     <td class="text-left">
-                                                        <input type="hidden" name="option_value[{{ forloop.counter0 }}][option_value_id]"
-                                                                                 value="">
+                                                        <input type="hidden"
+                                                               name="option_value[{{ forloop.counter0 }}][option_value_id]"
+                                                               value="">
                                                         <div class="input-group"><span class="input-group-addon"><img
                                                                 src="/media/en-gb.png"
                                                                 title="ENg"></span>
-                                                            <input type="text" name="option_value[{{ forloop.counter0 }}][option_value_description][eng][name]"
-                                                                                          value="{{ option_value.option_eng.description }}"
-                                                                                          placeholder="Seçenek Değer Adı"
-                                                                                          class="form-control"></div>
+                                                            <input type="text"
+                                                                   name="option_value[{{ forloop.counter0 }}][option_value_description][eng][name]"
+                                                                   value="{{ option_value.option_eng.description }}"
+                                                                   placeholder="Seçenek Değer Adı"
+                                                                   class="form-control"></div>
                                                         <div class="input-group"><span class="input-group-addon"><img
                                                                 src="/media/tr-tr.png"
                                                                 title="Türkçe"></span>
-                                                            <input type="text" name="option_value[{{ forloop.counter0 }}][option_value_description][tr][name]"
-                                                                                             value="{{ option_value.option_tr.description}}"
-                                                                                             placeholder="Seçenek Değer Adı"
-                                                                                             class="form-control"></div>
+                                                            <input type="text"
+                                                                   name="option_value[{{ forloop.counter0 }}][option_value_description][tr][name]"
+                                                                   value="{{ option_value.option_tr.description }}"
+                                                                   placeholder="Seçenek Değer Adı"
+                                                                   class="form-control"></div>
                                                     </td>
                                                     <td class="text-right">
                                                         <button type="button"
-                                                                onclick="remove({{ forloop.counter0 }})"
+                                                                onclick="remove_row({{ forloop.counter0 }})"
                                                                 data-toggle="tooltip" title="Kaldır"
                                                                 class="btn btn-danger">
                                                             <i class="fa fa-minus-circle"></i></button>
@@ -308,20 +311,16 @@
         })
     </script>
     <script>
+        let count = []
 
         $(document).ready(function () {
-
-            document.getElementById("row_number").value = option_value_row;
+            debugger;
+            for (let i = 0; i < option_value_row; i++) {
+                count.push(i)
+            }
 
         });
 
-        function remove(id) {
-            debugger;
-            $('#option-value-row' + id + '').remove();
-            let row = document.getElementById("row_number").value;
-            document.getElementById("row_number").value = parseInt(row) - 1;
-
-        }
 
         $('select[name=\'type\']').on('change', function () {
             if (this.value === 'select' || this.value === 'radio' || this.value === 'checkbox') {
@@ -341,21 +340,23 @@
             debugger;
 
 
-            html = '<tr id="option-value-row' + option_value_row + '">';
+            let html = '<tr id="option-value-row' + option_value_row + '">';
             html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
             html += '    <div class="input-group">';
-            html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/indir.png" title="ENg"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
+            html += '      <span class="input-group-addon"><img style="" src="/media/en-gb.png" title="ENg"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
             html += '    </div>';
             html += '    <div class="input-group">';
-            html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/tr.png" title="Türkçe"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][tr][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
+            html += '      <span class="input-group-addon"><img style="" src="/media/tr-tr.png" title="Türkçe"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][tr][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
             html += '    </div>';
             html += '  </td>';
-            html += '  <td class="text-right"><button type="button" onclick="remove_row('+option_value_row+')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-right"><button type="button" onclick="remove_row(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
 
             $('#option-value-table tbody').append(html);
+
+            count.push(parseInt(option_value_row));
             option_value_row++;
-            document.getElementById("row_number").value = option_value_row;
+            document.getElementById("row_number").value = count;
 
 
         }
@@ -363,8 +364,11 @@
         function remove_row(id) {
             debugger;
             $('#option-value-row' + id + '').remove();
-
-            option_value_row = option_value_row - 1;
+            count = jQuery.grep(count, function (value) {
+                return value != id;
+            });
+            document.getElementById("row_number").value = count;
+            console.log(count)
         }
 
 

@@ -13,7 +13,6 @@
             <li><a href="">Firma Ekle</a></li>
         </ol>
 
-
     </section>
     <section class="content">
         {% if messages %}
@@ -149,9 +148,9 @@
                                                         </select></div>
                                                     </div>
 
-                                                        <div id="new-retail" name="new-retail">
+                                                    <div id="new-retail" name="new-retail">
 
-                                                        </div>
+                                                    </div>
 
 
                                                 </div>
@@ -268,7 +267,6 @@
                                         aria-describedby="tooltip514951">Kaydet
                                 </button>
 
-
                             </form>
                         </div>
                         <hr>
@@ -344,9 +342,10 @@
 
     <script>
         var social_row = 0;
+        let count = [];
 
         function addSocial() {
-            html = '<tr id="social-row' + social_row + '">';
+            let html = '<tr id="social-row' + social_row + '">';
             html += '<td class="text-left">';
             html += '<select name="company_social[' + social_row + '][name]" class="form-control select2 " style="width: 100%" id="social">';
             html += '<option value="instagram">Instagram</option><option value="facebook">Facebook</option>';
@@ -356,20 +355,19 @@
             html += '</tr>';
 
             $('#social tbody').append(html);
-
-            document.getElementById('social_row').value = social_row;
+            count.push(parseInt(social_row));
+            document.getElementById("social_row").value = count;
             social_row++;
         }
 
 
-        $(document).ready(function () {
-            document.getElementById('social_row').value = social_row;
-
-        });
-
         function remove_row(id) {
             $('#social-row' + id + '').remove();
-            social_row = social_row - 1;
+            count = jQuery.grep(count, function (value) {
+                return value != id;
+            });
+            document.getElementById("social_row").value = count;
+            console.log(count)
         }
 
         function add_retail() {

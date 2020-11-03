@@ -50,7 +50,8 @@ urlpatterns = [
 
     # Product
     url(r'add-product/$', ProductViews.add_product, name='urun-ekle'),
-    url(r'search-product/$', HomeViews.search_product, name='urun-ara'),
+    url(r'search-product/$', HomeViews.search_product_home, name='urun-ara'),
+    url(r'filter-page-search/$', HomeViews.search_product_filter, name='filtreleme-sayfasi-search'),
 
     url(r'urun-getir/$', ProductViews.get_products, name='urun-getir'),
 
@@ -97,6 +98,8 @@ urlpatterns = [
 
     # Blog
     url(r'add-blog/$', BlogViews.add_blog_desc, name='blog-ekle'),
+    url(r'profile-add-blog/(?P<pk>\d+)$', BlogViews.add_blog_businessType, name='profile-blog-ekle'),
+
     url(r'blogs/$', BlogViews.blogs, name='bloglar'),
     url(r'delete-blog/$', BlogViews.delete_blog, name='blog-sil'),
     url(r'update-blog/(?P<pk>\d+)$', BlogViews.update_blog, name='blog-duzenle'),
@@ -189,7 +192,7 @@ urlpatterns = [
     #Profile
     url(r'profile-add/$', ProfileViews.add_profile, name='profil-kaydet'),
     url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
-    url(r'/$', ProfileViews.profile_list, name='profil-listesi'),
+    url(r'abc/$', ProfileViews.profile_list, name='profil-listesi'),
 
 
 

@@ -14,29 +14,34 @@
                             <span class="typed-words">{{ scrolling_text.description }}</span>
                         </h2>
                         <h4>{{ scrolling_text.subTextDesc }}</h4>
-                        <div class="main-search-input">
-                            <div class="main-search-input-item">
-                                <select data-placeholder="All Categories" class="chosen-select">
-                                    <option selected>Architecture</option>
-                                    <option>Hotels</option>
-                                    <option>Restaurants</option>
-                                    <option>Fitness</option>
-                                    <option>Events</option>
-                                </select>
+                        <form action="{% url 'listArch:urun-ara' %}" method="post">
+                        {% csrf_token %}
+                            <div class="main-search-input">
+                                <div class="main-search-input-item">
+                                    <select data-placeholder="All Categories" class="chosen-select" id="parent_category"
+                                            name="parent_category">
+
+                                        {% for parent in parent_categories %}
+                                            {% if parent.description == category.description %}
+                                                <option value="{{ parent.category.pk }}"
+                                                        selected>{{ parent.description }}</option>
+                                            {% else %}
+                                                <option>{{ parent.description }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="main-search-input-item">
+                                    <input type="text" placeholder="Floor,Wall,.." value="" id="search_value"
+                                           name="search_value">
+                                </div>
+                                <button class="button">
+                                    {{ 'search'|get_item_by_lang }}
+                                </button>
 
                             </div>
-
-
-                            <div class="main-search-input-item">
-                                <input type="text" placeholder="Start to search" value="">
-                            </div>
-
-
-                            <button class="button" onclick="">
-                                Search
-                            </button>
-
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="container">
@@ -253,6 +258,8 @@
                 }
             }
         });
+
+
     </script>
 {% endblock %}
 

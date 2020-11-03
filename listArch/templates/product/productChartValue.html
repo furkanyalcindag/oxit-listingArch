@@ -230,8 +230,11 @@
         function remove(id) {
             debugger;
             $('#graphic-value-row' + id + '').remove();
-            count.pop(id);
+              count = jQuery.grep(count, function (value) {
+                return value != id;
+            });
             document.getElementById("count").value = count;
+            console.log(count)
 
 
         }

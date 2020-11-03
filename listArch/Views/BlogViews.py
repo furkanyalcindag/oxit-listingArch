@@ -6,7 +6,8 @@ from listArch.Forms.BlogDescForm import BlogDescForm
 from listArch.Forms.BlogDescImageForm import BlogDescImageForm
 from listArch.Forms.CompanyBlogForm import CompanyBlogForm
 
-from listArch.models import Company, Image, BlogImage, BlogDesc, Blog, Product, BlogProduct
+from listArch.models import Company, Image, BlogImage, BlogDesc, Blog, Product, BlogProduct, ProfileBlog, BusinessType, \
+    Profile
 from listArch.models.CompanyBlog import CompanyBlog
 from listArch.services import general_methods
 
@@ -54,8 +55,6 @@ def add_blog_desc(request):
                 blog_company = CompanyBlog(blog=blog, product=Product.objects.get(pk=int(request.POST['product'])),
                                            company=Company.objects.get(pk=int(request.POST['company_id'])))
                 blog_company.save()
-
-                
 
                 messages.success(request, "Blog Bilgileri Başarıyla Kayıt Edildi.")
                 return redirect('listArch:blog-ekle')
@@ -154,3 +153,48 @@ def delete_blog(request):
 
             return JsonResponse({'status': 'Fail', 'msg': e})
 
+
+def add_blog_businessType(request, pk):
+    blogDesc_image_form = BlogDescImageForm()
+    profile = Profile.objects.get(pk=pk)
+    if request.method == 'POST':
+        try:
+
+            blogDesc_image_form = BlogDescImageForm(request.POST, request.FILES)
+
+            if blogDesc_image_form.is_valid():
+
+                blog = Blog(key=request.POST['title[tr]'])
+                blog.save()
+
+                blog_desc = BlogDesc(blog=blog, description=request.POST['content[eng]'],
+                                     title_desc=request.POST['title[eng]'],
+                                     lang_code=2)
+                blog_desc.save()
+
+                blog_desc2 = BlogDesc(blog=blog, description=request.POST['content[tr]'],
+                                      title_desc=request.POST['title[tr]'],
+                                      lang_code=1)
+                blog_desc2.save()
+
+                image_row = int(request.POST['image_row'])
+                i = 0
+                while i <= image_row:
+                    image = Image(image=blogDesc_image_form.files['product_image[' + str(i) + '][image]'])
+                    image.save()
+                    blog_image = BlogImage(blog=blog, image=image)
+                    blog_image.save()
+                    i = i + 1
+
+                blog_business = ProfileBlog(profile=profile, blog=blog)
+                blog_business.save()
+
+                messages.success(request, "Blog Bilgileri Başarıyla Kayıt Edildi.")
+                return redirect('listArch:profil-listesi')
+            else:
+                messages.success(request, "Alanları kontrol ediniz.")
+
+        except Exception as e:
+            print(e)
+    else:
+        return render(request, 'blog/add_businessType_blog.html', {'profile': profile})

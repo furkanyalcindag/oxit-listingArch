@@ -62,3 +62,4 @@ from .ChartValue import ChartValue
 from .Chart import Chart
 from .ProductChart import ProductChart
 from .Value import Value
+from .ProfileBlog import ProfileBlog

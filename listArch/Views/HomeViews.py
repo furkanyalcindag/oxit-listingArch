@@ -68,7 +68,8 @@ def product_detail(request, pk):
             value_dict['value'] = value.value
             value_array.append(value_dict)
         chart_dict['values'] = value_array
-        chart_dict['product_chart'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[0].chart.pk
+        chart_dict['product_chart'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
+            0].chart.pk
         chart_array.append(chart_dict)
 
     graph_array = []
@@ -181,8 +182,10 @@ def product_filter_page(request, pk):
                                                Q(category=category) | Q(category__parent=category)).filter(
         isActive=True)
 
-    products = Product.objects.filter(category=category).order_by('?')[:50]
-    advert_product = Product.objects.filter(isAdvert=True).filter(category=category).order_by('id')[:5]
+    products = ProductDesc.objects.filter(product__category=category).order_by('?')[:50]
+    advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
+        product__category=category).order_by(
+        'id')[:5]
 
     option_text = OptionDesc.objects.filter(option__type='text')
 
@@ -193,44 +196,143 @@ def product_filter_page(request, pk):
                    'lists': list})
 
 
-def search_product(request):
-    product_name = ""
-    array = []
-    option_text = Option.objects.filter(type='text')
-    category = ""
-    search_products = []
-    if request.method == 'POST':
-        if request.POST['product_name'] != "":
-            product_name = product_name = request.POST.get('product_name')
-        else:
-            product_name = ""
+def search_product_filter(request):
+    list = ""
+    try:
+        if request.POST:
 
-        if request.POST['brand'] == "All Brands":
-            company = None
-        else:
-            company = Company.objects.get(pk=int(request.POST['brand']))
+            parent_category = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(
+                category_id=request.POST['sub_category'])
+            value = request.POST['search_value']
+            company = Company.objects.get(pk=request.POST['search_company'])
 
-        if request.POST['category'] != "All Categories":
-            category = Category.objects.get(pk=int(request.POST['category']))
-        else:
-            category = None
+            search_products = ProductDesc.objects.filter(lang_code=home_lang_code).filter(
+                product__isActive=True).filter(
+                product__name__icontains=value).filter(product__category=parent_category[0].category).filter(
+                product__company=company)
 
-        search_products = Product.objects.filter(isActive=True).filter(
-            name__icontains=product_name).filter(
-            company=company).filter(Q(category__category__parent=category) |
-                                    Q(category=category) | Q(category__parent=category))
+            array = []
+            options_value = OptionValueDesc.objects.values('option_value__option',
+                                                           'option_value__option__type').annotate(
+                count=Count('option_value__value'))
 
-        options_value = OptionValue.objects.values('option', 'option__type').annotate(count=Count('value'))
-        for option in options_value:
-            option_dict = dict()
-            option_dict['option'] = Option.objects.filter(pk=option['option'])[0]
-            option_dict['values'] = OptionValue.objects.filter(option__id=option['option'])
-            array.append(option_dict)
+            for option in options_value:
+                option_dict = dict()
+                option_dict['option'] = Option.objects.filter(pk=option['option_value__option'])[0]
+                option_dict['values'] = OptionValue.objects.filter(option__id=option['option_value__option'])
+                array.append(option_dict)
+            list = ""
+            if not request.user.is_anonymous:
+                user = request.user
+                list = List.objects.filter(user=user)
 
-        option_text = Option.objects.filter(type='text')
+            option_text = OptionDesc.objects.filter(option__type='text')
+            advert_product = ProductDesc.objects.filter(
+                product__category=parent_category[0].category).filter(lang_code=home_lang_code).filter(
+                product__isAdvert=True).order_by('id')[:5]
 
-    return render(request, 'home/product-filter.html',
-                  {'products': search_products, 'options': array, 'option_text': option_text, 'category': category})
+            advanced_options_value = OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(
+                option_value__option__category=parent_category[0].category).filter(
+                option_value__option__isBasic=False).values(
+                'option_value__option', 'option_value__option__type').annotate(
+                count=Count('option_value__value'))
+            array_advanced = []
+            for option in advanced_options_value:
+                option_dict = dict()
+                option_dict['option'] = \
+                    OptionDesc.objects.filter(lang_code=home_lang_code).filter(
+                        option_id=option['option_value__option'])[
+                        0]
+                option_dict['values'] = OptionValueDesc.objects.filter(
+                    option_value__option__id=option['option_value__option']).filter(
+                    lang_code=home_lang_code).order_by('?')[:5]
+                if len(option_dict['values']) == 0:
+                    option_dict['range'] = OptionValue.objects.filter(option=option['option_value__option'])[0]
+                option_dict['allValues'] = OptionValueDesc.objects.filter(
+                    option_value__option__id=option['option_value__option']).filter(
+                    lang_code=home_lang_code)
+                option_dict['count'] = OptionValueDesc.objects.filter(
+                    option_value__option__id=option['option_value__option']).filter(
+                    lang_code=home_lang_code).count()
+                array_advanced.append(option_dict)
+            return render(request, 'home/product-filter.html',
+                          {'products': search_products, 'options': array, 'advanced_options': array_advanced,
+                           'option_text': option_text, 'category': parent_category[0],
+                           'advert_product': advert_product, "parent_cat": parent_category[0],
+                           'lists': list})
+    except Exception as e:
+        print(e)
+        return render(request, 'home/notFound-page.html')
+
+    return render(request, 'home/product-filter.html')
+
+
+def search_product_home(request):
+    list = ""
+    try:
+        if request.POST:
+
+            parent_category = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(
+                category_id=request.POST['parent_category'])
+            value = request.POST['search_value']
+
+            search_products = ProductDesc.objects.filter(product__isActive=True).filter(
+                product__name__icontains=value).filter(
+                product__category=parent_category[0].category).filter(lang_code=home_lang_code)
+            array = []
+            options_value = OptionValueDesc.objects.values('option_value__option',
+                                                           'option_value__option__type').annotate(
+                count=Count('option_value__value'))
+
+            for option in options_value:
+                option_dict = dict()
+                option_dict['option'] = Option.objects.filter(pk=option['option_value__option'])[0]
+                option_dict['values'] = OptionValue.objects.filter(option__id=option['option_value__option'])
+                array.append(option_dict)
+            list = ""
+            if not request.user.is_anonymous:
+                user = request.user
+                list = List.objects.filter(user=user)
+
+            option_text = OptionDesc.objects.filter(option__type='text')
+            advert_product = ProductDesc.objects.filter(
+                product__category=parent_category[0].category).filter(lang_code=home_lang_code).filter(
+                product__isAdvert=True).order_by('id')[:5]
+
+            advanced_options_value = OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(
+                option_value__option__category=parent_category[0].category).filter(
+                option_value__option__isBasic=False).values(
+                'option_value__option', 'option_value__option__type').annotate(
+                count=Count('option_value__value'))
+            array_advanced = []
+            for option in advanced_options_value:
+                option_dict = dict()
+                option_dict['option'] = \
+                    OptionDesc.objects.filter(lang_code=home_lang_code).filter(
+                        option_id=option['option_value__option'])[
+                        0]
+                option_dict['values'] = OptionValueDesc.objects.filter(
+                    option_value__option__id=option['option_value__option']).filter(
+                    lang_code=home_lang_code).order_by('?')[:5]
+                if len(option_dict['values']) == 0:
+                    option_dict['range'] = OptionValue.objects.filter(option=option['option_value__option'])[0]
+                option_dict['allValues'] = OptionValueDesc.objects.filter(
+                    option_value__option__id=option['option_value__option']).filter(
+                    lang_code=home_lang_code)
+                option_dict['count'] = OptionValueDesc.objects.filter(
+                    option_value__option__id=option['option_value__option']).filter(
+                    lang_code=home_lang_code).count()
+                array_advanced.append(option_dict)
+            return render(request, 'home/product-filter.html',
+                          {'products': search_products, 'options': array, 'advanced_options': array_advanced,
+                           'option_text': option_text, 'category': parent_category[0],
+                           'advert_product': advert_product, "parent_cat": parent_category[0],
+                           'lists': list})
+    except Exception as e:
+        print(e)
+        return render(request, 'home/notFound-page.html')
+
+    return render(request, 'home/product-filter.html')
 
 
 def get_company_info(request, pk):

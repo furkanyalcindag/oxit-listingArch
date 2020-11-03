@@ -34,7 +34,11 @@ def add_option(request):
                 option_description_tr = request.POST['option_description[tr][name]']
                 option_description_eng = request.POST['option_description[eng][name]']
 
-                row_number = int(request.POST['row_number'])
+                count = request.POST['row_number']
+                count = count.split(',')
+                array = []
+                for count in count:
+                    array.append(count)
 
                 option = Option(key=option_description_tr,
                                 type=type)
@@ -63,7 +67,7 @@ def add_option(request):
                     messages.success(request, "Seçenek Başarıyla eklendi.")
                     return redirect('listArch:secenek-ekle')
 
-                while i < row_number:
+                for i in array:
                     value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
                     optionValue = OptionValue(option=option, value=value_tr)
                     optionValue.save()
@@ -72,7 +76,6 @@ def add_option(request):
                     option_value_desc.save()
                     option_value_desc2 = OptionValueDesc(option_value=optionValue, description=value_tr, lang_code=1)
                     option_value_desc2.save()
-                    i = i + 1
 
                 messages.success(request, "Seçenek Başarıyla eklendi.")
                 return redirect('listArch:secenek-ekle')
@@ -164,7 +167,6 @@ def update_option(request, pk):
     option_values = OptionValue()
     option_array = []
     option_form = OptionForm(request.POST or None, instance=option)
-
     category_form = OptionCategoryForm(request.POST or None, instance=option)
 
     try:
@@ -214,13 +216,17 @@ def update_option(request, pk):
 
             option.save()
 
-            option_row = int(request.POST['row_number'])
+            count = request.POST['row_number']
+            count = count.split(',')
+            array = []
+            for count in count:
+                array.append(count)
 
             for option_val in option_values:
                 option_val.delete()
 
-            i = 0
-            while i < option_row:
+
+            for i in array:
                 value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
                 value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
 
@@ -234,7 +240,7 @@ def update_option(request, pk):
                     desc2.save()
                     desc = OptionValueDesc(option_value=value, lang_code=2, description=value_eng)
                     desc.save()
-                i = i + 1
+
 
             messages.success(request, "Seçenek Başarıyla Güncellendi.")
             return redirect('listArch:secenekler')

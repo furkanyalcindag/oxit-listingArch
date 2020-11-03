@@ -248,7 +248,7 @@
                     <div class="col-lg-6 col-md-6" style="padding-left: 5px;padding-right: 5px;">
                         <div class="hovereffect" onclick="location.href='#';">
                             <div class="listing-item ">
-                                <img src="/media/{{ product.cover_image }}" alt="">
+                                <img src="/media/{{ product.product.cover_image }}" alt="">
                             </div>
                         </div>
                     </div>
@@ -383,32 +383,34 @@
                                     <div class="col-1-5" style="margin-bottom: 55px;">
                                         <div class="hovereffect">
                                             <div class="listing-item ">
-                                                <img src="/media/{{ product.cover_image }}" alt=""
+                                                <img src="/media/{{ product.product.cover_image }}" alt=""
                                                      style="border: 2px solid #fd9116">
                                                 <div class="overlay" style="text-align: center">
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                        style="font-size:16px">{{ product.company.name }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                        style="font-size:10px">{{ product.name }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                        style="font-size:16px">ID {{ product.code }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                        style="font-size:16px">{{ product.product.company.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                        style="font-size:10px">{{ product.product.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                        style="font-size:16px">ID {{ product.product.code }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
                                                         style="font-size:16px">250$ Sqm</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                        style="font-size:10px">{{ product.company.country.name }}</h2>
+                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                        style="font-size:10px">{{ product.product.company.country.name }}</h2>
                                                     <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i
-                                                            class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;"
+                                                       href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
+                                                        <i
+                                                                class="im im-icon-Phone-2"></i></a>
                                                     <a class=" popup-with-zoom-anim"
                                                        style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
-                                                       href="#small-dialog-{{ product.pk }}"> <i
+                                                       href="#small-dialog-{{ product.product.pk }}"> <i
                                                             class="im im-icon-Like"></i></a>
-                                                    <div id="small-dialog-{{ product.pk }}"
+                                                    <div id="small-dialog-{{ product.product.pk }}"
                                                          class="zoom-anim-dialog mfp-hide" style="color: black">
 
                                                         <div class="message-reply margin-top-0"
@@ -417,7 +419,7 @@
                                                                 <!-- Headline -->
                                                                 <div class="add-listing-headline"
                                                                      style="padding: 8px 40px;">
-                                                                    <h3 style="font-weight: 700">{{ product.name }}</h3>
+                                                                    <h3 style="font-weight: 700">{{ product.product.name }}</h3>
                                                                 </div>
                                                                 <!-- Title -->
                                                                 <div class="row with-forms">
@@ -426,8 +428,8 @@
 
                                                                         <div class="col-md-6">
                                                                             <img style="margin-bottom: 10px"
-                                                                                 onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                                                 src="/media/{{ product.cover_image }}"
+                                                                                 onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                                                 src="/media/{{ product.product.cover_image }}"
                                                                                  alt="">
                                                                         </div>
                                                                         <div class="col-md-6">
@@ -438,7 +440,7 @@
                                                                                     +
                                                                                     <a style="color:#000;font-size: 12px;"
                                                                                        type="button"
-                                                                                       href="{% url 'listArch:kullanici-listeye-urun-ekle' list.pk product.pk %}">{{ list.list_name }}: {{ list.description }}</a>
+                                                                                       href="{% url 'listArch:kullanici-listeye-urun-ekle' list.pk product.product.pk %}">{{ list.list_name }}: {{ list.description }}</a>
 
                                                                                 </p>
                                                                             {% endfor %}
@@ -470,197 +472,308 @@
                             </div>
                         </div>
                         <div id="filter-values"></div>
-                        <div id="product-filter">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    {% for product in products %}
-                                        {% if not product.isAdvert %}
+                        {% if products %}
+                            <div id="product-filter">
+                                <div class="row">
+                                    <div class="col-lg-12">
+
+                                        {% for product in products %}
+                                            {% if not product.product.isAdvert %}
+                                                <div class="col-1-5">
+                                                    <div class="hovereffect">
+                                                        <div class="listing-item ">
+                                                            <img
+                                                                    src="/media/{{ product.product.cover_image }}"
+                                                                    alt="">
+                                                            <div class="overlay">
+                                                                <h2 style="font-size:16px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">{{ product.product.company.name }}</h2>
+                                                                <h2 style="font-size:10px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">{{ product.product.name }}</h2>
+                                                                <h2 style="font-size:16px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">
+                                                                    ID {{ product.product.code }}</h2>
+                                                                <h2 style="font-size:16px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">
+                                                                    250$ Sqm</h2>
+                                                                <h2 style="font-size:10px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">{{ product.product.company.country.name }}</h2>
+                                                                <a style="left: 5px;
+                                       bottom: 5px;
+                                       position: absolute;
+                                       text-align: left;
+                                       float: left;
+                                       font-size: 24px;
+                                       color: #fff;"
+                                                                   href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
+                                                                    <i
+                                                                            class="im im-icon-Phone-2"></i></a>
+                                                                <a class=" popup-with-zoom-anim"
+                                                                   style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                                   href="#small-dialog-{{ product.product.pk }}"> <i
+                                                                        class="im im-icon-Like"></i></a>
+                                                            </div>
+
+                                                            <div id="small-dialog-{{ product.product.pk }}"
+                                                                 class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                                                <div class="message-reply margin-top-0"
+                                                                     style="background: white;width: 100%">
+                                                                    <div class="add-listing-section">
+                                                                        <!-- Headline -->
+                                                                        <div class="add-listing-headline"
+                                                                             style="padding: 8px 40px;">
+                                                                            <h3 style="font-weight: 700">{{ product.product.name }}</h3>
+                                                                        </div>
+                                                                        <!-- Title -->
+                                                                        <div class="row with-forms">
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -21px;  padding-top: 9px;">
+
+                                                                                <div class="col-md-6">
+                                                                                    <img style="margin-bottom: 10px"
+                                                                                         onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                                                         src="/media/{{ product.product.cover_image }}"
+                                                                                         alt="">
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <h4>Liste Seç</h4>
+                                                                                    <hr>
+                                                                                    {% for list in lists %}
+                                                                                        <p>
+                                                                                            +
+                                                                                            <a style="color:#000;font-size: 12px;"
+                                                                                               type="button"
+                                                                                               href="{% url 'listArch:kullanici-listeye-urun-ekle' product.product.pk list.pk %}">{{ list.list_name }}: {{ list.description }}</a>
+
+                                                                                        </p>
+                                                                                    {% endfor %}
+                                                                                </div>
+
+                                                                                <a href="#small-dialog-{{ forloop.counter }}"
+                                                                                   class="rate-review button default popup-with-zoom-anim"
+                                                                                   style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
+                                                                                    Liste
+                                                                                    Oluştur</a>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div id="small-dialog-{{ forloop.counter }}"
+                                                                 class="zoom-anim-dialog mfp-hide" style="color: black">
+
+                                                                <div class="message-reply margin-top-0"
+                                                                     style="background: white;width: 100%">
+                                                                    <div class="add-listing-section">
+                                                                        <!-- Headline -->
+                                                                        <div class="add-listing-headline"
+                                                                             style="padding: 8px 40px;">
+                                                                            <h3 style="font-weight: 700">{{ product.product.name }}</h3>
+                                                                        </div>
+                                                                        <!-- Title -->
+                                                                        <div class="row with-forms">
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -21px;  padding-top: 9px;">
+
+                                                                                <div class="col-md-6">
+                                                                                    <img style="margin-top: 9px"
+                                                                                         onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                                                         src="/media/{{ product.product.cover_image }}"
+                                                                                         alt="">
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <h4>Yeni Liste Oluştur</h4>
+                                                                                    <form action="{% url 'listArch:liste-olustur' %}"
+                                                                                          method="post">
+                                                                                        {% csrf_token %}
+                                                                                        <input type="hidden"
+                                                                                               name="product"
+                                                                                               id="product"
+                                                                                               value="{{ product.product.pk }}">
+                                                                                        <input name="list_name"
+                                                                                               type="text"
+                                                                                               id="list_name"
+                                                                                               placeholder="Liste Adı">
+                                                                                        <br>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+
+                                                                                                <select id="reference_list"
+                                                                                                        name="reference_list"
+                                                                                                        class="chosen-select-no-single"
+                                                                                                        style="display: none;">
+                                                                                                    <option label="blank">
+                                                                                                        Bağlantılı
+                                                                                                        Liste
+                                                                                                    </option>
+                                                                                                    <option>
+                                                                                                        Yok
+                                                                                                    </option>
+                                                                                                    {% for list in lists %}
+                                                                                                        <option>{{ list.list_name }}</option>
+                                                                                                    {% endfor %}
+                                                                                                </select>
+
+                                                                                            </div>
+
+
+                                                                                            <div class="col-md-6">
+
+                                                                                                <select id="list_type"
+                                                                                                        name="list_type"
+                                                                                                        class="chosen-select-no-single"
+                                                                                                        style="display: none;">
+                                                                                                    <option label="blank">
+                                                                                                        Liste
+                                                                                                        Tipini
+                                                                                                        Seçiniz
+                                                                                                    </option>
+                                                                                                    <option>Otel
+                                                                                                    </option>
+                                                                                                    <option> Restaurant
+                                                                                                    </option>
+                                                                                                    <option>Ofis
+                                                                                                    </option>
+                                                                                                    <option>Okul
+                                                                                                    </option>
+                                                                                                    <option>Ev</option>
+
+                                                                                                </select>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <br>
+
+                                                                                        <textarea
+                                                                                                name="description"
+                                                                                                cols="30"
+                                                                                                rows="2"
+                                                                                                id="description"
+                                                                                                placeholder="Açıklama"
+                                                                                                spellcheck="true"></textarea>
+                                                                                        <button class="button"
+                                                                                                type="submit"
+                                                                                                style="padding: 5px 20px;  float:left; ">
+                                                                                            Kaydet
+                                                                                        </button>
+
+
+                                                                                    </form>
+                                                                                </div>
+
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" container margin-bottom-5 margin-top-5">
+                                        <h2 style="margin-top: 50px;
+    margin-bottom: 50px;">{{ 'filter_page_text' |get_item_by_lang }}</h2>
+                                    </div>
+                                    <div class="col-lg-12">
+
+                                        {% for product in products %}
+
                                             <div class="col-1-5">
                                                 <div class="hovereffect">
-                                                    <div class="listing-item ">
-                                                        <img
-                                                                src="/media/{{ product.cover_image }}" alt="">
+                                                    <div class="listing-item">
+                                                        <img src="/media/{{ product.product.cover_image }}" alt="">
                                                         <div class="overlay">
                                                             <h2 style="font-size:16px"
-                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.name }}</h2>
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">{{ product.product.company.name }}</h2>
                                                             <h2 style="font-size:10px"
-                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.name }}</h2>
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">{{ product.product.name }}</h2>
                                                             <h2 style="font-size:16px"
-                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
-                                                                ID {{ product.code }}</h2>
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">
+                                                                ID {{ product.product.code }}</h2>
                                                             <h2 style="font-size:16px"
-                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">
                                                                 250$ Sqm</h2>
                                                             <h2 style="font-size:10px"
-                                                                onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.country.name }}</h2>
+                                                                onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';">{{ product.product.company.country.name }}</h2>
                                                             <a style="left: 5px;
                                        bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
-                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i
-                                                                    class="im im-icon-Phone-2"></i></a>
+                                       color: #fff;"
+                                                               href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
+                                                                <i
+                                                                        class="im im-icon-Phone-2"></i></a>
                                                             <a class=" popup-with-zoom-anim"
                                                                style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
-                                                               href="#small-dialog-{{ product.pk }}"> <i
+                                                               href="#small-dialog-{{ product.product.pk }}"> <i
                                                                     class="im im-icon-Like"></i></a>
-                                                        </div>
+                                                            <div id="small-dialog-{{ product.product.pk }}"
+                                                                 class="zoom-anim-dialog mfp-hide" style="color: black">
 
-                                                        <div id="small-dialog-{{ product.pk }}"
-                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
+                                                                <div class="message-reply margin-top-0"
+                                                                     style="background: white;width: 100%">
+                                                                    <div class="add-listing-section">
+                                                                        <!-- Headline -->
+                                                                        <div class="add-listing-headline"
+                                                                             style="padding: 8px 40px;">
+                                                                            <h3 style="font-weight: 700">{{ product.product.name }}</h3>
+                                                                        </div>
+                                                                        <!-- Title -->
+                                                                        <div class="row with-forms">
+                                                                            <div class="col-md-12"
+                                                                                 style="margin-top: -21px;  padding-top: 9px;">
 
-                                                            <div class="message-reply margin-top-0"
-                                                                 style="background: white;width: 100%">
-                                                                <div class="add-listing-section">
-                                                                    <!-- Headline -->
-                                                                    <div class="add-listing-headline"
-                                                                         style="padding: 8px 40px;">
-                                                                        <h3 style="font-weight: 700">{{ product.name }}</h3>
-                                                                    </div>
-                                                                    <!-- Title -->
-                                                                    <div class="row with-forms">
-                                                                        <div class="col-md-12"
-                                                                             style="margin-top: -21px;  padding-top: 9px;">
+                                                                                <div class="col-md-6">
+                                                                                    <img style="margin-bottom: 10px"
+                                                                                         onclick="location.href='{% url 'listArch:urun-detay' product.product.pk %}';"
+                                                                                         src="/media/{{ product.product.cover_image }}"
+                                                                                         alt="">
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <h4>Liste Seç</h4>
+                                                                                    <hr>
+                                                                                    {% for list in lists %}
+                                                                                        <p>
+                                                                                            +
+                                                                                            <a style="color:#000;font-size: 12px;"
+                                                                                               type="button"
+                                                                                               href="{% url 'listArch:kullanici-listeye-urun-ekle' product.product.pk list.pk %}">{{ list.list_name }}: {{ list.description }}</a>
 
-                                                                            <div class="col-md-6">
-                                                                                <img style="margin-bottom: 10px"
-                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                                                     src="/media/{{ product.cover_image }}"
-                                                                                     alt="">
+                                                                                        </p>
+                                                                                    {% endfor %}
+                                                                                </div>
+
+                                                                                <a href="#small-dialog-{{ forloop.counter }}"
+                                                                                   class="rate-review button default popup-with-zoom-anim"
+                                                                                   style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
+                                                                                    Liste
+                                                                                    Oluştur</a>
+
                                                                             </div>
-                                                                            <div class="col-md-6">
-                                                                                <h4>Liste Seç</h4>
-                                                                                <hr>
-                                                                                {% for list in lists %}
-                                                                                    <p>
-                                                                                        +
-                                                                                        <a style="color:#000;font-size: 12px;"
-                                                                                           type="button"
-                                                                                           href="{% url 'listArch:kullanici-listeye-urun-ekle' product.pk list.pk %}">{{ list.list_name }}: {{ list.description }}</a>
-
-                                                                                    </p>
-                                                                                {% endfor %}
-                                                                            </div>
-
-                                                                            <a href="#small-dialog-{{ forloop.counter }}"
-                                                                               class="rate-review button default popup-with-zoom-anim"
-                                                                               style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
-                                                                                Liste
-                                                                                Oluştur</a>
 
                                                                         </div>
 
                                                                     </div>
 
                                                                 </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div id="small-dialog-{{ forloop.counter }}"
-                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
-
-                                                            <div class="message-reply margin-top-0"
-                                                                 style="background: white;width: 100%">
-                                                                <div class="add-listing-section">
-                                                                    <!-- Headline -->
-                                                                    <div class="add-listing-headline"
-                                                                         style="padding: 8px 40px;">
-                                                                        <h3 style="font-weight: 700">{{ product.name }}</h3>
-                                                                    </div>
-                                                                    <!-- Title -->
-                                                                    <div class="row with-forms">
-                                                                        <div class="col-md-12"
-                                                                             style="margin-top: -21px;  padding-top: 9px;">
-
-                                                                            <div class="col-md-6">
-                                                                                <img style="margin-top: 9px"
-                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                                                     src="/media/{{ product.cover_image }}"
-                                                                                     alt="">
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <h4>Yeni Liste Oluştur</h4>
-                                                                                <form action="{% url 'listArch:liste-olustur' %}"
-                                                                                      method="post">
-                                                                                    {% csrf_token %}
-                                                                                    <input type="hidden" name="product"
-                                                                                           id="product"
-                                                                                           value="{{ product.pk }}">
-                                                                                    <input name="list_name"
-                                                                                           type="text"
-                                                                                           id="list_name"
-                                                                                           placeholder="Liste Adı">
-                                                                                    <br>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6">
-
-                                                                                            <select id="reference_list"
-                                                                                                    name="reference_list"
-                                                                                                    class="chosen-select-no-single"
-                                                                                                    style="display: none;">
-                                                                                                <option label="blank">
-                                                                                                    Bağlantılı
-                                                                                                    Liste
-                                                                                                </option>
-                                                                                                <option>
-                                                                                                    Yok
-                                                                                                </option>
-                                                                                                {% for list in lists %}
-                                                                                                    <option>{{ list.list_name }}</option>
-                                                                                                {% endfor %}
-                                                                                            </select>
-
-                                                                                        </div>
-
-
-                                                                                        <div class="col-md-6">
-
-                                                                                            <select id="list_type"
-                                                                                                    name="list_type"
-                                                                                                    class="chosen-select-no-single"
-                                                                                                    style="display: none;">
-                                                                                                <option label="blank">
-                                                                                                    Liste
-                                                                                                    Tipini
-                                                                                                    Seçiniz
-                                                                                                </option>
-                                                                                                <option>Otel</option>
-                                                                                                <option> Restaurant
-                                                                                                </option>
-                                                                                                <option>Ofis</option>
-                                                                                                <option>Okul</option>
-                                                                                                <option>Ev</option>
-
-                                                                                            </select>
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <br>
-
-                                                                                    <textarea
-                                                                                            name="description"
-                                                                                            cols="30"
-                                                                                            rows="2"
-                                                                                            id="description"
-                                                                                            placeholder="Açıklama"
-                                                                                            spellcheck="true"></textarea>
-                                                                                    <button class="button" type="submit"
-                                                                                            style="padding: 5px 20px;  float:left; ">
-                                                                                        Kaydet
-                                                                                    </button>
-
-
-                                                                                </form>
-                                                                            </div>
-
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
                                                             </div>
                                                         </div>
 
@@ -668,107 +781,15 @@
                                                 </div>
                                             </div>
 
-                                        {% endif %}
-                                    {% endfor %}
+                                        {% endfor %}
+
+
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class=" container margin-bottom-5 margin-top-5">
-                                    <h2 style="margin-top: 50px;
-    margin-bottom: 50px;">{{ 'filter_page_text' |get_item_by_lang }}</h2>
-                                </div>
-                                <div class="col-lg-12">
-                                    {% for product in products %}
-
-                                        <div class="col-1-5">
-                                            <div class="hovereffect">
-                                                <div class="listing-item">
-                                                    <img src="/media/{{ product.cover_image }}" alt="">
-                                                    <div class="overlay">
-                                                        <h2 style="font-size:16px"
-                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.name }}</h2>
-                                                        <h2 style="font-size:10px"
-                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.name }}</h2>
-                                                        <h2 style="font-size:16px"
-                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
-                                                            ID {{ product.code }}</h2>
-                                                        <h2 style="font-size:16px"
-                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">
-                                                            250$ Sqm</h2>
-                                                        <h2 style="font-size:10px"
-                                                            onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';">{{ product.company.country.name }}</h2>
-                                                        <a style="left: 5px;
-                                       bottom: 5px;
-                                       position: absolute;
-                                       text-align: left;
-                                       float: left;
-                                       font-size: 24px;
-                                       color: #fff;" href="{% url 'listArch:firma-bilgileri' product.company.pk %}"> <i
-                                                                class="im im-icon-Phone-2"></i></a>
-                                                        <a class=" popup-with-zoom-anim"
-                                                           style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
-                                                           href="#small-dialog-{{ product.pk }}"> <i
-                                                                class="im im-icon-Like"></i></a>
-                                                        <div id="small-dialog-{{ product.pk }}"
-                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
-
-                                                            <div class="message-reply margin-top-0"
-                                                                 style="background: white;width: 100%">
-                                                                <div class="add-listing-section">
-                                                                    <!-- Headline -->
-                                                                    <div class="add-listing-headline"
-                                                                         style="padding: 8px 40px;">
-                                                                        <h3 style="font-weight: 700">{{ product.name }}</h3>
-                                                                    </div>
-                                                                    <!-- Title -->
-                                                                    <div class="row with-forms">
-                                                                        <div class="col-md-12"
-                                                                             style="margin-top: -21px;  padding-top: 9px;">
-
-                                                                            <div class="col-md-6">
-                                                                                <img style="margin-bottom: 10px"
-                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.pk %}';"
-                                                                                     src="/media/{{ product.cover_image }}"
-                                                                                     alt="">
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <h4>Liste Seç</h4>
-                                                                                <hr>
-                                                                                {% for list in lists %}
-                                                                                    <p>
-                                                                                        +
-                                                                                        <a style="color:#000;font-size: 12px;"
-                                                                                           type="button"
-                                                                                           href="{% url 'listArch:kullanici-listeye-urun-ekle' product.pk list.pk %}">{{ list.list_name }}: {{ list.description }}</a>
-
-                                                                                    </p>
-                                                                                {% endfor %}
-                                                                            </div>
-
-                                                                            <a href="#small-dialog-{{ forloop.counter }}"
-                                                                               class="rate-review button default popup-with-zoom-anim"
-                                                                               style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
-                                                                                Liste
-                                                                                Oluştur</a>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
+                            {% else %}
+                            <h3 style="text-align: center">Aradığınız Ürün Bulunamadı</h3>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -899,7 +920,6 @@
                                                                                name="{{ value.option_value.pk }}"
                                                                                value="{{ value.option_value.pk }}">
                                                                         <label for="{{ value.option_value.pk }}">{{ value }}</label>
-
 
 
                                                                     {% endfor %}
@@ -1212,27 +1232,52 @@
                             <span class="typed-words">{{ scrolling_text.description }}</span>
                         </h2>
                         <h4>{{ scrolling_text.subTextDesc }}</h4>
-                        <div class="main-search-input">
-                            <div class="main-search-input-item">
-                                <select data-placeholder="All Categories" class="chosen-select">
-                                    <option selected>Architecture</option>
-                                    <option>Hotels</option>
-                                    <option>Restaurants</option>
-                                    <option>Fitness</option>
-                                    <option>Events</option>
-                                </select>
+                        <form action="{% url 'listArch:filtreleme-sayfasi-search' %}" method="post">
+                            {% csrf_token %}
+                            <div class="main-search-input">
+
+                                <div class="main-search-input-item">
+
+
+                                    <select data-placeholder="All Categories" class="chosen-select" id="sub_category"
+                                            name="sub_category">
+
+                                        {% for sub_category in sub_categories %}
+                                            {% if sub_category.name == category.description %}
+                                                <option value="{{ sub_category.pk }}"
+                                                        selected>{{ sub_category.name }}</option>
+                                            {% else %}
+                                                <option value="{{ sub_category.pk }}">{{ sub_category.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+
+
+                                <div class="main-search-input-item">
+                                    <input type="text" placeholder="Start to search" value="" id="search_value"
+                                           name="search_value">
+                                </div>
+                                <div class="main-search-input-item">
+                                    <select data-placeholder="All Categories" class="chosen-select" id="search_company"
+                                            name="search_company">
+
+
+                                        {% for company in companies %}
+                                            <option value="{{ company.pk }}">{{ company.name }}</option>
+
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+
+                                <button class="button" onclick="">
+                                    {{ 'search'| get_item_by_lang }}
+                                </button>
 
                             </div>
-
-                            <div class="main-search-input-item">
-                                <input type="text" placeholder="Start to search" value="">
-                            </div>
-
-                            <button class="button" onclick="">
-                                {{ 'search'| get_item_by_lang }}
-                            </button>
-
-                        </div>
+                        </form>
                     </div>
                 </div>
 

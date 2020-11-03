@@ -210,7 +210,7 @@
 
                                                                         <td class="text-left">
                                                                             <button type="button"
-                                                                                    onclick="image_delete({{ product_image.image.pk }}, {{ product_image.product.pk }})"
+                                                                                    onclick="image_delete({{ forloop.counter0 }},{{ product_image.image.pk }})"
                                                                                     data-toggle="tooltip" title=""
                                                                                     class="btn btn-danger"
                                                                                     data-original-title="Kaldır"><i
@@ -273,7 +273,7 @@
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <button type="button"
-                                                                                onclick="option_delete({{ forloop.counter0 }},{{ option_value.pk }})"
+                                                                                onclick="option_delete({{ forloop.counter0 }} ,{{ option_value.pk }})"
                                                                                 data-toggle="tooltip"
                                                                                 title="Kaldır"
                                                                                 class="btn btn-danger"><i
@@ -542,7 +542,7 @@
                     if (option.option.type === 'range') {
 
                         html = '<div id="range' + option.option.key + '" class="form-group"><div class="col-sm-8" style="margin-top:3px;" ><input readonly id="option_range' + option_range + '" name="option_range' + option_range +
-                            '" type="text" class="form-control" value="' + option.option.key + ' ( min: '+option.min + ' - max: ' + option.max + ' )"></div><div class="col-md-4"  style="margin-top:3px;" ><div class="col-md-6"><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_range + '"><input style="width: 100px" id="range_value' + option_range + '" class="form-control" type="text" value="" name="range_value' + option_range + '"></div><div class="col-md-6"><button type="button" id="remove' + option_range + '" onclick="remove_range(' + option_range + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div></div></div>';
+                            '" type="text" class="form-control" value="' + option.option.key + ' ( min: ' + option.min + ' - max: ' + option.max + ' )"></div><div class="col-md-4"  style="margin-top:3px;" ><div class="col-md-6"><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_range + '"><input style="width: 100px" id="range_value' + option_range + '" class="form-control" type="text" value="" name="range_value' + option_range + '"></div><div class="col-md-6"><button type="button" id="remove' + option_range + '" onclick="remove_range(' + option_range + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div></div></div>';
 
                         document.getElementById('option_range_count').value = option_range
 
@@ -564,11 +564,17 @@
     <script>
         let option_value_row = 0;
         let value = 0;
+        let count_value = [];
 
-        function addOptionValue(remove_row) {
+        var image_row = 0;
+        count_image = []
+
+
+        function addOptionValue() {
+            debugger;
+
             let e = document.getElementById("option_key");
             let option_key = e.options[e.selectedIndex].value;
-
             $.ajax({
                 url: "{% url 'listArch:secenek-degerlerini-getir' %}",
                 type: "post", // or "get"
@@ -578,14 +584,15 @@
 
                 },
                 success: function (response) {
+                    debugger;
                     var option_values = response.values;
                     let html;
 
-                    debugger;
+
                     $('.x').remove();
 
 
-                    html = '<div class="row" id="option-value-row' + option_value_row + '" ><div class="col-sm-6" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " name="option-key-value[' + option_value_row + ']" id="option-key-value[' + option_value_row + ']"  style="width: 100%" >';
+                    html = '<div class="row" id="option-value-row' + option_value_row + '" ><div class="col-sm-6" id=option_value><div id="option-value[' + option_value_row + ']" style="margin-top:3px;"><select class="form-control select2 " name="option-key-value[' + option_value_row + ']" id="option-key-value[' + option_value_row + ']" " style="width: 100%" >';
                     for (let i = 0; i < option_values.length; i++) {
                         html += ' <option value="' + option_values[i].id + '">' + option_values[i].value + '</option>';
 
@@ -593,11 +600,13 @@
                     html += '</select></div></div>';
                     html += '<div class="col-sm-2" id="add_option"><button type="button" onclick="remove(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>';
                     html += '<div class="col-sm-3" ><span style="margin-top:3px;"  class="btn btn-default">' + option_key + '</span></div>';
-                    html += '<button id="option-button-add[' + option_row + ']" name="option-button-add[' + option_row + ']" style="margin-top:3px;" type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button>'
+                    html += '<button id="option-button-add[' + option_row + ']" name="option-button-add" style="margin-top:3px;" type="button" onclick="addOptionValue(' + option_row + ');" data-toggle="tooltip" title="Değer Ekle" class="btn btn-primary"><i class="fa fa-plus-circle" ></i></button>'
 
-                    document.getElementById('value-row').value = option_value_row;
-
+                    count_value.push(parseInt(option_value_row));
+                    document.getElementById('value-row').value = count_value;
                     option_value_row++;
+
+
                     $('#option-value' + option_value_row + '').append(html);
                     $('[rel=tooltip]').tooltip();
 
@@ -616,39 +625,39 @@
         function remove(id) {
             debugger;
             $('#option-value-row' + id + '').remove();
-            let row = document.getElementById('value-row').value
-            if (row === '0') {
-            } else {
-                document.getElementById("value-row").value = parseInt(row) - 1;
-            }
+            count_value = jQuery.grep(count_value, function (value) {
+                return value != id;
+            });
+            document.getElementById('value-row').value = count_value;
+            console.log(count_value)
 
         }
 
-    </script>
-
-    <script type="text/javascript">
-        var image_row = {{ loop }};
-        document.getElementById('image_row').value = image_row;
-        let number = {{ loop }}+1;
-
         function addImage() {
-            html = '<tr id="image-row' + image_row + '">';
-            html += '  <td class="text-left"><label> Fotoğraf Ekle</label><input id="input-2' + image_row + '" name="input2[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true"></td>';
-            html += '  <td class="text-left"><button type="button" onclick=" remove_image(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            let html = '<tr id="image-row' + image_row + '">';
+            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+            html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
+            html += '  <td class="text-left"><button type="button" onclick="remove_image(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
-            number++;
 
             $('#images tbody').append(html);
 
-        }
+            count_image.push(parseInt(image_row));
+            image_row++;
+            document.getElementById('image_row').value = count_image;
 
+
+        }
 
         function remove_image(id) {
             $('#image-row' + id + '').remove();
-            image_row = image_row - 1;
-            number--;
-
+            count_image = jQuery.grep(count_image, function (value) {
+                return value != id;
+            });
+            document.getElementById("image_row").value = count_image;
+            console.log(count_image)
         }
+
 
         function remove_range(id) {
             $('#option_range' + id + '').remove();
@@ -659,83 +668,9 @@
 
         }
 
-        function remove_image_new(id) {
-            $('#input2' + id + '').remove();
-            number--;
 
-        }
-    </script>
-    <script>
-        function image_delete(id, product_id) {
-            let html = 'Fotoğrafı silmek istediğinizden emin misiniz?<br>';
-            document.getElementById('content').innerHTML = html;
-            $(".deneme23").on("shown.bs.modal", function (e) {
-                $("#btn-conf").click(function () {
-                    $.ajax({
-                        url: "{% url 'listArch:urun-resmi-sil' %}",
-                        type: "post", // or "get"
-                        data: {
-                            image_id: id,
-
-
-                        },
-                        success: function (result) {
-
-                            if (result.status == 'Success') {
-                                swal("Başarılı", " Fotoğraf Silindi.", "success");
-                                let url = '{% url "listArch:urun-duzenle" 0 %}';
-                                url = url.replace('0', product_id)
-                                window.location.replace('' + url + '');
-
-
-                            } else {
-                                swal("Başarısız", result.messages, "error");
-                            }
-                        }
-                    });
-                });
-
-            }).modal('show');
-            $('#btn-close').click(function () {
-                $('#modal-danger').modal('hide');
-            });
-        }
-    </script>
-    <script>
-        function image_option_vale(id, product_id) {
-            let html = 'Seçenek değerini silmek istediğinizden emin misiniz?<br>';
-            document.getElementById('content').innerHTML = html;
-            $(".deneme23").on("shown.bs.modal", function (e) {
-                $("#btn-conf").click(function () {
-                    $.ajax({
-                        url: "{% url 'listArch:urun-secenegi-sil' %}",
-                        type: "post", // or "get"
-                        data: {
-                            value_id: id,
-
-
-                        },
-                        success: function (result) {
-
-                            if (result.status == 'Success') {
-                                swal("Başarılı", " Seçenek Silindi.", "success");
-
-
-                            } else {
-                                swal("Başarısız", result.messages, "error");
-                            }
-                        }
-                    });
-                });
-
-            }).modal('show');
-            $('#btn-close').click(function () {
-                $('#modal-danger').modal('hide');
-            });
-        }
-    </script>
-    <script>
         function option_delete(id, option_value) {
+            debugger;
             let html = 'Seçenek değerini kaldırmak istediğinizden emin misiniz?<br>';
             document.getElementById('content').innerHTML = html;
             $(".deneme23").on("shown.bs.modal", function (e) {
@@ -748,10 +683,43 @@
                             option_id: option_value,
                         },
                         success: function (result) {
-
+debugger
                             if (result.status == 'Success') {
                                 swal("Başarılı", " Seçenek Silindi.", "success");
                                 $('#option-value-row' + id + '').remove();
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
+         function image_delete(row,id ) {
+
+            let html = 'Fotoğrafı kaldırmak istediğinizden emin misiniz?<br>';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+
+                    $.ajax({
+                        url: "{% url 'listArch:urun-resmi-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            image_id: id,
+                        },
+                        success: function (result) {
+debugger
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Fotoğraf Silindi.", "success");
+                                $('#image-row' + row + '').remove();
 
 
                             } else {
@@ -773,8 +741,7 @@
 
 
         }
-    </script>
-    <script>
+
         function getProductDefinition(id) {
             debugger;
 

@@ -17,7 +17,6 @@ from django.conf.locale.tr import formats as tr_formats
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.core.management.utils import get_random_secret_key
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'listArch',
     'widget_tweaks',
     'django_filters',
+    'qrcode',
 
 ]
 
@@ -96,6 +96,7 @@ TEMPLATES = [
                 'listArch.services.general_methods.get_user',
                 'listArch.services.general_methods.get_scrolling_text',
                 'listArch.services.general_methods.headerText',
+                'listArch.services.general_methods.categories',
 
                 # "education.services.general_methods.append_privileges",
             ],

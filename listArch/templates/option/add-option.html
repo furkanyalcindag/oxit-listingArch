@@ -117,7 +117,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="input-type">Temel Seçenek Mi?</label>
                                         <div class="col-sm-10">
-                                            {{option_form.isBasic}}
+                                            {{ option_form.isBasic }}
                                         </div>
 
                                     </div>
@@ -252,13 +252,14 @@
     </script>
     <script>
         let option_value_row = 0;
+        let count = [];
         $('select[name=\'type\']').on('change', function () {
             if (this.value === 'checkbox') {
                 $('#option-value').parent().show();
                 $('#add_button').show();
             } else if (this.value === 'range') {
                 $('#add_button').hide();
-                let html = '<tr id="value-row-range">';
+                let html = '<tr id="value-row-range' + option_value_row + '"">';
                 html += '  <td class="text-left">';
                 html += '    <div class="input-group">';
                 html += '     <input type="text" name="option_value[min]" value="" placeholder="min" class="form-control" />';
@@ -267,14 +268,16 @@
                 html += '      <input type="text" name="option_value[max]" value="" placeholder="max" class="form-control" />';
                 html += '    </div>';
                 html += '  </td>';
-                html += '  <td class="text-right"><button type="button" onclick="$(\'#value-row-range\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+                html += '  <td class="text-right"><button type="button" onclick="remove_range(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
                 html += '</tr>';
                 html += '<button type="button" onclick="add_option_range()" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Değer Ekle"><i class="fa fa-plus-circle"></i></button>'
 
                 $('#option-value tbody').append(html);
-
+                debugger;
+                count.push(parseInt(option_value_row));
                 option_value_row++;
-                document.getElementById("row_number").value = option_value_row;
+                document.getElementById("row_number").value = count;
+
             } else {
                 $('#option-value').parent().hide().prop('required', false);
             }
@@ -295,14 +298,14 @@
             html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/tr.png" title="Türkçe"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][tr][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
             html += '    </div>';
             html += '  </td>';
-            html += '  <td class="text-right"><button type="button" onclick="$(\'#option-value-row' + option_value_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-right"><button type="button" onclick="remove(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
 
             $('#option-value tbody').append(html);
-
+            debugger;
+            count.push(parseInt(option_value_row));
             option_value_row++;
-            document.getElementById("row_number").value = option_value_row;
-
+            document.getElementById("row_number").value = count;
 
         }
 
@@ -316,15 +319,37 @@
             html += '      <input type="text" name="option_value[' + option_value_row + '][max]" value="" placeholder="max" class="form-control" />';
             html += '    </div>';
             html += '  </td>';
-            html += '  <td class="text-right"><button type="button" onclick="$(\'#option-value-row' + option_value_row + '\').remove();" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-right"><button type="button" onclick="remove_range(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
 
             $('#option-value tbody').append(html);
 
+            count.push(parseInt(option_value_row));
             option_value_row++;
-            document.getElementById("row_number").value = option_value_row;
+            document.getElementById("row_number").value = count;
         }
 
+
+        function remove(id) {
+            debugger;
+            $('#option-value-row' + id + '').remove();
+            count = jQuery.grep(count, function (value) {
+                return value != id;
+            });
+            document.getElementById("row_number").value = count;
+            console.log(count)
+
+        }
+
+        function remove_range(id) {
+            debugger;
+            $('#value-row-range' + id + '').remove();
+            count = jQuery.grep(count, function (value) {
+                return value != id;
+            });
+            console.log(count)
+            document.getElementById("row_number").value = count;
+        }
 
     </script>
 

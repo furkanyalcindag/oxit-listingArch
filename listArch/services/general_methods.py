@@ -148,6 +148,10 @@ def get_all_category(request):
     categories = Category.objects.filter(isActive=True)
     return {"categories": categories}
 
+def categories(request):
+    from listArch.models import Category
+    categories = Category.objects.filter(isActive=True).filter(is_parent=False)
+    return {"sub_categories": categories}
 
 def get_company(request):
     companies = Company.objects.all()
@@ -170,6 +174,7 @@ def get_scrolling_text(request):
         scrolling_tr = ScrollingTextDesc.objects.filter(text=scrolling[0]).filter(lang_code=home_lang_code)[0]
         return {'scrolling_text': scrolling_tr}
     return {}
+
 
 
 def headerText(request):

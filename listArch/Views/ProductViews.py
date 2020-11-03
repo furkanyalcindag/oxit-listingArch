@@ -78,24 +78,33 @@ def add_product(request):
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
 
-                image_row = int(request.POST['image_row'])
-                i = 0
-                while i < image_row:
+                count = request.POST['image_row']
+                count = count.split(',')
+                array = []
+                for count in count:
+                    array.append(count)
+
+                for i in array:
                     image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
                     image.save()
                     product_image = ProductImage(product=product, image=image)
                     product_image.save()
-                    i = i + 1
 
                 if request.POST['value-row'] != "":
-                    value_row = request.POST['value-row']
-                    j = 0
+                    count = request.POST['value-row']
+                    count = count.split(',')
+                    array = []
+                    for count in count:
+                        array.append(count)
+
                     product_option_value = ProductOptionValue.objects.filter(product=product)
-                    while j <= int(value_row):
+                    for value in product_option_value:
+                        value.delete()
+
+                    for j in array:
                         value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
                         product_option_value = ProductOptionValue(product=product, option_value=value[0])
                         product_option_value.save()
-                        j = j + 1
 
                 if request.POST['option_range_count'] != "":
                     option_range = request.POST['option_range_count']
@@ -229,16 +238,33 @@ def product_edit(request, pk):
             for category in product_form.cleaned_data['category']:
                 product.category.add(category)
 
-            if request.POST['value-row'] != "":
-                value_row = request.POST['value-row']
-                j = 0
-                product_option_value = ProductOptionValue.objects.filter(product=product)
+            count = request.POST['image_row']
+            count = count.split(',')
+            array = []
+            for count in count:
+                array.append(count)
 
-                while j <= int(value_row):
-                    value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
-                    product_option_value = ProductOptionValue(product=product, option_value=value[0])
-                    product_option_value.save()
-                    j = j + 1
+            
+            for i in array:
+                image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
+                image.save()
+                product_image = ProductImage(product=product, image=image)
+                product_image.save()
+
+            if request.POST['value-row'] != "":
+
+                if request.POST['value-row'] != "":
+                    count = request.POST['value-row']
+                    count = count.split(',')
+                    array = []
+                    for count in count:
+                        array.append(count)
+
+
+                    for j in array:
+                        value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
+                        product_option_value = ProductOptionValue(product=product, option_value=value[0])
+                        product_option_value.save()
 
             if request.POST['option_range_count'] != "":
                 option_range = request.POST['option_range_count']
@@ -285,7 +311,8 @@ def product_edit(request, pk):
                    'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                    'categories': cat_array, 'product_image_form': product_image_form,
                    'related_product_form': relatedProduct_form,
-                   'product_definitions': product_definitions, 'product_file_form': product_file_form
+                   'product_definitions': product_definitions, 'product_file_form': product_file_form,
+                   'loop_value': product_option_value.count()
                    })
 
 
@@ -509,13 +536,12 @@ def add_chart_graphic(request, pk):
             chart_eng = ChartDesc(lang_code=2, description=request.POST['graphic[eng][name]'], chart=chart)
             chart_eng.save()
 
-            while i < array.__len__():
+            for i in array:
                 value = Value(year=request.POST['graphic_year[' + str(i) + ']'],
                               value=request.POST['graphic_value[' + str(i) + ']'])
                 value.save()
                 chart_value = ChartValue(chart=chart, value=value)
                 chart_value.save()
-                i = i + 1
 
             product_chart = ProductChart(product=product, chart=chart)
             product_chart.save()
