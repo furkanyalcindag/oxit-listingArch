@@ -1,0 +1,733 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content2 %}
+    {% include 'parent_category_slider.html' %}
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
+         style="height: 230px;">
+        <div class="main-search-inner">
+            <div class="container">
+                <div class="row">
+                    <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
+                        {% csrf_token %}
+
+                        <div class="col-md-12">
+                            <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                                <span class="typed-words">{{ scrolling_text.description }}</span>
+                            </h2>
+                            <h4>{{ scrolling_text.subTextDesc }}</h4>
+                            <div class="main-search-input">
+                                <div class="main-search-input-item">
+                                    <input type="text" placeholder="Start your Search ..." value=""
+                                           name="product_name" id="product_name" oninput="searchGetProduct()"
+                                           autocomplete="off"/><br>
+                                    <div id="search_product"></div>
+                                </div>
+                                <button class="button" type="submit">
+                                    Search
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Video -->
+
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    {% include 'count_box.html' %}
+
+
+    <div class="container">
+
+
+        <div class="row ">
+
+
+            <table class="table padding-0-lr table-bordered margin-top-40">
+
+
+                <tbody>
+                <tr>
+                    <td class="table-info">NEWS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info">REGULATIONS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info">TRADESHOWS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info">EVENTS</td>
+                </tr>
+
+
+                <tr>
+                    <td class="table-info"></td>
+                    <td class="table-info"> FOCUS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"> FOCUS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"> FOCUS</td>
+                    <td class="table-info"></td>
+                </tr>
+
+
+                <tr>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info">COMPETITIONS</td>
+                    <td class="table-info">TRADESHOWS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info">COMPETITIONS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info">EVENTS</td>
+                </tr>
+
+
+                <tr>
+                    <td class="table-info"></td>
+                    <td class="table-info"> MATERIAL</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"> COMPETITIONS</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"> MATERIAL</td>
+                    <td class="table-info"></td>
+                </tr>
+
+
+                <tr>
+                    <td class="table-info">MATERIAL</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info">MATERIAL</td>
+                    <td class="table-info"></td>
+                    <td class="table-info">MATERIAL</td>
+                    <td class="table-info"></td>
+                    <td class="table-info"></td>
+                    <td class="table-info">MATERIAL</td>
+                </tr>
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+        <div class="row ">
+            <div class="main-search-input" style="width: 100%;">
+
+                <div class="main-search-input-item">
+                    <input type="text" placeholder="Search" value="">
+                </div>
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>SUBMITTED BY</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>ALL CATEGORY</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>SUBJECT</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>SORT BY</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+
+                <button class="button" onclick="">
+                    Search
+                </button>
+
+            </div>
+        </div>
+
+
+        <div class="row" style="padding-bottom: 20px;">
+
+            <div class="col-md-4 padding-0-lr">
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="col-md-4 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col-md-4 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row" style="padding-bottom: 20px;">
+
+
+            <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col-md-3 padding-0-lr">
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col-md-3 padding-0-lr">
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
+                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
+                                     class="post-content">
+
+                                    <h3><a href="#">UNStudio Revives Retail Store In
+                                        Eindhoven With Light-Filled Glass
+                                        Façade Elements </a></h3><br>
+                                    <ul class="post-meta" style="text-align:right">
+                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <br>
+
+                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                    <img src="/media/image/560X560.jpg" alt="">
+                                </a>
+                                <br>
+
+
+                                <div class="post-content">
+                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
+                                        dream bathroom begins
+
+
+                                    </p>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
+                                    <br>
+                                    <a style="    line-height: 30px;" href="#">Floor</a>
+                                    <br>
+                                    <a style="font-size: 12px;
+    border: 1px solid #fff;line-height: 30px;
+    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
+                                    <div class="row margin-top-20">
+                                        <div class="col-md-4">
+                                            <a style="float: left" href="#">By:George HUSTON</a>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <a style="">01.05.2020</a>
+                                        </div>
+
+
+                                        <div class="col-md-4">
+                                            <a style="float: right">Viewed:345</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,838 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content2 %}
+    {% include 'parent_category_slider.html' %}
+    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
+         style="height: 230px;">
+        <div class="main-search-inner">
+            <div class="container">
+                <div class="row">
+                    <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
+                        {% csrf_token %}
+
+                        <div class="col-md-12">
+                            <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                                <span class="typed-words">{{ scrolling_text.description }}</span>
+                            </h2>
+                            <h4>{{ scrolling_text.subTextDesc }}</h4>
+                            <div class="main-search-input">
+                                <div class="main-search-input-item">
+                                    <input type="text" placeholder="Start your Search ..." value=""
+                                           name="product_name" id="product_name" oninput="searchGetProduct()"
+                                           autocomplete="off"/><br>
+                                    <div id="search_product"></div>
+                                </div>
+                                <button class="button" type="submit">
+                                    Search
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Video -->
+
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    {% include 'count_box.html' %}
+
+
+    <div class="container">
+        <div class="row ">
+
+
+            <div class="listing-share margin-top-40  no-border">
+
+
+                <ul class="share-buttons margin-top-10 margin-bottom-0">
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+
+            <div class="listing-share no-border">
+
+
+                <ul class="share-buttons margin-top-10 margin-bottom-0">
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+                    <div class="col-lg-2 col-md-2 page-padding ">
+                        <li><a class="gplus-share" href="#"> BUSINESS TYPE</a></li>
+                    </div>
+
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+
+        </div>
+
+
+        <div class="row margin-top-20 ">
+            <div class="main-search-input" style="width: 100%;">
+
+                <div class="main-search-input-item">
+                    <input type="text" placeholder="Search" value="">
+                </div>
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>SUBMITTED BY</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>ALL CATEGORY</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>SUBJECT</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+                <div class="main-search-input-item">
+                    <select data-placeholder="All Categories" class="chosen-select">
+                        <option selected>SORT BY</option>
+                        <option>Hotels</option>
+                        <option>Restaurants</option>
+                        <option>Fitness</option>
+                        <option>Events</option>
+                    </select>
+
+                </div>
+
+
+                <button class="button" onclick="">
+                    Search
+                </button>
+
+            </div>
+        </div>
+
+
+        <div class="row" style="padding-bottom: 20px;">
+
+
+            <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+               <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+               <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+               <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="row" style="padding-bottom: 20px;">
+
+
+            <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+               <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+               <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+               <div class="col-md-3 padding-0-lr">
+
+
+                <div class="blog-page">
+                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                        <div class=" padding-bottom-40">
+
+
+                            <div class="blog-post"
+                                 style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">NEWS</p>
+
+
+                                <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                    <div class=" col-md-12 padding-top-20">
+                                        <a href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_man1-1/310/1166/giorgetti-logo-180822.png"
+                                                 alt=""
+                                                 style=" height: 50px; width: auto; ">
+                                        </a><br>
+
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2912/50250-003-2-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2964/adam-009-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class=" col-md-6 padding-bottom-20">
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/pro1-3/20036897/adam-bench-002-pro-sq-0-arcit18.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a><br>
+                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                            <img src="https://image.architonic.com/img_pro1-6/156/2950/adam-008-sq.jpg"
+                                                 style=" height: 100px; width: auto; " alt="">
+                                        </a>
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+
+
+                                <div class="post-content" style="border: 1px solid #000">
+
+                                    <a style="    line-height: 20px;color: #000;" href="#">ARTSTONE</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
+                                    <br>
+                                    <a style="    line-height: 20px;color: #000;" href="#">Milano,ITALY</a>
+                                    <br><br>
+                                    <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since 1999</a>
+                                    <br>
+                                    <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

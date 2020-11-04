@@ -1,5 +1,7 @@
 import qrcode
 from django.db import models
+from django.urls import reverse
+
 from listArch.models.Category import Category
 from listArch.models.Company import Company
 from io import BytesIO
@@ -27,8 +29,8 @@ class Product(models.Model):
         return '%s %s %s' % (self.name, '-', self.code)
 
     def save(self, *args, **kwargs):
-        qrcode_img = qrcode.make(self.name)
-        canvas = Image.new('RGB', (290, 290), 'white')
+        qrcode_img = qrcode.make('http://localhost:8000'+reverse('listArch:urun-detay', args=(self.id,)))
+        canvas = Image.new('RGB', (350, 350), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
         fname = f'qr_code-{self.name}.png'

@@ -215,6 +215,14 @@ header.fullwidth .container {
     display: inline-block
 }
 
+.top-slider-h5{
+
+    margin-top:5px;
+    display: block;
+    font-size: 8px;
+
+}
+
 @media (min-width: 1025px) and (max-width: 1239px) {
     .right-side {
         width: auto;

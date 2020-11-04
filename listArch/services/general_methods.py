@@ -101,7 +101,6 @@ def control_access(request):
 
         return is_exist
 
-
 def save_log(user_id, content):
     user = User.objects.get(pk=user_id)
     log = Log()

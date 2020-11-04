@@ -1,10 +1,18 @@
+from urllib.parse import urljoin
+
+import django
+import qrcode
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import resolve, reverse
 from rest_framework.decorators import api_view
 
+from io import BytesIO
+from django.core.files import File
+from PIL import Image, ImageDraw
 from listArch.Forms.GraphicValueForm import GraphicValueForm
 from listArch.Forms.DefinitionDescriptionForm import DefinitionDescriptionForm
 from listArch.Forms.DefinitionForm import DefinitionForm
@@ -20,7 +28,6 @@ from listArch.models.Company import Company
 from listArch.models.Definition import Definition
 from listArch.models.DefinitionDescription import DefinitionDescription
 from listArch.models.Product import Product
-from listArch.models.Image import Image
 from listArch.models.Category import Category
 from listArch.models.ProductChart import ProductChart
 from listArch.models.ProductDefinition import ProductDefinition
@@ -35,6 +42,7 @@ from listArch.services.general_methods import category_parent_show
 
 
 def add_product(request):
+    from listArch.models import Image
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -163,6 +171,7 @@ def product_list(request):
 
 
 def product_edit(request, pk):
+    from listArch.models import Image
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -239,32 +248,29 @@ def product_edit(request, pk):
                 product.category.add(category)
 
             count = request.POST['image_row']
-            count = count.split(',')
-            array = []
-            for count in count:
-                array.append(count)
+            if count != '':
+                count = count.split(',')
+                array = []
+                for count in count:
+                    array.append(count)
 
-            
-            for i in array:
-                image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
-                image.save()
-                product_image = ProductImage(product=product, image=image)
-                product_image.save()
+                for i in array:
+                    image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
+                    image.save()
+                    product_image = ProductImage(product=product, image=image)
+                    product_image.save()
 
-            if request.POST['value-row'] != "":
+            count_value = request.POST['value-row']
+            if count_value != '':
+                count_value = count_value.split(',')
+                array = []
+                for count in count_value:
+                    array.append(count)
 
-                if request.POST['value-row'] != "":
-                    count = request.POST['value-row']
-                    count = count.split(',')
-                    array = []
-                    for count in count:
-                        array.append(count)
-
-
-                    for j in array:
-                        value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
-                        product_option_value = ProductOptionValue(product=product, option_value=value[0])
-                        product_option_value.save()
+                for j in array:
+                    value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
+                    product_option_value = ProductOptionValue(product=product, option_value=value[0])
+                    product_option_value.save()
 
             if request.POST['option_range_count'] != "":
                 option_range = request.POST['option_range_count']

@@ -38,7 +38,6 @@ def add_company(request):
         return redirect('accounts:login')
     company_form = CompanyForm(initial={'date': datetime.datetime.today().strftime("%d-%b-%Y")})
     user_form = UserCompanyForm()
-    i = 0
     company = Company.objects.all()
     if request.method == 'POST':
         company_form = CompanyForm(request.POST or None, request.FILES or None)
@@ -61,7 +60,11 @@ def add_company(request):
                 user.username = user.email
                 user.save()
 
-                social_row = int(request.POST['social_row'])
+                count = request.POST['social_row']
+                count = count.split(',')
+                array = []
+                for count in count:
+                    array.append(count)
 
                 company = Company(user=user, name=company_form.cleaned_data['name'],
                                   userDescription=company_form.cleaned_data['userDescription'],
@@ -82,7 +85,7 @@ def add_company(request):
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
                     logo = request.POST['retail-logo']
-                    retail_company = CompanyRetail(company=company,name=name, logo=logo)
+                    retail_company = CompanyRetail(company=company, name=name, logo=logo)
                     retail_company.save()
                     company.retail = retail_company
                     company.save()
@@ -90,17 +93,17 @@ def add_company(request):
                     print('mağaza yok')
                 else:
                     retail = Company.objects.get(pk=int(request.POST['retail']))
-                    retail_company = CompanyRetail(company=retail,name=retail.name, logo=retail.logo)
+                    retail_company = CompanyRetail(company=retail, name=retail.name, logo=retail.logo)
                     retail_company.save()
 
                 if request.POST['company_social[0][name]'] != "":
-                    while i <= social_row:
+                    for i in array:
                         social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
                                              link=request.POST['company_social[' + str(i) + '][link]'])
                         social.save()
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()
-                        i = i + 1
+
 
                 subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, user2.email
                 text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'

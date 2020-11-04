@@ -194,6 +194,8 @@ urlpatterns = [
     url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
     url(r'abc/$', ProfileViews.profile_list, name='profil-listesi'),
 
-
+    url(r'profile-page/$', HomeViews.profile_page, name='profile-page'),
+    url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),
+    url(r'blog-page/$', HomeViews.blog_page, name='blog-page'),
 
 ]

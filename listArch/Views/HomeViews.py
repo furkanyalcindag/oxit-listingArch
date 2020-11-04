@@ -623,3 +623,13 @@ def contact_page(request):
 def about_page(request):
     about = AboutDesc.objects.filter(lang_code=1, about__isActive=True)
     return render(request, 'home/about_page.html', {'about': about[0]})
+
+
+def profile_info(request):
+    return render(request,'home/profile-info.html')
+
+def profile_page(request):
+    return render(request,'home/profile-page.html')
+
+def blog_page(request):
+    return render(request,'home/blog-page.html')
