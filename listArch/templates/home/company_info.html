@@ -4,7 +4,7 @@
 
     {% include 'parent_category_slider.html' %}
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
-         style="height: 360px;background-image: url(&quot;/media/main-search-background-01.jpg&quot;);">
+         style="height: 215px;background-image: url(&quot;/media/main-search-background-01.jpg&quot;);">
         <div class="main-search-inner">
             <div class="container">
                 <div class="row">
@@ -42,7 +42,7 @@
 
 {% block content %}
     {% include 'count_box.html' %}
-    <div id="titlebar" style="border-bottom:1px solid #ffff;">
+    <div id="titlebar" style="border-bottom:1px solid #ffff;border-top:2px solid #fd9116;">
         <div class="" style="margin-left: 20px">
             <div class="row">
                 <div class="col-md-12">
@@ -50,7 +50,7 @@
                     <nav id="breadcrumbs">
                         <ul>
                             <li><a href="{% url 'listArch:index' %}"> {{ 'home_page'|get_item_by_lang }}</a></li>
-                            <li><a href="#">{{ 'profile'|get_item_by_lang }}</a></li>
+                            <li><a href="{% url 'listArch:profile-page' %}">{{ 'profile'|get_item_by_lang }}</a></li>
                             <li><a href="{% url 'listArch:firma-bilgileri' company.pk %}">{{ company.name }}</a></li>
 
 

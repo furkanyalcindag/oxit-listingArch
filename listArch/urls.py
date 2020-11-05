@@ -192,7 +192,7 @@ urlpatterns = [
     #Profile
     url(r'profile-add/$', ProfileViews.add_profile, name='profil-kaydet'),
     url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
-    url(r'abc/$', ProfileViews.profile_list, name='profil-listesi'),
+    url(r'profiller/$', ProfileViews.profile_list, name='profil-listesi'),
 
     url(r'profile-page/$', HomeViews.profile_page, name='profile-page'),
     url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),

@@ -136,35 +136,31 @@
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Logo</label>
                                                         <div class="col-sm-10">{{ company_form.logo }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label" for="input-image">Web Site
                                                             Adresi</label>
                                                         <div class="col-sm-10">{{ company_form.website }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Telefon</label>
                                                         <div class="col-sm-10">{{ company_form.phone }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Email</label>
                                                         <div class="col-sm-10">{{ user_form.email }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Profil Adı</label>
                                                         <div class="col-sm-10">{{ company_form.business_type }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -185,7 +181,9 @@
                                                             </select>
 
                                                             {% for retail in retails %}
-                                                                <button id="retail-{{ retail.pk }}" type="button" onclick="retail_delete({{ retail.pk }})" class="btn bg- margin"><span><i
+                                                                <button id="retail-{{ retail.pk }}" type="button"
+                                                                        onclick="retail_delete({{ retail.pk }})"
+                                                                        class="btn bg- margin"><span><i
                                                                         class="fa fa-close"></i></span>
                                                                     {{ retail.name }}</button>
 
@@ -460,12 +458,18 @@
 
     <script>
         let social_row = {{ loop }};
-        document.getElementById("row_number").value = social_row;
+        let count = []
+
+        $(document).ready(function () {
+            debugger;
+            for (let i = 0; i < social_row; i++) {
+                count.push(i)
+            }
+
+        });
 
         function addSocial() {
             debugger;
-            if (social_row === "")
-                social_row = 0
 
             let html = '<tr id="social-row' + social_row + '">';
             html += '<td class="text-left">';
@@ -473,36 +477,28 @@
             html += '<option value="Instagram">Instagram</option><option value="Facebook">Facebook</option>';
             html += '<option value="Twitter">Twitter</option><option value="Pinterest">Pinterest</option></select></td>';
             html += '  <td class="text-right"><input type="text" name="company_social[' + social_row + '][link]" value="" placeholder="Link" class="form-control" /></td>';
-            html += '  <td class="text-left"><button type="button" onclick="remove_new(' + social_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+            html += '  <td class="text-left"><button type="button" onclick="remove(' + social_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
             html += ' <button type="button" onclick="" data-toggle="tooltip" title="Düzenle" class="btn btn-primary"><i class="fa fa-edit"></i></button></td>';
             html += '</tr>';
 
 
             $('#social tbody').append(html);
 
-            document.getElementById("row_number").value = social_row;
-
+            count.push(parseInt(social_row));
             social_row++;
+            document.getElementById("row_number").value = count;
         }
 
         let row_link;
 
         function remove(social_row) {
             debugger;
-            row_link = document.getElementById('company_social[' + social_row + '][link]').value;
-            document.getElementById('remove_row').value = row_link;
-            let row = document.getElementById("row_number").value
-            document.getElementById("row_number").value = parseInt(row) - 1
             $('#social-row' + social_row + '').remove();
-
-
-        }
-
-        function remove_new(social_row) {
-            debugger;
-            let row = document.getElementById("row_number").value;
-            document.getElementById("row_number").value = parseInt(row) - 1
-            $('#social-row' + social_row + '').remove();
+            count = jQuery.grep(count, function (value) {
+                return value != social_row;
+            });
+            document.getElementById("row_number").value = count;
+            console.log(count)
 
 
         }
@@ -626,7 +622,7 @@
 
                             if (result.status === 'Success') {
                                 swal("Başarılı", " Mağaza  Kaldırıldı.", "success");
-                                document.getElementById('retail-'+id+'').remove();
+                                document.getElementById('retail-' + id + '').remove();
 
                             } else {
                                 swal("Başarısız", result.messages, "error");

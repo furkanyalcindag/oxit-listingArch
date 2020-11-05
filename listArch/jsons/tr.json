@@ -104,7 +104,7 @@
     "product_service": "Sunulan Ürünler/Hizmetler",
     "assistant_need": "Asistan / Yardıma mı İhtiyacınız Var?",
     "chat_message": "Sohbet / Mesaj Bırak",
-    "profile": "PROFİL",
+    "profile": "PROFİLLER",
     "storyline": "HİKAYE",
     "diversification": "ÇEŞİTLENDİRME",
     "classifying": "SINIFLANDIRMA",
@@ -135,9 +135,9 @@
     "city": "Şehir",
     "map": "Harita",
     "map_": "HARİTA",
-
     "BIM/CAD_files": "BIM/CAD Dosyası",
     "country": "Ülke",
-    "CLASSIFYING_BY": "SINIFLANDIRMA"
+    "CLASSIFYING_BY": "SINIFLANDIRMA",
+    "profile_by": "PROFİL"
   }
 ]

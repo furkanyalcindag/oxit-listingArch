@@ -1,19 +1,22 @@
     <div class="main-search-container centered" style="height: auto !important;">
-        <div class="main-search-inner">
+        <div class="main-search-inner" style="padding: 0px 5px;">
             <div class="row">
                 <!-- Carousel -->
-                <div class="col-md-12" style="height: 55px;
-;border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
-                    <div class="slider">
+                <div class="col-md-12 top-slider"  >
+                    <div class="slider"  >
                         {% for category in parent_categories %}
+
                             <div class="text-center" >
-                                <a href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
+                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+
                                    class="highlighted-category">
 
-                                    <img style="width: 20px;height: 20px;" class="img-responsive"
+                                    <img  class="img-responsive top-slider-img"
                                          src="/media/worker.png"
                                          alt="Bricks-in-Bytes">
-                                    <h5 class="top-slider-h5">{{ category.description }}</h5>
+
+                                    <h5 class="top-slider-h5" >{{ category.description }}</h5>
+
                                 </a>
 
                             </div>

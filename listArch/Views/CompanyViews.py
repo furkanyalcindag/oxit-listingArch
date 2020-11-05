@@ -162,7 +162,7 @@ def update_company(request, pk):
         return redirect('accounts:login')
     company = Company.objects.get(pk=pk)
     user_form = UserUpdateForm(request.POST or None, instance=company.user)
-    company_form = CompanyForm(request.POST or None, instance=company,
+    company_form = CompanyForm(request.POST or None,request.FILES or None, instance=company,
                                initial={'date': company.date.strftime('%Y-%m-%d')})
     social_accounts = CompanySocialAccount.objects.filter(company=company)
     i = 0
@@ -195,31 +195,28 @@ def update_company(request, pk):
                     retail_company = CompanyRetail(company=company, name=retail.name, logo=retail.logo)
                     retail_company.save()
 
-                social_row = int(request.POST['row_number'])
 
-                if social_accounts.count() > 0:
+
+                count_value = request.POST['row_number']
+
+                if count_value != '':
                     for social in social_accounts:
                         account = SocialMedia.objects.filter(link=social.social_account.link)
                         account.delete()
                         social.delete()
+                    count_value = count_value.split(',')
+                    array = []
+                    for count in count_value:
+                        array.append(count)
 
-                    i = 0
-                    while i < social_row:
+                    for i in array:
                         social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
                                              link=request.POST['company_social[' + str(i) + '][link]'])
                         social.save()
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()
-                        i = i + 1
-                else:
-                    i = social_accounts.count()
-                    while i < social_row:
-                        social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
-                                             link=request.POST['company_social[' + str(i) + '][link]'])
-                        social.save()
-                        company_social = CompanySocialAccount(company=company, social_account=social)
-                        company_social.save()
-                        i = i + 1
+
+
 
                 messages.success(request, 'Firma Başarıyla Güncellenmiştir.')
                 return redirect('listArch:firma-listesi')

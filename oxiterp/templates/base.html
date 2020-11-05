@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+{% load change_lang %}
+
 <head>
     <title>LIST OF ROOM</title>
     <meta name="description" content="Bricks-in-Bytes">
@@ -8,11 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="text/javascript" src="{% static 'base2/scripts/jquery-3.4.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'base2/scripts/jquery-migrate-3.1.0.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
-
     <link rel="stylesheet" href="{% static 'base2/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'base2/css/main-color.css' %}" id="colors">
     <link rel="stylesheet" href="{% static 'base2/css/bootstrap-grid.css' %}">
+
 
     <link href="https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -63,205 +64,232 @@
     </style>
 </head>
 <body>
-{% load change_lang %}
-
 <div id="wrapper">
-    <header id="header-container" style="height: 5vh !important;">
+
+    <header id="header-container">
+
+        <!-- Header -->
         <div id="header">
-            <div class="row" style="margin-left: 20px;margin-right: 20px">
-                <div class="left-side">
-                    <div id="logo">
-                        <a href="{% url 'listArch:index' %}"><img style="height: 50px;
-    margin-top: -25px;margin-right: 5px;width: 120px;
-    margin-left: 10px;" src="/media/lofr-logo-beyaz.png" alt="Bricks-in-Bytes"></a>
-                    </div>
-                    <div class="mmenu-trigger">
-                        <button class="hamburger hamburger--collapse" type="button">
-                     <span class="hamburger-box">
-                     <span class="hamburger-inner"></span>
-                     </span>
-                        </button>
-                    </div>
-                    <nav id="navigation" class="style-1" style="margin-left: -48px;">
-                        <ul style="margin-top: 10px">
-                            <li class=""><a
-                                    style="overflow-x: inherit;">{{ headerText.description |safe }}</a>
-                            </li>
-                        </ul>
-                        <ul id="responsive" style="margin-left: 100px;margin-top: 10px">
+            <div class="left-side">
 
-                            <li><a href="#">{{ 'about'| get_item_by_lang }}</a></li>
-                            <li><a href="#">{{ 'advertises'| get_item_by_lang }}</a></li>
-                            <li><a href="#">{{ 'connect'| get_item_by_lang }}</a></li>
-                        </ul>
-                        <ul class="social-icons " style="margin-top: 5px;">
-                            <li><a style="display: contents;" class="twitter" href="#"><i class="icon-twitter"></i></a>
-                            </li>
-                            <li><a style="display: contents;" class="dribbble" href="#"><i
-                                    class="icon-dribbble"></i></a></li>
-                            <li><a style="display: contents;" class="facebook" href="#"><i
-                                    class="icon-facebook"></i></a></li>
-
-                        </ul>
-                    </nav>
-                    <div class="clearfix"></div>
+                <!-- Logo -->
+                <div id="logo">
+                    <a href="{% url 'listArch:index' %}"><img style="height: 40px;" src="/media/lofr-logo-beyaz.png"
+                                                              alt="list of room"></a>
                 </div>
-                {% if user.is_authenticated %}
-                    <div class="right-side">
-                        <div class="header-widget">
-                            <!-- User Menu -->
-                            <div class="user-menu">
-                                <div class="user-name" style="    margin-top: 8px;">
-                                    {{ user.first_name }} {{ user.last_name }}
-                                </div>
-                                <ul>
-                                    <li><a href="{% url 'listArch:kullanici-listeleri' %}#liste"><i
-                                            class="sl sl-icon-list"></i> Listelerim</a></li>
-                                    <li><a href="{% url 'listArch:kullanici-firma-bilgileri-guncelle' %}"><i
-                                            class="fa fa-user"></i>
-                                        Profil</a>
+
+                <!-- Mobile Navigation -->
+                <div class="mmenu-trigger">
+                    <button class="hamburger hamburger--collapse" type="button">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+                    </button>
+                </div>
+
+                <!-- Main Navigation -->
+                <nav id="navigation" class="style-1">
+
+
+                    <ul id="responsive">
+                        <li class="hidden-xs hidden-sm"><a
+                                style="overflow-x: inherit;">{{ headerText.description |safe }}</a>
+                        </li>
+
+                        <li><a class=" hidden-md hidden-lg " href="#">Kategoriler</a>
+                            <ul>
+
+
+                                {% for category in parent_categories %}
+
+                                    <li>
+                                        <a href="{% url 'listArch:anasayfa-urunler' category.pk %}">{{ category.name }}</a>
                                     </li>
-                                    <li><a href="{% url 'listArch:logout-user' %}"><i class="sl sl-icon-power"></i>
-                                        Logout</a></li>
-                                </ul>
+
+                                {% endfor %}
+
+
+                            </ul>
+                        </li>
+
+
+                        <li><a class=" hidden-sm hidden-xs " href="#">Hakkımızda</a></li>
+
+
+                        <li><a href="#">Reklam</a></li>
+                        <li><a href="#">İletişim</a></li>
+
+
+                    </ul>
+
+                    <ul class="social-icons hidden-xs hidden-sm " style="margin-top: -5px;">
+                        <li><a style="display: contents;" class="twitter" href="#"><i class="icon-twitter"></i></a>
+                        </li>
+                        <li><a style="display: contents;" class="dribbble" href="#"><i
+                                class="icon-dribbble"></i></a></li>
+                        <li><a style="display: contents;" class="facebook" href="#"><i
+                                class="icon-facebook"></i></a></li>
+
+                    </ul>
+
+
+                </nav>
+                <div class="clearfix"></div>
+                <!-- Main Navigation / End -->
+
+            </div>
+            {% if user.is_authenticated %}
+                <div class="right-side hidden-sm hidden-xs">
+                    <div class="header-widget">
+
+                        <div class="user-menu">
+                            <div class="user-name" style="    margin-top: 8px;">
+                                {{ user.first_name }} {{ user.last_name }}
                             </div>
+                            <ul>
+                                <li><a href="{% url 'listArch:kullanici-listeleri' %}#liste"><i
+                                        class="sl sl-icon-list"></i> Listelerim</a></li>
+                                <li><a href="{% url 'listArch:kullanici-firma-bilgileri-guncelle' %}"><i
+                                        class="fa fa-user"></i>
+                                    Profil</a>
+                                </li>
+                                <li><a href="{% url 'listArch:logout-user' %}"><i class="sl sl-icon-power"></i>
+                                    Logout</a></li>
+                            </ul>
                         </div>
                     </div>
-                {% else %}
-                    <div class="right-side">
-                        <div class="header-widget">
-                            <a href="{% url 'listArch:kullanici-giris-yap' %}" class="sign-in"><i
-                                    class="sl sl-icon-login"></i> {{ 'login'| get_item_by_lang }}</a>
-                        </div>
+                </div>
+            {% else %}
+                <div class="right-side hidden-sm hidden-xs">
+                    <div class="header-widget">
+                        <a href="{% url 'listArch:kullanici-giris-yap' %}" class="sign-in"><i
+                                class="sl sl-icon-login"></i> Giriş Yap</a>
                     </div>
-                {% endif %}
-                <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
-                    <div class="small-dialog-header">
-                        <h3>Giriş Yap/Kayıt Ol</h3>
-                    </div>
-                    <!--Tabs -->
-                    <div class="sign-in-form style-1">
-                        <ul class="tabs-nav">
-                            <li class=""><a href="#tab1">Giriş Yap</a></li>
-                            <li><a href="#tab2">Kayıt Ol</a></li>
-                        </ul>
-                        <div class="tabs-container alt">
-                            <!-- Login -->
-                            <div class="tab-content" id="tab1" style="display: none;">
-                                <form method="post" class="login">
-                                    <p class="form-row form-row-wide">
-                                        <label for="username">Kullanıcı Adı:
-                                            <i class="im im-icon-Male"></i>
-                                            <input type="text" class="input-text" name="username" id="username"
-                                                   value=""/>
-                                        </label>
-                                    </p>
-                                    <p class="form-row form-row-wide">
-                                        <label for="password">Şifre:
-                                            <i class="im im-icon-Lock-2"></i>
-                                            <input class="input-text" type="password" name="password" id="password"/>
-                                        </label>
-                                        <span class="lost_password">
+                </div>
+            {% endif %}
+            <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+                <div class="small-dialog-header">
+                    <h3>Giriş Yap/Kayıt Ol</h3>
+                </div>
+
+                <div class="sign-in-form style-1">
+                    <ul class="tabs-nav">
+                        <li class=""><a href="#tab1">Giriş Yap</a></li>
+                        <li><a href="#tab2">Kayıt Ol</a></li>
+                    </ul>
+                    <div class="tabs-container alt">
+
+                        <div class="tab-content" id="tab1" style="display: none;">
+                            <form method="post" class="login">
+                                <p class="form-row form-row-wide">
+                                    <label for="username">Kullanıcı Adı:
+                                        <i class="im im-icon-Male"></i>
+                                        <input type="text" class="input-text" name="username" id="username"
+                                               value=""/>
+                                    </label>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label for="password">Şifre:
+                                        <i class="im im-icon-Lock-2"></i>
+                                        <input class="input-text" type="password" name="password" id="password"/>
+                                    </label>
+                                    <span class="lost_password">
                                  <a href="#">Şifremi Unuttum</a>
                                  </span>
-                                    </p>
-                                    <div class="form-row">
-                                        <input type="submit" class="button border margin-top-5" name="login"
-                                               value="Giriş Yap"/>
-                                        <div class="checkboxes margin-top-10">
-                                            <input id="remember-me" type="checkbox" name="check">
-                                            <label for="remember-me">Beni Hatırla</label>
-                                        </div>
+                                </p>
+                                <div class="form-row">
+                                    <input type="submit" class="button border margin-top-5" name="login"
+                                           value="Giriş Yap"/>
+                                    <div class="checkboxes margin-top-10">
+                                        <input id="remember-me" type="checkbox" name="check">
+                                        <label for="remember-me">Beni Hatırla</label>
                                     </div>
-                                </form>
-                            </div>
-                            <!-- Register -->
-                            <div class="tab-content" id="tab2" style="display: none;">
-                                <form method="post" class="register">
-                                    <p class="form-row form-row-wide">
-                                        <label for="username2">Kullanıcı Adı:
-                                            <i class="im im-icon-Male"></i>
-                                            <input type="text" class="input-text" name="username" id="username2"
-                                                   value=""/>
-                                        </label>
-                                    </p>
-                                    <p class="form-row form-row-wide">
-                                        <label for="email2">E-Mail Adresi:
-                                            <i class="im im-icon-Mail"></i>
-                                            <input type="text" class="input-text" name="email" id="email2" value=""/>
-                                        </label>
-                                    </p>
-                                    <p class="form-row form-row-wide">
-                                        <label for="password1">Şifre:
-                                            <i class="im im-icon-Lock-2"></i>
-                                            <input class="input-text" type="password" name="password1" id="password1"/>
-                                        </label>
-                                    </p>
-                                    <p class="form-row form-row-wide">
-                                        <label for="password2">Şifre Tekrarı:
-                                            <i class="im im-icon-Lock-2"></i>
-                                            <input class="input-text" type="password" name="password2" id="password2"/>
-                                        </label>
-                                    </p>
-                                    <input type="submit" class="button border fw margin-top-10" name="register"
-                                           value="Kayıt Ol"/>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-content" id="tab2" style="display: none;">
+                            <form method="post" class="register">
+                                <p class="form-row form-row-wide">
+                                    <label for="username2">Kullanıcı Adı:
+                                        <i class="im im-icon-Male"></i>
+                                        <input type="text" class="input-text" name="username" id="username2"
+                                               value=""/>
+                                    </label>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label for="email2">E-Mail Adresi:
+                                        <i class="im im-icon-Mail"></i>
+                                        <input type="text" class="input-text" name="email" id="email2" value=""/>
+                                    </label>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label for="password1">Şifre:
+                                        <i class="im im-icon-Lock-2"></i>
+                                        <input class="input-text" type="password" name="password1" id="password1"/>
+                                    </label>
+                                </p>
+                                <p class="form-row form-row-wide">
+                                    <label for="password2">Şifre Tekrarı:
+                                        <i class="im im-icon-Lock-2"></i>
+                                        <input class="input-text" type="password" name="password2" id="password2"/>
+                                    </label>
+                                </p>
+                                <input type="submit" class="button border fw margin-top-10" name="register"
+                                       value="Kayıt Ol"/>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!-- Sign In Popup / End -->
+            </div>
+
+            <div class="container">
+
             </div>
         </div>
         <!-- Header / End -->
+
     </header>
-    <div class="clearfix"></div>
-    <!-- Header Container / End -->
-    <!-- Banner
-       ================================================== -->
-    <!-- SEARCH -->
+
+
     {% block content2 %}
 
     {% endblock %}
 
-    <!-- END SEARCH -->
+
 
     {% block content %}
 
-        <!-- Content
-           ================================================== -->
 
-        <!-- Info Section / End -->
 
     {% endblock %}
 
 
-    <!-- Info Section / End -->
-    <!-- Footer
-       ================================================== -->
-    <div id="footer">
+
+
+    <div id="footer" style="border-top: 2px solid #fd9116;margin-top: 3px;">
         <!-- Main -->
-        <div class="container">
+        <div class="container" >
+
 
             <!-- Copyright -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="copyrights">© 2020 {{ 'site_name'| get_item_by_lang }} <a
-                            style="margin-left: 10px;margin-right: 10px;color:#fff"
-                            href="#">{{ 'terms_of_service'| get_item_by_lang }}</a> | <a
-                            style="margin-left: 10px;margin-right: 10px;color:#fff"
-                            href="#">{{ 'privacy_policy'| get_item_by_lang }}</a>
-                        | <a style="margin-left: 10px;margin-right: 10px;color:#fff"
-                             href="#">{{ 'data_disclaimer'| get_item_by_lang }}</a> | <a
-                                style="margin-left: 10px;margin-right: 10px;color:#fff"
-                                href="#">{{ 'cookie_policy'| get_item_by_lang }}</a> |
-                        <a style="margin-left: 10px;margin-right: 10px;color:#fff"
-                           href="#">{{ 'site_map'| get_item_by_lang }}</a>
+                    <div class="copyrights">© 2020 List Of Room <a
+                            style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Terms Of Service</a> | <a
+                            style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Privacy Police</a>
+                        | <a style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Data Disclaimer</a> | <a
+                                style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Cookie Policy</a> |
+                        <a style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">Site Map</a>
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
+
+
     <!-- Footer / End -->
     <!-- Back To Top Button -->
     <div id="backtotop"><a style="background: #fd9116" href="#"></a></div>
@@ -298,6 +326,7 @@
 <script type="text/javascript" src="{% static 'base2/scripts/magnific-popup.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/waypoints.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/counterup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'base2/scripts/jquery-ui.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/tooltips.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
 <script src='https://cdn3.devexpress.com/jslib/17.1.6/js/dx.all.js'></script>

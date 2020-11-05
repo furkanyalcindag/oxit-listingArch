@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content2 %}
-                {% load change_lang %}
 
-    <div class="main-search-container centered dark-overlay" style="height: 92vh !important;
+{% load change_lang %}
+
+    <div class="main-search-container centered dark-overlay" style="height: 95vh ;
+
     border-top: 2px solid #fd9116;">
 
         <div class="main-search-inner">
@@ -17,7 +19,7 @@
                             <h2 style="font-family: 'Allerta Stencil', sans-serif;">
                                 <span class="typed-words">{{ scrolling_text.description }}</span>
                             </h2>
-                            <h4>{{ scrolling_text.subTextDesc }}</h4>
+                            <h4 >{{ scrolling_text.subTextDesc }}</h4>
                             <div class="main-search-input">
                                 <div class="main-search-input-item">
                                     <input type="text" placeholder="Start your Search ..." value=""
@@ -36,15 +38,21 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="highlighted-categories">
+                        <div class="highlighted-categories hidden-xs hidden-sm">
                             <!-- Box -->
                             {% for category in parent_categories %}
 
-                                <a href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
-                                   class="highlighted-category" style="">
-                                    <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                    <h4 style="margin-top: 10px;display: block;margin-right: 15px;">{{ category.description }}</h4>
-                                </a>
+
+                                    <a style="    width: 110px;height: 100px;
+    float: left;
+    padding: 25px 5px 0px 0px;" href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
+                                       class="highlighted-category" style="">
+                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+
 
                             {% endfor %}
                         </div>
@@ -63,19 +71,66 @@
 {% block content %}
     <!-- Category Boxes / End -->
     <!-- Info Section -->
-    {% include 'count_box.html' %}
+
+       <div class="container" style=" width: 100%; border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
+        <div class="row">
+
+
+                  <div class="col-md-2">
+                    <a  class="category-small-box">
+                        <h4>Ürünler</h4>
+                        <span class="category-box-counter">500.000+</span>
+                    </a>
+
+                        </div>
+
+                    <div class="col-md-2">
+                    <a  class="category-small-box">
+                        <h4>Markalar</h4>
+                        <span class="category-box-counter">1500+</span>
+                    </a></div>
+
+                    <div class="col-md-2">
+                    <a  class="category-small-box">
+                        <h4>Kategoriler</h4>
+                        <span class="category-box-counter">50.000+</span>
+                    </a></div>
+
+                    <div class="col-md-2">
+                    <a  class="category-small-box">
+                        <h4>Özellikler</h4>
+                        <span class="category-box-counter">250.000+</span>
+                    </a></div>
+
+                     <div class="col-md-2">
+                    <a  class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a></div>
+                           <div class="col-md-2">
+                    <a  class="category-small-box">
+                        <h4>Dosyalar</h4>
+                        <span class="category-box-counter">6.000.000+</span>
+                    </a></div>
+
+            </div>
+        </div>
+
+    </div>
+
 
     <!-- Logo Carousel -->
 
-    <div class="row">
+    <div class="row" >
         <!-- Carousel -->
-        <div class="col-md-12" style=" margin-bottom: 40px;  margin-top: 1px;padding-bottom: 1px;
+        <div class="col-md-12" style="   margin-top: 1px;padding-bottom: 1px;
     border-bottom: 2px solid #fd9116;">
             <div class="slider2">
                 {% for company in companies %}
                     <div class="">
                         <img style=" filter: grayscale(100%); height: 45px" src="/media/{{ company.logo }}" alt=""
                              class="img-responsive">
+
 
                     </div>
                 {% endfor %}
@@ -242,12 +297,13 @@
 
 
         <!-- Carousel -->
-        <div class="col-md-12" style="margin-top: 40px;border-top: 2px solid #fd9116;padding-top: 1px">
+        <div class="col-md-12" style="border-top: 2px solid #fd9116;padding-top: 1px">
             <div class="slider">
                 {% for company in companies %}
                     <div class="">
                         <img style=" filter: grayscale(100%);height: 45px" src="/media/{{ company.logo }}" alt=""
                              class="img-responsive">
+
 
                     </div>
                 {% endfor %}
@@ -263,7 +319,7 @@
                         autoplay: true,
                         autoplaySpeed: 1000,
                         cssEase: 'ease-out',
-                        slidesToShow: 9,
+                        slidesToShow: 18,
                         slidesToScroll: 1,
                         variableWidth: true,
                         centerMode: true,
@@ -295,7 +351,7 @@
     <!-- Logo Carousel / End -->
 
     <section class="fullwidth padding-top-35 padding-bottom-20" style="background: #1c3444;border-top: 2px solid #fd9116;
-    border-bottom: 2px solid #fd9116;
+
     margin-top: 1px;">
         <div class="">
             <div class="row icons-container" style="margin:0 25px;">

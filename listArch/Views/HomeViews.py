@@ -7,7 +7,8 @@ from rest_framework.decorators import api_view
 from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionProduct, IntroductionPage, \
     IntroductionPageDesc, CategoryDesc, BlogDesc, CompanyBlog, RelatedProduct, \
     OptionValueDesc, List, CompanyRetail, Contact, AboutDesc, ProductDesc, OptionDesc, ProductPerform, GraphicValueDesc, \
-    ProductChart, ChartValue, Value, ChartDesc
+    ProductChart, ChartValue, Value, ChartDesc, Profile, BusinessType, ProfileBlog, BlogImage, ProfileBlogDesc, \
+    BusinessTypeDesc
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.DefinitionDescription import DefinitionDescription
@@ -626,10 +627,39 @@ def about_page(request):
 
 
 def profile_info(request):
-    return render(request,'home/profile-info.html')
+    profiles = BusinessTypeDesc.objects.filter(lang_code=home_lang_code).filter(business_type__isProduct_based=False)
+    return render(request, 'home/profile-info.html',{'profiles':profiles})
+
 
 def profile_page(request):
-    return render(request,'home/profile-page.html')
+    profiles = BusinessTypeDesc.objects.filter(lang_code=home_lang_code).filter(business_type__isProduct_based=True)
+    business_type = BusinessType.objects.filter(isProduct_based=True)
+    profile_blogs = ProfileBlog.objects.all()
+    blog_array = []
+    for blog in profile_blogs:
+        blog_dict = dict()
+        blog_dict['blog_name'] = \
+            BusinessTypeDesc.objects.filter(business_type=blog.profile.profile_name).filter(lang_code=home_lang_code)[0]
+        blog_dict['desc'] = BlogDesc.objects.filter(blog=blog.blog).filter(lang_code=home_lang_code)[0]
+        blog_dict['images'] = BlogImage.objects.filter(blog=blog.blog).order_by('?')[:1]
+        blog_dict['blog'] = blog
+        blog_array.append(blog_dict)
+    company_blog = CompanyBlog.objects.filter(company__business_type__in=business_type)
+    array_company = []
+    for company_blog in company_blog:
+        company_blog_dict = dict()
+        company_blog_dict['company'] = company_blog
+        company_blog_dict['images'] = Product.objects.filter(company=company_blog.company).order_by('?')[:4]
+        company_blog_dict['blog_desc'] = \
+        BlogDesc.objects.filter(blog=company_blog.blog).filter(lang_code=home_lang_code)[0]
+        company_blog_dict['profile_name'] = \
+        BusinessTypeDesc.objects.filter(business_type=company_blog.company.business_type).filter(
+            lang_code=home_lang_code)[0]
+        array_company.append(company_blog_dict)
+
+    return render(request, 'home/profile-page.html',
+                  {'profiles': profiles, 'blogs': blog_array, 'company_blogs': array_company})
+
 
 def blog_page(request):
-    return render(request,'home/blog-page.html')
+    return render(request, 'home/blog-page.html')

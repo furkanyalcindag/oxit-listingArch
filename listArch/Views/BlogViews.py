@@ -189,6 +189,8 @@ def add_blog_businessType(request, pk):
                 blog_business = ProfileBlog(profile=profile, blog=blog)
                 blog_business.save()
 
+
+
                 messages.success(request, "Blog Bilgileri Başarıyla Kayıt Edildi.")
                 return redirect('listArch:profil-listesi')
             else:

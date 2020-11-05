@@ -48,6 +48,8 @@ def add_profile(request):
                                   image=profile_form.cleaned_data['image'])
 
                 profile.save()
+
+
                 messages.success(request, "Profil Başarıyla Kayıt Edildi.")
                 return redirect('listArch:profil-kaydet')
 

@@ -152,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'tr'
 
-home_lang_code = '1'
+home_lang_code = '2'
 
 TIME_ZONE = 'Europe/Istanbul'
 

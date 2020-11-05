@@ -100,7 +100,7 @@
     "product_service": "Products / Services Offered",
     "assistant_need": "Assistant / Need Help?",
     "chat_message": "Chat / Leave Message",
-    "profile": "PROFILE",
+    "profile": "PROFILES",
     "home": "HOME",
     "storyline": "STORYLINE",
     "diversification": "DIVERSIFICATION",
@@ -137,6 +137,8 @@
     "country": "Country",
     "map_": "MAP",
     "BRANCH_OFFICE_RETAILER_SUPPLIERS": "BRANCH OFFICE RETAILER SUPPLIERS",
-    "CLASSIFYING_BY": "CLASSIFYING BY"
+    "CLASSIFYING_BY": "CLASSIFYING BY",
+    "profile_by": "PROFILE BY"
+
   }
 ]

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load change_lang %}
 {% block content2 %}
     {% include 'parent_category_slider.html' %}
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
@@ -41,6 +42,23 @@
 
 {% block content %}
     {% include 'count_box.html' %}
+    <div id="titlebar" style="border-bottom:1px solid #fff;border-top:2px solid #fd9116;">
+        <div class="" style="margin-left: 20px">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">{{ 'home_page'| get_item_by_lang }}</a></li>
+                            <li><a href="#">{{ category.description }}</a></li>
+                            <li><a href="#">{{ 'products'| get_item_by_lang }}</a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="container">
@@ -53,75 +71,53 @@
 
 
                 <tbody>
-                <tr>
-                    <td class="table-info">NEWS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info">REGULATIONS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info">TRADESHOWS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info">EVENTS</td>
-                </tr>
+                {% for profile in profiles %}
+                    {% if forloop.counter == 1 %}
+                    <tr>
+                        <td class="table-info">{{ profiles.0.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info">{{ profiles.1.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info">{{ profiles.2.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info">{{ profiles.3.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info">{{ profiles.4.description}}</td>
+                        <td class="table-info"></td>
+                    </tr>
 
 
-                <tr>
-                    <td class="table-info"></td>
-                    <td class="table-info"> FOCUS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"> FOCUS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"> FOCUS</td>
-                    <td class="table-info"></td>
-                </tr>
+                    <tr>
+                        <td class="table-info"></td>
+                        <td class="table-info"> {{ profiles.6.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info"> {{ profiles.7.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info"> {{ profiles.8.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info"> {{ profiles.9.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info"> {{ profiles.10.description}}</td>
+                    </tr>
 
 
-                <tr>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info">COMPETITIONS</td>
-                    <td class="table-info">TRADESHOWS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info">COMPETITIONS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info">EVENTS</td>
-                </tr>
+                    <tr>
+                         <td class="table-info">{{ profiles.11.description}}</td>
+                        <td class="table-info"></td>
+                         <td class="table-info">{{ profiles.12.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info">{{ profiles.13.description}}</td>
+                        <td class="table-info"></td>
+                        <td class="table-info"> {{ profiles.9.description}}</td>
+                        <td class="table-info"></td>
+<td class="table-info"> {{ profiles.9.description}}</td>                        <td class="table-info"></td>
+                    </tr>
 
 
-                <tr>
-                    <td class="table-info"></td>
-                    <td class="table-info"> MATERIAL</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"> COMPETITIONS</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"> MATERIAL</td>
-                    <td class="table-info"></td>
-                </tr>
 
 
-                <tr>
-                    <td class="table-info">MATERIAL</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info">MATERIAL</td>
-                    <td class="table-info"></td>
-                    <td class="table-info">MATERIAL</td>
-                    <td class="table-info"></td>
-                    <td class="table-info"></td>
-                    <td class="table-info">MATERIAL</td>
-                </tr>
-
+                    {% endif %}
+                {% endfor %}
 
                 </tbody>
             </table>
