@@ -63,3 +63,6 @@ from .Chart import Chart
 from .ProductChart import ProductChart
 from .Value import Value
 from .ProfileBlog import ProfileBlog
+from .Staff import Staff
+from .Video import Video
+from .ProductVideo import ProductVideo

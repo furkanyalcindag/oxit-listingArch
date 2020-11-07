@@ -15,7 +15,7 @@
                         </h2>
                         <h4>{{ scrolling_text.subTextDesc }}</h4>
                         <form action="{% url 'listArch:urun-ara' %}" method="post">
-                        {% csrf_token %}
+                            {% csrf_token %}
                             <div class="main-search-input">
                                 <div class="main-search-input-item">
                                     <select data-placeholder="All Categories" class="chosen-select" id="parent_category"
@@ -54,11 +54,70 @@
 
                                 {% for category in sub_categories %}
 
-                                    <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.category.pk %}"
+                                    <a style="    width: 110px;height: 80px;
+    float: left;
+    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
                                        class="highlighted-category" style="">
                                         <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style="margin-top: 10px;display: block;">{{ category.description }}</h4>
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
                                     </a>
+                                      <a style="    width: 110px;height: 80px;
+    float: left;
+    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
+                                       class="highlighted-category" style="">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+
+                                      <a style="    width: 110px;height: 80px;
+    float: left;
+    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
+                                       class="highlighted-category" style="">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+
+                                      <a style="    width: 110px;height: 80px;
+    float: left;
+    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
+                                       class="highlighted-category" style="">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+
+                                      <a style="    width: 110px;height: 80px;
+    float: left;
+    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
+                                       class="highlighted-category" style="">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+
+                                      <a style="    width: 110px;height: 80px;
+    float: left;
+    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
+                                       class="highlighted-category" style="">
+                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+
+
+
+
+
+
 
 
                                 {% endfor %}
@@ -138,33 +197,108 @@
                             <h3>{{ 'success_story'| get_item_by_lang }}</h3></div>
                         {% for blog in blogs %}
 
-                            <div class="blog-post col-md-3" style="">
+                            <div class="blog-post margin-top-5" style="border: 1px solid">
 
                                 <div class="post-content" style="height: 120px !important;">
                                     <h3><a href="#">{{ blog.blog.title_desc }}</a></h3>
                                     <ul class="post-meta" style="text-align:center">
                                         <li><a href="#">{{ blog.product.company.name }}</a></li>
-                                        <br>
+
                                         <li><a href="#">{{ blog.product.product.name }}</a></li>
-                                        <br>
+
                                         <li><a>{{ blog.product.company.date.year }}</a></li>
-                                        <br>
+
                                         <li>
-                                            <a href="#">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
                                         </li>
                                     </ul>
                                 </div>
-                                <br>
-                                <a style="border: 1px solid #ffff;" href="#" class="post-img">
+
+                                <a style="" href="#" class="margin-top-5 margin-bottom-5 post-img">
                                     <img src="/media/{{ blog.product.product.cover_image }}" alt="">
                                 </a>
-                                <br>
-                                <div class="post-content" style="height: 108px !important;">
-                                    <p>{{ blog.blog.description | truncatechars:80 | safe }}
 
-                                    </p>
-                                    <a style="font-size: 12px;" href="#" class="">{{ 'read_more'| get_item_by_lang }}<i
-                                            class="fa fa-angle-right"></i></a>
+                                <div class="post-content " style="height: 110px !important;">
+                                    <p style="margin: 0;text-align: center">{{ blog.blog.description | truncatechars:80 | safe }}</p>
+
+                                </div>
+                            </div>
+                            <div class="blog-post  margin-top-5" style="border: 1px solid">
+
+                                <div class="post-content" style="height: 120px !important;">
+                                    <h3><a href="#">{{ blog.blog.title_desc }}</a></h3>
+                                    <ul class="post-meta" style="text-align:center">
+                                        <li><a href="#">{{ blog.product.company.name }}</a></li>
+
+                                        <li><a href="#">{{ blog.product.product.name }}</a></li>
+
+                                        <li><a>{{ blog.product.company.date.year }}</a></li>
+
+                                        <li>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <a style="" href="#" class="margin-top-5 margin-bottom-5 post-img">
+                                    <img src="/media/{{ blog.product.product.cover_image }}" alt="">
+                                </a>
+
+                                <div class="post-content " style="height: 110px !important;">
+                                    <p style="margin: 0;text-align: center">{{ blog.blog.description | truncatechars:80 | safe }}</p>
+
+                                </div>
+                            </div>
+                            <div class="blog-post  margin-top-5" style="border: 1px solid">
+
+                                <div class="post-content" style="height: 120px !important;">
+                                    <h3><a href="#">{{ blog.blog.title_desc }}</a></h3>
+                                    <ul class="post-meta" style="text-align:center">
+                                        <li><a href="#">{{ blog.product.company.name }}</a></li>
+
+                                        <li><a href="#">{{ blog.product.product.name }}</a></li>
+
+                                        <li><a>{{ blog.product.company.date.year }}</a></li>
+
+                                        <li>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <a style="" href="#" class="margin-top-5 margin-bottom-5 post-img">
+                                    <img src="/media/{{ blog.product.product.cover_image }}" alt="">
+                                </a>
+
+                                <div class="post-content " style="height: 110px !important;">
+                                    <p style="margin: 0;text-align: center">{{ blog.blog.description | truncatechars:80 | safe }}</p>
+
+                                </div>
+                            </div>
+                            <div class="blog-post  margin-top-5" style="border: 1px solid">
+
+                                <div class="post-content" style="height: 120px !important;">
+                                    <h3><a href="#">{{ blog.blog.title_desc }}</a></h3>
+                                    <ul class="post-meta" style="text-align:center">
+                                        <li><a href="#">{{ blog.product.company.name }}</a></li>
+
+                                        <li><a href="#">{{ blog.product.product.name }}</a></li>
+
+                                        <li><a>{{ blog.product.company.date.year }}</a></li>
+
+                                        <li>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <a style="" href="#" class="margin-top-5 margin-bottom-5 post-img">
+                                    <img src="/media/{{ blog.product.product.cover_image }}" alt="">
+                                </a>
+
+                                <div class="post-content " style="height: 110px !important;">
+                                    <p style="margin: 0;text-align: center">{{ blog.blog.description | truncatechars:80 | safe }}</p>
+
                                 </div>
                             </div>
 
@@ -177,11 +311,11 @@
             </div>
 
         {% endif %}
-        </div>
+
         {% if introductions %}
 
             <div class="blog-page">
-                <div class="row" style="border: 1px solid;margin-left: 0px;margin-top: 20px;
+                <div class="row" style=";margin-left: 0px;margin-top: 20px;
     margin-right: 0px;">
                     {% for introduction in introductions %}
                         <div class="col-lg-12 col-md-12"
@@ -191,26 +325,25 @@
                             </div>
 
                             {% for product in introduction.products %}
-                                <div class="blog-post">
+                                <div class="blog-post" style="border: 1px solid">
                                     <a style="border: 1px solid #fff;"
                                        href="{% url 'listArch:urun-detay' product.product.pk %}" class="post-img">
                                         <img src="/media/{{ product.product.cover_image }}" alt="">
                                     </a>
                                     <br>
-
-                                    <div class="post-content">
+                                    <div class="post-content" style="border: 0">
 
                                         <ul class="post-meta" style="text-align:center">
+                                            <li><a href="#">{{ category.description }}</a></li>
+                                            <li><a href="#">({{ introduction.products |length }})</a></li>
                                             <li>
                                                 <a href="{% url 'listArch:urun-detay' product.product.pk %}">{{ product.product.name }}</a>
                                             </li>
-                                            <br>
-                                            <li><a href="#">({{ introduction.products |length }})</a></li>
-                                            <br>
-                                            <li><a href="#">{{ category.description }}</a></li>
+
                                         </ul>
                                         <br>
-                                        <a style="font-size: 12px;" href="#" class="">{{ 'more'| get_item_by_lang }} <i
+                                        <a style="padding:5px;font-size: 12px;border: 1px solid" href="#"
+                                           class="">{{ 'more'| get_item_by_lang }} <i
                                                 class="fa fa-angle-right"></i></a>
                                     </div>
                                 </div>
@@ -222,7 +355,7 @@
                     {% endfor %}
                 </div>
             </div>
-
+            </div>
         {% endif %}
     </div>
     <script>

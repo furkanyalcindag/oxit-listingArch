@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import Group, User
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect, render
 from listArch.Forms.ProfileForm import ProfileForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
 from listArch.Forms.UserForm import UserForm
 from listArch.models import Profile, BusinessTypeDesc, Country
 from listArch.services import general_methods
+from oxiterp.settings.base import EMAIL_HOST_USER
 
 
 def add_profile(request):
@@ -48,6 +50,15 @@ def add_profile(request):
                                   image=profile_form.cleaned_data['image'])
 
                 profile.save()
+
+                subject, from_email, to = 'List Of Room Giriş Bilgileri', EMAIL_HOST_USER, user2.email
+                text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+                html_content = '<p> <strong>Site adresi:</strong><a href="http://127.0.0.1:8000/">ListOfRoom</a></p>'
+                html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
+                html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
 
 
                 messages.success(request, "Profil Başarıyla Kayıt Edildi.")

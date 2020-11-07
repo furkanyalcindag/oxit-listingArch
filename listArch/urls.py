@@ -3,7 +3,7 @@ from django.urls import path
 
 from listArch.Views import OptionViews, CategoryViews, ProductViews, DashboardViews, CompanyViews, APIViews, HomeViews, \
     BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews, \
-    CollectionViews, ProfileViews
+    CollectionViews, ProfileViews, StaffViews
 
 app_name = 'listArch'
 
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'dashboard/admin-dashboard/$', DashboardViews.admin_dashboard, name='admin-dashboard'),
     url(r'dashboard/user-dashboard/$', DashboardViews.user_dashboard, name='kullanici-dashboard'),
     url(r'dashboard/company-dashboard/$', DashboardViews.company_dashboard, name='firma-dashboard'),
+    url(r'dashboard/staff-dashboard/$', DashboardViews.staff_dashboard, name='personel-dashboard'),
 
     # Option
     url(r'add-option/$', OptionViews.add_option, name='secenek-ekle'),
@@ -130,7 +131,7 @@ urlpatterns = [
     # About
     url(r'add-about/$', AboutViews.add_about, name='hakkimizda-ekle'),
     url(r'delete-about/$', AboutViews.delete_about, name='hakkimizda-sil'),
-    url(r'about/$', AboutViews.about, name='hakkimizda'),
+    url(r'about-page/$', AboutViews.about, name='hakkimizda'),
 
     url(r'add-scrolling-text/$', AboutViews.add_scrolling, name='kayan-yazi-ekle'),
     url(r'scrolling-text/$', AboutViews.scrolling, name='kayan-yazi'),
@@ -142,7 +143,7 @@ urlpatterns = [
     url(r'update-about/(?P<pk>\d+)$', AboutViews.about_update, name='hakkimizda-guncelle'),
     url(r'add-contact/$', AboutViews.add_contact, name='iletisim-bilgisi-ekle'),
     url(r'update-contact/(?P<pk>\d+)$', AboutViews.update_contact, name='iletisim-bilgisi-guncelle'),
-    url(r'contact/$', AboutViews.get_contact, name='iletisim-bilgisi'),
+    url(r'contact-page/$', AboutViews.get_contact, name='iletisim-bilgisi'),
     url(r'contact-delete/$', AboutViews.delete_contact, name='iletisim-bilgisi-sil'),
 
     # Kullanıcı
@@ -197,5 +198,10 @@ urlpatterns = [
     url(r'profile-page/$', HomeViews.profile_page, name='profile-page'),
     url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),
     url(r'blog-page/$', HomeViews.blog_page, name='blog-page'),
+
+
+    #Staff
+    url(r'add-staff/$', StaffViews.register_staff, name='personel-ekle'),
+    url(r'staff/$', StaffViews.staff, name='personeller'),
 
 ]

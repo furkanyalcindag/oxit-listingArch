@@ -1,6 +1,6 @@
 import json
 from django.db.models import Count, Q, QuerySet
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 
@@ -8,7 +8,7 @@ from listArch.models import ProductOptionValue, Option, OptionValue, Company, In
     IntroductionPageDesc, CategoryDesc, BlogDesc, CompanyBlog, RelatedProduct, \
     OptionValueDesc, List, CompanyRetail, Contact, AboutDesc, ProductDesc, OptionDesc, ProductPerform, GraphicValueDesc, \
     ProductChart, ChartValue, Value, ChartDesc, Profile, BusinessType, ProfileBlog, BlogImage, ProfileBlogDesc, \
-    BusinessTypeDesc
+    BusinessTypeDesc, ProductVideo
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.DefinitionDescription import DefinitionDescription
@@ -54,6 +54,7 @@ def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
     category = product.category.filter(is_parent=True)
     graphics = ProductPerform.objects.filter(product=product)
+    product_videos = ProductVideo.objects.filter(product=product)
 
     product_chart = ProductChart.objects.filter(product=product)
     chart_array = []
@@ -71,6 +72,8 @@ def product_detail(request, pk):
         chart_dict['values'] = value_array
         chart_dict['product_chart'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
             0].chart.pk
+        chart_dict['description'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
+            0].description
         chart_array.append(chart_dict)
 
     graph_array = []
@@ -96,7 +99,7 @@ def product_detail(request, pk):
         desc_dict['desc'] = DefinitionDescription.objects.filter(definition=desc.definition).filter(lang_code=1)[0]
         desc_array.append(desc_dict)
 
-    company_definitions = CompanyDefinition.objects.filter(company=product.company)
+    company_definitions = CompanyDefinition.objects.filter().filter(company=product.company)
     company_definition_array = []
     for company_def in company_definitions:
         desc_dict = dict()
@@ -124,13 +127,15 @@ def product_detail(request, pk):
         array.append(option_dict)
 
     socials = CompanySocialAccount.objects.filter(company=product.company)
-    related_product = RelatedProduct.objects.filter(product=product)
+    related_product = RelatedProduct.objects.filter(product=product).order_by('?')[:4]
+    #distinct('product')
 
     return render(request, 'home/product-detail.html',
                   {'product': product, 'images': product_image, 'options': array, 'definitions': desc_array,
                    'company_definitions': company_definition_array, 'social': socials,
                    'category': cat_desc,
                    'related_products': related_product, 'graphics': graph_array, 'charts': chart_array,
+                   'videos': product_videos,
                    })
 
 
@@ -183,7 +188,7 @@ def product_filter_page(request, pk):
                                                Q(category=category) | Q(category__parent=category)).filter(
         isActive=True)
 
-    products = ProductDesc.objects.filter(product__category=category).order_by('?')[:50]
+    products = ProductDesc.objects.filter(product__category=category).distinct('product_id')[:50]
     advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
         product__category=category).order_by(
         'id')[:5]
@@ -351,7 +356,7 @@ def get_company_info(request, pk):
     category_products = Product.objects.filter(company=company).values('category').annotate(dcount=Count('category'))
     for category_product in category_products:
         product_categories = Product.objects.filter(company=company).filter(
-            category=Category.objects.get(pk=category_product['category']))
+            category=Category.objects.get(pk=category_product['category'])).distinct('id')
         category_dict = dict()
         category_dict['category'] = Category.objects.get(pk=category_product['category'])
         category_dict['product_categories'] = product_categories
@@ -628,7 +633,7 @@ def about_page(request):
 
 def profile_info(request):
     profiles = BusinessTypeDesc.objects.filter(lang_code=home_lang_code).filter(business_type__isProduct_based=False)
-    return render(request, 'home/profile-info.html',{'profiles':profiles})
+    return render(request, 'home/profile-info.html', {'profiles': profiles})
 
 
 def profile_page(request):
@@ -649,12 +654,12 @@ def profile_page(request):
     for company_blog in company_blog:
         company_blog_dict = dict()
         company_blog_dict['company'] = company_blog
-        company_blog_dict['images'] = Product.objects.filter(company=company_blog.company).order_by('?')[:4]
+        company_blog_dict['images'] = Product.objects.filter(company=company_blog.company).order_by('?')[:2]
         company_blog_dict['blog_desc'] = \
-        BlogDesc.objects.filter(blog=company_blog.blog).filter(lang_code=home_lang_code)[0]
+            BlogDesc.objects.filter(blog=company_blog.blog).filter(lang_code=home_lang_code)[0]
         company_blog_dict['profile_name'] = \
-        BusinessTypeDesc.objects.filter(business_type=company_blog.company.business_type).filter(
-            lang_code=home_lang_code)[0]
+            BusinessTypeDesc.objects.filter(business_type=company_blog.company.business_type).filter(
+                lang_code=home_lang_code)[0]
         array_company.append(company_blog_dict)
 
     return render(request, 'home/profile-page.html',

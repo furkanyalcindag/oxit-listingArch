@@ -102,6 +102,8 @@
                                                                 aria-expanded="false">Seçenek</a></li>
                                                 <li class=""><a href="#tab-link" data-toggle="tab"
                                                                 aria-expanded="false">Bağlantılar</a></li>
+                                                <li class=""><a href="#tab-video" data-toggle="tab"
+                                                                aria-expanded="false">Video</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab-general">
@@ -190,6 +192,36 @@
                                                                             class="fa fa-plus-circle"></i></button>
                                                                 </td>
                                                                 <input type="hidden" name="image_row" id="image_row"/>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tab-video">
+                                                    <div class="table-responsive">
+                                                        <table id="video"
+                                                               class="table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <td class="text-left">Video</td>
+                                                                <td></td>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td colspan="1"></td>
+                                                                <td class="text-left">
+                                                                    <button type="button" onclick="addVideo();"
+                                                                            data-toggle="tooltip" title=""
+                                                                            class="btn btn-primary"
+                                                                            data-original-title="Video Ekle"><i
+                                                                            class="fa fa-plus-circle"></i></button>
+                                                                </td>
+                                                                <input type="hidden" name="video_row" id="video_row"/>
                                                             </tr>
                                                             </tfoot>
                                                         </table>
@@ -563,6 +595,37 @@
             });
             document.getElementById("image_row").value = count_image;
             console.log(count_image)
+        }
+
+
+        var video_row = 0;
+        let count_video = [];
+
+
+        function addVideo() {
+            let html = '<tr id="video-row' + video_row + '">';
+            html += '  <td class="text-left"><input type="file" name="product[' + video_row + '][video]" value="" id="input-video' + video_row + '" /></td>';
+            html += '  <td class="text-right"><input type="text" name="product[' + video_row + '][key]" value="" placeholder="Başlık" class="form-control" /></td>';
+            html += '  <td class="text-left"><button type="button" onclick="remove_video(' + video_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '</tr>';
+
+            $('#video tbody').append(html);
+
+            count_video.push(parseInt(video_row));
+            video_row++;
+            document.getElementById('video_row').value = count_video;
+
+
+        }
+
+        function remove_video(id) {
+            debugger;
+            $('#video-row' + id + '').remove();
+            count_video = jQuery.grep(count_video, function (value) {
+                return value != id;
+            });
+            document.getElementById("video_row").value = count_video;
+            console.log(count_video)
         }
 
     </script>

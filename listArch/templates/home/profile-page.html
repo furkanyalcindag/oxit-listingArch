@@ -5,34 +5,29 @@
     {% include 'parent_category_slider.html' %}
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
          style="height: 215px;">
-        <div class="main-search-inner">
-            <div class="container">
-                <div class="row">
-                    <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
-                        {% csrf_token %}
+        <div class="row">
+            <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
+                {% csrf_token %}
 
-                        <div class="col-md-12">
-                            <h2 style="font-family: 'Allerta Stencil', sans-serif;">
-                                <span class="typed-words">{{ scrolling_text.description }}</span>
-                            </h2>
-                            <h4>{{ scrolling_text.subTextDesc }}</h4>
-                            <div class="main-search-input">
-                                <div class="main-search-input-item">
-                                    <input type="text" placeholder="Start your Search ..." value=""
-                                           name="product_name" id="product_name" oninput="searchGetProduct()"
-                                           autocomplete="off"/><br>
-                                    <div id="search_product"></div>
-                                </div>
-                                <button class="button" type="submit">
-                                    Search
-                                </button>
-
-                            </div>
-
+                <div class="col-md-12" style="margin-bottom: 50px">
+                    <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                        <span class="typed-words">{{ scrolling_text.description }}</span>
+                    </h2>
+                    <h4>{{ scrolling_text.subTextDesc }}</h4>
+                    <div class="main-search-input">
+                        <div class="main-search-input-item">
+                            <input type="text" placeholder="Start your Search ..." value=""
+                                   name="product_name" id="product_name" oninput="searchGetProduct()"
+                                   autocomplete="off"/><br>
+                            <div id="search_product"></div>
                         </div>
-                    </form>
+                        <button class="button" type="submit">
+                            {{ 'search'| get_item_by_lang }}
+                        </button>
+
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <!-- Video -->
 
@@ -195,13 +190,13 @@
 
                                         </div>
                                         {% for image in blog.images %}
-                                        <div class="col-md-12">
-                                            <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                <img src="/media/{{ image.image.image }}"
-                                                     style="" alt="">
-                                            </a>
-                                            <br>
-                                        </div>
+                                            <div class="col-md-12">
+                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                    <img src="/media/{{ image.image.image }}"
+                                                         style="" alt="">
+                                                </a>
+                                                <br>
+                                            </div>
 
                                         {% endfor %}
                                     </div>
@@ -239,7 +234,7 @@
 
 
                 </div>
-                  <div class="col-md-3 padding-0-lr">
+                <div class="col-md-3 padding-0-lr">
 
 
                     <div class="blog-page">
@@ -256,7 +251,7 @@
 
 
                                     <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
-                                        <div class=" col-md-12 padding-top-20">
+                                        <div class=" col-md-12 padding-top-20" style="border: 1px solid #000">
                                             <a href="#" class="post-img">
                                                 <img src="/media/{{ blog.blog.profile.image }}"
                                                      alt=""
@@ -265,13 +260,13 @@
 
                                         </div>
                                         {% for image in blog.images %}
-                                        <div class="col-md-12">
-                                            <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                <img src="/media/{{ image.image.image }}"
-                                                     style="" alt="">
-                                            </a>
-                                            <br>
-                                        </div>
+                                            <div class="col-md-12">
+                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                    <img src="/media/{{ image.image.image }}"
+                                                         style="" alt="">
+                                                </a>
+                                                <br>
+                                            </div>
 
                                         {% endfor %}
                                     </div>
@@ -309,7 +304,7 @@
 
 
                 </div>
-                  <div class="col-md-3 padding-0-lr">
+                <div class="col-md-3 padding-0-lr">
 
 
                     <div class="blog-page">
@@ -335,13 +330,13 @@
 
                                         </div>
                                         {% for image in blog.images %}
-                                        <div class="col-md-12">
-                                            <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                <img src="/media/{{ image.image.image }}"
-                                                     style="" alt="">
-                                            </a>
-                                            <br>
-                                        </div>
+                                            <div class="col-md-12">
+                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                    <img src="/media/{{ image.image.image }}"
+                                                         style="" alt="">
+                                                </a>
+                                                <br>
+                                            </div>
 
                                         {% endfor %}
                                     </div>
@@ -379,7 +374,7 @@
 
 
                 </div>
-                  <div class="col-md-3 padding-0-lr">
+                <div class="col-md-3 padding-0-lr">
 
 
                     <div class="blog-page">
@@ -405,13 +400,13 @@
 
                                         </div>
                                         {% for image in blog.images %}
-                                        <div class="col-md-12">
-                                            <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                <img src="/media/{{ image.image.image }}"
-                                                     style="" alt="">
-                                            </a>
-                                            <br>
-                                        </div>
+                                            <div class="col-md-12">
+                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                    <img src="/media/{{ image.image.image }}"
+                                                         style="" alt="">
+                                                </a>
+                                                <br>
+                                            </div>
 
                                         {% endfor %}
                                     </div>
@@ -426,7 +421,8 @@
                                         <br>
                                         <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
                                         <br>
-                                        <a style="    line-height: 20px;color: #000;" href="#">{{ blog.desc.company.country }}</a>
+                                        <a style="    line-height: 20px;color: #000;"
+                                           href="#">{{ blog.desc.company.country }}</a>
                                         <br><br>
                                         <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since
                                             {{ blog.desc.company.date.year }}</a>
@@ -470,21 +466,25 @@
 
 
                                 <div class="blog-post"
-                                     style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
-                                    <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">{{ company_blog.profile_name.description }}</p>
+                                     style="border: 2px solid #fd9116;       background: #fff; width: 100%;padding: 0 10px 10px 10px !important;">
+                                    <p style="text-align: right;margin-bottom: 0;    line-height: 15px;color: #000;font-size: 8px;">{{ company_blog.profile_name.description }}</p>
 
 
                                     <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
-                                     <div class=" col-md-12 padding-top-20">
-                                            <a href="#" class="post-img">
-                                                <img src="/media/{{ company_blog.company.company.logo}}"
+                                        <div class=" col-md-12 padding-top-20" >
+                                            <a style="border: 1px solid #000" href="#" class="post-img">
+                                                <img src="/media/{{ company_blog.company.company.logo }}"
                                                      alt=""
                                                      style=" height: 50px; width: auto; ">
                                             </a><br>
 
                                         </div>
                                         {% for image in company_blog.images %}
-                                         <div class=" col-md-6 padding-bottom-20">
+                                            <div class=" col-md-6 padding-bottom-10">
+                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                    <img src="/media/{{ image.cover_image }}"
+                                                         style=" height: 100px; width: auto; " alt="">
+                                                </a><br>
                                                 <a style="border: 1px solid #fff;" href="#" class="post-img">
                                                     <img src="/media/{{ image.cover_image }}"
                                                          style=" height: 100px; width: auto; " alt="">
@@ -492,16 +492,9 @@
 
 
                                             </div>
-                                            <div class=" col-md-6 padding-bottom-20">
-                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                    <img src="/media/{{ image.cover_image }}"
-                                                         style=" height: 100px; width: auto; " alt="">
-                                                </a><br>
 
 
-                                            </div>
-
-                                            {% endfor %}
+                                        {% endfor %}
 
 
                                     </div>
@@ -511,11 +504,13 @@
 
                                     <div class="post-content" style="border: 1px solid #000">
 
-                                        <a style="    line-height: 20px;color: #000;" href="#">{{ company_blog.company.company.name }}</a>
+                                        <a style="    line-height: 20px;color: #000;"
+                                           href="#">{{ company_blog.company.company.name }}</a>
                                         <br>
                                         <a style="    line-height: 20px;color: #000;" href="#">CERAMIC</a>
                                         <br>
-                                        <a style="    line-height: 20px;color: #000;" href="#">{{ company_blog.company.company.country}}</a>
+                                        <a style="    line-height: 20px;color: #000;"
+                                           href="#">{{ company_blog.company.company.country }}</a>
                                         <br><br>
                                         <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since
                                             {{ company_blog.company.company.date.year }}</a>

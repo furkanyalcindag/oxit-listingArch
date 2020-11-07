@@ -222,7 +222,6 @@
                     </div>
                     <div class="modal-body">
                         <p id="content_messages"></p>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
@@ -503,6 +502,7 @@
 
     <script>
         function delete_product(id) {
+            debugger;
             document.getElementById('content_messages').innerHTML = 'Ürünü Silmek İstediğinizden Emin Misiniz?';
 
             $(".deneme23").on("shown.bs.modal", function (e) {

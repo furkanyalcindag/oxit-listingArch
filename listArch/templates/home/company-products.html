@@ -135,7 +135,7 @@
                             {% for product in products %}
                                 <div class="col-lg-4 col-lg-4 ">
 
-                                    <a href="{% url 'listArch:urun-detay' product.pk %}"
+                                    <a href="{% url 'listArch:urun-detay' product.uuid %}"
                                        class="listing-item-container compact">
                                         <div class="listing-item">
                                             <img src="/media/{{ product.cover_image }}" alt="">

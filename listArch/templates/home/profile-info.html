@@ -5,17 +5,15 @@
     {% include 'parent_category_slider.html' %}
     <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
          style="height: 230px;">
-        <div class="main-search-inner">
-            <div class="container">
-                <div class="row">
+       <div class="row">
                     <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
                         {% csrf_token %}
 
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="margin-bottom: 50px">
                             <h2 style="font-family: 'Allerta Stencil', sans-serif;">
                                 <span class="typed-words">{{ scrolling_text.description }}</span>
                             </h2>
-                            <h4>{{ scrolling_text.subTextDesc }}</h4>
+                            <h4 >{{ scrolling_text.subTextDesc }}</h4>
                             <div class="main-search-input">
                                 <div class="main-search-input-item">
                                     <input type="text" placeholder="Start your Search ..." value=""
@@ -24,7 +22,7 @@
                                     <div id="search_product"></div>
                                 </div>
                                 <button class="button" type="submit">
-                                    Search
+                                    {{ 'search'| get_item_by_lang }}
                                 </button>
 
                             </div>
@@ -32,8 +30,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
         <!-- Video -->
 
     </div>
@@ -50,8 +46,10 @@
                     <nav id="breadcrumbs">
                         <ul>
                             <li><a href="#">{{ 'home_page'| get_item_by_lang }}</a></li>
-                            <li><a href="#">{{ category.description }}</a></li>
-                            <li><a href="#">{{ 'products'| get_item_by_lang }}</a></li>
+                            <li><a href="#"> ARCHITECTURE</a></li>
+                            <li><a href="#">JOURNAL CLUB</a></li>
+                            <li><a href="#">DASHBOARD</a></li>
+
 
                         </ul>
                     </nav>
@@ -73,45 +71,46 @@
                 <tbody>
                 {% for profile in profiles %}
                     {% if forloop.counter == 1 %}
-                    <tr>
-                        <td class="table-info">{{ profiles.0.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info">{{ profiles.1.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info">{{ profiles.2.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info">{{ profiles.3.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info">{{ profiles.4.description}}</td>
-                        <td class="table-info"></td>
-                    </tr>
+                        <tr>
+                            <td class="table-info">{{ profiles.0.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info">{{ profiles.1.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info">{{ profiles.2.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info">{{ profiles.3.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info">{{ profiles.4.description }}</td>
+                            <td class="table-info"></td>
+                        </tr>
 
 
-                    <tr>
-                        <td class="table-info"></td>
-                        <td class="table-info"> {{ profiles.6.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info"> {{ profiles.7.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info"> {{ profiles.8.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info"> {{ profiles.9.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info"> {{ profiles.10.description}}</td>
-                    </tr>
+                        <tr>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.6.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.7.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.8.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.9.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.10.description }}</td>
+                        </tr>
 
 
-                    <tr>
-                         <td class="table-info">{{ profiles.11.description}}</td>
-                        <td class="table-info"></td>
-                         <td class="table-info">{{ profiles.12.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info">{{ profiles.13.description}}</td>
-                        <td class="table-info"></td>
-                        <td class="table-info"> {{ profiles.9.description}}</td>
-                        <td class="table-info"></td>
-<td class="table-info"> {{ profiles.9.description}}</td>                        <td class="table-info"></td>
-                    </tr>
+                        <tr>
+                            <td class="table-info">{{ profiles.11.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info">{{ profiles.12.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info">{{ profiles.13.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.9.description }}</td>
+                            <td class="table-info"></td>
+                            <td class="table-info"> {{ profiles.9.description }}</td>
+                            <td class="table-info"></td>
+                        </tr>
 
 
 
@@ -187,236 +186,7 @@
         </div>
 
 
-        <div class="row" style="padding-bottom: 20px;">
 
-            <div class="col-md-4 padding-0-lr">
-
-                <div class="blog-page">
-                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
-    margin-right: 0px; ">
-
-                        <div class=" padding-bottom-40">
-
-
-                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
-                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
-                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
-                                     class="post-content">
-
-                                    <h3><a href="#">UNStudio Revives Retail Store In
-                                        Eindhoven With Light-Filled Glass
-                                        Façade Elements </a></h3><br>
-                                    <ul class="post-meta" style="text-align:right">
-                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
-                                <br>
-
-                                <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                    <img src="/media/image/560X560.jpg" alt="">
-                                </a>
-                                <br>
-
-
-                                <div class="post-content">
-                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
-                                        dream bathroom begins
-
-
-                                    </p>
-                                    <br>
-                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
-                                    <br>
-                                    <a style="    line-height: 30px;" href="#">Floor</a>
-                                    <br>
-                                    <a style="font-size: 12px;
-    border: 1px solid #fff;line-height: 30px;
-    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
-                                    <div class="row margin-top-20">
-                                        <div class="col-md-4">
-                                            <a style="float: left" href="#">By:George HUSTON</a>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <a style="">01.05.2020</a>
-                                        </div>
-
-
-                                        <div class="col-md-4">
-                                            <a style="float: right">Viewed:345</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="col-md-4 padding-0-lr">
-
-
-                <div class="blog-page">
-                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
-    margin-right: 0px; ">
-
-                        <div class=" padding-bottom-40">
-
-
-                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
-                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
-                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
-                                     class="post-content">
-
-                                    <h3><a href="#">UNStudio Revives Retail Store In
-                                        Eindhoven With Light-Filled Glass
-                                        Façade Elements </a></h3><br>
-                                    <ul class="post-meta" style="text-align:right">
-                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
-                                <br>
-
-                                <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                    <img src="/media/image/560X560.jpg" alt="">
-                                </a>
-                                <br>
-
-
-                                <div class="post-content">
-                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
-                                        dream bathroom begins
-
-
-                                    </p>
-                                    <br>
-                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
-                                    <br>
-                                    <a style="    line-height: 30px;" href="#">Floor</a>
-                                    <br>
-                                    <a style="font-size: 12px;
-    border: 1px solid #fff;line-height: 30px;
-    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
-                                    <div class="row margin-top-20">
-                                        <div class="col-md-4">
-                                            <a style="float: left" href="#">By:George HUSTON</a>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <a style="">01.05.2020</a>
-                                        </div>
-
-
-                                        <div class="col-md-4">
-                                            <a style="float: right">Viewed:345</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-            <div class="col-md-4 padding-0-lr">
-
-
-                <div class="blog-page">
-                    <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
-    margin-right: 0px; ">
-
-                        <div class=" padding-bottom-40">
-
-
-                            <div class="blog-post" style="border: 1px solid #fd9116;    width: 100%;">
-                                <p style="text-align: right;margin-bottom: 0;font-size: 8px;">NEWS</p>
-                                <div style="text-align:left;    padding: 5px;    border: 1px solid;"
-                                     class="post-content">
-
-                                    <h3><a href="#">UNStudio Revives Retail Store In
-                                        Eindhoven With Light-Filled Glass
-                                        Façade Elements </a></h3><br>
-                                    <ul class="post-meta" style="text-align:right">
-                                        <li><a style="font-size:8px" href="#">In & Facebook & Twitter & Instagram </a>
-                                        </li>
-
-
-                                    </ul>
-                                </div>
-                                <br>
-
-                                <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                    <img src="/media/image/560X560.jpg" alt="">
-                                </a>
-                                <br>
-
-
-                                <div class="post-content">
-                                    <p class="margin-bottom-20">Stuttgart interior designer Sarah Maier knows that every
-                                        dream bathroom begins
-
-
-                                    </p>
-                                    <br>
-                                    <a style="    line-height: 30px;" href="#">Ceramic & Bath</a>
-                                    <br>
-                                    <a style="    line-height: 30px;" href="#">Floor</a>
-                                    <br>
-                                    <a style="font-size: 12px;
-    border: 1px solid #fff;line-height: 30px;
-    padding: 5px;" href="#" class="">NEWS <i class="fa fa-angle-right"></i></a>
-                                    <div class="row margin-top-20">
-                                        <div class="col-md-4">
-                                            <a style="float: left" href="#">By:George HUSTON</a>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <a style="">01.05.2020</a>
-                                        </div>
-
-
-                                        <div class="col-md-4">
-                                            <a style="float: right">Viewed:345</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-
-        </div>
 
         <div class="row" style="padding-bottom: 20px;">
 

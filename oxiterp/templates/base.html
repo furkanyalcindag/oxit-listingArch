@@ -103,7 +103,7 @@
                                 {% for category in parent_categories %}
 
                                     <li>
-                                        <a href="{% url 'listArch:anasayfa-urunler' category.pk %}">{{ category.name }}</a>
+                                        <a href="{% url 'listArch:anasayfa-urunler' category.category.pk %}">{{ category.description }}</a>
                                     </li>
 
                                 {% endfor %}

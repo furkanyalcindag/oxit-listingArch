@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 
 from io import BytesIO
 from django.core.files import File
-from PIL import Image, ImageDraw
+from listArch.models import Image
 from listArch.Forms.GraphicValueForm import GraphicValueForm
 from listArch.Forms.DefinitionDescriptionForm import DefinitionDescriptionForm
 from listArch.Forms.DefinitionForm import DefinitionForm
@@ -20,8 +20,9 @@ from listArch.Forms.ProductFileForm import ProductFileForm
 from listArch.Forms.ProductForm import ProductForm
 from listArch.Forms.ProductImageForm import ProductImageForm
 from listArch.Forms.RelatedProductForm import RelatedProductForm
+from listArch.Forms.VideoForm import VideoForm
 from listArch.models import ProductFile, RelatedProduct, OptionDesc, OptionValue, GraphicValue, ProductPerform, \
-    GraphicValueDesc, Value, ChartValue
+    GraphicValueDesc, Value, ChartValue, Video, ProductVideo
 from listArch.models.Chart import Chart
 from listArch.models.ChartDesc import ChartDesc
 from listArch.models.Company import Company
@@ -97,6 +98,21 @@ def add_product(request):
                     image.save()
                     product_image = ProductImage(product=product, image=image)
                     product_image.save()
+
+                video_count = request.POST['video_row']
+                if video_count != '':
+                    video_count = video_count.split(',')
+                    array = []
+                    for count in video_count:
+                        array.append(count)
+                    product_video_form = VideoForm(request.POST or None, request.FILES)
+
+                    for i in array:
+                        video = Video(file=product_video_form.files['product[' + str(i) + '][video]'],
+                                      file_key=request.POST['product[' + str(i) + '][key]'])
+                        video.save()
+                        product_video = ProductVideo(product=product, video=video)
+                        product_video.save()
 
                 if request.POST['value-row'] != "":
                     count = request.POST['value-row']
@@ -186,6 +202,8 @@ def product_edit(request, pk):
     cat_array = []
     product_form = ProductForm(request.POST or None, request.FILES or None, instance=product)
     product_image_form = ProductImageForm(request.POST or None, request.FILES)
+    product_video_form = VideoForm(request.POST or None, request.FILES)
+
     categories = Category.objects.all()
     product_definitions = ProductDefinition.objects.filter(product=product)
     product_files = ProductFile.objects.filter(product=product)
@@ -259,6 +277,8 @@ def product_edit(request, pk):
                     image.save()
                     product_image = ProductImage(product=product, image=image)
                     product_image.save()
+
+
 
             count_value = request.POST['value-row']
             if count_value != '':
@@ -382,7 +402,7 @@ def add_productDefinition(request, pk):
             definitionDesc = DefinitionDescription(definition=definition, lang_code=1,
                                                    title_desc=request.POST['title[tr]'],
                                                    description=request.POST['content[tr]'])
-            definitionDesc.save()(request.POST or None)
+            definitionDesc.save()
 
             definitionDesc2 = DefinitionDescription(definition=definition, lang_code=2,
                                                     title_desc=request.POST['title[eng]'],
@@ -442,11 +462,8 @@ def product_delete(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    perm = general_methods.control_access(request)
 
-    if not perm:
-        logout(request)
-        return redirect('accounts:login')
+
     if request.POST:
         try:
 

@@ -87,33 +87,29 @@
 
                                         <form action=""
                                               method="post" enctype="multipart/form-data" id="form-product">
-                                            <a href="{% url 'listArch:kategori-ekle' %}" class="btn btn-app">
-                                                <i class="fa fa-plus"></i> Kategori Ekle
+                                            <a href="{% url 'listArch:personel-ekle' %}" class="btn btn-app">
+                                                <i class="fa fa-plus"></i> Personel Ekle
                                             </a>
                                             <div class="table-responsive">
-                                                <table id="categories" class="display responsive nowrap" cellspacing="0"
+                                                <table id="staff" class="display responsive nowrap" cellspacing="0"
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+                                                        <td>ID</td>
                                                         <td>İşlem</td>
-                                                        <td>Kategori Adı</td>
-                                                        <td>Aktiflik</td>
+                                                        <td>Ad Soyad</td>
+                                                        <td>Email</td>
+                                                        <td>Telefon</td>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {% for category in categories %}
+                                                    {% for staff in staff %}
                                                         <tr>
                                                             <td>
-                                                                <input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
+                                                                {{ staff.pk }}
                                                             </td>
                                                             <td><a
-                                                                    href="{% url 'listArch:kategori-duzenle' category.category.pk %}"
+                                                                    href=""
                                                                     data-toggle="tooltip" title=""
                                                                     class="btn btn-primary"
                                                                     data-original-title="Düzenle"><i
@@ -125,16 +121,9 @@
                                                                         data-original-title="Sil"><i
                                                                         class="fa fa-close"></i></a></td>
 
-                                                            <td>{{ category.category_name }}</td>
-                                                            <td>{% if category.category.isActive %}
-                                                                <span class="label label-success"><i
-                                                                        class="fa fa-check-square"></i></span>
-                                                            {% else %}
-                                                                <span class="label label-danger"><i
-                                                                        class="fa fa-window-close"></i></span>
-
-                                                            {% endif %}
-                                                            </td>
+                                                            <td>{{ staff.user.first_name }} {{ staff.user.last_name }}</td>
+                                                            <td>{{ staff.user.email }} </td>
+                                                            <td>{{ staff.phone }} </td>
 
                                                         </tr>
                                                     {% endfor %}
@@ -184,7 +173,7 @@
 
     <script>
         $(function () {
-            $('#categories').DataTable({
+            $('#staff').DataTable({
                 'paging': true,
                 'lengthChange': true,
                 'searching': true,

@@ -16,8 +16,7 @@ def index(request):
 
 
 def login(request):
-    if request.user.is_authenticated is True:
-        return redirect('listArch:admin-dashboard')
+
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -36,6 +35,9 @@ def login(request):
 
             elif user.groups.all()[0].name == 'Kullanıcı':
                 return redirect('listArch:kullanici-dashboard')
+
+            elif user.groups.all()[0].name == 'Personel':
+                return redirect('listArch:personel-dashboard')
 
             else:
                 return redirect('accounts:logout')

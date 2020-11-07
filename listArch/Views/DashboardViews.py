@@ -20,6 +20,8 @@ def admin_dashboard(request):
 def user_dashboard(request):
     return render(request, 'dashboard/user.html')
 
+def staff_dashboard(request):
+    return render(request, 'dashboard/staff.html')
 
 def company_dashboard(request):
     user = request.user

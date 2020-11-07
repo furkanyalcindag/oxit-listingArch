@@ -29,14 +29,11 @@ def activeMenu(request):
 
             if app_name != 'accounts':
 
-                if groups[0].name == "Admin":
+                if groups[0].name == "Admin" or groups[0].name == "Firma" or groups[0].name == "Personel" :
                     obj = Menu.objects.filter(url=url)
                     if obj.count() > 0 and obj[0].parent:
                         parent = Menu.objects.get(pk=obj[0].parent_id)
-                elif groups[0].name == "Firma":
-                    obj = Menu.objects.filter(url=url)
-                    if obj.count() > 0 and obj[0].parent:
-                        parent = Menu.objects.get(pk=obj[0].parent_id)
+
 
                 else:
                     obj = Menu()
