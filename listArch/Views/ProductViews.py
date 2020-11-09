@@ -5,7 +5,8 @@ import qrcode
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.contrib.sites.models import Site
+from django.http import JsonResponse, HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import resolve, reverse
 from rest_framework.decorators import api_view
@@ -72,7 +73,11 @@ def add_product(request):
                                   isSponsor=product_form.cleaned_data['isSponsor'],
                                   company_code=product_form.cleaned_data['company_code'],
                                   isAdvert=product_form.cleaned_data['isAdvert'])
+
                 product.save()
+
+                Qr(product.pk)
+
                 product.cover_image = request.FILES['cover_image']
                 product.save()
 
@@ -186,14 +191,14 @@ def product_list(request):
     return render(request, 'product/product-list.html', {'products': product_array})
 
 
-def product_edit(request, pk):
+def product_edit(request, uuid):
     from listArch.models import Image
     perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    product = Product.objects.get(pk=pk)
+    product = Product.objects.get(uuid=uuid)
     product_array = []
     options = Option.objects.all()
     companies = Company.objects.filter(user__is_active=True)
@@ -248,6 +253,7 @@ def product_edit(request, pk):
             product.name = request.POST['product_description[tr][name]']
             product.save()
 
+            Qr(product.pk)
             product_desc[0].product = product
             product_desc[0].description = request.POST['product_description[tr][name]']
             product_desc[0].save()
@@ -277,8 +283,6 @@ def product_edit(request, pk):
                     image.save()
                     product_image = ProductImage(product=product, image=image)
                     product_image.save()
-
-
 
             count_value = request.POST['value-row']
             if count_value != '':
@@ -332,6 +336,8 @@ def product_edit(request, pk):
             return redirect('listArch:urunler')
     except Exception as e:
         print(e)
+        return redirect('listArch:404-sayfasi')
+
     return render(request, 'product/product-edit.html',
                   {'product': product_array[0], 'options': options, 'product_form': product_form,
                    'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
@@ -463,7 +469,6 @@ def product_delete(request):
         logout(request)
         return redirect('accounts:login')
 
-
     if request.POST:
         try:
 
@@ -538,10 +543,10 @@ def add_graphic(request, pk):
                   {'graph_form': graph_form, 'product': product, 'graphic': graphics})
 
 
-def add_chart_graphic(request, pk):
+def add_chart_graphic(request, uuid):
     product = ""
     try:
-        product = Product.objects.get(pk=pk)
+        product = Product.objects.get(uuid=uuid)
         if request.POST:
             count = request.POST['count']
             count = count.split(',')
@@ -577,3 +582,20 @@ def add_chart_graphic(request, pk):
         return JsonResponse({'status': 'Fail', 'msg': e})
     return render(request, 'product/productChartValue.html',
                   {'product': product, })
+
+
+def Qr(product):
+    from PIL import Image, ImageDraw
+    product = Product.objects.get(pk=product)
+    if not product.qr_code:
+        path = reverse('listArch:urun-detay', args=(product.slug,))
+        qrcode_img = qrcode.make('%s%s' % (Site.objects.get_current().domain, path))
+        canvas = Image.new('RGB', (350, 350), 'white')
+        draw = ImageDraw.Draw(canvas)
+        canvas.paste(qrcode_img)
+        fname = f'qr_code-{product.name}.png'
+        buffer = BytesIO()
+        canvas.save(buffer, 'PNG')
+        product.qr_code.save(fname, File(buffer), save=False)
+        canvas.close()
+        product.save()

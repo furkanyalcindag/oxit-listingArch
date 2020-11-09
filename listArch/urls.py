@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'about/$', HomeViews.about_page, name='anasayfa-hakkimizda-sayfasi'),
 
     url(r'category-products/(?P<pk>\d+)$', HomeViews.get_company_products, name='firmanin-urunleri'),
-    url(r'product-detail/(?P<pk>\d+)/$', HomeViews.product_detail, name='urun-detay'),
+    url(r'product-detail/(?P<slug>[-\w\d]+)/$', HomeViews.product_detail, name='urun-detay'),
     url(r'product-filter-page/(?P<pk>\d+)$', HomeViews.product_filter_page,
         name='urun-filtreleme-sayfasi'),
     url(r'product-search/$', HomeViews.get_product, name='product-search'),
@@ -59,7 +59,7 @@ urlpatterns = [
     url(r'add-product-definition/(?P<pk>\d+)$', ProductViews.add_productDefinition, name='urun-aciklama-ekle'),
 
     url(r'product-list/$', ProductViews.product_list, name='urunler'),
-    url(r'edit-product/(?P<pk>\d+)$', ProductViews.product_edit, name='urun-duzenle'),
+    url(r'edit-product/(?P<uuid>[0-9a-f-]+)$', ProductViews.product_edit, name='urun-duzenle'),
     url(r'delete-product/$', ProductViews.product_delete, name='urun-sil'),
 
     url(r'product-image-delete/$', ProductViews.product_image_delete, name='urun-resmi-sil'),
@@ -68,7 +68,7 @@ urlpatterns = [
     url(r'product-apply-filter/$', HomeViews.filtered_products, name='urun-filtrele'),
     url(r'product-apply-filter-range/$', HomeViews.filtered_products_range, name='urun-filtrele-range'),
     url(r'add-product-graphic/(?P<pk>\d+)$', ProductViews.add_graphic, name='urun-performans-grafigi-ekle'),
-    url(r'add-product-chart/(?P<pk>\d+)$', ProductViews.add_chart_graphic, name='urune-grafik-ekle'),
+    url(r'add-product-chart/(?P<uuid>[0-9a-f-]+)$', ProductViews.add_chart_graphic, name='urune-grafik-ekle'),
 
     # Company
     url(r'profile/$', UserViews.company_information, name='firma-profil'),

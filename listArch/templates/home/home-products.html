@@ -168,7 +168,7 @@
                     <div class="row">
                         {% for product in products %}
                             <div class="col-lg-2 col-md-6">
-                                <a href="{% url 'listArch:urun-detay' product.product.pk %}"
+                                <a href="{% url 'listArch:urun-detay' product.product.slug %}"
                                    class="listing-item-container compact">
                                     <div class="listing-item">
                                         <img src="/media/{{ product.product.cover_image }}"
@@ -209,7 +209,7 @@
                                         <li><a>{{ blog.product.company.date.year }}</a></li>
 
                                         <li>
-                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.slug %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -235,7 +235,7 @@
                                         <li><a>{{ blog.product.company.date.year }}</a></li>
 
                                         <li>
-                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.slug %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -261,7 +261,7 @@
                                         <li><a>{{ blog.product.company.date.year }}</a></li>
 
                                         <li>
-                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.slug %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -287,7 +287,7 @@
                                         <li><a>{{ blog.product.company.date.year }}</a></li>
 
                                         <li>
-                                            <a href="{% url 'listArch:urun-detay' blog.product.product.pk %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
+                                            <a href="{% url 'listArch:urun-detay' blog.product.product.slug %}">{{ blog.product.company.user.first_name }} {{ blog.product.company.user.last_name }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -327,7 +327,7 @@
                             {% for product in introduction.products %}
                                 <div class="blog-post" style="border: 1px solid">
                                     <a style="border: 1px solid #fff;"
-                                       href="{% url 'listArch:urun-detay' product.product.pk %}" class="post-img">
+                                       href="{% url 'listArch:urun-detay' product.product.slug %}" class="post-img">
                                         <img src="/media/{{ product.product.cover_image }}" alt="">
                                     </a>
                                     <br>
@@ -337,7 +337,7 @@
                                             <li><a href="#">{{ category.description }}</a></li>
                                             <li><a href="#">({{ introduction.products |length }})</a></li>
                                             <li>
-                                                <a href="{% url 'listArch:urun-detay' product.product.pk %}">{{ product.product.name }}</a>
+                                                <a href="{% url 'listArch:urun-detay' product.product.slug %}">{{ product.product.name }}</a>
                                             </li>
 
                                         </ul>

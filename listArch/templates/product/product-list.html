@@ -141,7 +141,7 @@
                                                                                            value="18">
                                                             </td>
                                                             <td class="text-right"><a
-                                                                    href="{% url 'listArch:urun-duzenle' product.product.pk %}"
+                                                                    href="{% url 'listArch:urun-duzenle' product.product.uuid %}"
                                                                     data-toggle="tooltip" title=""
                                                                     class="btn btn-primary"
                                                                     data-original-title="Düzenle"><i
@@ -156,7 +156,7 @@
                                                                    class="btn btn-warning"
                                                                    data-original-title="Açıklama Ekle"><i
                                                                         class="fa fa-plus"></i></a>
-                                                                <a href="{% url 'listArch:urune-grafik-ekle' product.product.pk %}"
+                                                                <a href="{% url 'listArch:urune-grafik-ekle' product.product.uuid %}"
                                                                    data-toggle="tooltip" title="Grafik Ekle"
                                                                    class="btn btn-success"
                                                                    data-original-title="Grafik Ekle"><i

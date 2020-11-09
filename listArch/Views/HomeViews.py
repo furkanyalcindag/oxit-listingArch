@@ -1,7 +1,7 @@
 import json
 from django.db.models import Count, Q, QuerySet
 from django.http import JsonResponse, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 
 from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionProduct, IntroductionPage, \
@@ -49,152 +49,165 @@ def get_company_products(request, pk):
                   {'products': company_products, 'options': array, 'categories': categories, 'company': company})
 
 
-def product_detail(request, pk):
-    # category = Category.objects.get(pk=cat_id)
-    product = Product.objects.get(pk=pk)
-    category = product.category.filter(is_parent=True)
-    graphics = ProductPerform.objects.filter(product=product)
-    product_videos = ProductVideo.objects.filter(product=product)
+def product_detail(request, slug):
+    try:
+        # category = Category.objects.get(pk=cat_id)
+        product = Product.objects.get(slug=slug)
+        category = product.category.filter(is_parent=True)
+        graphics = ProductPerform.objects.filter(product=product)
+        product_videos = ProductVideo.objects.filter(product=product)
 
-    product_chart = ProductChart.objects.filter(product=product)
-    chart_array = []
+        product_chart = ProductChart.objects.filter(product=product)
+        chart_array = []
 
-    for chart in product_chart:
-        chart_dict = dict()
-        values = ChartValue.objects.filter(chart=chart.chart)
-        value_array = []
-        for value in values:
-            value_dict = dict()
-            value = Value.objects.filter(pk=value.value.pk)[0]
-            value_dict['year'] = value.year
-            value_dict['value'] = value.value
-            value_array.append(value_dict)
-        chart_dict['values'] = value_array
-        chart_dict['product_chart'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
-            0].chart.pk
-        chart_dict['description'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
-            0].description
-        chart_array.append(chart_dict)
-
-    graph_array = []
-    for graph_value in graphics:
-        value_dict = dict()
-        value_dict['min'] = graph_value.graphValue.min
-        value_dict['max'] = graph_value.graphValue.max
-        value_dict['middle'] = graph_value.graphValue.middle
-        value_dict['current_value'] = graph_value.graphValue.current_value
-        value_dict['unit'] = graph_value.graphValue.unit
-        value_dict['name'] = \
-            GraphicValueDesc.objects.filter(lang_code=home_lang_code).filter(graphValue=graph_value.graphValue)[
+        for chart in product_chart:
+            chart_dict = dict()
+            values = ChartValue.objects.filter(chart=chart.chart)
+            value_array = []
+            for value in values:
+                value_dict = dict()
+                value = Value.objects.filter(pk=value.value.pk)[0]
+                value_dict['year'] = value.year
+                value_dict['value'] = value.value
+                value_array.append(value_dict)
+            chart_dict['values'] = value_array
+            chart_dict['product_chart'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
+                0].chart.pk
+            chart_dict['description'] = ChartDesc.objects.filter(lang_code=home_lang_code).filter(chart=chart.chart)[
                 0].description
-        graph_array.append(value_dict)
+            chart_array.append(chart_dict)
 
-    cat_desc = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category=category[0])
-    if cat_desc.count() > 0:
-        cat_desc = cat_desc[0]
-    desc_array = []
-    description = ProductDefinition.objects.filter(product=product)
-    for desc in description:
-        desc_dict = dict()
-        desc_dict['desc'] = DefinitionDescription.objects.filter(definition=desc.definition).filter(lang_code=1)[0]
-        desc_array.append(desc_dict)
+        graph_array = []
+        for graph_value in graphics:
+            value_dict = dict()
+            value_dict['min'] = graph_value.graphValue.min
+            value_dict['max'] = graph_value.graphValue.max
+            value_dict['middle'] = graph_value.graphValue.middle
+            value_dict['current_value'] = graph_value.graphValue.current_value
+            value_dict['unit'] = graph_value.graphValue.unit
+            value_dict['name'] = \
+                GraphicValueDesc.objects.filter(lang_code=home_lang_code).filter(graphValue=graph_value.graphValue)[
+                    0].description
+            graph_array.append(value_dict)
 
-    company_definitions = CompanyDefinition.objects.filter().filter(company=product.company)
-    company_definition_array = []
-    for company_def in company_definitions:
-        desc_dict = dict()
-        desc_dict['desc'] = DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=1)[
-            0]
-        company_definition_array.append(desc_dict)
+        cat_desc = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category=category[0])
+        if cat_desc.count() > 0:
+            cat_desc = cat_desc[0]
+        desc_array = []
+        description = ProductDefinition.objects.filter(product=product)
+        for desc in description:
+            desc_dict = dict()
+            desc_dict['desc'] = DefinitionDescription.objects.filter(definition=desc.definition).filter(lang_code=1)[0]
+            desc_array.append(desc_dict)
 
-    product_image = ProductImage.objects.filter(product=product)
+        company_definitions = CompanyDefinition.objects.filter().filter(company=product.company)
+        company_definition_array = []
+        for company_def in company_definitions:
+            desc_dict = dict()
+            desc_dict['desc'] = \
+                DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=1)[
+                    0]
+            company_definition_array.append(desc_dict)
 
-    options = ProductOptionValue.objects.filter(product=product)
-    array = []
-    options_value = ProductOptionValue.objects.filter(product=product).values('option_value').annotate(
-        count=Count('option_value'))
-    for option in options_value:
-        option_dict = dict()
-        product_option = \
-            OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(option_value_id=option['option_value'])[
-                0].option_value.option
-        option_dict['option'] = OptionDesc.objects.filter(option_id=product_option.pk).filter(lang_code=home_lang_code)[
-            0]
-        option_dict['values'] = OptionValueDesc.objects.filter(option_value_id=option['option_value']).filter(
-            lang_code=home_lang_code)
-        option_dict['range_value'] = \
-            ProductOptionValue.objects.filter(product=product).filter(option_value_id=option['option_value'])[0]
-        array.append(option_dict)
+        product_image = ProductImage.objects.filter(product=product)
 
-    socials = CompanySocialAccount.objects.filter(company=product.company)
-    related_product = RelatedProduct.objects.filter(product=product).order_by('?')[:4]
-    #distinct('product')
+        options = ProductOptionValue.objects.filter(product=product)
+        array = []
+        options_value = ProductOptionValue.objects.filter(product=product).values('option_value').annotate(
+            count=Count('option_value'))
+        for option in options_value:
+            option_dict = dict()
+            product_option = \
+                OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(option_value_id=option['option_value'])[
+                    0].option_value.option
+            option_dict['option'] = \
+                OptionDesc.objects.filter(option_id=product_option.pk).filter(lang_code=home_lang_code)[
+                    0]
+            option_dict['values'] = OptionValueDesc.objects.filter(option_value_id=option['option_value']).filter(
+                lang_code=home_lang_code)
+            option_dict['range_value'] = \
+                ProductOptionValue.objects.filter(product=product).filter(option_value_id=option['option_value'])[0]
+            array.append(option_dict)
 
-    return render(request, 'home/product-detail.html',
-                  {'product': product, 'images': product_image, 'options': array, 'definitions': desc_array,
-                   'company_definitions': company_definition_array, 'social': socials,
-                   'category': cat_desc,
-                   'related_products': related_product, 'graphics': graph_array, 'charts': chart_array,
-                   'videos': product_videos,
-                   })
+        socials = CompanySocialAccount.objects.filter(company=product.company)
+        related_product = RelatedProduct.objects.filter(product=product).order_by('?')[:4]
+        # distinct('product')
+
+        return render(request, 'home/product-detail.html',
+                      {'product': product, 'images': product_image, 'options': array, 'definitions': desc_array,
+                       'company_definitions': company_definition_array, 'social': socials,
+                       'category': cat_desc,
+                       'related_products': related_product, 'graphics': graph_array, 'charts': chart_array,
+                       'videos': product_videos,
+                       })
+    except Exception as e:
+        print(e)
+        return redirect('listArch:404-sayfasi')
 
 
 def product_filter_page(request, pk):
-    list = ""
-    if not request.user.is_anonymous:
-        user = request.user
-        list = List.objects.filter(user=user)
+    try:
+        list = ""
+        if not request.user.is_anonymous:
+            user = request.user
+            list = List.objects.filter(user=user)
 
-    category = Category.objects.get(pk=pk)
-    cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=home_lang_code)
-    parent_cat = CategoryDesc.objects.filter(category=cat_desc[0].category.parent).filter(lang_code=home_lang_code)
-    category_desc = ""
-    if cat_desc.count() > 0:
-        category_desc = cat_desc[0]
-    array = []
-    basic_options_value = OptionValue.objects.filter(option__isBasic=True).values('option', 'option__type').annotate(
-        count=Count('value'))
-    for option in basic_options_value:
-        option_dict = dict()
-        option_dict['option'] = OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
-            0]
-        option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=home_lang_code).order_by('?')[:5]
-        if len(option_dict['values']) == 0:
-            option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
-        option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=home_lang_code)
-        option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=home_lang_code).count()
-        array.append(option_dict)
-    advanced_options_value = OptionValue.objects.filter(option__category=category).filter(option__isBasic=False).values(
-        'option', 'option__type').annotate(
-        count=Count('value'))
-    array_advanced = []
-    for option in advanced_options_value:
-        option_dict = dict()
-        option_dict['option'] = OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
-            0]
-        option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=home_lang_code).order_by('?')[:5]
-        if len(option_dict['values']) == 0:
-            option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
-        option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=home_lang_code)
-        option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
-            lang_code=home_lang_code).count()
-        array_advanced.append(option_dict)
-    category_products = Product.objects.filter(Q(category__category__parent=category) |
-                                               Q(category=category) | Q(category__parent=category)).filter(
-        isActive=True)
+        category = Category.objects.get(pk=pk)
+        cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=home_lang_code)
+        parent_cat = CategoryDesc.objects.filter(category=cat_desc[0].category.parent).filter(lang_code=home_lang_code)
+        category_desc = ""
+        if cat_desc.count() > 0:
+            category_desc = cat_desc[0]
+        array = []
+        basic_options_value = OptionValue.objects.filter(option__isBasic=True).values('option',
+                                                                                      'option__type').annotate(
+            count=Count('value'))
+        for option in basic_options_value:
+            option_dict = dict()
+            option_dict['option'] = \
+            OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
+                0]
+            option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=home_lang_code).order_by('?')[:5]
+            if len(option_dict['values']) == 0:
+                option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
+            option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=home_lang_code)
+            option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=home_lang_code).count()
+            array.append(option_dict)
+        advanced_options_value = OptionValue.objects.filter(option__category=category).filter(
+            option__isBasic=False).values(
+            'option', 'option__type').annotate(
+            count=Count('value'))
+        array_advanced = []
+        for option in advanced_options_value:
+            option_dict = dict()
+            option_dict['option'] = \
+            OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
+                0]
+            option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=home_lang_code).order_by('?')[:5]
+            if len(option_dict['values']) == 0:
+                option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
+            option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=home_lang_code)
+            option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
+                lang_code=home_lang_code).count()
+            array_advanced.append(option_dict)
+        category_products = Product.objects.filter(Q(category__category__parent=category) |
+                                                   Q(category=category) | Q(category__parent=category)).filter(
+            isActive=True)
 
-    products = ProductDesc.objects.filter(product__category=category).distinct('product_id')[:50]
-    advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
-        product__category=category).order_by(
-        'id')[:5]
+        products = ProductDesc.objects.filter(product__category=category).distinct('product_id')[:50]
+        advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
+            product__category=category).order_by(
+            'id')[:5]
 
-    option_text = OptionDesc.objects.filter(option__type='text')
-
+        option_text = OptionDesc.objects.filter(option__type='text')
+    except Exception as e:
+        print(e)
+        return render(request, 'home/notFound-page.html')
     return render(request, 'home/product-filter.html',
                   {'products': products, 'options': array, 'advanced_options': array_advanced,
                    'option_text': option_text, 'category': category_desc, "parent_cat": parent_cat[0],
@@ -381,7 +394,7 @@ def get_product(request):
             else:
                 # products = Product.objects.filter(  Q(name__icontains=key) | Q(category__name__icontains=key) |  Q(company__name__icontains=key)).distinct('id')
 
-                products = ProductDesc.objects.filter(Q(product__name__icontains=key))
+                products = ProductDesc.objects.filter(Q(product__name__icontains=key)).distinct('product_id')
                 company = Company.objects.filter(product__name__icontains=key)
                 magazine = IntroductionPageDesc.objects.filter(description__icontains=key)
 

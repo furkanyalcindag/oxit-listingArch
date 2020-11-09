@@ -11680,7 +11680,7 @@ section.fullwidth .listing-item-container.list-layout, .fs-content .listing-item
     background-repeat: no-repeat;
     background-position: 50%;
     height: auto;
-    z-index: 100;
+    /*z-index: 100;*/
     cursor: pointer
 }
 

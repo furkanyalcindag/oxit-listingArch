@@ -153,7 +153,7 @@
                 <div class="col-lg-8 col-md-6">
                     {% for product in products %}
                         <div class="col-lg-4 col-lg-4 ">
-                            <a href="{% url 'listArch:urun-detay' product.pk category.pk %}"
+                            <a href="{% url 'listArch:urun-detay' product.slug %}"
                                class="listing-item-container compact">
                                 <div class="listing-item">
                                     <img src="/media/{{ product.cover_image }}" alt="{{ product.name }}">

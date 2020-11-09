@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 from listArch.services.general_methods import category_parent_show
 
@@ -12,6 +13,14 @@ class Category(models.Model):
     icon = models.ImageField(upload_to='icon/', null=True, blank=True, verbose_name='Kategori İkon')
     isBasic = models.BooleanField(default=False)
     order = models.IntegerField(null=True, blank=True, verbose_name='kategori sıralaması')
+    uuid = models.UUIDField(editable=False, null=True, blank=True)
+    count = models.IntegerField(null=True, blank=True, verbose_name='Sayaç', default=0)
+    slug = models.SlugField(null=True, unique=True)
 
     def __str__(self):
         return str(category_parent_show(self))
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)

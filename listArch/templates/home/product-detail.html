@@ -789,7 +789,7 @@
                                     {% for related in related_products %}
                                         <div class="col-md-3" style="padding-left: 0;padding-right: 0">
                                             <div class="hovereffect"
-                                                 onclick="location.href='{% url 'listArch:urun-detay' related.related_product.pk %}';">
+                                                 onclick="location.href='{% url 'listArch:urun-detay' related.related_product.slug %}';">
                                                 <div class="listing-item"
                                                      style="background:#fff;margin: 0 10px;">
                                                     <img style="border: 1px solid #e0e0e0;"

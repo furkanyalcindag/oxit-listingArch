@@ -15,7 +15,7 @@
     "What_we_do": "Biz Ne Yapıyoruz?",
     "Philosophy": "Vizyon",
     "investor_relations": "Yatırımcı İlişkileri",
-    "advertise": "Reklamlar",
+    "advertise": "Reklam",
     "advertises": "REKLAMLAR",
     "client_center": "Müşteri Hizmetleri",
     "careers": "Kariyer",
@@ -24,7 +24,7 @@
     "phone": "Telefon",
     "language": "DİL",
     "join_today": "BİZE KATIL",
-    "login": "GİRİŞ",
+    "login": "GİRİŞ YAP",
     "sign_up": "KAYIT OL",
     "retails": "MAĞAZALAR",
     "fairs": "FUARLAR",
@@ -138,6 +138,7 @@
     "BIM/CAD_files": "BIM/CAD Dosyası",
     "country": "Ülke",
     "CLASSIFYING_BY": "SINIFLANDIRMA",
-    "profile_by": "PROFİL"
+    "profile_by": "PROFİL",
+    "my_list": "Listelerim"
   }
 ]
