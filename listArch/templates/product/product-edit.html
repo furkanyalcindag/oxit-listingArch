@@ -348,6 +348,7 @@
                                                     <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
                                                     {{ related_product_form.related_product }}
 
+
                                                 </div>
                                             </div>
 
@@ -683,7 +684,7 @@
                             option_id: option_value,
                         },
                         success: function (result) {
-debugger
+                            debugger
                             if (result.status == 'Success') {
                                 swal("Başarılı", " Seçenek Silindi.", "success");
                                 $('#option-value-row' + id + '').remove();
@@ -702,7 +703,7 @@ debugger
             });
         }
 
-         function image_delete(row,id ) {
+        function image_delete(row, id) {
 
             let html = 'Fotoğrafı kaldırmak istediğinizden emin misiniz?<br>';
             document.getElementById('content').innerHTML = html;
@@ -716,7 +717,7 @@ debugger
                             image_id: id,
                         },
                         success: function (result) {
-debugger
+                            debugger
                             if (result.status == 'Success') {
                                 swal("Başarılı", " Fotoğraf Silindi.", "success");
                                 $('#image-row' + row + '').remove();

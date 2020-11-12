@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
+from listArch.models import Service
 from listArch.models.Company import Company
 
 
@@ -9,7 +10,7 @@ class CompanyForm(ModelForm):
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link', 'business_type',
+            'noOfEmployees', 'date', 'address_link', 'business_type', 'service',
         )
 
         widgets = {
@@ -48,3 +49,22 @@ class CompanyForm(ModelForm):
                        'style': 'width: 100%;', 'required': 'required'}),
 
         }
+
+    service = forms.ModelMultipleChoiceField(queryset=Service.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        if kwargs.get('instance'):
+            print(kwargs.get('instance').service.all())
+            # We get the 'initial' keyword argument or initialize it
+            # as a dict if it didn't exist.
+            initial = kwargs.setdefault('initial', {})
+            # The widget for a ModelMultipleChoiceField expects
+            # a list of primary key for the selected data.
+            forms.ModelForm.__init__(self, *args, **kwargs)
+            initial['service'] = [t.pk for t in kwargs['instance'].service.all()]
+            self.fields['service'].initial = initial['service']
+
+        forms.ModelForm.__init__(self, *args, **kwargs)
+        self.fields['service'].widget.attrs = {'class': 'form-control select2 select2-hidden-accessible',
+                                               'style': 'width: 100%;', 'data-select2-id': '1',
+                                               'required': 'false', }

@@ -185,22 +185,45 @@
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="input-type">Aktif
-                                                        Kategori?</label>
-                                                    {{ category_form.isActive }}
 
+                                                    <label for="input-type">Aktif
+                                                        Kategori ?</label>
+                                                    {{ category_form.isActive }}
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="input-type">Ana Kategori</label>
+                                                    <label for="input-type">Ana Kategori ?</label>
                                                     {{ category_form.isBasic }}
-
-
                                                 </div>
                                                 <div class="form-group" id="category_icon">
-                                                    <small>*Ana Kategori Seçimlerinde Zorunlu Alan </small><br>
                                                     <label for="input-type">Ana Kategori İkonu</label>
+                                                    <small style="color: slategray"> (*Ana Kategori Seçimlerinde Zorunlu
+                                                        Alan )</small>
                                                     {{ category_form.icon }}
+                                                </div>
+
+                                                <div class="form-group ">
+
+                                                    <label>Sayfa Yazısı</label>
+                                                    <small style="color: slategray"> (*Alt Kategorilerde Zorunlu
+                                                        Alan) </small>
+
+                                                    <div class="input-group"><span class="input-group-addon"><img
+                                                            src="/media/en-gb.png" title="ENg"></span>
+                                                        <input type="text" name="description[eng]" id="description[eng]"
+                                                               value=""
+                                                               placeholder="example: What can I do?"
+                                                               class="form-control">
+                                                    </div>
+                                                    <div class="input-group"><span class="input-group-addon"><img
+                                                            src="/media/tr-tr.png" title="TR"></span>
+                                                        <input type="text" name="description[tr]" id="description[tr]"
+                                                               value=""
+                                                               placeholder="example: What can I do?"
+                                                               class="form-control">
+                                                    </div>
+
+
                                                 </div>
                                             </div>
 

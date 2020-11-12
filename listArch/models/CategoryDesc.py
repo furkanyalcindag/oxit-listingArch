@@ -9,6 +9,8 @@ class CategoryDesc(models.Model):
     lang_code = models.IntegerField(blank=True, null=True, verbose_name='Dil Kod')
     description = models.TextField(blank=True, null=True, verbose_name='Kategori Çeviri')
     definition = models.TextField(blank=True, null=True, verbose_name='Açıklama Çevirisi')
+    page_description = models.TextField(blank=True, null=True, verbose_name='Sayfa yazısı')
+
 
     def __str__(self):
         return '%s %s %s' % (self.category.name, '-', self.description)

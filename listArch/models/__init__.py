@@ -4,7 +4,6 @@ from .OptionDesc import OptionDesc
 from .OptionValueDesc import OptionValueDesc
 from .File import File
 from .Category import Category
-from .ProductFile import ProductFile
 from .Product import Product
 from .ProductDesc import ProductDesc
 from .CategoryDesc import CategoryDesc
@@ -21,7 +20,6 @@ from .BlogDesc import BlogDesc
 from .BlogImage import BlogImage
 from .Blog import Blog
 from .FileDesc import FileDesc
-from .RelatedProduct import RelatedProduct
 from .BlogProduct import BlogProduct
 from .IntroductionPageDesc import IntroductionPageDesc
 from .IntroductionProduct import IntroductionProduct
@@ -36,7 +34,6 @@ from .BlogCompany import BlogCompany
 from .Certificate import Certificate
 from .CertificateCompany import CertificateCompany
 from .CertificateDesc import CertificateDesc
-from .RelatedProduct import RelatedProduct
 from .Contact import Contact
 from .IntroductionTitleDesc import IntroductionTitle
 from .ScrollingTextDesc import ScrollingTextDesc
@@ -66,3 +63,5 @@ from .ProfileBlog import ProfileBlog
 from .Staff import Staff
 from .Video import Video
 from .ProductVideo import ProductVideo
+from .Service import Service
+from .ServiceDesc import ServiceDesc

@@ -183,9 +183,9 @@
                                                             <td> {% for category in product.product.category.all %}
                                                                 {{ category.name }},{% endfor %}</td>
                                                             <td>
-                                                                {% for file in product.files.all %}
+                                                                {% for file in product.product.file.all %}
                                                                     <a target="new_blank" download
-                                                                       href="/media/{{ file.file.file }}">{{ file.file.file_title }}</a>
+                                                                       href="/media/{{ file.file }}">{{ file.file_title }}</a>
                                                                     -
                                                                 {% endfor %}
                                                             </td>
@@ -515,7 +515,7 @@
                         },
                         success: function (result) {
 
-                            if (result.status == 'Success') {
+                            if (result.status === 'Success') {
                                 swal("Başarılı", " Ürün Silindi", "success");
                                 window.location.replace("{% url "listArch:urunler" %}");
 

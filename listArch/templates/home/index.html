@@ -47,7 +47,7 @@
     float: left;
     padding: 25px 5px 0px 0px;" href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
                                        class="highlighted-category" style="">
-                                        <img height="36" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <img height="36" src="/media/{{ category.category.icon }}" alt="Bricks-in-Bytes">
                                         <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
     display: block;
     width: 100px;">{{ category.description }}</h4>

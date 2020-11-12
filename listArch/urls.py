@@ -3,7 +3,7 @@ from django.urls import path
 
 from listArch.Views import OptionViews, CategoryViews, ProductViews, DashboardViews, CompanyViews, APIViews, HomeViews, \
     BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews, \
-    CollectionViews, ProfileViews, StaffViews
+    CollectionViews, ProfileViews, StaffViews, ServiceViews
 
 app_name = 'listArch'
 
@@ -194,6 +194,7 @@ urlpatterns = [
     url(r'profile-add/$', ProfileViews.add_profile, name='profil-kaydet'),
     url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
     url(r'profiller/$', ProfileViews.profile_list, name='profil-listesi'),
+    url(r'delete/$', ProfileViews.profile_delete, name='profili-sil'),
 
     url(r'profile-page/$', HomeViews.profile_page, name='profile-page'),
     url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),
@@ -203,5 +204,11 @@ urlpatterns = [
     #Staff
     url(r'add-staff/$', StaffViews.register_staff, name='personel-ekle'),
     url(r'staff/$', StaffViews.staff, name='personeller'),
+    url(r'passive-staff/$', StaffViews.passive_staff, name='personel-pasif-et'),
+    url(r'active-staff/$', StaffViews.active_staff, name='personel-aktif-et'),
+
+    #Service
+    url(r'add-service/$', ServiceViews.add_service, name='hizmet-ekle'),
+    url(r'delete-service/$', ServiceViews.delete_service, name='hizmet-sil'),
 
 ]

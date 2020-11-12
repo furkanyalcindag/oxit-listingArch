@@ -20,34 +20,38 @@ def add_category(request):
     try:
         if request.method == 'POST':
             category_form = CategoryForm(request.POST)
-            category_tr = request.POST['category_description[tr][name]']
-            category_eng = request.POST['category_description[eng][name]']
+            if category_form.is_valid():
 
-            category = Category(name=category_tr, isActive=category_form.cleaned_data['isActive'],
-                                isBasic=category_form.cleaned_data['isBasic'])
-            category.save()
+                category_tr = request.POST['category_description[tr][name]']
+                category_eng = request.POST['category_description[eng][name]']
 
-            if request.POST['category_parent'] == "":
-                category.is_parent = True
-                category.icon = request.FILES['icon']
+                category = Category(name=category_tr, isActive=category_form.cleaned_data['isActive'],
+                                    isBasic=category_form.cleaned_data['isBasic'])
                 category.save()
+
+                if request.POST['category_parent'] == "":
+                    category.is_parent = True
+                    category.icon = request.FILES['icon']
+                    category.save()
+                else:
+                    category.parent = Category.objects.get(pk=request.POST['category_parent'])
+                    category.save()
+
+                content_tr = request.POST['content[tr]']
+                content_eng = request.POST['content[eng]']
+
+                category_desc = CategoryDesc(category=category, description=category_eng, lang_code=2,
+                                             definition=content_eng, page_description=request.POST['description[eng]'])
+                category_desc.save()
+
+                category_desc2 = CategoryDesc(category=category, description=category_tr, lang_code=1,
+                                              definition=content_tr, page_description=request.POST['description[tr]'])
+                category_desc2.save()
+
+                messages.success(request, "Kategori Başarıyla eklendi.")
+                return redirect('listArch:kategori-ekle')
             else:
-                category.parent = Category.objects.get(pk=request.POST['category_parent'])
-                category.save()
-
-            content_tr = request.POST['content[tr]']
-            content_eng = request.POST['content[eng]']
-
-            category_desc = CategoryDesc(category=category, description=category_eng, lang_code=2,
-                                         definition=content_eng)
-            category_desc.save()
-
-            category_desc2 = CategoryDesc(category=category, description=category_tr, lang_code=1,
-                                          definition=content_tr)
-            category_desc2.save()
-
-            messages.success(request, "Kategori Başarıyla eklendi.")
-            return redirect('listArch:kategori-ekle')
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
 
@@ -127,11 +131,13 @@ def update_category(request, pk):
                 # TR
                 category_desc1[0].description = category_tr
                 category_desc1[0].definition = request.POST['content[tr]']
+                category_desc1[0].page_description = request.POST['description[tr]']
                 category_desc1[0].save()
 
                 # ENG
                 category_desc2[0].description = category_eng
                 category_desc2[0].definition = request.POST['content[eng]']
+                category_desc2[0].page_description = request.POST['description[eng]']
                 category_desc2[0].save()
 
                 if category.isBasic:
@@ -145,6 +151,8 @@ def update_category(request, pk):
 
                 messages.success(request, "Kategori Başarıyla Düzenlendi.")
                 return redirect('listArch:kategori-listesi')
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
 

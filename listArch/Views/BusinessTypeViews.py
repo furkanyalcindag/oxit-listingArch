@@ -19,24 +19,26 @@ def add_businessType(request):
     try:
         if request.method == 'POST':
             form = BusinessTypeForm(request.POST)
-            business_type = BusinessType(key=form.cleaned_data['key'],
-                                         isProduct_based=form.cleaned_data['isProduct_based'])
-            business_type.save()
+            if form.is_valid():
+                business_type = BusinessType(key=form.cleaned_data['key'],
+                                             isProduct_based=form.cleaned_data['isProduct_based'])
+                business_type.save()
 
-            business_tr = BusinessTypeDesc(business_type=business_type, description=form.cleaned_data['key'],
-                                           lang_code=1)
-            business_tr.save()
+                business_tr = BusinessTypeDesc(business_type=business_type, description=form.cleaned_data['key'],
+                                               lang_code=1)
+                business_tr.save()
 
-            business_eng = BusinessTypeDesc(business_type=business_type, description=request.POST['eng-type'],
-                                            lang_code=2)
-            business_eng.save()
+                business_eng = BusinessTypeDesc(business_type=business_type, description=request.POST['eng-type'],
+                                                lang_code=2)
+                business_eng.save()
 
-            messages.success(request, "Profil Adı Başarıyla Kayıt Edildi.")
-            return redirect('listArch:profil-adi-ekle')
-
+                messages.success(request, "Profil Adı Başarıyla Kayıt Edildi.")
+                return redirect('listArch:profil-adi-ekle')
+            else:
+                messages.success(request, "Alanları kontrol ediniz.")
     except Exception as e:
         print(e)
-    return render(request, 'businessType/add-businessType.html', {'business_types': business_types,'form':form})
+    return render(request, 'businessType/add-businessType.html', {'business_types': business_types, 'form': form})
 
 
 def update_businessType(request, pk):
@@ -75,5 +77,3 @@ def delete_business_type(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
-
-

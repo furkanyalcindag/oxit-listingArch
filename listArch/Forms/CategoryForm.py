@@ -17,6 +17,6 @@ class CategoryForm(ModelForm):
                 attrs={'class': 'form-control ', 'placeholder': 'Kategori Adı', 'required': 'required'}),
 
             'url': forms.TextInput(
-                attrs={'class': 'form-control ', 'name': 'url', 'id': 'url'}),
+                attrs={'class': 'form-control ', 'name': 'url', 'id': 'url','required': 'false'}),
 
         }

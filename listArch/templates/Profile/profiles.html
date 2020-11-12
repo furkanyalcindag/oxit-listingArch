@@ -112,7 +112,7 @@
                                 <th>Email</th>
                                 <th>Website Adresi</th>
                                 <th>Ülke</th>
-                                <th>KOnum</th>
+                                <th>Konum</th>
 
                             </tr>
                             </thead>
@@ -190,7 +190,7 @@
 
                             html = '<a class="btn btn-primary" type="btn" title="Düzenle"  href=""><i class="fa fa-edit"></i></a>';
                             html += '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Blog Ekle" href="'+url+'"><i class="fa fa-plus"></i></a>';
-                            html += '<button type="button" style="margin-left: 5px;"  class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
+                            html += '<button type="button" onclick="delete_profile('+full.id+')" style="margin-left: 5px;"  class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
 
                             return html;
                         }
@@ -296,26 +296,27 @@
 
 
     <script>
-        function delete_company(id) {
-            document.getElementById('content_messages').innerHTML = 'Firmatı Silmek İstediğinizden Emin Misiniz?';
+        function delete_profile(id) {
+            document.getElementById('content_messages').innerHTML = 'Profili Silmek İstediğinizden Emin Misiniz?';
 
             $(".deneme23").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
+                    debugger;
                     $.ajax({
-                        url: "{% url 'listArch:firma-sil' %}",
+                        url: "{% url 'listArch:profili-sil' %}",
                         type: "post", // or "get"
                         data: {
-                            company_id: id,
+                            profile_id: id,
                         },
                         success: function (result) {
 
                             if (result.status === 'Success') {
-                                swal("Başarılı", " Firma Silindi", "success");
-                                window.location.replace("{% url "listArch:firma-listesi" %}");
+                                swal("Başarılı", " Profil Silindi", "success");
+                                window.location.replace("{% url "listArch:profil-listesi" %}");
 
 
                             } else {
-                                swal("Başarısız", result.messages, "error");
+                                swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı", "error");
                             }
                         }
                     });

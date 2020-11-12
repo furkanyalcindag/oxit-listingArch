@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import Group, User
 from django.core.mail import EmailMultiAlternatives
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from listArch.Forms.UserForm import UserForm
 from listArch.models import Staff
@@ -65,3 +66,40 @@ def register_staff(request):
 def staff(request):
     staff = Staff.objects.all()
     return render(request, 'User/staff_list.html', {'staff': staff})
+
+
+def passive_staff(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+            staff_id = request.POST['staff_id']
+            staff = Staff.objects.get(pk=staff_id)
+            staff.isActive = False
+            staff.save()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+def active_staff(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+            staff_id = request.POST['staff_id']
+            staff = Staff.objects.get(pk=staff_id)
+            staff.isActive = True
+            staff.save()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})

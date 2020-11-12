@@ -24,9 +24,9 @@ def add_blog_desc(request):
     companies = Company.objects.all()
     try:
         if request.method == 'POST':
-            blogDesc_form = BlogDescForm(request.POST)
-            blogDesc_image_form = BlogDescImageForm(request.POST, request.FILES)
-            company_blog_form = CompanyBlogForm(request.POST)
+            blogDesc_form = BlogDescForm(request.POST or None)
+            blogDesc_image_form = BlogDescImageForm(request.POST, request.FILES or None)
+            company_blog_form = CompanyBlogForm(request.POST or None)
 
             if blogDesc_image_form.is_valid() and company_blog_form.is_valid():
 
@@ -85,6 +85,7 @@ def update_blog(request, pk):
 
     try:
         if request.method == 'POST':
+
             blog.key = request.POST['content[tr]']
             blog.save()
 
@@ -188,8 +189,6 @@ def add_blog_businessType(request, pk):
 
                 blog_business = ProfileBlog(profile=profile, blog=blog)
                 blog_business.save()
-
-
 
                 messages.success(request, "Blog Bilgileri Başarıyla Kayıt Edildi.")
                 return redirect('listArch:profil-listesi')

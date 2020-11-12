@@ -124,16 +124,20 @@ def add_contact(request):
 
         if request.method == 'POST':
             form = ContactForm(request.POST)
-            contact = Contact(email=form.cleaned_data['email'], phone=form.cleaned_data['phone'],
-                              isActive=form.cleaned_data['isActive'])
-            contact.save()
+            if form.is_valid():
+                contact = Contact(email=form.cleaned_data['email'], phone=form.cleaned_data['phone'],
+                                  isActive=form.cleaned_data['isActive'])
+                contact.save()
 
-            log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisi ekledi.</p>'
-            log = Log(user=request.user, content=log_content)
-            log.save()
+                log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisi ekledi.</p>'
+                log = Log(user=request.user, content=log_content)
+                log.save()
 
-            messages.success(request, "İletişim Bilgileri Kayıt Edildi.")
-            return redirect('listArch:iletisim-bilgisi')
+                messages.success(request, "İletişim Bilgileri Kayıt Edildi.")
+                return redirect('listArch:iletisim-bilgisi')
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
+
 
     except Exception as e:
         print(e)
@@ -150,18 +154,20 @@ def update_contact(request, pk):
     form = ContactForm(request.POST or None, instance=contact)
     try:
         if request.method == 'POST':
-            contact.phone = form.cleaned_data['phone']
-            contact.email = form.cleaned_data['email']
-            contact.isActive = form.cleaned_data['isActive']
-            contact.save()
+            if form.is_valid():
+                contact.phone = form.cleaned_data['phone']
+                contact.email = form.cleaned_data['email']
+                contact.isActive = form.cleaned_data['isActive']
+                contact.save()
 
-            log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisini güncelledi.</p>'
-            log = Log(user=request.user, content=log_content)
-            log.save()
+                log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisini güncelledi.</p>'
+                log = Log(user=request.user, content=log_content)
+                log.save()
 
-            messages.success(request, "İletişim Bilgileri Kayıt Edildi.")
-            return redirect('listArch:iletisim-bilgisi')
-
+                messages.success(request, "İletişim Bilgileri Kayıt Edildi.")
+                return redirect('listArch:iletisim-bilgisi')
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
     return render(request, 'About/add-contact.html', {'form': form})
@@ -207,26 +213,27 @@ def add_scrolling(request):
 
         if request.method == 'POST':
             form = ScrollingTextForm(request.POST)
+            if form.is_valid():
+                scrolling_text = ScrollingText(key=request.POST['scrolling[tr]'],
+                                               isActive=form.cleaned_data['isActive'])
+                scrolling_text.save()
 
-            scrolling_text = ScrollingText(key=request.POST['scrolling[tr]'],
-                                           isActive=form.cleaned_data['isActive'])
-            scrolling_text.save()
+                scrolling_tr = ScrollingTextDesc(text=scrolling_text, description=request.POST['scrolling[tr]'],
+                                                 lang_code=1, subTextDesc=request.POST['subText[tr]'])
+                scrolling_tr.save()
 
-            scrolling_tr = ScrollingTextDesc(text=scrolling_text, description=request.POST['scrolling[tr]'],
-                                             lang_code=1, subTextDesc=request.POST['subText[tr]'])
-            scrolling_tr.save()
+                scrolling_eng = ScrollingTextDesc(text=scrolling_text, description=request.POST['scrolling[eng]'],
+                                                  lang_code=2, subTextDesc=request.POST['subText[eng]'])
+                scrolling_eng.save()
 
-            scrolling_eng = ScrollingTextDesc(text=scrolling_text, description=request.POST['scrolling[eng]'],
-                                              lang_code=2, subTextDesc=request.POST['subText[eng]'])
-            scrolling_eng.save()
+                log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + scrolling_tr.description + ' </strong> bilgisini ekledi.</p>'
+                log = Log(user=request.user, content=log_content)
+                log.save()
 
-            log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + scrolling_tr.description + ' </strong> bilgisini ekledi.</p>'
-            log = Log(user=request.user, content=log_content)
-            log.save()
-
-            messages.success(request, "Yazı Kayıt Edildi.")
-            return redirect('listArch:kayan-yazi')
-
+                messages.success(request, "Yazı Kayıt Edildi.")
+                return redirect('listArch:kayan-yazi')
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
 
@@ -252,25 +259,27 @@ def update_scrolling(request, pk):
 
     try:
 
-        if request.method == 'POST' and form.is_valid():
-            scrolling[0].key = request.POST['scrolling[tr]']
-            scrolling[0].isActive = form.cleaned_data['isActive']
-            scrolling[0].save()
+        if request.method == 'POST':
+            if form.is_valid():
+                scrolling[0].key = request.POST['scrolling[tr]']
+                scrolling[0].isActive = form.cleaned_data['isActive']
+                scrolling[0].save()
 
-            scrolling_tr.description = request.POST['scrolling[tr]']
-            scrolling_tr.subTextDesc = request.POST['subText[tr]']
-            scrolling_tr.save()
+                scrolling_tr.description = request.POST['scrolling[tr]']
+                scrolling_tr.subTextDesc = request.POST['subText[tr]']
+                scrolling_tr.save()
 
-            scrolling_eng.description = request.POST['scrolling[eng]']
-            scrolling_eng.subTextDesc = request.POST['subText[eng]']
-            scrolling_eng.save()
+                scrolling_eng.description = request.POST['scrolling[eng]']
+                scrolling_eng.subTextDesc = request.POST['subText[eng]']
+                scrolling_eng.save()
 
-            log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + scrolling[
-                0].pk + ' </strong> bilgisini güncelledi.</p>'
-            log = Log(user=request.user, content=log_content)
-            log.save()
-            messages.success(request, "Yazı Kayıt Edildi.")
-
+                log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + scrolling[
+                    0].pk + ' </strong> bilgisini güncelledi.</p>'
+                log = Log(user=request.user, content=log_content)
+                log.save()
+                messages.success(request, "Yazı Kayıt Edildi.")
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
 
@@ -311,25 +320,26 @@ def add_header_text(request):
     try:
         if request.method == 'POST':
             form = HeaderTextForm(request.POST)
+            if form.is_valid():
+                headerText = HeaderText(key=request.POST['content[tr]'], isActive=form.cleaned_data['isActive'])
+                headerText.save()
 
-            headerText = HeaderText(key=request.POST['content[tr]'], isActive=form.cleaned_data['isActive'])
-            headerText.save()
+                headerTextDesc = HeaderTextDesc(headerText=headerText, lang_code=1,
+                                                description=request.POST['content[tr]'])
+                headerTextDesc.save()
 
-            headerTextDesc = HeaderTextDesc(headerText=headerText, lang_code=1,
-                                            description=request.POST['content[tr]'])
-            headerTextDesc.save()
+                headerTextDesc2 = HeaderTextDesc(headerText=headerText, lang_code=2,
+                                                 description=request.POST['content[eng]'])
+                headerTextDesc2.save()
 
-            headerTextDesc2 = HeaderTextDesc(headerText=headerText, lang_code=2,
-                                             description=request.POST['content[eng]'])
-            headerTextDesc2.save()
+                log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazısı:' + headerTextDesc.description + ' </strong>  ekledi.</p>'
+                log = Log(user=request.user, content=log_content)
+                log.save()
 
-            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazısı:' + headerTextDesc.description + ' </strong>  ekledi.</p>'
-            log = Log(user=request.user, content=log_content)
-            log.save()
-
-            messages.success(request, "Üst Menü Yazısı Başarıyla Kayıt Edildi.")
-            return redirect('listArch:ust-menu-yazi')
-
+                messages.success(request, "Üst Menü Yazısı Başarıyla Kayıt Edildi.")
+                return redirect('listArch:ust-menu-yazi')
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
     return render(request, 'About/add-header-text.html', {'form': form})
@@ -357,23 +367,25 @@ def update_headerText(request, pk):
     try:
 
         if request.method == 'POST':
-            headerText.key = request.POST['content[tr]']
-            headerText.isActive = form.cleaned_data['isActive']
-            headerText.save()
+            if form.is_valid():
+                headerText.key = request.POST['content[tr]']
+                headerText.isActive = form.cleaned_data['isActive']
+                headerText.save()
 
-            header_tr[0].description = request.POST['content[tr]']
-            header_tr[0].save()
+                header_tr[0].description = request.POST['content[tr]']
+                header_tr[0].save()
 
-            header_eng[0].description = request.POST['content[eng]']
-            header_eng[0].save()
+                header_eng[0].description = request.POST['content[eng]']
+                header_eng[0].save()
 
-            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazısını </strong> güncelledi.</p>'
-            log = Log(user=request.user, content=log_content)
-            log.save()
+                log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazısını </strong> güncelledi.</p>'
+                log = Log(user=request.user, content=log_content)
+                log.save()
 
-            messages.success(request, "Üst Menü Yazısı Başarıyla Güncellendi.")
-            return redirect('listArch:ust-menu-yazi')
-
+                messages.success(request, "Üst Menü Yazısı Başarıyla Güncellendi.")
+                return redirect('listArch:ust-menu-yazi')
+            else:
+                messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
     return render(request, 'About/update-headerText.html',
@@ -391,7 +403,7 @@ def delete_headerText(request):
 
             id = request.POST['id']
             text = HeaderText.objects.get(pk=id)
-            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazı ID: '+text.pk+' </strong> güncelledi.</p>'
+            log_content = '<p><strong style="color:red">ADMIN , Üst Menü Yazı ID: ' + text.pk + ' </strong> güncelledi.</p>'
 
             text.delete()
 

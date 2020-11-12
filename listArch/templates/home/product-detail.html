@@ -67,7 +67,7 @@
     </div>
     <div class="">
         <div class="row sticky-wrapper margin-bottom-10 ">
-            <div class="col-lg-9 col-md-9" style="border: 1px solid;">
+            <div class="col-lg-9 col-md-9" style="border: 1px solid;" id="product-range" name="product-range">
                 <div class="padding-left-30 padding-bottom-20">
                     <div class="row" style="border-bottom: 1px solid;height: 80px">
                         <div class="col-md-2" style="padding-left: 0;
@@ -1099,24 +1099,63 @@
                 <div class="row" style="border-bottom: 1px solid;height: 80px">
                     <div class="col-md-4 " style="margin-top: 18px;
     margin-bottom: 5px;">
-                        <a href="#" style="font-size:12px;background: white"
+                        <a href="" onclick="printFunc()" style="font-size:12px;background: white"
                            class="button book-now fullwidth">{{ 'product'|get_item_by_lang }}
                             <br> {{ 'range'|get_item_by_lang }}</a>
                     </div>
+                    <script>
+                        function printFunc() {
+                            debugger;
+                            var divToPrint = document.getElementById('product-range');
+
+                            var htmlToPrint = '' +
+                                '<style type="text/css">' +
+                                'table th, table td {' +
+                                'border:1px solid #000;' +
+                                'padding;0.5em;' +
+                                '}' +
+                                '</style>';
+                            htmlToPrint += divToPrint.outerHTML;
+                            newWin = window.open("");
+                            newWin.document.write(htmlToPrint);
+                            newWin.print();
+                            newWin.close();
+                        }
+
+                        function print_supplier_summary() {
+                            debugger;
+                            var divToPrint = document.getElementById('supplier-summary');
+                            var htmlToPrint = '' +
+                                '<style type="text/css">' +
+                                'table th, table td {' +
+                                'border:1px solid #000;' +
+                                'padding;0.5em;' +
+                                '}' +
+                                '</style>';
+                            htmlToPrint += divToPrint.outerHTML;
+                            newWin = window.open("");
+                            newWin.document.write(htmlToPrint);
+                            newWin.print();
+                            newWin.close();
+                        }
+
+
+                    </script>
                     <div class="col-md-4 " style="margin-top: 17px;
     margin-bottom: 5px;">
-                        <a href="#" style="font-size:13px;background: white"
+                        <a href="javascript:window.print()" style="font-size:13px;background: white"
                            class="button book-now fullwidth ">{{ 'create'|get_item_by_lang }}
                             <br> {{ 'sheet'|get_item_by_lang }}</a>
                     </div>
                     <div class="col-md-4 " style="margin-top: 17px;
     margin-bottom: 5px;">
-                        <a href="#" style="font-size:12px;background: white"
+                        <a href="#" onclick="print_supplier_summary()" style="font-size:12px;background: white"
                            class="button book-now fullwidth ">{{ 'supplier'|get_item_by_lang }}
                             <br> {{ 'summary'|get_item_by_lang }}</a>
                     </div>
                 </div>
                 <br>
+
                 <div class="row  margin-bottom-5 margin-top-5">
                     <div class="col-md-6">
                         <a href="#"><img style="border: 1px solid;" height="75" src="/media/{{ product.company.logo }}"
@@ -1327,150 +1366,160 @@
                     </div>
                 </div>
                 <br>
-                <div class="row" style="margin: 2px;">
-                    <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">{{ 'company_description'|get_item_by_lang }}</h3>
+                <div class="row  margin-bottom-5 margin-top-5 margin-right-2">
+                    <div class="col-md-12" style="padding-right: 0px;">
+                        <a style="font-size: 17px; height: 40px; padding-top: 9px; background-color: #ffffff;"
+                           class="button book-now fullwidth margin-top-5">{{ 'compare' |get_item_by_lang }}</a>
                     </div>
-                    <div class="col-md-12 margin-bottom-5 margin-top-5" style="border: 1px solid #e0e0e0;">
-                        {% for company_desc in company_definitions %}
-                            <h4 style="font-size: 13px;font-weight: bold;">{{ company_desc.desc.title_desc }}</h4>
-                            <p style="font-size: 10px;">
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <a href="#" style="font-size: 12px;background: #fd9116;"
+                           class="button book-now fullwidth margin-top-5">{{ 'brochure_in_prints'| get_item_by_lang }}</a>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <a href="#" style="    font-size: 12px;
+    background: #fd9116;
+"
+                           class="button book-now fullwidth margin-top-5">{{ 'price_quotation'|get_item_by_lang }}</a>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <a href="#" style="    font-size: 12px;
+    background: #fd9116;
+"
+                           class="button book-now fullwidth margin-top-5">{{ 'catalogue_prints'|get_item_by_lang }}</a>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <a href="#" style="    font-size: 12px;
+    background: #fd9116;
+"
+                           class="button book-now fullwidth margin-top-5">BIM/CAD {{ 'files'|get_item_by_lang }}</a>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <a href="#" style="    font-size: 12px;
+    background: #fd9116;
+"
+                           class="button book-now fullwidth margin-top-5">{{ 'catalog_soft_copy'|get_item_by_lang }}</a>
+                    </div>
+                    <div class="col-md-6" style="padding-right: 0px;">
+                        <a href="#" style="    font-size: 12px;
+    background: #fd9116;
+"
+                           class="button book-now fullwidth margin-top-5">{{ 'nearby_dealer_list'|get_item_by_lang }}</a>
+                    </div>
+                </div>
+                <br>
+                <div id="supplier-summary" name="supplier-summary">
+                    <div class="row" style="margin: 2px;">
+                        <div class="col-md-12" style="border: 2px solid #fd9116;">
+                            <h3 style="font-weight: 800">{{ 'company_description'|get_item_by_lang }}</h3>
+                        </div>
+                        <div class="col-md-12 margin-bottom-5 margin-top-5" style="border: 1px solid #e0e0e0;">
+                            {% for company_desc in company_definitions %}
+                                <h4 style="font-size: 13px;font-weight: bold;">{{ company_desc.desc.title_desc }}</h4>
                                 {{ company_desc.desc.description | safe }}
-                            </p>
-
-                        {% endfor %}
-                    </div>
-
-                </div>
-
-
-                <br>
-                <div class="row" style="margin: 2px">
-
-
-                    <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h4 style="font-weight: 800">{{ 'business_advert_video'|get_item_by_lang }}</h4>
+                            {% endfor %}
+                        </div>
 
                     </div>
 
-                    <div class="col-md-12 margin-top-5" style="padding-left:0;padding-right:0;">
-                        <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="350"
-                                src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
 
-                    </div>
-                </div>
-
-                <br>
-                <div class="row" style="margin: 2px">
-                    <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">{{ 'business_details'|get_item_by_lang }}</h3>
-                    </div>
-
-                    <div class="col-md-12 margin-top-5 " style="padding-left:0;padding-right:0;">
-                        <table class="table table-bordered">
-                            <tbody style="">
-                            <tr>
-                                <th scope="row">{{ 'company_registered_name'|get_item_by_lang }}</th>
-                                <td>{{ product.company.name }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'company_registration_number'|get_item_by_lang }}</th>
-                                <td>{{ product.company.pk }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'date_incorporation'|get_item_by_lang }}</th>
-                                <td>{{ product.company.date.year }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'company_address'|get_item_by_lang }}</th>
-                                <td>{{ product.company.address }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'phone'| get_item_by_lang }}</th>
-                                <td>{{ product.company.phone }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Website</th>
-                                <td>{{ product.company.website }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Mail</th>
-                                <td>{{ product.company.email }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'board_directors' |get_item_by_lang }}</th>
-                                <td>{{ product.company.user.first_name }} {{ product.company.user.last_name }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'no_of_employees'|get_item_by_lang }}</th>
-                                <td>{{ product.company.noOfEmployees }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{ 'annual_sales'| get_item_by_lang }}</th>
-                                <td>{{ product.company.annualSales }}</td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
+                    <br>
+                    <div class="row" style="margin: 2px">
 
 
-                <br>
-                <div class="row" style="margin: 2px">
-                    <div class="col-md-12" style="border: 2px solid #fd9116;">
-                        <h3 style="font-weight: 800">{{ 'product_service'|get_item_by_lang }}</h3>
+                        <div class="col-md-12" style="border: 2px solid #fd9116;">
+                            <h4 style="font-weight: 800">{{ 'business_advert_video'|get_item_by_lang }}</h4>
 
+                        </div>
+
+                        <div class="col-md-12 margin-top-5" style="padding-left:0;padding-right:0;">
+                            <iframe width="100%" style=" border: 1px solid #e0e0e0;" height="350"
+                                    src="https://www.youtube.com/embed/Uloc1iW-pgc" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+
+                        </div>
                     </div>
 
-                    <div class="col-md-12 margin-top-5" style="padding-left:0;padding-right:0;">
-                        <table class="table table-bordered">
-                            <tbody>
-                            <tr>
-                                <th scope="row">Adhesives</th>
-                                <td> Yes</td>
-                                <td> Yes</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Ceramic</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Sanitary</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Stone</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fixture</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Lighting</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Paint</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                    <br>
+                    <div class="row" style="margin: 2px">
+                        <div class="col-md-12" style="border: 2px solid #fd9116;">
+                            <h3 style="font-weight: 800">{{ 'business_details'|get_item_by_lang }}</h3>
+                        </div>
 
-                            </tbody>
-                        </table>
+                        <div class="col-md-12 margin-top-5 " style="padding-left:0;padding-right:0;">
+                            <table class="table table-bordered">
+                                <tbody style="">
+                                <tr>
+                                    <th scope="row">{{ 'company_registered_name'|get_item_by_lang }}</th>
+                                    <td>{{ product.company.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'company_registration_number'|get_item_by_lang }}</th>
+                                    <td>{{ product.company.pk }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'date_incorporation'|get_item_by_lang }}</th>
+                                    <td>{{ product.company.date.year }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'company_address'|get_item_by_lang }}</th>
+                                    <td>{{ product.company.address }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'phone'| get_item_by_lang }}</th>
+                                    <td>{{ product.company.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Website</th>
+                                    <td>{{ product.company.website }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mail</th>
+                                    <td>{{ product.company.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'board_directors' |get_item_by_lang }}</th>
+                                    <td>{{ product.company.user.first_name }} {{ product.company.user.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'no_of_employees'|get_item_by_lang }}</th>
+                                    <td>{{ product.company.noOfEmployees }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{ 'annual_sales'| get_item_by_lang }}</th>
+                                    <td>{{ product.company.annualSales }}</td>
+                                </tr>
 
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <div class="row" style="margin: 2px">
+                        <div class="col-md-12" style="border: 2px solid #fd9116;">
+                            <h3 style="font-weight: 800">{{ 'product_service'|get_item_by_lang }}</h3>
+
+                        </div>
+
+                        <div class="col-md-12 margin-top-5" style="padding-left:0;padding-right:0;">
+                            <table class="table table-bordered">
+                                <tbody>{% for service in services %}
+                                    <tr>
+                                        <th>{{ service.description }}</th>
+                                        <td><span class="fa fa-check"></span></td>
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
-
 
                 <br>
                 <div class="row" style="margin: 2px">

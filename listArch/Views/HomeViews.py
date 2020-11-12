@@ -1,6 +1,6 @@
 import json
 from django.db.models import Count, Q, QuerySet
-from django.http import JsonResponse, HttpRequest
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 
@@ -8,7 +8,7 @@ from listArch.models import ProductOptionValue, Option, OptionValue, Company, In
     IntroductionPageDesc, CategoryDesc, BlogDesc, CompanyBlog, RelatedProduct, \
     OptionValueDesc, List, CompanyRetail, Contact, AboutDesc, ProductDesc, OptionDesc, ProductPerform, GraphicValueDesc, \
     ProductChart, ChartValue, Value, ChartDesc, Profile, BusinessType, ProfileBlog, BlogImage, ProfileBlogDesc, \
-    BusinessTypeDesc, ProductVideo
+    BusinessTypeDesc, ProductVideo, ServiceDesc, Collection, CollectionProduct
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.DefinitionDescription import DefinitionDescription
@@ -51,11 +51,15 @@ def get_company_products(request, pk):
 
 def product_detail(request, slug):
     try:
-        # category = Category.objects.get(pk=cat_id)
         product = Product.objects.get(slug=slug)
         category = product.category.filter(is_parent=True)
         graphics = ProductPerform.objects.filter(product=product)
         product_videos = ProductVideo.objects.filter(product=product)
+
+        service_array = []
+        for service in product.company.service.all():
+            service_array.append(ServiceDesc.objects.filter(lang_code=home_lang_code).filter(
+                service=service)[0])
 
         product_chart = ProductChart.objects.filter(product=product)
         chart_array = []
@@ -136,7 +140,7 @@ def product_detail(request, slug):
         return render(request, 'home/product-detail.html',
                       {'product': product, 'images': product_image, 'options': array, 'definitions': desc_array,
                        'company_definitions': company_definition_array, 'social': socials,
-                       'category': cat_desc,
+                       'category': cat_desc, 'services': service_array,
                        'related_products': related_product, 'graphics': graph_array, 'charts': chart_array,
                        'videos': product_videos,
                        })
@@ -165,8 +169,8 @@ def product_filter_page(request, pk):
         for option in basic_options_value:
             option_dict = dict()
             option_dict['option'] = \
-            OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
-                0]
+                OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
+                    0]
             option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
                 lang_code=home_lang_code).order_by('?')[:5]
             if len(option_dict['values']) == 0:
@@ -184,8 +188,8 @@ def product_filter_page(request, pk):
         for option in advanced_options_value:
             option_dict = dict()
             option_dict['option'] = \
-            OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
-                0]
+                OptionDesc.objects.filter(lang_code=home_lang_code).filter(option_id=option['option'])[
+                    0]
             option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
                 lang_code=home_lang_code).order_by('?')[:5]
             if len(option_dict['values']) == 0:
@@ -195,9 +199,6 @@ def product_filter_page(request, pk):
             option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
                 lang_code=home_lang_code).count()
             array_advanced.append(option_dict)
-        category_products = Product.objects.filter(Q(category__category__parent=category) |
-                                                   Q(category=category) | Q(category__parent=category)).filter(
-            isActive=True)
 
         products = ProductDesc.objects.filter(product__category=category).distinct('product_id')[:50]
         advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
@@ -207,7 +208,7 @@ def product_filter_page(request, pk):
         option_text = OptionDesc.objects.filter(option__type='text')
     except Exception as e:
         print(e)
-        return render(request, 'home/notFound-page.html')
+        return redirect('listArch:404-sayfasi')
     return render(request, 'home/product-filter.html',
                   {'products': products, 'options': array, 'advanced_options': array_advanced,
                    'option_text': option_text, 'category': category_desc, "parent_cat": parent_cat[0],
@@ -290,7 +291,7 @@ def search_product_home(request):
     list = ""
     try:
         if request.POST:
-
+            companies = Company.objects.all()
             parent_category = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(
                 category_id=request.POST['parent_category'])
             value = request.POST['search_value']
@@ -298,86 +299,72 @@ def search_product_home(request):
             search_products = ProductDesc.objects.filter(product__isActive=True).filter(
                 product__name__icontains=value).filter(
                 product__category=parent_category[0].category).filter(lang_code=home_lang_code)
-            array = []
-            options_value = OptionValueDesc.objects.values('option_value__option',
-                                                           'option_value__option__type').annotate(
-                count=Count('option_value__value'))
-
-            for option in options_value:
-                option_dict = dict()
-                option_dict['option'] = Option.objects.filter(pk=option['option_value__option'])[0]
-                option_dict['values'] = OptionValue.objects.filter(option__id=option['option_value__option'])
-                array.append(option_dict)
             list = ""
             if not request.user.is_anonymous:
                 user = request.user
                 list = List.objects.filter(user=user)
 
-            option_text = OptionDesc.objects.filter(option__type='text')
             advert_product = ProductDesc.objects.filter(
                 product__category=parent_category[0].category).filter(lang_code=home_lang_code).filter(
                 product__isAdvert=True).order_by('id')[:5]
+            sub_categories = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(
+                category__isActive=True).filter(
+                category__parent=parent_category[0].category
+            )
 
-            advanced_options_value = OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(
-                option_value__option__category=parent_category[0].category).filter(
-                option_value__option__isBasic=False).values(
-                'option_value__option', 'option_value__option__type').annotate(
-                count=Count('option_value__value'))
-            array_advanced = []
-            for option in advanced_options_value:
-                option_dict = dict()
-                option_dict['option'] = \
-                    OptionDesc.objects.filter(lang_code=home_lang_code).filter(
-                        option_id=option['option_value__option'])[
-                        0]
-                option_dict['values'] = OptionValueDesc.objects.filter(
-                    option_value__option__id=option['option_value__option']).filter(
-                    lang_code=home_lang_code).order_by('?')[:5]
-                if len(option_dict['values']) == 0:
-                    option_dict['range'] = OptionValue.objects.filter(option=option['option_value__option'])[0]
-                option_dict['allValues'] = OptionValueDesc.objects.filter(
-                    option_value__option__id=option['option_value__option']).filter(
-                    lang_code=home_lang_code)
-                option_dict['count'] = OptionValueDesc.objects.filter(
-                    option_value__option__id=option['option_value__option']).filter(
-                    lang_code=home_lang_code).count()
-                array_advanced.append(option_dict)
-            return render(request, 'home/product-filter.html',
-                          {'products': search_products, 'options': array, 'advanced_options': array_advanced,
-                           'option_text': option_text, 'category': parent_category[0],
+            return render(request, 'home/products.html',
+                          {'products': search_products, 'companies': companies,
+                           'category': parent_category[0], 'sub_category': sub_categories,
                            'advert_product': advert_product, "parent_cat": parent_category[0],
                            'lists': list})
     except Exception as e:
         print(e)
-        return render(request, 'home/notFound-page.html')
+        return redirect('listArch:404-sayfasi')
 
-    return render(request, 'home/product-filter.html')
+    return render(request, 'home/products.html')
 
 
 def get_company_info(request, pk):
-    company = Company.objects.get(pk=pk)
-    products = Product.objects.filter(company=company)
-    retails = CompanyRetail.objects.filter(company=company)
-    array = []
-    company_definitions = CompanyDefinition.objects.filter(company=company)
-    company_definition_array = []
-    for company_def in company_definitions:
-        desc_dict = dict()
-        desc_dict['desc'] = DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=1)[
-            0]
-        company_definition_array.append(desc_dict)
-    category_products = Product.objects.filter(company=company).values('category').annotate(dcount=Count('category'))
-    for category_product in category_products:
-        product_categories = Product.objects.filter(company=company).filter(
-            category=Category.objects.get(pk=category_product['category'])).distinct('id')
-        category_dict = dict()
-        category_dict['category'] = Category.objects.get(pk=category_product['category'])
-        category_dict['product_categories'] = product_categories
-        array.append(category_dict)
+    try:
+        company = Company.objects.get(pk=pk)
+        products = Product.objects.filter(company=company)
+        retails = CompanyRetail.objects.filter(company=company)
+
+        company_collection = Collection.objects.filter(company=company)
+        collection_array = []
+        for collection in company_collection:
+                products = CollectionProduct.objects.filter(collection=collection)
+                product_dict = dict()
+                product_dict['name'] = collection.name
+                product_dict['image'] = products[0].product.cover_image
+                collection_array.append(product_dict)
+
+        array = []
+        company_definitions = CompanyDefinition.objects.filter(company=company)
+        company_definition_array = []
+        for company_def in company_definitions:
+            desc_dict = dict()
+            desc_dict['desc'] = \
+                DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=1)[
+                    0]
+            company_definition_array.append(desc_dict)
+        category_products = Product.objects.filter(company=company).values('category').annotate(
+            dcount=Count('category'))
+        for category_product in category_products:
+            product_categories = Product.objects.filter(company=company).filter(
+                category=Category.objects.get(pk=category_product['category'])).distinct('id')
+            category_dict = dict()
+            category_dict['category'] = Category.objects.get(pk=category_product['category'])
+            category_dict['product_categories'] = product_categories
+            array.append(category_dict)
+
+    except Exception as e:
+        print(e)
+        return redirect('listArch:404-sayfasi')
 
     return render(request, 'home/company_info.html',
                   {'products': products, 'company': company, 'definitions': company_definition_array,
-                   'category_product': array, 'retails': retails})
+                   'category_product': array, 'retails': retails, 'collections': collection_array})
 
 
 @api_view(http_method_names=['POST'])

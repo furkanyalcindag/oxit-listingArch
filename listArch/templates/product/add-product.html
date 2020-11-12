@@ -166,6 +166,7 @@
 
                                                     </div>
 
+
                                                 </div>
                                                 <div class="tab-pane" id="tab-image">
                                                     <div class="table-responsive">
@@ -221,7 +222,7 @@
                                                                             data-original-title="Video Ekle"><i
                                                                             class="fa fa-plus-circle"></i></button>
                                                                 </td>
-                                                                <input type="hidden" name="video_row" id="video_row"/>
+                                                                <input type="hidden" name="video_row"  id="video_row"/>
                                                             </tr>
                                                             </tfoot>
                                                         </table>
@@ -239,8 +240,6 @@
                                                 <div class="tab-pane" id="tab-company">
 
                                                     <br>
-
-
                                                 </div>
                                                 <div class="tab-pane " id="tab-option">
                                                     <br>
@@ -314,14 +313,16 @@
                                                     </select>
 
                                                     <label style="margin-top: 30px;">Dosya Seçin</label>
-                                                    {{ file_form.file }}
+                                                    {{ product_form.file }}
 
 
                                                     <label style="margin-top: 30px;">Kategorileri Seçin</label>
                                                     {{ product_form.category }}
 
+
                                                     <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
-                                                    {{ related_form.related_product }}
+                                                    {{ product_form.related_product }}
+
 
                                                 </div>
                                             </div>
@@ -591,7 +592,7 @@
         function remove_image(id) {
             $('#image-row' + id + '').remove();
             count_image = jQuery.grep(count_image, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById("image_row").value = count_image;
             console.log(count_image)
@@ -604,7 +605,7 @@
 
         function addVideo() {
             let html = '<tr id="video-row' + video_row + '">';
-            html += '  <td class="text-left"><input type="file" name="product[' + video_row + '][video]" value="" id="input-video' + video_row + '" /></td>';
+            html += '  <td class="text-left"><input type="file" name="product[' + video_row + '][video]"  id="input-video' + video_row + '" /></td>';
             html += '  <td class="text-right"><input type="text" name="product[' + video_row + '][key]" value="" placeholder="Başlık" class="form-control" /></td>';
             html += '  <td class="text-left"><button type="button" onclick="remove_video(' + video_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';
@@ -622,7 +623,7 @@
             debugger;
             $('#video-row' + id + '').remove();
             count_video = jQuery.grep(count_video, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById("video_row").value = count_video;
             console.log(count_video)
