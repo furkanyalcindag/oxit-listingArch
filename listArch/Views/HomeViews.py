@@ -628,7 +628,11 @@ def contact_page(request):
 
 def about_page(request):
     about = AboutDesc.objects.filter(lang_code=1, about__isActive=True)
-    return render(request, 'home/about_page.html', {'about': about[0]})
+    if len(about) > 0:
+        return render(request, 'home/about_page.html', {'about': about[0]})
+    else :
+        
+        return render(request, 'home/about_page.html', {'about': '-'})
 
 
 def profile_info(request):
