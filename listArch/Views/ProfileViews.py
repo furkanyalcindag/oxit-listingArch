@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import Group, User
 from django.core.mail import EmailMultiAlternatives
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from listArch.Forms.ProfileForm import ProfileForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
@@ -60,10 +61,10 @@ def add_profile(request):
                 msg.attach_alternative(html_content, "text/html")
                 msg.send()
 
-
                 messages.success(request, "Profil Başarıyla Kayıt Edildi.")
                 return redirect('listArch:profil-kaydet')
-
+            else:
+                messages.success(request, "Alanları Kontrol Ediniz.")
         except Exception as e:
             print(e)
     return render(request, 'Profile/add_profile.html',
@@ -78,3 +79,21 @@ def profile_list(request):
         logout(request)
         return redirect('accounts:login')
     return render(request, 'Profile/profiles.html')
+
+
+def profile_delete(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+            profile_id = request.POST['profile_id']
+            profile = Profile.objects.get(pk=profile_id)
+            profile.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})

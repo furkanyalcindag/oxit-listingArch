@@ -198,3 +198,4 @@ STATICFILES_DIRS = (os.path.join('oxiterp/static'),)
 LOGIN_URL = '/'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'

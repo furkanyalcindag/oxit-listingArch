@@ -104,7 +104,6 @@
                                                                placeholder="Kategori Adı" class="form-control">
                                                     </div>
                                                     <div class="input-group"><span class="input-group-addon"><img
-
                                                             src="/media/tr-tr.png" title="Türkçe"></span>
                                                         {{ category_form.name }}
                                                     </div>
@@ -177,6 +176,30 @@
                                                 <div class="form-group" id="category_icon">
                                                     <label for="input-type">Ana Kategori İkonu</label>
                                                     {{ category_form.icon }}
+                                                </div>
+
+                                                <div class="form-group ">
+
+                                                    <label>Sayfa Yazısı</label>
+                                                    <small style="color: slategray"> (*Alt Kategorilerde Zorunlu
+                                                        Alan) </small>
+
+                                                    <div class="input-group"><span class="input-group-addon"><img
+                                                            src="/media/en-gb.png" title="ENg"></span>
+                                                        <input type="text" name="description[eng]" id="description[eng]"
+                                                               value="{{ category_desc.page_description }}"
+                                                               placeholder="example: What can I do?"
+                                                               class="form-control">
+                                                    </div>
+                                                    <div class="input-group"><span class="input-group-addon"><img
+                                                            src="/media/tr-tr.png" title="TR"></span>
+                                                        <input type="text" name="description[tr]" id="description[tr]"
+                                                               value="{{ category_tr.page_description }}"
+                                                               placeholder="example: What can I do?"
+                                                               class="form-control">
+                                                    </div>
+
+
                                                 </div>
 
                                             </div>

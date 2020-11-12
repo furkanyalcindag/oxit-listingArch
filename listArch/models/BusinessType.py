@@ -6,4 +6,4 @@ class BusinessType(models.Model):
     isProduct_based = models.BooleanField(default=True)
 
     def __str__(self):
-        return '%s' % (self.key)
+        return '%s' % self.key

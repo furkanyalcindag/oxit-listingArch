@@ -1,8 +1,15 @@
+from io import BytesIO
+
+import qrcode
+from django.contrib.sites.models import Site
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
+from listArch.models.File import File
 from listArch.models.Category import Category
 from listArch.models.Company import Company
+import uuid
 
 
 class Product(models.Model):
@@ -20,9 +27,11 @@ class Product(models.Model):
     isAdvert = models.BooleanField(default=False)
     unit_rate = models.CharField(null=True, blank=True, verbose_name='Birim Oranı', max_length=11)
     qr_code = models.ImageField(upload_to='qr_codes', blank=True, null=True)
-    uuid = models.UUIDField(editable=False, null=True, blank=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=True)
     count = models.IntegerField(null=True, blank=True, verbose_name='Sayaç', default=0)
     slug = models.SlugField(null=True, unique=True)
+    related_product = models.ManyToManyField('self', null=True, blank=True)
+    file = models.ManyToManyField(File, null=True, blank=True)
 
     def __str__(self):
         return '%s %s %s' % (self.name, '-', self.code)
@@ -30,4 +39,19 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
+            super().save(*args, **kwargs)
+        from PIL import Image, ImageDraw
+        from django.core.files import File
+
+        if not self.qr_code:
+            path = reverse('listArch:urun-detay', args=(self.slug,))
+            qrcode_img = qrcode.make('%s%s' % (Site.objects.get_current().domain, path))
+            canvas = Image.new('RGB', (200, 200), 'white')
+            draw = ImageDraw.Draw(canvas)
+            canvas.paste(qrcode_img)
+            fname = f'qr_code-{self.name}.png'
+            buffer = BytesIO()
+            canvas.save(buffer, 'PNG')
+            self.qr_code.save(fname, File(buffer), save=False)
+            canvas.close()
+            super().save(*args, **kwargs)

@@ -80,11 +80,9 @@
 
                                     <div class="panel-heading">
                                         <h3 class="panel-title"><i class="fa fa-list"></i> Kategori Listesi</h3>
-
                                     </div>
 
                                     <div class="panel-body">
-
                                         <form action=""
                                               method="post" enctype="multipart/form-data" id="form-product">
                                             <a href="{% url 'listArch:personel-ekle' %}" class="btn btn-app">
@@ -97,16 +95,18 @@
                                                     <tr class="text-left">
                                                         <td>ID</td>
                                                         <td>İşlem</td>
+                                                        <th>Durum</th>
                                                         <td>Ad Soyad</td>
                                                         <td>Email</td>
                                                         <td>Telefon</td>
+
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     {% for staff in staff %}
                                                         <tr>
                                                             <td>
-                                                                {{ staff.pk }}
+
                                                             </td>
                                                             <td><a
                                                                     href=""
@@ -114,13 +114,20 @@
                                                                     class="btn btn-primary"
                                                                     data-original-title="Düzenle"><i
                                                                     class="fa fa-pencil"></i></a>
-                                                                <a
-                                                                        onclick="category_delete({{ category.category.pk }})"
+                                                                </td>
+                                                            <td>
+                                                                {% if staff.isActive %}
+                                                                    <a onclick="staff_passive({{ staff.pk }})"
                                                                         data-toggle="tooltip" title=""
                                                                         class="btn btn-danger"
-                                                                        data-original-title="Sil"><i
-                                                                        class="fa fa-close"></i></a></td>
+                                                                        data-original-title="Passive">Pasif Et</a>
+                                                                {% else %}
+                                                                    <a onclick="staff_passive({{ staff.pk }})"
+                                                                        data-toggle="tooltip" title=""
+                                                                        class="btn btn-success"
+                                                                        data-original-title="Passive">Aktif Et</a>
 
+                                                                {% endif %}</td>
                                                             <td>{{ staff.user.first_name }} {{ staff.user.last_name }}</td>
                                                             <td>{{ staff.user.email }} </td>
                                                             <td>{{ staff.phone }} </td>
@@ -243,29 +250,63 @@
         })
     </script>
     <script>
-        function category_delete(id) {
-            let html = 'Kategoriyi silmek istediğinizden emin misiniz?<br>';
-            html += '<small><b>!! Uyarı: </b> Kategoriyi sildiğiniz takdirde bu kategoriye ait varsa alt kategorilerde silinecektir.</small>'
+        function staff_passive(id) {
+            let html = 'Personeli pasif etmek istediğinizden emin misiniz?<br>';
             document.getElementById('content').innerHTML = html;
             $(".deneme23").on("shown.bs.modal", function (e) {
+                debugger;
                 $("#btn-conf").click(function () {
+                    debugger;
                     $.ajax({
-                        url: "{% url 'listArch:kategori-sil' %}",
+                        url: "{% url 'listArch:personel-pasif-et' %}",
                         type: "post", // or "get"
                         data: {
-                            category_id: id,
-
-
+                            staff_id: id,
                         },
                         success: function (result) {
-
+                            debugger;
                             if (result.status === 'Success') {
-                                swal("Başarılı", " Kategori Silindi.", "success");
-                                window.location.replace("{% url "listArch:kategori-listesi" %}");
+                                swal("Başarılı", "Personel Durumu Pasif Edildi.", "success");
+                                window.location.replace("{% url "listArch:personeller" %}");
 
 
-                            } else {
-                                swal("Başarısız", result.messages, "error");
+                            }
+                            else {
+                               swal("Başarılı", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
+        function staff_active(id) {
+            let html = 'Personeli aktif etmek istediğinizden emin misiniz?<br>';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                debugger;
+                $("#btn-conf").click(function () {
+                    debugger;
+                    $.ajax({
+                        url: "{% url 'listArch:personel-aktif-et' %}",
+                        type: "post", // or "get"
+                        data: {
+                            staff_id: id,
+                        },
+                        success: function (result) {
+                            debugger;
+                            if (result.status === 'Success') {
+                                swal("Başarılı", "Personel Durumu Aktif Edildi.", "success");
+                                window.location.replace("{% url "listArch:personeller" %}");
+
+
+                            }
+                            else {
+                               swal("Başarılı", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
                             }
                         }
                     });

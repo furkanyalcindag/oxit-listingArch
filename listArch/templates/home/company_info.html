@@ -80,8 +80,8 @@
                 <div id="listing-nav" class="listing-nav-container">
                     <ul class="listing-nav" style="height: 60px;font-size: 15px;background: transparent;">
                         <li><a href="#listing-story" class="">{{ 'storyline'|get_item_by_lang }}</a></li>
-                        <li><a href="#listing-diver">{{ 'diversification'|get_item_by_lang }}</a></li>
-                        <li><a href="#listing-class">{{ 'classifying'|get_item_by_lang }}</a></li>
+                        <li><a href="#listing-class">{{ 'diversification'|get_item_by_lang }}</a></li>
+                        <li><a href="#classifying">{{ 'classifying'|get_item_by_lang }}</a></li>
                         <li><a href="#listing-spec">{{ 'spectrum'|get_item_by_lang }}</a></li>
                         <li><a href="#listing-catalog">{{ 'catalogue'|get_item_by_lang }}</a></li>
                         <li><a href="#listing-benc">{{ 'benchmark'|get_item_by_lang }}</a></li>
@@ -519,7 +519,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 ">
                                     <div class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
-                                        <h4 style="font-weight: 800">{{ 'CLASSIFYING_BY'|get_item_by_lang }} {{ company.name }}</h4>
+                                        <h4 style="font-weight: 800">DIVERSIFICATION OF PRODUCTS BY {{ company.name }}</h4>
 
                                     </div>
 
@@ -541,6 +541,39 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                    <div class="row  margin-bottom-5 margin-top-5">
+                        <div class="blog-page">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 ">
+                                    <div id="classifying" class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
+                                        <h4 style="font-weight: 800">{{ 'CLASSIFYING_BY'|get_item_by_lang }} {{ company.name }}</h4>
+
+                                    </div>
+
+                                    {% for collection in collections %}
+
+                                            <div class="blog-post margin-bottom-5 margin-top-5" style="border: 1px solid">
+                                                <a style="border: 1px solid #fff;"
+                                                   href=""
+                                                   class="post-img">
+                                                    <img src="/media/{{ collection.image }}" alt="">
+                                                </a>
+                                                <br>
+                                                <div class="post-content">
+                                                    <a style="font-size: 12px;"
+                                                       href=""
+                                                       class=""> {{ collection.name }} <i
+                                                            class="fa fa-angle-right"></i></a>
+                                                </div>
+                                            </div>
+
                                     {% endfor %}
                                 </div>
                             </div>

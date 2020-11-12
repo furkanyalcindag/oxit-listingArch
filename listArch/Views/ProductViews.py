@@ -1,29 +1,18 @@
-from urllib.parse import urljoin
-
-import django
-import qrcode
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.sites.models import Site
-from django.http import JsonResponse, HttpRequest
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.urls import resolve, reverse
 from rest_framework.decorators import api_view
-
-from io import BytesIO
-from django.core.files import File
-from listArch.models import Image
+from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue
+from listArch.models import RelatedProduct
+from listArch.models.OptionValue import OptionValue
+from listArch.models.ProductVideo import ProductVideo
+from listArch.models.Video import Video
 from listArch.Forms.GraphicValueForm import GraphicValueForm
-from listArch.Forms.DefinitionDescriptionForm import DefinitionDescriptionForm
-from listArch.Forms.DefinitionForm import DefinitionForm
-from listArch.Forms.ProductFileForm import ProductFileForm
 from listArch.Forms.ProductForm import ProductForm
 from listArch.Forms.ProductImageForm import ProductImageForm
-from listArch.Forms.RelatedProductForm import RelatedProductForm
 from listArch.Forms.VideoForm import VideoForm
-from listArch.models import ProductFile, RelatedProduct, OptionDesc, OptionValue, GraphicValue, ProductPerform, \
-    GraphicValueDesc, Value, ChartValue, Video, ProductVideo
 from listArch.models.Chart import Chart
 from listArch.models.ChartDesc import ChartDesc
 from listArch.models.Company import Company
@@ -41,10 +30,10 @@ from listArch.serializers.ProductDefinitionSerializer import ProductDefinitionSe
 from listArch.serializers.ProductSerializer import ProductSerializer
 from listArch.services import general_methods
 from listArch.services.general_methods import category_parent_show
+from listArch.models.Image import Image
 
 
 def add_product(request):
-    from listArch.models import Image
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -53,17 +42,14 @@ def add_product(request):
     options = Option.objects.all()
     product_form = ProductForm()
     companies = Company.objects.filter(user__is_active=True)
-    file_form = ProductFileForm()
-    relatedProduct_form = RelatedProductForm()
 
     if request.method == 'POST':
-        file_form = ProductFileForm(request.POST, request.FILES)
+
         product_form = ProductForm(request.POST or None)
         product_image_form = ProductImageForm(request.POST or None, request.FILES)
-        relatedProduct_form = RelatedProductForm(request.POST or None)
+        product_video_form = VideoForm(request.POST or None, request.FILES)
 
         try:
-
             if product_form.is_valid() and product_image_form.is_valid():
 
                 company = Company.objects.get(pk=int(request.POST['product-company']))
@@ -75,9 +61,6 @@ def add_product(request):
                                   isAdvert=product_form.cleaned_data['isAdvert'])
 
                 product.save()
-
-                Qr(product.pk)
-
                 product.cover_image = request.FILES['cover_image']
                 product.save()
 
@@ -89,8 +72,14 @@ def add_product(request):
                                             lang_code=1)
                 product_desc2.save()
 
+                for related_product in product_form.cleaned_data['related_product']:
+                    product.related_product.add(related_product)
+
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
+
+                for file in product_form.cleaned_data['file']:
+                    product.file.add(file)
 
                 count = request.POST['image_row']
                 count = count.split(',')
@@ -110,7 +99,6 @@ def add_product(request):
                     array = []
                     for count in video_count:
                         array.append(count)
-                    product_video_form = VideoForm(request.POST or None, request.FILES)
 
                     for i in array:
                         video = Video(file=product_video_form.files['product[' + str(i) + '][video]'],
@@ -147,25 +135,18 @@ def add_product(request):
                             product_option.save()
                             x = x + 1
 
-                if relatedProduct_form.cleaned_data['related_product'] != None:
-                    for new_product in relatedProduct_form.cleaned_data['related_product']:
-                        related_product = RelatedProduct(product=product, related_product=new_product)
-                        related_product.save()
-
-                if file_form.cleaned_data['file'] != None:
-                    for file in file_form.cleaned_data['file']:
-                        product_file = ProductFile(product=product, file=file)
-                        product_file.save()
-
                 messages.success(request, "Ürün Başarıyla eklendi.")
                 return redirect('listArch:urun-ekle')
+            else:
+                messages.success(request, "Alanları kontrol ediniz.")
 
         except Exception as e:
             print(e)
+            messages.warning(request, "Hata!!.")
 
     return render(request, 'product/add-product.html',
                   {'options': options, 'product_form': product_form,
-                   'companies': companies, 'file_form': file_form, 'related_form': relatedProduct_form})
+                   'companies': companies, })
 
 
 def product_list(request):
@@ -184,7 +165,6 @@ def product_list(request):
         product_dict['image'] = product.cover_image
         product_dict['product'] = product
         product_dict['values'] = product_option_value
-        product_dict['files'] = ProductFile.objects.filter(product=product)
 
         product_array.append(product_dict)
 
@@ -211,10 +191,6 @@ def product_edit(request, uuid):
 
     categories = Category.objects.all()
     product_definitions = ProductDefinition.objects.filter(product=product)
-    product_files = ProductFile.objects.filter(product=product)
-    product_file_form = ProductFileForm(request.POST, request.FILES)
-    related_products = RelatedProduct.objects.filter(product=product)
-    relatedProduct_form = RelatedProductForm(request.POST or None)
     try:
         for category in categories:
             cat_dict = dict()
@@ -239,111 +215,95 @@ def product_edit(request, uuid):
         product_array.append(product_dict)
 
         if request.method == 'POST':
+            if product_form.is_valid() and product_image_form.is_valid():
 
-            company = Company.objects.get(pk=int(request.POST['product-company']))
+                company = Company.objects.get(pk=int(request.POST['product-company']))
 
-            product.company = company
-            product.isActive = product_form.cleaned_data['isActive']
-            product.isSponsor = product_form.cleaned_data['isSponsor']
-            product.isAdvert = product_form.cleaned_data['isAdvert']
+                product.company = company
+                product.isActive = product_form.cleaned_data['isActive']
+                product.isSponsor = product_form.cleaned_data['isSponsor']
+                product.isAdvert = product_form.cleaned_data['isAdvert']
 
-            product.code = product_form.cleaned_data['code']
-            product.cover_image = product_form.cleaned_data['cover_image']
-            product.company_code = product_form.cleaned_data['company_code']
-            product.name = request.POST['product_description[tr][name]']
-            product.save()
+                product.code = product_form.cleaned_data['code']
+                product.cover_image = product_form.cleaned_data['cover_image']
+                product.company_code = product_form.cleaned_data['company_code']
+                product.name = request.POST['product_description[tr][name]']
+                product.save()
 
-            Qr(product.pk)
-            product_desc[0].product = product
-            product_desc[0].description = request.POST['product_description[tr][name]']
-            product_desc[0].save()
+                product_desc[0].product = product
+                product_desc[0].description = request.POST['product_description[tr][name]']
+                product_desc[0].save()
 
-            product_desc2[0].description = request.POST['product_description[eng][name]']
-            product_desc2[0].save()
+                product_desc2[0].description = request.POST['product_description[eng][name]']
+                product_desc2[0].save()
 
-            for f in request.FILES.getlist('input2[]'):
-                image = Image(image=f)
-                image.save()
-                productImages = ProductImage(image=image, product=product)
-                productImages.save()
-
-            product.category.clear()
-            for category in product_form.cleaned_data['category']:
-                product.category.add(category)
-
-            count = request.POST['image_row']
-            if count != '':
-                count = count.split(',')
-                array = []
-                for count in count:
-                    array.append(count)
-
-                for i in array:
-                    image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
+                for f in request.FILES.getlist('input2[]'):
+                    image = Image(image=f)
                     image.save()
-                    product_image = ProductImage(product=product, image=image)
-                    product_image.save()
+                    productImages = ProductImage(image=image, product=product)
+                    productImages.save()
 
-            count_value = request.POST['value-row']
-            if count_value != '':
-                count_value = count_value.split(',')
-                array = []
-                for count in count_value:
-                    array.append(count)
+                product.related_product.clear()
+                for related_product in product_form.cleaned_data['related_product']:
+                    product.related_product.add(related_product)
+                product.category.clear()
+                for category in product_form.cleaned_data['category']:
+                    product.category.add(category)
+                product.file.clear()
+                for file in product_form.cleaned_data['file']:
+                    product.file.add(file)
 
-                for j in array:
-                    value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
-                    product_option_value = ProductOptionValue(product=product, option_value=value[0])
-                    product_option_value.save()
+                count = request.POST['image_row']
+                if count != '':
+                    count = count.split(',')
+                    array = []
+                    for count in count:
+                        array.append(count)
 
-            if request.POST['option_range_count'] != "":
-                option_range = request.POST['option_range_count']
-                if option_range != "":
-                    x = 0
-                    while x <= int(option_range):
-                        option_value = OptionValue.objects.get(option=Option.objects.get(
-                            pk=int(request.POST['option_range_id' + str(x) + ''])))
-                        product_option = ProductOptionValue(product=product, option_value=option_value,
-                                                            range_value=request.POST['range_value' + str(x) + ''])
-                        product_option.save()
-                        x = x + 1
+                    for i in array:
+                        image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
+                        image.save()
+                        product_image = ProductImage(product=product, image=image)
+                        product_image.save()
 
-            if relatedProduct_form.cleaned_data != {}:
-                for new_product in relatedProduct_form.cleaned_data['related_product']:
-                    if related_products:
-                        for related_product in related_products:
-                            if product != related_product:
-                                related_product = RelatedProduct(product=product, related_product=new_product)
-                                related_product.save()
-                    else:
-                        related_product = RelatedProduct(product=product, related_product=new_product)
-                        related_product.save()
+                count_value = request.POST['value-row']
+                if count_value != '':
+                    count_value = count_value.split(',')
+                    array = []
+                    for count in count_value:
+                        array.append(count)
 
-            if product_file_form.cleaned_data['file'] != None:
+                    for j in array:
+                        value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
+                        product_option_value = ProductOptionValue(product=product, option_value=value[0])
+                        product_option_value.save()
 
-                for file in product_file_form.cleaned_data['file']:
-                    if product_files:
-                        for product_file in product_files:
-                            if file != product_file.file:
-                                product_file = ProductFile(product=product, file=file)
-                                product_file.save()
-                    else:
-                        product_file = ProductFile(product=product, file=file)
-                        product_file.save()
+                if request.POST['option_range_count'] != "":
+                    option_range = request.POST['option_range_count']
+                    if option_range != "":
+                        x = 0
+                        while x <= int(option_range):
+                            option_value = OptionValue.objects.get(option=Option.objects.get(
+                                pk=int(request.POST['option_range_id' + str(x) + ''])))
+                            product_option = ProductOptionValue(product=product, option_value=option_value,
+                                                                range_value=request.POST['range_value' + str(x) + ''])
+                            product_option.save()
+                            x = x + 1
 
-            messages.success(request, "Ürün Başarıyla Düzenlendi.")
+                messages.success(request, "Ürün Başarıyla Düzenlendi.")
 
-            return redirect('listArch:urunler')
+                return redirect('listArch:urunler')
+            else:
+                messages.success(request, "Alanları kontrol ediniz.")
+
     except Exception as e:
         print(e)
-        return redirect('listArch:404-sayfasi')
 
     return render(request, 'product/product-edit.html',
                   {'product': product_array[0], 'options': options, 'product_form': product_form,
                    'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                    'categories': cat_array, 'product_image_form': product_image_form,
-                   'related_product_form': relatedProduct_form,
-                   'product_definitions': product_definitions, 'product_file_form': product_file_form,
+                   'product_definitions': product_definitions,
                    'loop_value': product_option_value.count()
                    })
 
@@ -396,12 +356,8 @@ def add_productDefinition(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    definitionDesc_form = DefinitionDescriptionForm()
     try:
         if request.method == 'POST':
-            definitionDesc_form = DefinitionDescriptionForm(request.POST)
-            definition_form = DefinitionForm(request.POST)
-
             definition = Definition(key=request.POST['title[tr]'])
             definition.save()
 
@@ -427,7 +383,7 @@ def add_productDefinition(request, pk):
     except Exception as e:
         print(e)
     return render(request, 'product/add-product-definition.html',
-                  {'definitionDesc_form': definitionDesc_form})
+                  {})
 
 
 @api_view(http_method_names=['POST'])
@@ -535,6 +491,8 @@ def add_graphic(request, pk):
                 productGraph.save()
                 messages.success(request, "Grafik Bilgileri Başarıyla Kayıt Edildi.")
                 return redirect('listArch:urunler')
+            else:
+                messages.success(request, "Alanları Kontrol Ediniz.")
 
     except Exception as e:
 
@@ -582,20 +540,3 @@ def add_chart_graphic(request, uuid):
         return JsonResponse({'status': 'Fail', 'msg': e})
     return render(request, 'product/productChartValue.html',
                   {'product': product, })
-
-
-def Qr(product):
-    from PIL import Image, ImageDraw
-    product = Product.objects.get(pk=product)
-    if not product.qr_code:
-        path = reverse('listArch:urun-detay', args=(product.slug,))
-        qrcode_img = qrcode.make('%s%s' % (Site.objects.get_current().domain, path))
-        canvas = Image.new('RGB', (350, 350), 'white')
-        draw = ImageDraw.Draw(canvas)
-        canvas.paste(qrcode_img)
-        fname = f'qr_code-{product.name}.png'
-        buffer = BytesIO()
-        canvas.save(buffer, 'PNG')
-        product.qr_code.save(fname, File(buffer), save=False)
-        canvas.close()
-        product.save()

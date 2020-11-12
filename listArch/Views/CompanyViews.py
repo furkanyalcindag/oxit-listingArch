@@ -12,7 +12,6 @@ from rest_framework.decorators import api_view
 
 from listArch.Forms.CompanyForm import CompanyForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
-from listArch.Forms.UserForm import UserForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
 from listArch.models import Company, SocialMedia, City, Product, Category, ProductFile, ProductOptionValue, Option, \
     OptionValue, CompanyRetail
@@ -38,6 +37,7 @@ def add_company(request):
         return redirect('accounts:login')
     company_form = CompanyForm(initial={'date': datetime.datetime.today().strftime("%d-%b-%Y")})
     user_form = UserCompanyForm()
+
     company = Company.objects.all()
     if request.method == 'POST':
         company_form = CompanyForm(request.POST or None, request.FILES or None)
@@ -82,6 +82,10 @@ def add_company(request):
 
                                   )
                 company.save()
+
+                for service in company_form.cleaned_data['service']:
+                    company.service.add(service)
+
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
                     logo = request.POST['retail-logo']
@@ -104,7 +108,6 @@ def add_company(request):
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()
 
-
                 subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, user2.email
                 text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
                 html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/">oxit.com.tr</a></p>'
@@ -124,7 +127,8 @@ def add_company(request):
             print(e)
 
     return render(request, 'company/add-company.html',
-                  {'company_form': company_form, 'user_form': user_form, 'company': company})
+                  {'company_form': company_form, 'user_form': user_form, 'company': company,
+                   })
 
 
 def return_companies(request):
@@ -162,7 +166,7 @@ def update_company(request, pk):
         return redirect('accounts:login')
     company = Company.objects.get(pk=pk)
     user_form = UserUpdateForm(request.POST or None, instance=company.user)
-    company_form = CompanyForm(request.POST or None,request.FILES or None, instance=company,
+    company_form = CompanyForm(request.POST or None, request.FILES or None, instance=company,
                                initial={'date': company.date.strftime('%Y-%m-%d')})
     social_accounts = CompanySocialAccount.objects.filter(company=company)
     i = 0
@@ -183,6 +187,10 @@ def update_company(request, pk):
                 company.save()
                 company_form.save()
 
+                company.service.clear()
+                for service in company_form.cleaned_data['service']:
+                    company.service.add(service)
+
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
                     logo = request.FILES['retail-logo']
@@ -194,8 +202,6 @@ def update_company(request, pk):
                     retail = Company.objects.get(pk=int(request.POST['retail']))
                     retail_company = CompanyRetail(company=company, name=retail.name, logo=retail.logo)
                     retail_company.save()
-
-
 
                 count_value = request.POST['row_number']
 
@@ -215,8 +221,6 @@ def update_company(request, pk):
                         social.save()
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()
-
-
 
                 messages.success(request, 'Firma Başarıyla Güncellenmiştir.')
                 return redirect('listArch:firma-listesi')

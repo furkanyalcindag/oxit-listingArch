@@ -28,7 +28,7 @@ def add_option(request):
         option_form = OptionForm(request.POST)
 
         try:
-            if category_form.is_valid():
+            if category_form.is_valid() and option_form.is_valid():
 
                 type = request.POST['type']
                 option_description_tr = request.POST['option_description[tr][name]']
@@ -79,6 +79,8 @@ def add_option(request):
 
                 messages.success(request, "Seçenek Başarıyla eklendi.")
                 return redirect('listArch:secenek-ekle')
+            else:
+                messages.success(request, "Alanları kontrol ediniz.")
         except Exception as e:
             print(e)
 
@@ -189,61 +191,64 @@ def update_option(request, pk):
             option_array.append(option_dict)
 
         if request.method == 'POST':
-            isBasic = option_form.cleaned_data['isBasic']
-            type = request.POST['type']
+            if category_form.is_valid() and option_form.is_valid():
 
-            option_description_tr = request.POST['option_description[tr][name]']
-            option_description_eng = request.POST['option_description[eng][name]']
+                isBasic = option_form.cleaned_data['isBasic']
+                type = request.POST['type']
 
-            option_desc2[0].description = option_description_tr
-            option_desc2[0].save()
+                option_description_tr = request.POST['option_description[tr][name]']
+                option_description_eng = request.POST['option_description[eng][name]']
 
-            option_desc[0].description = option_description_eng
-            option_desc[0].save()
+                option_desc2[0].description = option_description_tr
+                option_desc2[0].save()
 
-            option.key = option_description_tr
-            option.save()
+                option_desc[0].description = option_description_eng
+                option_desc[0].save()
 
-            option.type = type
-            if isBasic:
-                option.isBasic = True
-                option.category.clear()
+                option.key = option_description_tr
+                option.save()
 
-            else:
-                option.isBasic = False
-                for category in category_form.cleaned_data['category']:
-                    option.category.add(category)
+                option.type = type
+                if isBasic:
+                    option.isBasic = True
+                    option.category.clear()
 
-            option.save()
-
-            count = request.POST['row_number']
-            count = count.split(',')
-            array = []
-            for count in count:
-                array.append(count)
-
-            for option_val in option_values:
-                option_val.delete()
-
-
-            for i in array:
-                value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
-                value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
-
-                if type == 'range':
-                    value = OptionValue(option=option, value=option_desc2[0].description, min=value_tr, max=value_eng)
-                    value.save()
                 else:
-                    value = OptionValue(option=option, value=value_tr)
-                    value.save()
-                    desc2 = OptionValueDesc(option_value=value, lang_code=1, description=value_tr)
-                    desc2.save()
-                    desc = OptionValueDesc(option_value=value, lang_code=2, description=value_eng)
-                    desc.save()
+                    option.isBasic = False
+                    for category in category_form.cleaned_data['category']:
+                        option.category.add(category)
 
+                option.save()
 
-            messages.success(request, "Seçenek Başarıyla Güncellendi.")
-            return redirect('listArch:secenekler')
+                count = request.POST['row_number']
+                count = count.split(',')
+                array = []
+                for count in count:
+                    array.append(count)
+
+                for option_val in option_values:
+                    option_val.delete()
+
+                for i in array:
+                    value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
+                    value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
+
+                    if type == 'range':
+                        value = OptionValue(option=option, value=option_desc2[0].description, min=value_tr,
+                                            max=value_eng)
+                        value.save()
+                    else:
+                        value = OptionValue(option=option, value=value_tr)
+                        value.save()
+                        desc2 = OptionValueDesc(option_value=value, lang_code=1, description=value_tr)
+                        desc2.save()
+                        desc = OptionValueDesc(option_value=value, lang_code=2, description=value_eng)
+                        desc.save()
+
+                messages.success(request, "Seçenek Başarıyla Güncellendi.")
+                return redirect('listArch:secenekler')
+            else:
+                messages.success(request, "Alanları kontrol ediniz.")
     except Exception as e:
         print(e)
 
