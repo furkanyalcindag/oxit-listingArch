@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue
-from listArch.models import RelatedProduct
 from listArch.models.OptionValue import OptionValue
 from listArch.models.ProductVideo import ProductVideo
 from listArch.models.Video import Video
@@ -56,7 +55,6 @@ def add_product(request):
                 product = Product(name=request.POST['product_description[tr][name]'], company=company,
                                   code=product_form.cleaned_data['code'],
                                   isActive=product_form.cleaned_data['isActive'],
-                                  isSponsor=product_form.cleaned_data['isSponsor'],
                                   company_code=product_form.cleaned_data['company_code'],
                                   isAdvert=product_form.cleaned_data['isAdvert'])
 
@@ -210,6 +208,7 @@ def product_edit(request, uuid):
         product_dict['product'] = product
         if product_desc.count() > 0:
             product_dict['product_desc'] = product_desc[0].description
+            product_dict['product_desc2'] = product_desc2[0].description
         if ProductImage.objects.filter(product=product).count() > 0:
             product_dict['image'] = ProductImage.objects.filter(product=product)[0].image.image
         product_array.append(product_dict)
@@ -221,21 +220,22 @@ def product_edit(request, uuid):
 
                 product.company = company
                 product.isActive = product_form.cleaned_data['isActive']
-                product.isSponsor = product_form.cleaned_data['isSponsor']
                 product.isAdvert = product_form.cleaned_data['isAdvert']
-
+                product.save()
                 product.code = product_form.cleaned_data['code']
                 product.cover_image = product_form.cleaned_data['cover_image']
                 product.company_code = product_form.cleaned_data['company_code']
                 product.name = request.POST['product_description[tr][name]']
                 product.save()
 
-                product_desc[0].product = product
-                product_desc[0].description = request.POST['product_description[tr][name]']
-                product_desc[0].save()
+                for tr in product_desc:
+                    tr.product = product
+                    tr.description = request.POST['product_description[tr][name]']
+                    tr.save()
 
-                product_desc2[0].description = request.POST['product_description[eng][name]']
-                product_desc2[0].save()
+                for eng in product_desc2:
+                    eng.description = request.POST['product_description[eng][name]']
+                    eng.save()
 
                 for f in request.FILES.getlist('input2[]'):
                     image = Image(image=f)
@@ -294,7 +294,7 @@ def product_edit(request, uuid):
 
                 return redirect('listArch:urunler')
             else:
-                messages.success(request, "Alanları kontrol ediniz.")
+                messages.warning(request, "Alanları kontrol ediniz.")
 
     except Exception as e:
         print(e)

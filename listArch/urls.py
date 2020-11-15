@@ -125,8 +125,9 @@ urlpatterns = [
 
     url(r'introduction-page-title/$', IntroductionViews.introduction_title,
         name='tanitim-urunleri-ana-baslik'),
-    url(r'title-delete/$', IntroductionViews.delete_introduction,
+    url(r'title-delete/$', IntroductionViews.delete_introduction_title,
         name='tanitim-urunleri-ana-baslik-sil'),
+    url(r'delete-introduction/$', IntroductionViews.delete_introduction, name='tanitim-sil'),
 
     # About
     url(r'add-about/$', AboutViews.add_about, name='hakkimizda-ekle'),

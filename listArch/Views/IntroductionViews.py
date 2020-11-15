@@ -4,10 +4,9 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
-from listArch.Forms.IntroductionProductForm import IntroductionProductForm
 from listArch.Forms.IntroductionDescForm import IntroductionDescForm
 from listArch.Forms.IntroductionForm import IntroductionForm
-from listArch.models import IntroductionPage, IntroductionPageDesc, IntroductionProduct, IntroductionTitle
+from listArch.models import IntroductionPage, IntroductionPageDesc, IntroductionProduct, IntroductionTitle, Product
 from listArch.models.IntroductionTitleDesc import IntroductionTitleDesc
 from listArch.services import general_methods
 
@@ -20,20 +19,21 @@ def add_introduction_desc(request):
         return redirect('accounts:login')
     introduction_form = IntroductionForm()
     introduction_desc_form = IntroductionDescForm()
-    introduction_product_form = IntroductionProductForm()
     try:
         if request.method == 'POST':
             introduction_form = IntroductionForm(request.POST)
             introduction_desc_form = IntroductionDescForm(request.POST, request.FILES)
-            introduction_product_form = IntroductionProductForm(request.POST)
 
-            if introduction_form.is_valid() and introduction_desc_form.is_valid() and introduction_product_form.is_valid():
+            if introduction_form.is_valid() and introduction_desc_form.is_valid():
 
                 introduction = IntroductionPage(key=introduction_form.cleaned_data['key'],
                                                 category=introduction_form.cleaned_data['category'],
                                                 isActive=introduction_form.cleaned_data['isActive'],
                                                 title=introduction_form.cleaned_data['title'])
                 introduction.save()
+
+                for related_product in introduction_form.cleaned_data['product']:
+                    introduction.product.add(related_product)
 
                 introduction_desc = IntroductionPageDesc(introduction=introduction,
                                                          description=introduction_form.cleaned_data['key'], lang_code=1)
@@ -44,20 +44,16 @@ def add_introduction_desc(request):
                                                               'description'], lang_code=2)
                 introduction_desc2.save()
 
-                for product in introduction_product_form.cleaned_data['product']:
-                    introduction_product = IntroductionProduct(introduction=introduction, product=product)
-                    introduction_product.save()
 
-                messages.success(request, " Bilgiler Başarıyla Kayıt Edildi.")
-                return redirect('listArch:tanitim-sayfasina-oge-ekle')
+                messages.success(request, "Bilgiler Başarıyla Kayıt Edildi.")
+                return redirect('listArch:tanitim-urunleri')
             else:
                 messages.success(request, "Alanları kontrol ediniz.")
 
     except Exception as e:
         print(e)
     return render(request, 'Introduct/add-introduction-element.html',
-                  {'introduction_form': introduction_form, 'introduction_desc_form': introduction_desc_form,
-                   'introduction_product_form': introduction_product_form})
+                  {'introduction_form': introduction_form, 'introduction_desc_form': introduction_desc_form, })
 
 
 def update_introduction_desc(request, pk):
@@ -73,12 +69,11 @@ def update_introduction_desc(request, pk):
     introduction_eng = IntroductionPageDesc.objects.filter(introduction=introduction).filter(lang_code=2)
     introduction_desc_form = IntroductionDescForm(request.POST or None, instance=introduction_eng[0])
 
-    products = IntroductionProduct.objects.filter(introduction=introduction)
-    introduction_product_form = IntroductionProductForm(request.POST or None)
+    product_all = Product.objects.filter(isActive=True)
     try:
         if request.method == 'POST':
 
-            if introduction_form.is_valid() and introduction_desc_form.is_valid() and introduction_product_form.is_valid():
+            if introduction_form.is_valid() and introduction_desc_form.is_valid():
 
                 introduction.key = introduction_form.cleaned_data['key']
                 introduction.category = introduction_form.cleaned_data['category']
@@ -86,18 +81,16 @@ def update_introduction_desc(request, pk):
                 introduction.title = introduction_form.cleaned_data['title']
                 introduction.save()
 
-                introduction_tr[0].description = introduction_form.cleaned_data['key']
-                introduction_tr[0].save()
+                for tr in introduction_tr:
+                    tr.description = introduction_form.cleaned_data['key']
+                    tr.save()
+                for eng in introduction_eng:
+                    eng.description = introduction_desc_form.cleaned_data['description']
+                    eng.save()
 
-                introduction_eng[0].description = introduction_desc_form.cleaned_data['description']
-                introduction_eng[0].save()
+                for product in introduction_form.cleaned_data['product']:
+                    introduction.product.add(product)
 
-                for product in products:
-                    product.delete()
-
-                for product in introduction_product_form.cleaned_data['product']:
-                    introduction_product = IntroductionProduct(introduction=introduction, product=product)
-                    introduction_product.save()
 
                 messages.success(request, "Bilgiler Başarıyla Kayıt Edildi.")
                 return redirect('listArch:tanitim-urunleri')
@@ -108,7 +101,7 @@ def update_introduction_desc(request, pk):
         print(e)
     return render(request, 'Introduct/add-introduction-element.html',
                   {'introduction_form': introduction_form, 'introduction_desc_form': introduction_desc_form,
-                   'introduction_product_form': introduction_product_form})
+                   'product_all': product_all})
 
 
 def introduction_products(request):
@@ -117,15 +110,8 @@ def introduction_products(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    introductions = IntroductionProduct.objects.values('introduction').annotate(dcount=Count('product'))
-    array = []
-    for introduction in introductions:
-        dict_introduction = dict()
-        dict_introduction['introduction'] = IntroductionPage.objects.get(pk=introduction['introduction'])
-        dict_introduction['products'] = IntroductionProduct.objects.filter(
-            introduction=IntroductionPage.objects.get(pk=introduction['introduction']))
-        array.append(dict_introduction)
-    return render(request, 'Introduct/introductions.html', {'introductions': array})
+    introductions = IntroductionPage.objects.filter(isActive=True)
+    return render(request, 'Introduct/introductions.html', {'introductions': introductions})
 
 
 def add_introduction_page_title(request):
@@ -181,7 +167,7 @@ def update_introduction_page_title(request, pk):
     return render(request, 'Introduct/update-title.html', {'title_tr': title_tr, 'title_eng': title_eng})
 
 
-def delete_introduction(request):
+def delete_introduction_title(request):
     perm = general_methods.control_access(request)
 
     if not perm:
@@ -192,6 +178,24 @@ def delete_introduction(request):
 
             id = request.POST['id']
             introduction = IntroductionTitle.objects.get(pk=id)
+            introduction.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+def delete_introduction(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+            id = request.POST['id']
+            introduction = IntroductionPage.objects.get(pk=id)
             introduction.delete()
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 

@@ -100,6 +100,7 @@ TEMPLATES = [
                 'listArch.services.general_methods.get_scrolling_text',
                 'listArch.services.general_methods.headerText',
                 'listArch.services.general_methods.categories',
+                'listArch.services.general_methods.get_lang_code',
 
                 # "education.services.general_methods.append_privileges",
             ],

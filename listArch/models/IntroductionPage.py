@@ -1,5 +1,6 @@
 from django.db import models
 
+from listArch.models.Product import Product
 from listArch.models.IntroductionTitle import IntroductionTitle
 from listArch.models.Category import Category
 
@@ -9,5 +10,5 @@ class IntroductionPage(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     isActive = models.BooleanField(default=False)
     title = models.ForeignKey(IntroductionTitle, on_delete=models.CASCADE, null=True, blank=True)
-
+    product = models.ManyToManyField(Product, null=True, blank=True)
 

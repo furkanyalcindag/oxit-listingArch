@@ -8,8 +8,10 @@
 
         </h1>
         <ol class="breadcrumb">
-            <li><a href="">Seçenek</a></li>
-            <li><a href="">Seçenek Düzenle</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+
+            <li><a>Seçenek</a></li>
+            <li><a>Seçenek Düzenle</a></li>
         </ol>
 
     </section>
@@ -107,8 +109,9 @@
                                         <div class="col-sm-10">
                                             <select name="type" id="input-type" class="form-control">
                                                 <optgroup label="Seçiniz">
-                                                    <option value="{{ option.type }}">{{ option.type }}</option>
+                                                    {% if option.type == 'checkbox' %}
                                                     <option value="checkbox">Onay Kutusu</option>
+                                                    {% endif %}
                                                 </optgroup>
                                                 <optgroup label="Veri Girişi">
                                                     <option value="range">Değer Aralığı</option>
@@ -312,12 +315,15 @@
     </script>
     <script>
         let count = []
+        let option_value_row = {{ loop }};
 
         $(document).ready(function () {
             debugger;
             for (let i = 0; i < option_value_row; i++) {
                 count.push(i)
             }
+            document.getElementById("row_number").value = count;
+
 
         });
 
@@ -331,8 +337,6 @@
         });
 
         $('select[name=\'type\']').trigger('change');
-
-        let option_value_row = {{ loop }};
 
 
         function add_option_value() {

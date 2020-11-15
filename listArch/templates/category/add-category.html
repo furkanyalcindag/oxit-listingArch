@@ -10,8 +10,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">Kategori</a></li>
-            <li><a href="">Kategori Ekle</a></li>
+            <li><a >Kategori</a></li>
+            <li><a >Kategori Ekle</a></li>
         </ol>
     </section>
     <section class="content">
@@ -182,6 +182,12 @@
 
                                                         {% endfor %}
                                                     </select>
+
+                                                </div>
+                                             <div class="form-group">
+
+                                                    <label for="input-type">Sıra No</label>
+                                                    {{ category_form.order }}
 
                                                 </div>
                                                 <div class="form-group">

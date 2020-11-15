@@ -1,4 +1,3 @@
-from django import template
 from django.contrib.auth.models import Group, User, Permission
 from django.urls import resolve
 from django.utils.crypto import get_random_string
@@ -10,9 +9,6 @@ from listArch.models.Company import Company
 from listArch.models.Log import Log
 from listArch.models.Menu import Menu
 from oxiterp.settings.base import home_lang_code
-
-import json
-from django.conf import settings
 
 
 def activeMenu(request):
@@ -29,7 +25,7 @@ def activeMenu(request):
 
             if app_name != 'accounts':
 
-                if groups[0].name == "Admin" or groups[0].name == "Firma" or groups[0].name == "Personel" :
+                if groups[0].name == "Admin" or groups[0].name == "Firma" or groups[0].name == "Personel":
                     obj = Menu.objects.filter(url=url)
                     if obj.count() > 0 and obj[0].parent:
                         parent = Menu.objects.get(pk=obj[0].parent_id)
@@ -98,6 +94,7 @@ def control_access(request):
 
         return is_exist
 
+
 def save_log(user_id, content):
     user = User.objects.get(pk=user_id)
     log = Log()
@@ -134,20 +131,23 @@ def get_random_secret_key():
 
 def parent_categories_list(request):
     from listArch.models import CategoryDesc
-    categories = CategoryDesc.objects.filter(lang_code=int(home_lang_code)).filter(category__is_parent=True).filter(
+    categories = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category__is_parent=True).filter(
         category__isBasic=True).order_by('category__order')
     return {"parent_categories": categories}
 
 
 def get_all_category(request):
     from listArch.models import Category
-    categories = Category.objects.filter(isActive=True)
+    categories = Category.objects.filter(isActive=True).order_by('order')
     return {"categories": categories}
 
+
 def categories(request):
-    from listArch.models import Category
-    categories = Category.objects.filter(isActive=True).filter(is_parent=False)
+    from listArch.models import CategoryDesc
+    categories = CategoryDesc.objects.filter(category__isActive=True).filter(category__is_parent=False).order_by(
+        'category__order')
     return {"sub_categories": categories}
+
 
 def get_company(request):
     companies = Company.objects.all()
@@ -172,7 +172,6 @@ def get_scrolling_text(request):
     return {}
 
 
-
 def headerText(request):
     headerText = HeaderTextDesc.objects.filter(headerText__isActive=True).filter(lang_code=home_lang_code)
     if headerText.count() > 0:
@@ -180,4 +179,6 @@ def headerText(request):
     return {}
 
 
-
+def get_lang_code(request):
+    lang_code = home_lang_code
+    return {'lang_code': lang_code}

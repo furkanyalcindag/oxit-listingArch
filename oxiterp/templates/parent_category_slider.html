@@ -3,18 +3,17 @@
             <div class="row">
                 <!-- Carousel -->
                 <div class="col-md-12 top-slider"  >
-                    <div class="slider"  >
+                    <div class="slider">
                         {% for category in parent_categories %}
 
                             <div class="text-center" >
-                                <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
+                                <a href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
 
                                    class="highlighted-category">
 
                                     <img  class="img-responsive top-slider-img"
-                                         src="/media/worker.png"
+                                         src="/media/{{category.category.icon }}"
                                          alt="Bricks-in-Bytes">
-
                                     <h5 class="top-slider-h5" >{{ category.description }}</h5>
 
                                 </a>

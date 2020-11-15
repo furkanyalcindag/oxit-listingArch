@@ -8,13 +8,12 @@ from listArch.models.Category import Category
 
 class ProductForm(ModelForm):
     isActive = forms.BooleanField(required=False)
-    isSponsor = forms.BooleanField(required=False)
     isAdvert = forms.BooleanField(required=False)
 
     class Meta:
         model = Product
         fields = (
-            'category', 'isActive', 'company_code', 'code', 'isSponsor', 'cover_image', 'isAdvert', 'price',
+            'category', 'isActive', 'company_code', 'code', 'cover_image', 'isAdvert', 'price',
             'related_product','file')
         widgets = {
             'company_code': forms.TextInput(

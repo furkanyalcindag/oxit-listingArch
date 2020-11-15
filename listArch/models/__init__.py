@@ -22,7 +22,6 @@ from .Blog import Blog
 from .FileDesc import FileDesc
 from .BlogProduct import BlogProduct
 from .IntroductionPageDesc import IntroductionPageDesc
-from .IntroductionProduct import IntroductionProduct
 from .IntroductionPage import IntroductionPage
 from .About import About
 from .Definition import Definition

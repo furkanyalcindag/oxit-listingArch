@@ -55,3 +55,4 @@ class Product(models.Model):
             self.qr_code.save(fname, File(buffer), save=False)
             canvas.close()
             super().save(*args, **kwargs)
+        super().save(*args, **kwargs)

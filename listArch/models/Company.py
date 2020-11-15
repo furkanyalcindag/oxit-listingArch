@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from listArch.models.Service import Service
 from listArch.models.BusinessType import BusinessType
 from listArch.models.Country import Country
 from listArch.models.City import City
@@ -27,7 +28,7 @@ class Company(models.Model):
                                       on_delete=models.CASCADE)
     cover_image = models.ImageField(upload_to='company_image/', null=True, blank=True, verbose_name='Kapak Fotoğrafı',
                                     default='logo1.png')
-
+    service = models.ManyToManyField(Service, null=True, blank=True)
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)

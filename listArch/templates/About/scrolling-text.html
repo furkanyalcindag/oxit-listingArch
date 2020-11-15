@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a >{{ parent.name }}</a></li>
+            <li><a >{{ obj.name }}</a></li>
         </ol>
 
     </section>
@@ -86,9 +86,7 @@
                                     <div class="panel-body">
 
                                         <form method="post" enctype="multipart/form-data" id="form-product">
-                                            <a href="{% url 'listArch:kayan-yazi-ekle' %}" class="btn btn-app">
-                                                <i class="fa fa-plus"></i> Kayan Yazı Ekle
-                                            </a>
+
                                             <div class="table-responsive">
                                                 <table id="text" class="display responsive nowrap" cellspacing="0"
                                                        width="100%">
@@ -118,10 +116,7 @@
                                                                    class="btn btn-primary"
                                                                    data-original-title="Düzenle"><i
                                                                         class="fa fa-pencil"></i></a>
-                                                                <a onclick="text_delete({{ text.text.pk }})" data-toggle="tooltip" title=""
-                                                                   class="btn btn-danger"
-                                                                   data-original-title="Sil"><i
-                                                                        class="fa fa-close"></i></a>
+
                                                             </td>
 
                                                             <td>{{ text.description }}</td>

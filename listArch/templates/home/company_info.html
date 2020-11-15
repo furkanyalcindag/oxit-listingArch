@@ -224,14 +224,14 @@
                                 <a style="font-size: 20px;
     background-color: #ffffff;
     padding: 20px;"
-                                   class="button book-now fullwidth margin-top-5">{{ 'request_call'|get_item_by_lang}}</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'request_call'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">{{ 'phone' |get_item_by_lang}}</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'phone' |get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -245,7 +245,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">{{ 'preferred_time'|get_item_by_lang}}</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'preferred_time'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -259,7 +259,7 @@
     background: #fd9116;    line-height: 12px;
 
     padding: 5px;"
-                                   class="button book-now fullwidth margin-top-5">{{ 'contact_person'|get_item_by_lang}}</a>
+                                   class="button book-now fullwidth margin-top-5">{{ 'contact_person'|get_item_by_lang }}</a>
                             </div>
                             <div class="col-md-6" style="padding-right: 5px;padding-left:5px">
                                 <a href="#" style="font-size: 14px;
@@ -519,47 +519,75 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 ">
                                     <div class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
-                                        <h4 style="font-weight: 800">DIVERSIFICATION OF PRODUCTS BY {{ company.name }}</h4>
+                                        <h4 style="font-weight: 800">DIVERSIFICATION OF PRODUCTS
+                                            BY {{ company.name }}</h4>
 
                                     </div>
 
                                     {% for product_cat in category_product %}
-                                        {% for  product in product_cat.product_categories %}
-
-                                            <div class="blog-post margin-bottom-5 margin-top-5" style="border: 1px solid">
-                                                <a style="border: 1px solid #fff;"
+                                        <script>$('.center').slick({
+                                            centerMode: true,
+                                            centerPadding: '60px',
+                                            slidesToShow: 3,
+                                            responsive: [
+                                                {
+                                                    breakpoint: 768,
+                                                    settings: {
+                                                        arrows: false,
+                                                        centerMode: true,
+                                                        centerPadding: '40px',
+                                                        slidesToShow: 3
+                                                    }
+                                                },
+                                                {
+                                                    breakpoint: 480,
+                                                    settings: {
+                                                        arrows: false,
+                                                        centerMode: true,
+                                                        centerPadding: '40px',
+                                                        slidesToShow: 1
+                                                    }
+                                                }
+                                            ]
+                                        });</script>
+<div class="center">
+                                        <div class="blog-post margin-bottom-5 margin-top-5" style="border: 1px solid">
+                                            <a style="border: 1px solid #fff;"
+                                               href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
+                                               class="post-img">
+                                                <img src="/media/{{ product_cat.product_category.cover_image }}" alt="">
+                                            </a>
+                                            <br>
+                                            <div class="post-content">
+                                                <a style="font-size: 12px;"
                                                    href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
-                                                   class="post-img">
-                                                    <img src="/media/{{ product.cover_image }}" alt="">
-                                                </a>
-                                                <br>
-                                                <div class="post-content">
-                                                    <a style="font-size: 12px;"
-                                                       href="{% url 'listArch:urun-filtreleme-sayfasi' product_cat.category.pk %}"
-                                                       class=""> {{ product_cat.category.name }} <i
-                                                            class="fa fa-angle-right"></i></a>
-                                                </div>
+                                                   class=""> {{ product_cat.category.name }} <i
+                                                        class="fa fa-angle-right"></i></a>
                                             </div>
-                                        {% endfor %}
+                                        </div>
+</div>
                                     {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <div class="row">
-                    <div class="row  margin-bottom-5 margin-top-5">
-                        <div class="blog-page">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 ">
-                                    <div id="classifying" class="col-md-12" style="border: 2px solid #fd9116;;margin-bottom: 5px;">
-                                        <h4 style="font-weight: 800">{{ 'CLASSIFYING_BY'|get_item_by_lang }} {{ company.name }}</h4>
+                {% if collections %}
+                    <div class="row">
+                        <div class="row  margin-bottom-5 margin-top-5">
+                            <div class="blog-page">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 ">
+                                        <div id="classifying" class="col-md-12"
+                                             style="border: 2px solid #fd9116;;margin-bottom: 5px;">
+                                            <h4 style="font-weight: 800">{{ 'CLASSIFYING_BY'|get_item_by_lang }} {{ company.name }}</h4>
 
-                                    </div>
+                                        </div>
 
-                                    {% for collection in collections %}
+                                        {% for collection in collections %}
 
-                                            <div class="blog-post margin-bottom-5 margin-top-5" style="border: 1px solid">
+                                            <div class="blog-post margin-bottom-5 margin-top-5"
+                                                 style="border: 1px solid">
                                                 <a style="border: 1px solid #fff;"
                                                    href=""
                                                    class="post-img">
@@ -574,13 +602,13 @@
                                                 </div>
                                             </div>
 
-                                    {% endfor %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                {% endif %}
             </div>
         </div>
     </div>

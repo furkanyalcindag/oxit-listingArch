@@ -4,12 +4,13 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 
-from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionProduct, IntroductionPage, \
+from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionPage, \
     IntroductionPageDesc, CategoryDesc, BlogDesc, CompanyBlog, RelatedProduct, \
     OptionValueDesc, List, CompanyRetail, Contact, AboutDesc, ProductDesc, OptionDesc, ProductPerform, GraphicValueDesc, \
     ProductChart, ChartValue, Value, ChartDesc, Profile, BusinessType, ProfileBlog, BlogImage, ProfileBlogDesc, \
-    BusinessTypeDesc, ProductVideo, ServiceDesc, Collection, CollectionProduct
+    BusinessTypeDesc, ProductVideo, ServiceDesc, Collection, CollectionProduct, IntroductionTitle
 from listArch.models.CompanyDefinition import CompanyDefinition
+from listArch.models.IntroductionTitleDesc import IntroductionTitleDesc
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.DefinitionDescription import DefinitionDescription
 from listArch.models.Product import Product
@@ -25,8 +26,9 @@ from oxiterp.settings.base import home_lang_code
 
 
 def base2(request):
-    category_parent = CategoryDesc.objects.filter(category__is_parent=True).filter(lang_code=1).order_by('?')[:6]
-    categories = CategoryDesc.objects.filter(lang_code=1)
+    category_parent = CategoryDesc.objects.filter(category__is_parent=True).filter(lang_code=home_lang_code).order_by(
+        'category__order')[:6]
+    categories = CategoryDesc.objects.filter(lang_code=home_lang_code)
     companies = Company.objects.all()
 
     return render(request, 'home/index.html',
@@ -101,7 +103,8 @@ def product_detail(request, slug):
         description = ProductDefinition.objects.filter(product=product)
         for desc in description:
             desc_dict = dict()
-            desc_dict['desc'] = DefinitionDescription.objects.filter(definition=desc.definition).filter(lang_code=1)[0]
+            desc_dict['desc'] = \
+            DefinitionDescription.objects.filter(definition=desc.definition).filter(lang_code=home_lang_code)[0]
             desc_array.append(desc_dict)
 
         company_definitions = CompanyDefinition.objects.filter().filter(company=product.company)
@@ -109,7 +112,8 @@ def product_detail(request, slug):
         for company_def in company_definitions:
             desc_dict = dict()
             desc_dict['desc'] = \
-                DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=1)[
+                DefinitionDescription.objects.filter(definition=company_def.definition).filter(
+                    lang_code=home_lang_code)[
                     0]
             company_definition_array.append(desc_dict)
 
@@ -134,14 +138,13 @@ def product_detail(request, slug):
             array.append(option_dict)
 
         socials = CompanySocialAccount.objects.filter(company=product.company)
-        related_product = RelatedProduct.objects.filter(product=product).order_by('?')[:4]
         # distinct('product')
 
         return render(request, 'home/product-detail.html',
                       {'product': product, 'images': product_image, 'options': array, 'definitions': desc_array,
                        'company_definitions': company_definition_array, 'social': socials,
                        'category': cat_desc, 'services': service_array,
-                       'related_products': related_product, 'graphics': graph_array, 'charts': chart_array,
+                       'graphics': graph_array, 'charts': chart_array,
                        'videos': product_videos,
                        })
     except Exception as e:
@@ -157,8 +160,10 @@ def product_filter_page(request, pk):
             list = List.objects.filter(user=user)
 
         category = Category.objects.get(pk=pk)
-        cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=home_lang_code)
-        parent_cat = CategoryDesc.objects.filter(category=cat_desc[0].category.parent).filter(lang_code=home_lang_code)
+        cat_desc = CategoryDesc.objects.filter(category=category).filter(lang_code=home_lang_code).order_by(
+            'category__order')
+        parent_cat = CategoryDesc.objects.filter(category=cat_desc[0].category.parent).filter(
+            lang_code=home_lang_code).order_by('category__order')
         category_desc = ""
         if cat_desc.count() > 0:
             category_desc = cat_desc[0]
@@ -333,20 +338,18 @@ def get_company_info(request, pk):
         company_collection = Collection.objects.filter(company=company)
         collection_array = []
         for collection in company_collection:
-                products = CollectionProduct.objects.filter(collection=collection)
-                product_dict = dict()
-                product_dict['name'] = collection.name
-                product_dict['image'] = products[0].product.cover_image
-                collection_array.append(product_dict)
+            products = CollectionProduct.objects.filter(collection=collection)
+            product_dict = dict()
+            product_dict['name'] = collection.name
+            product_dict['image'] = products[0].product.cover_image
+            collection_array.append(product_dict)
 
         array = []
         company_definitions = CompanyDefinition.objects.filter(company=company)
         company_definition_array = []
         for company_def in company_definitions:
             desc_dict = dict()
-            desc_dict['desc'] = \
-                DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=1)[
-                    0]
+            desc_dict['desc'] =DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=home_lang_code)[0]
             company_definition_array.append(desc_dict)
         category_products = Product.objects.filter(company=company).values('category').annotate(
             dcount=Count('category'))
@@ -355,7 +358,7 @@ def get_company_info(request, pk):
                 category=Category.objects.get(pk=category_product['category'])).distinct('id')
             category_dict = dict()
             category_dict['category'] = Category.objects.get(pk=category_product['category'])
-            category_dict['product_categories'] = product_categories
+            category_dict['product_category'] = product_categories[0]
             array.append(category_dict)
 
     except Exception as e:
@@ -585,21 +588,24 @@ def home_products(request, pk):
     cat = Category.objects.filter(pk=pk)
     category = CategoryDesc.objects.filter(category=cat[0]).filter(lang_code=home_lang_code)
     sub_categories = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category__isActive=True).filter(
-        category__parent__in=cat)
+        category__parent__in=cat).order_by('category__order')
     products = ProductDesc.objects.filter(lang_code=int(home_lang_code)).filter(product__category__in=cat).filter(
         product__isAdvert=True).order_by('?')[:6]
-    introductions = IntroductionProduct.objects.values('introduction').annotate(dcount=Count('product'))
+
+    introductions = IntroductionPage.objects.values('title').annotate(dcount=Count('product'))
     array = []
     for introduction in introductions:
-        introduction_products = IntroductionProduct.objects.filter(product__category__in=cat).filter(
-            introduction=IntroductionPage.objects.get(pk=introduction['introduction'])).order_by('?')[:4]
+        title=IntroductionTitle.objects.get(pk=introduction['title'])
+        introduction_products = IntroductionPage.objects.filter(product__category__in=cat).filter(
+            title=title).order_by('?')[:4]
         if introduction_products.count() > 0:
             dict_introduction = dict()
-            x = IntroductionPage.objects.filter(pk=introduction['introduction']).filter(isActive=True)
+            x = IntroductionPage.objects.filter(title=title).filter(isActive=True)
             dict_introduction['introduction'] = \
-                IntroductionPageDesc.objects.filter(introduction=x[0]).filter(lang_code=1)[
+                IntroductionPageDesc.objects.filter(introduction=x[0]).filter(lang_code=home_lang_code)[
                     0]
-            dict_introduction['products'] = introduction_products
+            dict_introduction['title']=IntroductionTitleDesc.objects.filter(title=title).filter(lang_code=home_lang_code)[0]
+
             array.append(dict_introduction)
 
     blogs = BlogDesc.objects.filter(lang_code=home_lang_code)
@@ -630,8 +636,8 @@ def about_page(request):
     about = AboutDesc.objects.filter(lang_code=1, about__isActive=True)
     if len(about) > 0:
         return render(request, 'home/about_page.html', {'about': about[0]})
-    else :
-        
+    else:
+
         return render(request, 'home/about_page.html', {'about': '-'})
 
 
@@ -672,3 +678,5 @@ def profile_page(request):
 
 def blog_page(request):
     return render(request, 'home/blog-page.html')
+
+

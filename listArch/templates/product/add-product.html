@@ -8,8 +8,11 @@
 
         </h1>
         <ul class="breadcrumb">
-            <li><a href="">Katalog</a></li>
-            <li><a href="">Ürünler</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a>Katalog</a></li>
+            <li><a>Ürünler</a></li>
+            <li><a>Ürün Ekle</a></li>
+
         </ul>
 
     </section>
@@ -152,10 +155,6 @@
 
                                                             {{ product_form.isActive }}
 
-                                                            <label style="margin-left: 15px;" for="input-type">Sponsor
-                                                                Ürün</label>
-
-                                                            {{ product_form.isSponsor }}
 
                                                             <label style="margin-left: 15px;" for="input-type">Reklam
                                                                 Ürünü</label>
@@ -222,7 +221,7 @@
                                                                             data-original-title="Video Ekle"><i
                                                                             class="fa fa-plus-circle"></i></button>
                                                                 </td>
-                                                                <input type="hidden" name="video_row"  id="video_row"/>
+                                                                <input type="hidden" name="video_row" id="video_row"/>
                                                             </tr>
                                                             </tfoot>
                                                         </table>

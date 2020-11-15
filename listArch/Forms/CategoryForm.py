@@ -11,12 +11,14 @@ class CategoryForm(ModelForm):
 
     class Meta:
         model = Category
-        fields = ('name', 'is_parent', 'url', 'isActive', 'icon', 'isBasic')
+        fields = ('name', 'is_parent', 'url', 'isActive', 'icon', 'isBasic', 'order',)
         widgets = {
             'name': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Kategori Adı', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Kategori Adı'}),
+            'order': forms.NumberInput(
+                attrs={'class': 'form-control ', 'placeholder': 'Kategori Sırası'}),
 
             'url': forms.TextInput(
-                attrs={'class': 'form-control ', 'name': 'url', 'id': 'url','required': 'false'}),
+                attrs={'class': 'form-control ', 'name': 'url', 'id': 'url', 'required': 'false'}),
 
         }

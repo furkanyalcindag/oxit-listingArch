@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a >{{ parent.name }}</a></li>
+            <li><a >{{ obj.name }}</a></li>
         </ol>
 
     </section>
@@ -99,9 +99,9 @@
                                                             onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
                                                     </td>
                                                     <td>Aktiflik</td>
-
                                                     <td>işlem</td>
-                                                    <td>Başlık</td>
+                                                    <td>Ana Başlık</td>
+                                                    <td>Alt Başlık</td>
                                                     <td>Kategori</td>
                                                     <td>Ürünler</td>
 
@@ -116,30 +116,29 @@
                                                                    value="18">
                                                         </td>
                                                         <td>
-                                                            {% if introduction.introduction.isActive %}
+                                                            {% if introduction.isActive %}
                                                                 <span class="label label-success">Aktif</span>
                                                             {% else %}
                                                                 <span class="label label-danger">Pasif</span>
                                                             {% endif %}
                                                         </td>
                                                         <td><a
-                                                                href="{%  url 'listArch:tanitim-sayfasi-duzenle' introduction.introduction.pk %}"
+                                                                href="{%  url 'listArch:tanitim-sayfasi-duzenle' introduction.pk %}"
                                                                 data-toggle="tooltip" title=""
                                                                 class="btn btn-primary"
                                                                 data-original-title="Düzenle"><i
                                                                 class="fa fa-pencil"></i></a>
-                                                            <a
-                                                                    onclick=""
+                                                            <a onclick="introduction_delete({{ introduction.pk }})"
                                                                     data-toggle="tooltip" title=""
                                                                     class="btn btn-danger"
                                                                     data-original-title="Sil"><i
                                                                     class="fa fa-close"></i></a></td>
-
-                                                        <td>{{ introduction.introduction.key }}</td>
-                                                        <td>{{ introduction.introduction.category.name }}</td>
+                                                        <td>{{ introduction.title.key }}</td>
+                                                        <td>{{ introduction.key }}</td>
+                                                        <td>{{ introduction.category.name }}</td>
                                                         <td>
-                                                            {% for product in introduction.products %}
-                                                                <span class="label label-success">{{ product.product.name }}</span>
+                                                            {% for product in introduction.product.all %}
+                                                                <span class="label label-success">{{ product.name }}</span>
                                                                 -
                                                             {% endfor %}
                                                         </td>
@@ -259,28 +258,28 @@
         })
     </script>
     <script>
-        function blog_delete(id) {
+        function introduction_delete(id) {
             let html = 'Blog bilgilerini silmek istediğinizden emin misiniz?';
             document.getElementById('content').innerHTML = html;
             $(".deneme23").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {
                     $.ajax({
-                        url: "{% url 'listArch:blog-sil' %}",
+                        url: "{% url 'listArch:tanitim-sil' %}",
                         type: "post", // or "get"
                         data: {
-                            blog_id: id,
+                            id: id,
 
 
                         },
                         success: function (result) {
 
-                            if (result.status == 'Success') {
-                                swal("Başarılı", " Blog Bilgileri Silindi.", "success");
-                                window.location.replace("{% url "listArch:bloglar" %}");
+                            if (result.status === 'Success') {
+                                swal("Başarılı", "Tanıtım Bilgileri Silindi.", "success");
+                                window.location.replace("{% url "listArch:tanitim-urunleri" %}");
 
 
                             } else {
-                                swal("Başarısız", result.messages, "error");
+                                swal("Başarısız", "Tanıtım Bilgileri Silinemedi.", "error");
                             }
                         }
                     });
