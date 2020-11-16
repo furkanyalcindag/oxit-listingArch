@@ -164,7 +164,7 @@ def update_contact(request, pk):
                 contact.isActive = form.cleaned_data['isActive']
                 contact.save()
 
-                log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + contact.pk + ' </strong> bilgisini güncelledi.</p>'
+                log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + str(contact.pk) + ' </strong> bilgisini güncelledi.</p>'
                 log = Log(user=request.user, content=log_content)
                 log.save()
 

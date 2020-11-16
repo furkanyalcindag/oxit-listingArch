@@ -94,7 +94,6 @@
                                                     <thead>
                                                     <tr class="text-left">
                                                         <td>ID</td>
-                                                        <td>İşlem</td>
                                                         <th>Durum</th>
                                                         <td>Ad Soyad</td>
                                                         <td>Email</td>
@@ -108,13 +107,7 @@
                                                             <td>
 
                                                             </td>
-                                                            <td><a
-                                                                    href=""
-                                                                    data-toggle="tooltip" title=""
-                                                                    class="btn btn-primary"
-                                                                    data-original-title="Düzenle"><i
-                                                                    class="fa fa-pencil"></i></a>
-                                                                </td>
+
                                                             <td>
                                                                 {% if staff.isActive %}
                                                                     <a onclick="staff_passive({{ staff.pk }})"
@@ -122,7 +115,7 @@
                                                                         class="btn btn-danger"
                                                                         data-original-title="Passive">Pasif Et</a>
                                                                 {% else %}
-                                                                    <a onclick="staff_passive({{ staff.pk }})"
+                                                                    <a onclick="staff_active({{ staff.pk }})"
                                                                         data-toggle="tooltip" title=""
                                                                         class="btn btn-success"
                                                                         data-original-title="Passive">Aktif Et</a>
@@ -272,7 +265,7 @@
 
                             }
                             else {
-                               swal("Başarılı", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
+                               swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
                             }
                         }
                     });
@@ -292,7 +285,7 @@
                 $("#btn-conf").click(function () {
                     debugger;
                     $.ajax({
-                        url: "{% url 'listArch:personel-aktif-et' %}",
+                        url: "{% url 'listArch:aktif-et-personel' %}",
                         type: "post", // or "get"
                         data: {
                             staff_id: id,
@@ -306,7 +299,7 @@
 
                             }
                             else {
-                               swal("Başarılı", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
+                               swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
                             }
                         }
                     });

@@ -110,14 +110,16 @@
                                             <select name="type" id="input-type" class="form-control">
                                                 <optgroup label="Seçiniz">
                                                     {% if option.type == 'checkbox' %}
-                                                    <option value="checkbox">Onay Kutusu</option>
+                                                        <option selected value="checkbox">Onay Kutusu</option>
+
+                                                    {% elif option.type == 'text' %}
+                                                        <option selected value="text">Metin</option>
+
+                                                    {% elif option.type == 'range' %}
+                                                        <option selected value="range">Değer Aralığı</option>
+
                                                     {% endif %}
                                                 </optgroup>
-                                                <optgroup label="Veri Girişi">
-                                                    <option value="range">Değer Aralığı</option>
-                                                    <option value="text">Metin</option>
-                                                </optgroup>
-
 
                                             </select>
                                         </div>
@@ -329,10 +331,17 @@
 
 
         $('select[name=\'type\']').on('change', function () {
-            if (this.value === 'select' || this.value === 'radio' || this.value === 'checkbox') {
-                $('#option-value').parent().show();
-            } else {
-                $('#option-value').parent().hide();
+            debugger;
+            if (this.value === 'range') {
+                $('#option-value-table').parent().show();
+                count=[]
+            }else if(this.value === 'checkbox') {
+                 $('#option-value-table').parent().show();
+                count=[]
+            }
+            else {
+                $('#option-value-table').parent().hide();
+                count=[]
             }
         });
 
@@ -369,7 +378,7 @@
             debugger;
             $('#option-value-row' + id + '').remove();
             count = jQuery.grep(count, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById("row_number").value = count;
             console.log(count)

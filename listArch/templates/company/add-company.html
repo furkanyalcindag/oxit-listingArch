@@ -73,7 +73,7 @@
                             <form action="{% url 'listArch:firma-ekle' %}"
                                   method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
-                                <input type="hidden" id="row_number" name="row_number" value="1">
+                                <input type="hidden" id="row_number" name="row_number" value="">
 
 
                                 <fieldset>
@@ -354,33 +354,38 @@
     </script>
 
     <script>
-        var social_row = 0;
-        let count = [];
+        let social_row =0;
+        let count = []
 
         function addSocial() {
-            let html = '<tr id="social-row' + social_row + '">';
+            debugger;
+           let html = '<tr id="social-row' + social_row + '">';
             html += '<td class="text-left">';
             html += '<select name="company_social[' + social_row + '][name]" class="form-control select2 " style="width: 100%" id="social">';
-            html += '<option value="instagram">Instagram</option><option value="facebook">Facebook</option>';
-            html += '<option value="twitter">Twitter</option><option value="pinterest">Pinterest</option></select></td>';
+            html += '<option value="Instagram">Instagram</option><option value="Facebook">Facebook</option>';
+            html += '<option value="Twitter">Twitter</option><option value="Pinterest">Pinterest</option></select></td>';
             html += '  <td class="text-right"><input type="text" name="company_social[' + social_row + '][link]" value="" placeholder="Link" class="form-control" /></td>';
-            html += '  <td class="text-left"><button type="button" onclick="remove_row(' + social_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+            html += '  <td class="text-left"><button type="button" onclick="remove(' + social_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+            html += ' <button type="button" onclick="" data-toggle="tooltip" title="Düzenle" class="btn btn-primary"><i class="fa fa-edit"></i></button></td>';
             html += '</tr>';
 
             $('#social tbody').append(html);
             count.push(parseInt(social_row));
-            document.getElementById("social_row").value = count;
             social_row++;
+            document.getElementById("row_number").value = count;
         }
 
 
-        function remove_row(id) {
-            $('#social-row' + id + '').remove();
+        function remove(social_row) {
+            debugger;
+            $('#social-row' + social_row + '').remove();
             count = jQuery.grep(count, function (value) {
-                return value != id;
+                return value !== social_row;
             });
-            document.getElementById("social_row").value = count;
+            document.getElementById("row_number").value = count;
             console.log(count)
+
+
         }
 
         function add_retail() {

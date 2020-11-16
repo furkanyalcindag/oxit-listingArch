@@ -4,11 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-
 from listArch.Forms.OptionForm import OptionForm
 from listArch.Forms.OptionCategoryForm import OptionCategoryForm
-
-from listArch.models import OptionValueDesc, OptionDesc, Category
+from listArch.models import OptionValueDesc, OptionDesc
 from listArch.models.Option import Option
 from listArch.models.OptionValue import OptionValue
 from listArch.serializers.OptionValueDescSerializer import OptionValueDescSerializer
@@ -33,12 +31,13 @@ def add_option(request):
                 type = request.POST['type']
                 option_description_tr = request.POST['option_description[tr][name]']
                 option_description_eng = request.POST['option_description[eng][name]']
-
-                count = request.POST['row_number']
-                count = count.split(',')
                 array = []
-                for count in count:
-                    array.append(count)
+                count = request.POST['row_number']
+                if count != '':
+                    count = count.split(',')
+
+                    for count in count:
+                        array.append(count)
 
                 option = Option(key=option_description_tr,
                                 type=type)
@@ -57,7 +56,6 @@ def add_option(request):
 
                     for category in category_form.cleaned_data['category']:
                         option.category.add(category)
-                i = 0
 
                 if option.type == 'range':
                     min = request.POST['option_value[min]']
@@ -66,6 +64,7 @@ def add_option(request):
                     optionValue.save()
                     messages.success(request, "Seçenek Başarıyla eklendi.")
                     return redirect('listArch:secenek-ekle')
+
 
                 for i in array:
                     value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
@@ -221,15 +220,15 @@ def update_option(request, pk):
                         option.category.add(category)
 
                 option.save()
-
+                for option_val in option_values:
+                    option_val.delete()
                 count = request.POST['row_number']
                 count = count.split(',')
                 array = []
                 for count in count:
                     array.append(count)
                 if count != '':
-                    for option_val in option_values:
-                        option_val.delete()
+
 
                     for i in array:
                         value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']

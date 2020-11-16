@@ -47,7 +47,6 @@ from .BusinessTypeDesc import BusinessTypeDesc
 from .Collection import Collection
 from .CollectionProduct import CollectionProduct
 from .Advert import Advert
-from .CompanyRetail import CompanyRetail
 from .Profile import Profile
 from .ProfileBlogDesc import ProfileBlogDesc
 from .ProductPerform import ProductPerform
@@ -64,3 +63,4 @@ from .Video import Video
 from .ProductVideo import ProductVideo
 from .Service import Service
 from .ServiceDesc import ServiceDesc
+from .CompanyRetail import CompanyRetail
