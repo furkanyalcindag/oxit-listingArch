@@ -1,16 +1,18 @@
 from django import forms
 from django.forms import ModelForm
 
-from listArch.models import Service
+from listArch.models.Service import Service
 from listArch.models.Company import Company
 
 
 class CompanyForm(ModelForm):
+    is_sponsor = forms.BooleanField(required=False)
+
     class Meta:
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link', 'business_type', 'service',
+            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor',
         )
 
         widgets = {
@@ -23,7 +25,7 @@ class CompanyForm(ModelForm):
             'phone': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Telefonu', 'required': 'required'}),
             'userDescription': forms.Textarea(
-                attrs={'class': 'form-control ', 'rows': '5', 'placeholder': 'Açıklama', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'rows': '5', 'placeholder': 'Açıklama', }),
             'website': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Web Site Adresi', 'required': 'required'}),
             'map': forms.TextInput(
@@ -50,7 +52,7 @@ class CompanyForm(ModelForm):
 
         }
 
-    service = forms.ModelMultipleChoiceField(queryset=Service.objects.all())
+    service = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         if kwargs.get('instance'):
@@ -67,4 +69,4 @@ class CompanyForm(ModelForm):
         forms.ModelForm.__init__(self, *args, **kwargs)
         self.fields['service'].widget.attrs = {'class': 'form-control select2 select2-hidden-accessible',
                                                'style': 'width: 100%;', 'data-select2-id': '1',
-                                               'required': 'false', }
+                                               }
