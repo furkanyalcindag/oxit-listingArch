@@ -127,7 +127,7 @@ def update_category(request, pk):
                 category.isActive = category_form.cleaned_data['isActive']
                 category.isBasic = category_form.cleaned_data['isBasic']
                 category.order = category_form.cleaned_data['order']
-                category.icon = request.FILES['icon']
+                category.icon = category_form.cleaned_data['icon']
                 category.name = category_tr
 
                 category.save()

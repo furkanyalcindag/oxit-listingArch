@@ -8,8 +8,9 @@
 
         </h1>
         <ul class="breadcrumb">
-            <li><a href="">Katalog</a></li>
-            <li><a href="">Kişi Bilgisi</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a>Katalog</a></li>
+            <li><a>Kişi Bilgisi</a></li>
         </ul>
 
     </section>
@@ -72,7 +73,7 @@
 
                         <div class="box-body">
 
-                            <form  method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
+                            <form method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
                                 <div class="container-fluid">
                                     <div class="panel panel-default">
@@ -81,7 +82,8 @@
                                                 class="btn btn-primary pull-right" data-original-title="Kaydet"><i
                                                 class="fa fa-save"></i></button>
                                         <div class="panel-heading" style="padding: 13px 18px">
-                                            <h3 class="panel-title"><i class="fa fa-plus"></i> Kullanıcı Bilgisi Ekle</h3>
+                                            <h3 class="panel-title"><i class="fa fa-plus"></i> Kullanıcı Bilgisi Ekle
+                                            </h3>
 
                                         </div>
                                         <div class="panel-body" style="margin: 5px;">
