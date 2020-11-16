@@ -62,7 +62,7 @@ def forgot(request):
             html_content = ''
             subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>GVERCİN</p>'
+            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>List Of Room</p>'
             html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
             html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])

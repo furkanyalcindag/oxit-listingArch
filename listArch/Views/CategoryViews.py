@@ -26,12 +26,12 @@ def add_category(request):
                 category_eng = request.POST['category_description[eng][name]']
 
                 category = Category(name=category_tr, isActive=category_form.cleaned_data['isActive'],
-                                    isBasic=category_form.cleaned_data['isBasic'])
+                                    isBasic=category_form.cleaned_data['isBasic'],
+                                    order=category_form.cleaned_data['order'], icon=request.FILES['icon'])
                 category.save()
 
                 if request.POST['category_parent'] == "":
                     category.is_parent = True
-                    category.icon = request.FILES['icon']
                     category.save()
                 else:
                     category.parent = Category.objects.get(pk=request.POST['category_parent'])
@@ -51,9 +51,10 @@ def add_category(request):
                 messages.success(request, "Kategori Başarıyla eklendi.")
                 return redirect('listArch:kategori-ekle')
             else:
-                messages.success(request, "Alanları Kontrol Edin.")
+                messages.warning(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
+        messages.warning(request, "Alanları Kontrol Edin.")
 
     return render(request, 'category/add-category.html', {'categories': categories, 'category_form': category_form})
 
@@ -93,7 +94,7 @@ def update_category(request, pk):
     category_desc2 = ""
 
     cat_array = []
-    category_form = CategoryForm(request.POST or None, instance=category)
+    category_form = CategoryForm(request.POST or None, request.FILES or None, instance=category)
 
     try:
         if category.parent:
@@ -121,24 +122,29 @@ def update_category(request, pk):
             if category_form.is_valid():
 
                 category_eng = request.POST['category_description[eng][name]']
-                category_tr = category_form.cleaned_data['name']
+                category_tr = request.POST['category_description[tr][name]']
 
                 category.isActive = category_form.cleaned_data['isActive']
                 category.isBasic = category_form.cleaned_data['isBasic']
+                category.order = category_form.cleaned_data['order']
+                category.icon = request.FILES['icon']
+                category.name = category_tr
 
                 category.save()
 
                 # TR
-                category_desc1[0].description = category_tr
-                category_desc1[0].definition = request.POST['content[tr]']
-                category_desc1[0].page_description = request.POST['description[tr]']
-                category_desc1[0].save()
+                for category_desc_tr in category_desc1:
+                    category_desc_tr.description = category_tr
+                    category_desc_tr.definition = request.POST['content[tr]']
+                    category_desc_tr.page_description = request.POST['description[tr]']
+                    category_desc_tr.save()
 
                 # ENG
-                category_desc2[0].description = category_eng
-                category_desc2[0].definition = request.POST['content[eng]']
-                category_desc2[0].page_description = request.POST['description[eng]']
-                category_desc2[0].save()
+                for category_desc_eng in category_desc2:
+                    category_desc_eng.description = category_eng
+                    category_desc_eng.definition = request.POST['content[eng]']
+                    category_desc_eng.page_description = request.POST['description[eng]']
+                    category_desc_eng.save()
 
                 if category.isBasic:
                     category.parent = None
@@ -157,7 +163,7 @@ def update_category(request, pk):
         print(e)
 
     return render(request, 'category/category-update.html',
-                  {'category_desc': category_desc2[0], 'parent': category_parent, 'category_tr': category_desc1[0],
+                  {'parent': category_parent, 'category_tr': category_desc1[0],
                    'category_eng': category_desc2[0],
                    'categories': cat_array, 'category': category, 'category_form': category_form})
 

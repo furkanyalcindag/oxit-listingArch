@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 {% load static %}
 {% load change_lang %}
+{% if lang_code == 1 %}
+    <html lang="tr">
+{% else %}
+    <html lang="en">
+{% endif %}
 
 <head>
-    <title>{{ 'site_name' |get_item_by_lang}}</title>
+    <title>{{ 'site_name' |get_item_by_lang }}</title>
     <meta name="description" content="Bricks-in-Bytes">
     <meta name="keywords" content="Bricks-in-Bytes">
     <meta charset="utf-8">
@@ -96,7 +101,7 @@
                                 style="overflow-x: inherit;">{{ headerText.description |safe }}</a>
                         </li>
 
-                        <li><a class=" hidden-md hidden-lg " href="#">{{ 'category' |get_item_by_lang}}</a>
+                        <li><a class=" hidden-md hidden-lg " href="#">{{ 'category' |get_item_by_lang }}</a>
                             <ul>
 
 
@@ -113,11 +118,11 @@
                         </li>
 
 
-                        <li><a class=" hidden-sm hidden-xs " href="#">{{ 'about' |get_item_by_lang}}</a></li>
+                        <li><a class=" hidden-sm hidden-xs " href="{% url 'listArch:anasayfa-hakkimizda-sayfasi' %}">{{ 'about' |get_item_by_lang }}</a></li>
 
 
                         <li><a href="#">{{ 'advertises' |get_item_by_lang }}</a></li>
-                        <li><a href="#">{{ 'contact' |get_item_by_lang }}</a></li>
+                        <li><a href="{% url 'listArch:anasayfa-iletisim-sayfasi' %}">{{ 'contact' |get_item_by_lang }}</a></li>
 
 
                     </ul>
@@ -151,10 +156,10 @@
                                         class="sl sl-icon-list"></i> {{ 'my_list' |get_item_by_lang }}</a></li>
                                 <li><a href="{% url 'listArch:kullanici-firma-bilgileri-guncelle' %}"><i
                                         class="fa fa-user"></i>
-                                    {{ 'profile' |get_item_by_lang}}</a>
+                                    {{ 'profile' |get_item_by_lang }}</a>
                                 </li>
                                 <li><a href="{% url 'listArch:logout-user' %}"><i class="sl sl-icon-power"></i>
-                                    {{ 'logout' |get_item_by_lang}}</a></li>
+                                    {{ 'logout' |get_item_by_lang }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -163,7 +168,7 @@
                 <div class="right-side hidden-sm hidden-xs">
                     <div class="header-widget">
                         <a href="{% url 'listArch:kullanici-giris-yap' %}" class="sign-in"><i
-                                class="sl sl-icon-login"></i>{{ 'login' |get_item_by_lang}}</a>
+                                class="sl sl-icon-login"></i>{{ 'login' |get_item_by_lang }}</a>
                     </div>
                 </div>
             {% endif %}
@@ -269,17 +274,21 @@
 
     <div id="footer" style="border-top: 2px solid #fd9116;margin-top: 3px;">
         <!-- Main -->
-        <div class="container" >
+        <div class="container">
 
 
             <!-- Copyright -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="copyrights">© 2020 {{ 'site_name' |get_item_by_lang}} <a
-                            style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">{{ 'terms_of_service' |get_item_by_lang}}</a> | <a
-                            style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">{{ 'privacy_policy' |get_item_by_lang}}</a>
-                        | <a style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">{{ 'data_disclaimer'|get_item_by_lang}}</a> | <a
-                                style="margin-left: 10px;margin-right: 10px;color:#fff" href="#">{{ 'cookie_policy' |get_item_by_lang }}</a> |
+                    <div class="copyrights">© 2020 {{ 'site_name' |get_item_by_lang }} <a
+                            style="margin-left: 10px;margin-right: 10px;color:#fff"
+                            href="#">{{ 'terms_of_service' |get_item_by_lang }}</a> | <a
+                            style="margin-left: 10px;margin-right: 10px;color:#fff"
+                            href="#">{{ 'privacy_policy' |get_item_by_lang }}</a>
+                        | <a style="margin-left: 10px;margin-right: 10px;color:#fff"
+                             href="#">{{ 'data_disclaimer'|get_item_by_lang }}</a> | <a
+                                style="margin-left: 10px;margin-right: 10px;color:#fff"
+                                href="#">{{ 'cookie_policy' |get_item_by_lang }}</a> |
                     </div>
                 </div>
             </div>

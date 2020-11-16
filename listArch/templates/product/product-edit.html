@@ -8,8 +8,9 @@
 
         </h1>
         <ul class="breadcrumb">
-            <li><a href="">Ürünler</a></li>
-            <li><a href="">Ürün Düzenle</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a>Ürünler</a></li>
+            <li><a>Ürün Düzenle</a></li>
         </ul>
 
     </section>
@@ -123,7 +124,7 @@
                                                                     src="/media/tr-tr.png" title="TR"></span>
                                                                 <input type="text"
                                                                        name="product_description[tr][name]"
-                                                                       value="{{ product.product.name }}"
+                                                                       value="{{ product.product_desc2 }}"
                                                                        placeholder="Ürün Adı"
                                                                        class="form-control"/>
                                                             </div>
@@ -144,11 +145,6 @@
                                                                 Ürün?</label>
 
                                                             {{ product_form.isActive }}
-
-                                                            <label style="margin-left: 15px;" for="input-type">Sponsor
-                                                                Ürün</label>
-
-                                                            {{ product_form.isSponsor }}
 
                                                             <label style="margin-left: 15px;" for="input-type">Reklam
                                                                 Ürünü</label>
@@ -343,10 +339,10 @@
 
 
                                                     <label style="margin-top: 30px;">Dosya Seçin</label>
-                                                    {{ product_file_form.file }}
+                                                    {{ product_form.file }}
 
                                                     <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
-                                                    {{ related_product_form.related_product }}
+                                                    {{ product_form.related_product }}
 
 
                                                 </div>

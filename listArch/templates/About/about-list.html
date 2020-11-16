@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a >{{ parent.name }}</a></li>
+            <li><a >{{ obj.name }}</a></li>
         </ol>
 
     </section>
@@ -87,9 +87,7 @@
 
                                         <form action="http://demo1.oxit.com.tr/admin/index.php?route=catalog/product/delete&amp;user_token=L9au1tnskZQiwDK9sBGZO1rMsgeFr3E7"
                                               method="post" enctype="multipart/form-data" id="form-product">
-                                            <a href="{% url 'listArch:hakkimizda-ekle' %}" class="btn btn-app">
-                                                <i class="fa fa-plus"></i> Hakkımızda Ekle
-                                            </a>
+
                                             <div class="table-responsive">
                                                 <table id="categories" class="display responsive nowrap" cellspacing="0"
                                                        width="100%">
@@ -118,12 +116,7 @@
                                                                     class="btn btn-primary"
                                                                     data-original-title="Düzenle"><i
                                                                     class="fa fa-pencil"></i></a>
-                                                                <a
-                                                                        onclick="about_delete({{ about.pk }})"
-                                                                        data-toggle="tooltip" title=""
-                                                                        class="btn btn-danger"
-                                                                        data-original-title="Sil"><i
-                                                                        class="fa fa-close"></i></a></td>
+                                                                </td>
 
                                                             <td>{{ about.key }}</td>
                                                         </tr>

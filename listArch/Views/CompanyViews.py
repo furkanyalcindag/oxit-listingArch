@@ -79,6 +79,7 @@ def add_company(request):
                                   date=company_form.cleaned_data['date'],
                                   address_link=company_form.cleaned_data['address_link'],
                                   business_type=company_form.cleaned_data['business_type'],
+                                  isSponsor=company_form.cleaned_data['isSponsor']
 
                                   )
                 company.save()
@@ -110,7 +111,7 @@ def add_company(request):
 
                 subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, user2.email
                 text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-                html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/">oxit.com.tr</a></p>'
+                html_content = '<p> <strong>Site adresi:</strong> <a href="http://http://185.86.4.199:8082/">oxit.com.tr</a></p>'
                 html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
                 html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
                 msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
@@ -119,7 +120,6 @@ def add_company(request):
 
                 messages.success(request, 'Firma Bilgileri Başarıyla Kayıt Edilmiştir.')
                 return redirect('listArch:firma-ekle')
-
             else:
                 messages.warning(request, 'Alanları Kontrol Ediniz.')
 

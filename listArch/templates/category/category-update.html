@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">Kategori</a></li>
-            <li><a href="">{{ category.name }}</a></li>
+            <li><a>Kategori</a></li>
+            <li><a>{{ category.name }}</a></li>
         </ol>
 
     </section>
@@ -73,9 +73,9 @@
 
                         <div class="box-body">
 
-                            <form
-                                    method="post" enctype="multipart/form-data" id="form-option"
-                                    class="form-horizontal">
+                            <form action="{% url 'listArch:kategori-duzenle' category.pk %}" method="post"
+                                  enctype="multipart/form-data" id="form-option"
+                                  class="form-horizontal">
                                 {% csrf_token %}
 
                                 <div class="container-fluid">
@@ -100,12 +100,15 @@
                                                     <div class="input-group"><span class="input-group-addon"><img
                                                             src="/media/en-gb.png" title="İngilizce"></span>
                                                         <input type="text" name="category_description[eng][name]"
-                                                               value="{{ category_desc.description }}"
+                                                               value="{{ category_eng.description }}"
                                                                placeholder="Kategori Adı" class="form-control">
                                                     </div>
                                                     <div class="input-group"><span class="input-group-addon"><img
                                                             src="/media/tr-tr.png" title="Türkçe"></span>
-                                                        {{ category_form.name }}
+                                                        <input type="text" name="category_description[tr][name]"
+                                                               value="{{ category_tr.description }}"
+                                                               placeholder="Kategori Adı" class="form-control">
+
                                                     </div>
 
 
@@ -160,6 +163,12 @@
 
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="input-type">Sıra No</label>
+
+                                                    {{ category_form.order }}
+
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="input-type">Aktif
                                                         Kategori?</label>
 
@@ -170,12 +179,19 @@
                                                 <div class="form-group">
                                                     <label for="input-type">Ana Kategori</label>
                                                     {{ category_form.isBasic }}
-
-
                                                 </div>
                                                 <div class="form-group" id="category_icon">
-                                                    <label for="input-type">Ana Kategori İkonu</label>
-                                                    {{ category_form.icon }}
+                                                    <div class="col-md-6"><label for="input-type">Ana Kategori
+                                                        İkonu</label>
+                                                        {{ category_form.icon }}</div>
+                                                    {% if category.icon %}
+                                                        <label for="">Mevcut İkon</label>
+                                                        <div class="col-md-6">
+                                                            <img src="/media/{{ category.icon }}"
+                                                                 class="product-img"
+                                                                 style="background-color:#000;width: 50px;height: 50px;">
+                                                        </div>
+                                                    {% endif %}
                                                 </div>
 
                                                 <div class="form-group ">
@@ -187,7 +203,7 @@
                                                     <div class="input-group"><span class="input-group-addon"><img
                                                             src="/media/en-gb.png" title="ENg"></span>
                                                         <input type="text" name="description[eng]" id="description[eng]"
-                                                               value="{{ category_desc.page_description }}"
+                                                               value="{{ category_eng.page_description }}"
                                                                placeholder="example: What can I do?"
                                                                class="form-control">
                                                     </div>

@@ -8,8 +8,10 @@
 
         </h1>
         <ul class="breadcrumb">
-            <li><a href="">Katalog</a></li>
-            <li><a href="">Blog</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+
+            <li><a>Katalog</a></li>
+            <li><a>Blog</a></li>
         </ul>
 
     </section>
@@ -60,7 +62,7 @@
         {% endif %}
         <!-- /.row -->
         <!-- Main row -->
-            <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
              aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -97,7 +99,7 @@
 
                         <div class="box-body">
 
-                            <form  method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
+                            <form method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
                                 <div class="container-fluid">
                                     <div class="panel panel-default">
@@ -477,7 +479,6 @@
 
                             if (result.status == 'Success') {
                                 swal("Başarılı", " Fotoğraf Silindi.", "success");
-
 
 
                             } else {

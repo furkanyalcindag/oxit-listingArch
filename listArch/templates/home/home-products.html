@@ -58,67 +58,11 @@
     float: left;
     padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
                                        class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
+                                        <img height="24" src="/media/{{ category.category.icon }}" alt="Bricks-in-Bytes">
                                         <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
     display: block;
     width: 100px;">{{ category.description }}</h4>
                                     </a>
-                                      <a style="    width: 110px;height: 80px;
-    float: left;
-    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
-    display: block;
-    width: 100px;">{{ category.description }}</h4>
-                                    </a>
-
-                                      <a style="    width: 110px;height: 80px;
-    float: left;
-    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
-    display: block;
-    width: 100px;">{{ category.description }}</h4>
-                                    </a>
-
-                                      <a style="    width: 110px;height: 80px;
-    float: left;
-    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
-    display: block;
-    width: 100px;">{{ category.description }}</h4>
-                                    </a>
-
-                                      <a style="    width: 110px;height: 80px;
-    float: left;
-    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
-    display: block;
-    width: 100px;">{{ category.description }}</h4>
-                                    </a>
-
-                                      <a style="    width: 110px;height: 80px;
-    float: left;
-    padding: 10px 5px 0px 0px;" href="{% url 'listArch:urun-filtreleme-sayfasi'  category.category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="24" src="/media/worker.png" alt="Bricks-in-Bytes">
-                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
-    display: block;
-    width: 100px;">{{ category.description }}</h4>
-                                    </a>
-
-
-
-
-
-
-
 
                                 {% endfor %}
 
@@ -312,7 +256,7 @@
 
         {% endif %}
 
-        {% if introductions %}
+        {% if introductions|length > 0 %}
 
             <div class="blog-page">
                 <div class="row" style=";margin-left: 0px;margin-top: 20px;
@@ -321,23 +265,23 @@
                         <div class="col-lg-12 col-md-12"
                              style=";padding-bottom: 40px;margin-top: 20px;margin-left: 20px;">
                             <div class="row container ">
-                                <h3>{{ 'essential'| get_item_by_lang }} {{ category.description }} {{ 'elements'| get_item_by_lang }}</h3>
+                                <h3>{{introduction.title.description}} ({{ category.description }} )</h3>
                             </div>
 
-                            {% for product in introduction.products %}
+                            {% for product in introduction.introduction.introduction.product.all %}
                                 <div class="blog-post" style="border: 1px solid">
                                     <a style="border: 1px solid #fff;"
-                                       href="{% url 'listArch:urun-detay' product.product.slug %}" class="post-img">
-                                        <img src="/media/{{ product.product.cover_image }}" alt="">
+                                       href="{% url 'listArch:urun-detay' product.slug %}" class="post-img">
+                                        <img src="/media/{{product.cover_image }}" alt="">
                                     </a>
                                     <br>
                                     <div class="post-content" style="border: 0">
 
                                         <ul class="post-meta" style="text-align:center">
                                             <li><a href="#">{{ category.description }}</a></li>
-                                            <li><a href="#">({{ introduction.products |length }})</a></li>
+                                            <li><a href="#">({{ introduction.introduction.introduction.product |length }})</a></li>
                                             <li>
-                                                <a href="{% url 'listArch:urun-detay' product.product.slug %}">{{ product.product.name }}</a>
+                                                <a href="{% url 'listArch:urun-detay' product.slug %}">{{product.name }}</a>
                                             </li>
 
                                         </ul>

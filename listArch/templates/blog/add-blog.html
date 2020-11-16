@@ -8,8 +8,9 @@
 
         </h1>
         <ul class="breadcrumb">
-            <li><a href="">Katalog</a></li>
-            <li><a href="">Blog</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a>Katalog</a></li>
+            <li><a>Blog</a></li>
         </ul>
     </section>
     <section class="content">
@@ -171,7 +172,8 @@
                                                                             data-original-title="Resim Ekle"><i
                                                                             class="fa fa-plus-circle"></i></button>
                                                                 </td>
-                                                                <input type="hidden" name="image_row" id="image_row" value=""/>
+                                                                <input type="hidden" name="image_row" id="image_row"
+                                                                       value=""/>
                                                             </tr>
                                                             </tfoot>
                                                         </table>
@@ -359,7 +361,7 @@
             $('#image-row' + row + '').remove();
             let row_number = document.getElementById('image_row').value;
             if (parseInt(row_number) > 0) {
-                document.getElementById('image_row').value= row - 1;
+                document.getElementById('image_row').value = row - 1;
                 image_row--;
             }
 

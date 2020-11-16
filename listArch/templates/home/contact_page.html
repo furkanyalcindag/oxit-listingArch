@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% load change_lang %}
+
     {% include 'count_box.html' %}
-    <div id="titlebar" style="border-bottom:1px solid #fff;">
+    <div id="titlebar" style="border-bottom:1px solid #fff;border-top: 2px solid #fd9116">
         <div class="" style="margin-left: 20px">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs">
-                        <ul>
-                            <li><a href="#">ANASAYFA</a></li>
-                            <li><a href="#">İLETİŞİM</a></li>
+                       <ul>
+                            <li><a href="{% url 'listArch:index' %}">{{ 'home_page' |get_item_by_lang }}</a></li>
+                            <li><a>{{ 'contact' |get_item_by_lang }}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -17,18 +19,18 @@
         </div>
     </div>
     <div class="container" style="margin: 10px">
-        <div class="row" style="border-bottom: 1px solid #fd9116;">
+        <div class="row" style="">
             <!-- Contact Details -->
             <div class="col-md-4">
 
-                <h4 class="headline margin-bottom-30">Bize Ulaşın</h4>
+                <h4 class="headline margin-bottom-30">{{ 'contact'|get_item_by_lang }}</h4>
 
                 <!-- Contact Details -->
                 <div class="sidebar-textbox">
 
 
                     <ul class="contact-details">
-                        <li><i class="im im-icon-Phone-2"></i> <strong>Telefon:</strong> <span><a href="tel:{{contact.phone}}"><span
+                        <li><i class="im im-icon-Phone-2"></i> <strong>{{ 'phone'|get_item_by_lang }}:</strong> <span><a href="tel:{{contact.phone}}"><span
                                 class="__cf_email__" data-cfemail="">{{ contact.phone }}</span></a></span></li>
                         <li><i class="im im-icon-Envelope"></i> <strong>E-Mail:</strong> <span><a href="mailto:{{contact.email}}"><span
                                 class="__cf_email__" data-cfemail="7d121b1b141e183d18051c100d1118531e1210">{{ contact.email }}</span></a></span>
@@ -42,7 +44,7 @@
             <div class="col-md-8" style="width: 50%;" >
 
                 <section id="contact">
-                    <h4 class="headline margin-bottom-35">İletişim Formu</h4>
+                    <h4 class="headline margin-bottom-35">{{ 'make_contact' |get_item_by_lang }}</h4>
 
                     <div id="contact-message"></div>
 
@@ -52,7 +54,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div>
-                                    <input name="name" type="text" id="name" placeholder="Adınız"
+                                    <input name="name" type="text" id="name" placeholder="{{ 'your_name'|get_item_by_lang }}"
                                            required="required">
                                 </div>
                             </div>
@@ -67,15 +69,15 @@
                         </div>
 
                         <div>
-                            <input name="subject" type="text" id="subject" placeholder="Konu" required="required">
+                            <input name="subject" type="text" id="subject" placeholder="{{ 'subject' |get_item_by_lang }}" required="required">
                         </div>
 
                         <div>
-                            <textarea name="comments" cols="40" rows="3" id="comments" placeholder="Mesaj"
+                            <textarea name="comments" cols="40" rows="3" id="comments" placeholder="{{ 'message'|get_item_by_lang }}"
                                       spellcheck="true" required="required"></textarea>
                         </div>
 
-                        <input type="submit" class="submit button" id="submit" value="Gönder">
+                        <input type="submit" class="submit button" id="submit" value="{{ 'send' |get_item_by_lang }}">
 
                     </form>
                 </section>

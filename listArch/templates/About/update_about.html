@@ -4,13 +4,13 @@
 
     <section class="content-header">
         <h1>
-           Açıklama Ekle
+            Hakkımızda Düzenle
 
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a href="">{{ parent.name }}</a></li>
-            <li><a href="">{{ obj.name }}</a></li>
+            <li><a>Hakkımızda</a></li>
+            <li><a>Hakkımızda Düzenle</a></li>
         </ol>
 
     </section>
@@ -93,16 +93,15 @@
 
                                                         src="/media/en-gb.png" title="İngilizce"></span>
                                                     <input type="text" class="form-control" id="title[eng]"
-                                                           name="title[eng]">
+                                                           name="title[eng]" value="{{ about_eng.title_desc }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Definition</label>
                                                 <div class="input-group"><span class="input-group-addon">
-                                                        <img
-                                                             src="/media/en-gb.png" title="İngilizce"></span>
+                                                        <img src="/media/en-gb.png" title="İngilizce"></span>
                                                     <textarea class="form-control textarea" name="content[eng]"
-                                                              id="content[eng]" rows="5"></textarea>
+                                                              id="content[eng]" rows="10">{{ about_eng.description }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -111,7 +110,7 @@
 
                                                         src="/media/tr-tr.png" title="Türkçe"></span>
                                                     <input type="text" class="form-control" id="title[tr]"
-                                                           name="title[tr]">
+                                                           name="title[tr]" value="{{ about_tr.title_desc |safe }}">
 
                                                 </div>
                                             </div>
@@ -121,7 +120,7 @@
 
                                                         src="/media/tr-tr.png" title="Türkçe"></span>
                                                     <textarea class="form-control textarea" name="content[tr]"
-                                                              id="content[tr]" rows="5"></textarea>
+                                                              id="content[tr]" rows="10">{{ about_tr.description |safe}}</textarea>
                                                 </div>
                                             </div>
 

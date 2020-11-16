@@ -199,11 +199,13 @@ def update_option(request, pk):
                 option_description_tr = request.POST['option_description[tr][name]']
                 option_description_eng = request.POST['option_description[eng][name]']
 
-                option_desc2[0].description = option_description_tr
-                option_desc2[0].save()
+                for desc in option_desc2:
+                    desc.description = option_description_tr
+                    desc.save()
 
-                option_desc[0].description = option_description_eng
-                option_desc[0].save()
+                for desc_tr in option_desc:
+                    desc_tr.description = option_description_eng
+                    desc_tr.save()
 
                 option.key = option_description_tr
                 option.save()
@@ -225,25 +227,25 @@ def update_option(request, pk):
                 array = []
                 for count in count:
                     array.append(count)
+                if count != '':
+                    for option_val in option_values:
+                        option_val.delete()
 
-                for option_val in option_values:
-                    option_val.delete()
+                    for i in array:
+                        value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
+                        value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
 
-                for i in array:
-                    value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
-                    value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
-
-                    if type == 'range':
-                        value = OptionValue(option=option, value=option_desc2[0].description, min=value_tr,
+                        if type == 'range':
+                            value = OptionValue(option=option, value=option_desc2[0].description, min=value_tr,
                                             max=value_eng)
-                        value.save()
-                    else:
-                        value = OptionValue(option=option, value=value_tr)
-                        value.save()
-                        desc2 = OptionValueDesc(option_value=value, lang_code=1, description=value_tr)
-                        desc2.save()
-                        desc = OptionValueDesc(option_value=value, lang_code=2, description=value_eng)
-                        desc.save()
+                            value.save()
+                        else:
+                            value = OptionValue(option=option, value=value_tr)
+                            value.save()
+                            desc2 = OptionValueDesc(option_value=value, lang_code=1, description=value_tr)
+                            desc2.save()
+                            desc = OptionValueDesc(option_value=value, lang_code=2, description=value_eng)
+                            desc.save()
 
                 messages.success(request, "Seçenek Başarıyla Güncellendi.")
                 return redirect('listArch:secenekler')
