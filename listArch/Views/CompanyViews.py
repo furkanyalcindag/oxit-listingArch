@@ -38,11 +38,11 @@ def add_company(request):
     company_form = CompanyForm(initial={'date': datetime.datetime.today().strftime("%d-%b-%Y")})
     user_form = UserCompanyForm()
 
-    company = Company.objects.all()
-    if request.method == 'POST':
-        company_form = CompanyForm(request.POST or None, request.FILES or None)
+    company_all = Company.objects.all()
+    try:
+        if request.method == 'POST':
+            company_form = CompanyForm(request.POST or None, request.FILES or None)
 
-        try:
             data = request.POST.copy()
             data['username'] = data['email']
             user_form = UserCompanyForm(data)
@@ -130,12 +130,10 @@ def add_company(request):
             else:
                 messages.warning(request, 'Alanları Kontrol Ediniz.')
 
-        except Exception as e:
-            print(e)
-
-    return render(request, 'company/add-company.html',
-                  {'company_form': company_form, 'user_form': user_form, 'company': company,
-                   })
+        return render(request, 'company/add-company.html',
+                      {'company_form': company_form, 'user_form': user_form, 'company_all': company_all})
+    except Exception as e:
+        print(e)
 
 
 def return_companies(request):
@@ -179,10 +177,9 @@ def update_company(request, pk):
     i = 0
     companies = Company.objects.all()
     retails = CompanyRetail.objects.filter(company=company)
+    try:
+        if request.method == 'POST':
 
-    if request.method == 'POST':
-
-        try:
             if user_form.is_valid() and company_form.is_valid():
                 company.user.first_name = user_form.cleaned_data['first_name']
                 company.user.last_name = user_form.cleaned_data['last_name']
@@ -233,13 +230,13 @@ def update_company(request, pk):
                 return redirect('listArch:firma-listesi')
             else:
                 messages.warning(request, 'Alanları Kontrol Edin.')
-        except Exception as e:
-            print(e)
 
-    return render(request, 'company/update-company.html',
-                  {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
-                   'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
-                   })
+        return render(request, 'company/update-company.html',
+                      {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
+                       'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
+                       })
+    except Exception as e:
+        print(e)
 
 
 @api_view()
@@ -322,11 +319,10 @@ def add_companyDefinition(request, pk):
 
             messages.success(request, "Açıklama Başarıyla Kayıt Edildi.")
             return redirect('listArch:firma-listesi')
-
+        return render(request, 'product/add-product-definition.html',)
     except Exception as e:
         print(e)
-    return render(request, 'product/add-product-definition.html',
-                  )
+
 
 
 @login_required

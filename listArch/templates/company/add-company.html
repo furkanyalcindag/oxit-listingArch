@@ -148,7 +148,7 @@
                                                                                        id="retail"
                                                                                        class="form-control">
                                                             <option value="">---</option>
-                                                            {% for company in company %}
+                                                            {% for company in company_all %}
                                                                 <option value="{{ company.pk }}">{{ company.name }}</option>
                                                             {% endfor %}
                                                             <option value="news">Yeni</option>

@@ -42,14 +42,13 @@ def add_product(request):
     options = Option.objects.all()
     product_form = ProductForm()
     companies = Company.objects.filter(user__is_active=True)
+    try:
+        if request.method == 'POST':
 
-    if request.method == 'POST':
+            product_form = ProductForm(request.POST or None)
+            product_image_form = ProductImageForm(request.POST or None, request.FILES)
+            product_video_form = VideoForm(request.POST or None, request.FILES)
 
-        product_form = ProductForm(request.POST or None)
-        product_image_form = ProductImageForm(request.POST or None, request.FILES)
-        product_video_form = VideoForm(request.POST or None, request.FILES)
-
-        try:
             if product_form.is_valid() and product_image_form.is_valid() and product_video_form.is_valid():
 
                 company = Company.objects.get(pk=int(request.POST['product-company']))
@@ -148,14 +147,12 @@ def add_product(request):
                 return redirect('listArch:urun-ekle')
             else:
                 messages.success(request, "Alanları kontrol ediniz.")
+        return render(request, 'product/add-product.html',
+                      {'options': options, 'product_form': product_form,
+                       'companies': companies, })
 
-        except Exception as e:
-            print(e)
-            messages.warning(request, "Hata!!.")
-
-    return render(request, 'product/add-product.html',
-                  {'options': options, 'product_form': product_form,
-                   'companies': companies, })
+    except Exception as e:
+        print(e)
 
 
 def product_list(request):
@@ -316,17 +313,15 @@ def product_edit(request, uuid):
                 return redirect('listArch:urunler')
             else:
                 messages.warning(request, "Alanları kontrol ediniz.")
-
+        return render(request, 'product/product-edit.html',
+                      {'product': product_array[0], 'options': options, 'product_form': product_form,
+                       'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
+                       'categories': cat_array, 'product_image_form': product_image_form,
+                       'product_definitions': product_definitions,
+                       'loop_value': product_option_value.count(), 'text_value': text_value,
+                       })
     except Exception as e:
         print(e)
-
-    return render(request, 'product/product-edit.html',
-                  {'product': product_array[0], 'options': options, 'product_form': product_form,
-                   'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
-                   'categories': cat_array, 'product_image_form': product_image_form,
-                   'product_definitions': product_definitions,
-                   'loop_value': product_option_value.count(), 'text_value': text_value,
-                   })
 
 
 @login_required
@@ -400,11 +395,10 @@ def add_productDefinition(request, pk):
             messages.success(request, "Açıklama Başarıyla Kayıt Edildi.")
             return redirect('listArch:urunler')
 
-
+        return render(request, 'product/add-product-definition.html',
+                      {})
     except Exception as e:
         print(e)
-    return render(request, 'product/add-product-definition.html',
-                  {})
 
 
 def update_productDefinition(request, pk):
@@ -437,11 +431,10 @@ def update_productDefinition(request, pk):
             messages.success(request, "Açıklama Başarıyla Düzenlendi.")
             return redirect('listArch:urunler')
 
-
+        return render(request, 'product/product-definition-update.html',
+                      {'def_tr': definitionDesc[0], 'def_eng': definitionDesc_eng[0]})
     except Exception as e:
         print(e)
-    return render(request, 'product/product-definition-update.html',
-                  {'def_tr': definitionDesc[0], 'def_eng': definitionDesc_eng[0]})
 
 
 @api_view(http_method_names=['POST'])
@@ -551,19 +544,18 @@ def add_graphic(request, pk):
                 return redirect('listArch:urunler')
             else:
                 messages.success(request, "Alanları Kontrol Ediniz.")
-
+        return render(request, 'product/productGraphValue.html',
+                      {'graph_form': graph_form, 'product': product, 'graphic': graphics})
     except Exception as e:
 
         return JsonResponse({'status': 'Fail', 'msg': e})
-    return render(request, 'product/productGraphValue.html',
-                  {'graph_form': graph_form, 'product': product, 'graphic': graphics})
 
 
 def add_chart_graphic(request, uuid):
     product = ""
     try:
         product = Product.objects.get(uuid=uuid)
-        product_graphic=ProductChart.objects.filter(product=product)
+        product_graphic = ProductChart.objects.filter(product=product)
         if request.POST:
             count = request.POST['count']
             count = count.split(',')
@@ -594,8 +586,7 @@ def add_chart_graphic(request, uuid):
             messages.success(request, "Grafik Bilgileri Başarıyla Kayıt Edildi.")
             return redirect('listArch:urunler')
 
+        return render(request, 'product/productChartValue.html',
+                      {'product': product, 'graphics': product_graphic})
     except Exception as e:
-
-        return JsonResponse({'status': 'Fail', 'msg': e})
-    return render(request, 'product/productChartValue.html',
-                  {'product': product,'graphics':product_graphic })
+        return print(e)

@@ -22,11 +22,11 @@ def add_option(request):
         return redirect('accounts:login')
     category_form = OptionCategoryForm()
     option_form = OptionForm()
-    if request.method == 'POST':
-        category_form = OptionCategoryForm(request.POST)
-        option_form = OptionForm(request.POST)
+    try:
+        if request.method == 'POST':
+            category_form = OptionCategoryForm(request.POST)
+            option_form = OptionForm(request.POST)
 
-        try:
             if category_form.is_valid() and option_form.is_valid():
 
                 type = request.POST['type']
@@ -66,7 +66,6 @@ def add_option(request):
                     messages.success(request, "Seçenek Başarıyla eklendi.")
                     return redirect('listArch:secenek-ekle')
 
-
                 for i in array:
                     value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
                     optionValue = OptionValue(option=option, value=value_tr)
@@ -81,10 +80,10 @@ def add_option(request):
                 return redirect('listArch:secenek-ekle')
             else:
                 messages.success(request, "Alanları kontrol ediniz.")
-        except Exception as e:
-            print(e)
+        return render(request, 'option/add-option.html', {'category_form': category_form, 'option_form': option_form})
 
-    return render(request, 'option/add-option.html', {'category_form': category_form, 'option_form': option_form})
+    except Exception as e:
+        print(e)
 
 
 def feature_list(request):
@@ -103,7 +102,7 @@ def get_option(request):
         try:
 
             option_key = request.POST.get('option_id')
-            option=Option.objects.filter(key=option_key)
+            option = Option.objects.filter(key=option_key)
             if option[0].type == 'text':
                 option = Option.objects.filter(key=option_key)
                 data = OptionSerializer(option, many=True)
@@ -236,14 +235,13 @@ def update_option(request, pk):
                     array.append(count)
                 if count != '':
 
-
                     for i in array:
                         value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
                         value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
 
                         if type == 'range':
                             value = OptionValue(option=option, value=option_desc2[0].description, min=value_tr,
-                                            max=value_eng)
+                                                max=value_eng)
                             value.save()
                         else:
                             value = OptionValue(option=option, value=value_tr)
@@ -257,12 +255,13 @@ def update_option(request, pk):
                 return redirect('listArch:secenekler')
             else:
                 messages.success(request, "Alanları kontrol ediniz.")
+        return render(request, 'option/option-update.html',
+                      {'option_desc': option_desc[0], 'option': option, 'option_values': option_array,
+                       'loop': option_values.count(), 'category_form': category_form, 'option_form': option_form})
+
     except Exception as e:
         print(e)
 
-    return render(request, 'option/option-update.html',
-                  {'option_desc': option_desc[0], 'option': option, 'option_values': option_array,
-                   'loop': option_values.count(), 'category_form': category_form, 'option_form': option_form})
 
 
 @login_required
