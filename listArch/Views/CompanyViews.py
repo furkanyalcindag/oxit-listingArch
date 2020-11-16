@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view
 from listArch.Forms.CompanyForm import CompanyForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
-from listArch.models import Company, SocialMedia, City, Product, Category, ProductFile, ProductOptionValue, Option, \
+from listArch.models import Company, SocialMedia, Product, Category, ProductFile, ProductOptionValue, Option, \
     OptionValue, CompanyRetail
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
@@ -101,7 +101,14 @@ def add_company(request):
                     retail_company = CompanyRetail(company=retail, name=retail.name, logo=retail.logo)
                     retail_company.save()
 
-                if request.POST['company_social[0][name]'] != "":
+                count_value = request.POST['row_number']
+
+                if count_value != '':
+                    count_value = count_value.split(',')
+                    array = []
+                    for count in count_value:
+                        array.append(count)
+
                     for i in array:
                         social = SocialMedia(name=request.POST['company_social[' + str(i) + '][name]'],
                                              link=request.POST['company_social[' + str(i) + '][link]'])
@@ -119,7 +126,7 @@ def add_company(request):
                 msg.send()
 
                 messages.success(request, 'Firma Bilgileri Başarıyla Kayıt Edilmiştir.')
-                return redirect('listArch:firma-ekle')
+                return redirect('listArch:firma-listesi')
             else:
                 messages.warning(request, 'Alanları Kontrol Ediniz.')
 

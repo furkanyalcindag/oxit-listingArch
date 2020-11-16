@@ -130,7 +130,7 @@ urlpatterns = [
     url(r'delete-introduction/$', IntroductionViews.delete_introduction, name='tanitim-sil'),
 
     # About
-    url(r'add-about/$', AboutViews.add_about, name='hakkimizda-ekle'),
+    url(r'hakkimizda-ekle/$', AboutViews.add_about, name='hakkimizda-ekle'),
     url(r'delete-about/$', AboutViews.delete_about, name='hakkimizda-sil'),
     url(r'about-page/$', AboutViews.about, name='hakkimizda'),
 
@@ -205,8 +205,8 @@ urlpatterns = [
     #Staff
     url(r'add-staff/$', StaffViews.register_staff, name='personel-ekle'),
     url(r'staff/$', StaffViews.staff, name='personeller'),
-    url(r'passive-staff/$', StaffViews.passive_staff, name='personel-pasif-et'),
-    url(r'active-staff/$', StaffViews.active_staff, name='personel-aktif-et'),
+    url(r'staff-passive/$', StaffViews.passive_staff, name='personel-pasif-et'),
+    url(r'staff-activate/$', StaffViews.active_staff, name='aktif-et-personel'),
 
     #Service
     url(r'add-service/$', ServiceViews.add_service, name='hizmet-ekle'),

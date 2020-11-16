@@ -188,8 +188,7 @@
                             let url = '{% url 'listArch:profile-blog-ekle' 0 %}';
                             url = url.replace(0, full.id);
 
-                            html = '<a class="btn btn-primary" type="btn" title="Düzenle"  href=""><i class="fa fa-edit"></i></a>';
-                            html += '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Blog Ekle" href="'+url+'"><i class="fa fa-plus"></i></a>';
+                            html = '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Blog Ekle" href="'+url+'"><i class="fa fa-plus"></i></a>';
                             html += '<button type="button" onclick="delete_profile('+full.id+')" style="margin-left: 5px;"  class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
 
                             return html;

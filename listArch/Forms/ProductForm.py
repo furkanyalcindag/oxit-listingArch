@@ -14,7 +14,7 @@ class ProductForm(ModelForm):
         model = Product
         fields = (
             'category', 'isActive', 'company_code', 'code', 'cover_image', 'isAdvert', 'price',
-            'related_product','file')
+            'related_product', 'file')
         widgets = {
             'company_code': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Ürün Kodu'}),
@@ -25,9 +25,8 @@ class ProductForm(ModelForm):
         }
 
     category = forms.ModelMultipleChoiceField(queryset=Category.objects.all())
-    related_product = forms.ModelMultipleChoiceField(queryset=Product.objects.all())
-    file = forms.ModelMultipleChoiceField(queryset=File.objects.all())
-
+    related_product = forms.ModelMultipleChoiceField(queryset=Product.objects.all(), required=False)
+    file = forms.ModelMultipleChoiceField(queryset=File.objects.all(), required=False)
 
     # Overriding __init__ here allows us to provide initial
     # data for 'toppings' field
@@ -50,7 +49,6 @@ class ProductForm(ModelForm):
             self.fields['related_product'].initial = initial['related_product']
             self.fields['file'].initial = initial['file']
 
-
         forms.ModelForm.__init__(self, *args, **kwargs)
         self.fields['category'].widget.attrs = {'class': 'form-control select2 select2-hidden-accessible',
                                                 'style': 'width: 100%;', 'data-select2-id': '7',
@@ -59,5 +57,5 @@ class ProductForm(ModelForm):
                                                        'style': 'width: 100%;', 'data-select2-id': '1',
                                                        'data-placeholder': 'Benzer Ürün Seçiniz'}
         self.fields['file'].widget.attrs = {'class': 'form-control select2 select2-hidden-accessible',
-                                                       'style': 'width: 100%;', 'data-select2-id': '1',
-                                                       'data-placeholder': 'Dosya Seçiniz'}
+                                            'style': 'width: 100%;', 'data-select2-id': '1',
+                                            'data-placeholder': 'Dosya Seçiniz'}

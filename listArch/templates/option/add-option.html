@@ -8,9 +8,9 @@
 
         </h1>
         <ol class="breadcrumb">
-                                    <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a >Seçenek</a></li>
-            <li><a >Seçenek Ekle</a></li>
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a>Seçenek</a></li>
+            <li><a>Seçenek Ekle</a></li>
         </ol>
 
     </section>
@@ -76,7 +76,7 @@
                             <form action="{% url 'listArch:secenek-ekle' %}" name="form-option"
                                   method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
-                                <input type="hidden" id="row_number" name="row_number" value="0">
+                                <input type="hidden" id="row_number" name="row_number" value="">
 
                                 <button type="submit" form="form-option" data-toggle="tooltip" title=""
                                         class="btn btn-primary pull-right" data-original-title="Kaydet"><i
@@ -290,7 +290,7 @@
         function add_option_value() {
 
 
-            html = '<tr id="option-value-row' + option_value_row + '">';
+            let html = '<tr id="option-value-row' + option_value_row + '">';
             html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
             html += '    <div class="input-group">';
             html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/indir.png" title="English"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
@@ -311,6 +311,8 @@
         }
 
         function add_option_range() {
+            debugger;
+            $('#add_button').hide();
             let html = '<tr id="option-value-row' + option_value_row + '">';
             html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
             html += '    <div class="input-group">';
