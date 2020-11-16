@@ -125,7 +125,7 @@ WSGI_APPLICATION = 'oxiterp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'listArch',
+        'NAME': 'listarch2',
         'USER': 'postgres',
         'PASSWORD': 'asdasvas',
         'HOST': 'localhost',
@@ -185,7 +185,7 @@ EMAIL_USE_SSL = True"""
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.com.tr'
 EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'deneme1@oxit.website'
+EMAIL_HOST_USER = 'deneme2@oxit.website'
 EMAIL_HOST_PASSWORD = 'oxit2016'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
