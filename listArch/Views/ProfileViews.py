@@ -24,7 +24,7 @@ def add_profile(request):
     countries = Country.objects.all()
 
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST or None)
+        profile_form = ProfileForm(request.POST or None, request.FILES)
 
         try:
             data = request.POST.copy()

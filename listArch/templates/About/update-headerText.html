@@ -91,7 +91,11 @@
                                                 <div class="input-group"><span class="input-group-addon">
                                                         <img src="/media/en-gb.png" title="İngilizce"></span>
                                                     <textarea class="form-control textarea" name="content[eng]"
-                                                              id="content[eng]" rows="5">{{ header_eng.description }}</textarea>
+                                                              id="content[eng]" rows="5">
+                                                        {% for header_eng in header_eng %}
+                                                        {{ header_eng.description }}
+                                                        {% endfor %}
+                                                    </textarea>
                                                 </div>
                                             </div>
 
@@ -100,7 +104,11 @@
                                                 <div class="input-group"><span class="input-group-addon">
                                                     <img src="/media/tr-tr.png" title="Türkçe"></span>
                                                     <textarea class="form-control textarea" name="content[tr]"
-                                                              id="content[tr]" rows="5">{{ header_tr.description }}</textarea>
+                                                              id="content[tr]" rows="5">
+                                                         {% for header_tr in header_tr %}
+                                                        {{ header_tr.description }}
+                                                        {% endfor %}
+                                                    </textarea>
                                                 </div>
                                                 <br>
                                                 <label> Aktif ?</label>

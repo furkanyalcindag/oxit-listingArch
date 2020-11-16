@@ -198,13 +198,19 @@
                                                                    placeholder="Seçenek Değer Adı"
                                                                    class="form-control"></div>
                                                     </td>
-                                                    <td class="text-right">
-                                                        <button type="button"
-                                                                onclick="remove_row({{ forloop.counter0 }})"
-                                                                data-toggle="tooltip" title="Kaldır"
-                                                                class="btn btn-danger">
-                                                            <i class="fa fa-minus-circle"></i></button>
-                                                    </td>
+                                                    {% if not option.type == 'range' %}
+                                                        <td></td>
+                                                    {% else %}
+                                                        <td class="text-right">
+
+                                                            <button type="button"
+                                                                    onclick="remove_row({{ forloop.counter0 }})"
+                                                                    data-toggle="tooltip" title="Kaldır"
+                                                                    class="btn btn-danger">
+                                                                <i class="fa fa-minus-circle"></i></button>
+
+                                                        </td>
+                                                    {% endif %}
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}
@@ -214,10 +220,13 @@
                                         <tr>
                                             <td colspan="1"></td>
                                             <td class="text-right">
-                                                <button type="button" onclick="add_option_value()" data-toggle="tooltip"
-                                                        title="" class="btn btn-primary"
-                                                        data-original-title="Değer Ekle"><i
-                                                        class="fa fa-plus-circle"></i></button>
+                                                {% if not  option.type == 'range' %}
+                                                    <button type="button" onclick="add_option_value()"
+                                                            data-toggle="tooltip"
+                                                            title="" class="btn btn-primary"
+                                                            data-original-title="Değer Ekle"><i
+                                                            class="fa fa-plus-circle"></i></button>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                         </tfoot>
@@ -334,14 +343,13 @@
             debugger;
             if (this.value === 'range') {
                 $('#option-value-table').parent().show();
-                count=[]
-            }else if(this.value === 'checkbox') {
-                 $('#option-value-table').parent().show();
-                count=[]
-            }
-            else {
+                count = []
+            } else if (this.value === 'checkbox') {
+                $('#option-value-table').parent().show();
+                count = []
+            } else {
                 $('#option-value-table').parent().hide();
-                count=[]
+                count = []
             }
         });
 

@@ -92,10 +92,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>İşlem</td>
                                                         <td>Kayan Yazı</td>
                                                         <td>Alt Yazı</td>
@@ -105,11 +102,7 @@
                                                     <tbody>
                                                     {% for text in scrolling_texts %}
                                                         <tr>
-                                                            <td>
-                                                                <input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td>
                                                                 <a href="{% url 'listArch:kayan-yazi-guncelle' text.text.pk %}"
                                                                    data-toggle="tooltip" title=""

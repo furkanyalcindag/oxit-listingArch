@@ -95,10 +95,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;" ><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>işlem</td>
                                                         <td>Blog Başlığı</td>
 
@@ -108,10 +105,7 @@
                                                     <tbody>
                                                     {% for blog in blogs %}
                                                         <tr>
-                                                            <td><input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td><a
                                                                     href="{% url 'listArch:blog-duzenle' blog.blog.pk %}"
                                                                     data-toggle="tooltip" title=""

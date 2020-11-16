@@ -95,10 +95,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>işlem</td>
                                                         <td>Dosya İndir</td>
                                                         <td>Blog Başlığı</td>
@@ -110,10 +107,7 @@
                                                     <tbody>
                                                     {% for file in files %}
                                                         <tr>
-                                                            <td><input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td><a href="{% url 'listArch:dosya-guncelle' file.file.pk %}"
                                                                    data-toggle="tooltip" title=""
                                                                    class="btn btn-primary"

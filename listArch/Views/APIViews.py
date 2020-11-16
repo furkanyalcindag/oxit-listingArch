@@ -18,7 +18,7 @@ class GetCompany(APIView):
 
         company_total = Company.objects.count()
         companies = Company.objects.filter(
-            name__icontains=request.data['search[value]']).order_by('id')[
+            name__icontains=request.data['search[value]']).order_by('-id')[
                     int(start):end]
         filteredTotal = Company.objects.filter(
             name__icontains=request.data['search[value]']).count()

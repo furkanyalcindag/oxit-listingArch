@@ -49,7 +49,7 @@ def add_product(request):
         product_video_form = VideoForm(request.POST or None, request.FILES)
 
         try:
-            if product_form.is_valid() and product_image_form.is_valid():
+            if product_form.is_valid() and product_image_form.is_valid() and product_video_form.is_valid():
 
                 company = Company.objects.get(pk=int(request.POST['product-company']))
                 product = Product(name=request.POST['product_description[tr][name]'], company=company,
@@ -132,6 +132,16 @@ def add_product(request):
                                                                 range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
                             x = x + 1
+                if request.POST['text-value-row'] != "":
+                    option_range = request.POST['text-value-row']
+                    if option_range != "":
+                        x = 0
+                        while x < int(option_range):
+                            text_key = request.POST['text-value-row' + str(x) + '']
+                            option = Option.objects.get(key=text_key)
+                            product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
+                            product_option.save()
+                            x = x + 1
 
                 messages.success(request, "Ürün Başarıyla eklendi.")
                 return redirect('listArch:urun-ekle')
@@ -153,7 +163,7 @@ def product_list(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-id')
     product_array = []
     for product in products:
         product_dict = dict()
@@ -186,7 +196,7 @@ def product_edit(request, uuid):
     product_form = ProductForm(request.POST or None, request.FILES or None, instance=product)
     product_image_form = ProductImageForm(request.POST or None, request.FILES)
     product_video_form = VideoForm(request.POST or None, request.FILES)
-
+    text_value = ProductOptionValue.objects.filter(product=product)
     categories = Category.objects.all()
     product_definitions = ProductDefinition.objects.filter(product=product)
     try:
@@ -289,6 +299,16 @@ def product_edit(request, uuid):
                                                                 range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
                             x = x + 1
+                if request.POST['text-value-row'] != "":
+                    option_range = request.POST['text-value-row']
+                    if option_range != "":
+                        x = 0
+                        while x < int(option_range):
+                            text_key = request.POST['text-value-row' + str(x) + '']
+                            option = Option.objects.get(key=text_key)
+                            product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
+                            product_option.save()
+                            x = x + 1
 
                 messages.success(request, "Ürün Başarıyla Düzenlendi.")
 
@@ -304,7 +324,7 @@ def product_edit(request, uuid):
                    'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                    'categories': cat_array, 'product_image_form': product_image_form,
                    'product_definitions': product_definitions,
-                   'loop_value': product_option_value.count()
+                   'loop_value': product_option_value.count(),'text_value':text_value,
                    })
 
 

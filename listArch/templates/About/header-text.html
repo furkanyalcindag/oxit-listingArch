@@ -92,10 +92,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>İşlem</td>
                                                         <td>Üst Menü Yazı</td>
 
@@ -104,11 +101,7 @@
                                                     <tbody>
                                                     {% for text in headerText %}
                                                         <tr>
-                                                            <td>
-                                                                <input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td>
                                                                 <a href="{% url 'listArch:ust-menu-yazi-guncelle'  text.headerText.pk%}"
                                                                    data-toggle="tooltip" title=""

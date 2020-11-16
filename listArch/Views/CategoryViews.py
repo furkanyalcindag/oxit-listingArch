@@ -67,7 +67,7 @@ def return_categories(request):
         return redirect('accounts:login')
     cat_array = []
     try:
-        categories = CategoryDesc.objects.filter(lang_code=1)
+        categories = CategoryDesc.objects.filter(lang_code=1).order_by('-id')
 
         for category in categories:
             cat_dict = dict()

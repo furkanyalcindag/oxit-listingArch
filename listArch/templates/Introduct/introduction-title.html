@@ -94,10 +94,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>İşlem</td>
                                                         <td>Başlık</td>
 
@@ -106,11 +103,7 @@
                                                     <tbody>
                                                     {% for title in titles %}
                                                         <tr>
-                                                            <td>
-                                                                <input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td>
                                                                 <a href="{% url 'listArch:tanitim-urunleri-ana-baslik-guncelle' title.title.pk %}"
                                                                    data-toggle="tooltip" title=""

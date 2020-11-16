@@ -9,6 +9,7 @@ from listArch.Forms.OptionCategoryForm import OptionCategoryForm
 from listArch.models import OptionValueDesc, OptionDesc
 from listArch.models.Option import Option
 from listArch.models.OptionValue import OptionValue
+from listArch.serializers.OptionSerializer import OptionSerializer
 from listArch.serializers.OptionValueDescSerializer import OptionValueDescSerializer
 from listArch.serializers.OptionValueSerializer import OptionValueSerializer
 from listArch.services import general_methods
@@ -92,7 +93,7 @@ def feature_list(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    options = OptionDesc.objects.filter(lang_code=1)
+    options = OptionDesc.objects.filter(lang_code=1).order_by('-id')
     return render(request, 'option/option-list.html', {'options': options})
 
 
@@ -102,9 +103,15 @@ def get_option(request):
         try:
 
             option_key = request.POST.get('option_id')
-            option = OptionValue.objects.filter(option__key=option_key)
+            option=Option.objects.filter(key=option_key)
+            if option[0].type == 'text':
+                option = Option.objects.filter(key=option_key)
+                data = OptionSerializer(option, many=True)
 
-            data = OptionValueSerializer(option, many=True)
+
+            else:
+                option = OptionValue.objects.filter(option__key=option_key)
+                data = OptionValueSerializer(option, many=True)
 
             responseData = dict()
             responseData['options'] = data.data

@@ -95,10 +95,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>İşlem</td>
                                                         <td>Kategori Adı</td>
                                                         <td>İkon</td>
@@ -108,11 +105,7 @@
                                                     <tbody>
                                                     {% for category in categories %}
                                                         <tr>
-                                                            <td>
-                                                                <input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td><a
                                                                     href="{% url 'listArch:kategori-duzenle' category.category.pk %}"
                                                                     data-toggle="tooltip" title=""

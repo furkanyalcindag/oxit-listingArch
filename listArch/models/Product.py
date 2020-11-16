@@ -46,7 +46,7 @@ class Product(models.Model):
         if not self.qr_code:
             path = reverse('listArch:urun-detay', args=(self.slug,))
             qrcode_img = qrcode.make('%s%s' % (Site.objects.get_current().domain, path))
-            canvas = Image.new('RGB', (200, 200), 'white')
+            canvas = Image.new('RGB', (350, 350), 'white')
             draw = ImageDraw.Draw(canvas)
             canvas.paste(qrcode_img)
             fname = f'qr_code-{self.name}.png'

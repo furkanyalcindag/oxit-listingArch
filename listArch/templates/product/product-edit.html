@@ -258,12 +258,18 @@
                                                                                        name="option-key-[{{ forloop.counter0 }}]"
                                                                                        class="form-control"
                                                                                        value="{{ option_value.range_value }}">
-                                                                            {% else %}
+                                                                            {% elif  option_value.text_value  %}
+                                                                                <input readonly type="text"
+                                                                                       name="option-key-[{{ forloop.counter0 }}]"
+                                                                                       class="form-control"
+                                                                                       value="{{ option_value.text_value.key }}">
+                                                                                {% else %}
                                                                                 <input readonly type="text"
                                                                                        name="option-key-[{{ forloop.counter0 }}]"
                                                                                        class="form-control"
                                                                                        value="{{ option_value.option_value.value }}">
                                                                             {% endif %}
+
 
                                                                         </div>
                                                                     </div>
@@ -275,9 +281,10 @@
                                                                                 class="btn btn-danger"><i
                                                                                 class="fa fa-minus-circle"></i>
                                                                         </button>
+                                                                        {% if not option_value.text_value %}
                                                                         <span
                                                                                 style="margin-top:3px;"
-                                                                                class="btn btn-default">{{ option_value.option_value.option.key }}</span>
+                                                                                class="btn btn-default">{{ option_value.option_value.option.key }}</span> {% endif %}
                                                                     </div>
 
 
@@ -291,6 +298,8 @@
 
 
                                                     <div class="row">
+                                                     <input type="hidden" value="" id="text-value-row" name="text-value-row">
+
                                                         <div class="col-lg-12" style="margin-top: 20px;">
                                                             <select class="form-control select2 select2-hidden-accessible"
                                                                     style="width: 100%" id="option_key"
@@ -478,11 +487,12 @@
     <script>
         let option_row = 0;
 
-        let option_text_row = 0;
 
+        let option_text_row = 0;
         let option_range = 0;
 
         function get_option() {
+
             let value = 0;
             let e = document.getElementById("option_key");
             let option_id = e.options[e.selectedIndex].value;
@@ -499,34 +509,21 @@
                     let html;
 
 
-                    if (option.option.type === 'text') {
+                    if (option.type === 'text') {
+                        debugger;
                         html = '	<div class="form-group" style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-6"><input type="text" name="option-text-value[' + option_text_row + ']" value="" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control" /></div>';
-                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.key + '</span></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.option.id + '">	</div>';
+                        html += '<div class="col-sm-4"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.key + '"  class="form-control" "></input></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '">	</div>';
 
-                        option_text_row++;
+
                         $('#tab-option .tab-content').append(html);
                         document.getElementById('text-value-row').value = option_text_row;
-
+                        option_text_row++;
 
                     }
 
-                    if (option.option.type === 'textarea') {
-                        html = '	<div class="form-group">';
-                        html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-6"><textarea  name="option-text-value[' + option_text_row + ']" rows="5" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control"></textarea></div>';
-                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.option.key + '</span></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type" value="' + option.option.key + '">	</div>';
-                        document.getElementById('text-value-row').value = option_text_row;
-                        option_text_row++;
-                        $('#tab-option .tab-content').append(html);
 
-
-                    }
-
-                    debugger;
 
                     if (option.option.type === 'select' || option.option.type === 'radio' || option.option.type === 'checkbox') {
 

@@ -92,10 +92,7 @@
                                                        width="100%">
                                                     <thead>
                                                     <tr class="text-left">
-                                                        <td style="width: 1px;"><input
-                                                                type="checkbox"
-                                                                onclick="$('input[name*=\'selected\']').prop('checked', this.checked);">
-                                                        </td>
+
                                                         <td>Aftiflik</td>
                                                         <td>İşlem</td>
                                                         <td>Email</td>
@@ -106,11 +103,7 @@
                                                     <tbody>
                                                     {% for contact in contact %}
                                                         <tr>
-                                                            <td>
-                                                                <input type="checkbox"
-                                                                       name="selected[]"
-                                                                       value="18">
-                                                            </td>
+
                                                             <td>
                                                                 {% if contact.isActive %}
                                                                     <span class="label label-success">Aktif</span>

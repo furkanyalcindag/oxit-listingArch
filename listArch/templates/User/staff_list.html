@@ -105,20 +105,20 @@
                                                     {% for staff in staff %}
                                                         <tr>
                                                             <td>
-
+                                                                {{ staff.pk }}
                                                             </td>
 
                                                             <td>
                                                                 {% if staff.isActive %}
                                                                     <a onclick="staff_passive({{ staff.pk }})"
-                                                                        data-toggle="tooltip" title=""
-                                                                        class="btn btn-danger"
-                                                                        data-original-title="Passive">Pasif Et</a>
+                                                                       data-toggle="tooltip" title=""
+                                                                       class="btn btn-danger"
+                                                                       data-original-title="Passive">Pasif Et</a>
                                                                 {% else %}
                                                                     <a onclick="staff_active({{ staff.pk }})"
-                                                                        data-toggle="tooltip" title=""
-                                                                        class="btn btn-success"
-                                                                        data-original-title="Passive">Aktif Et</a>
+                                                                       data-toggle="tooltip" title=""
+                                                                       class="btn btn-success"
+                                                                       data-original-title="Passive">Aktif Et</a>
 
                                                                 {% endif %}</td>
                                                             <td>{{ staff.user.first_name }} {{ staff.user.last_name }}</td>
@@ -263,9 +263,8 @@
                                 window.location.replace("{% url "listArch:personeller" %}");
 
 
-                            }
-                            else {
-                               swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
+                            } else {
+                                swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
                             }
                         }
                     });
@@ -297,9 +296,8 @@
                                 window.location.replace("{% url "listArch:personeller" %}");
 
 
-                            }
-                            else {
-                               swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
+                            } else {
+                                swal("Başarısız", "Üzgünüz istenmeyen bir hata ile karşılaşıldı.", "error");
                             }
                         }
                     });

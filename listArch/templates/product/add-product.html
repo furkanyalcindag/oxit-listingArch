@@ -446,11 +446,11 @@
 
 
                     if (option.type === 'text') {
+                        debugger;
                         html = '	<div class="form-group" style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
-                        html += '	  <div class="col-sm-6"><input type="text" name="option-text-value[' + option_text_row + ']" value="" placeholder="Seçenek Değeri" id="option-text-value[' + option_text_row + ']" class="form-control" /></div>';
-                        html += '<div class="col-sm-4"><span style="margin-top:3px;"  class="btn btn-default">' + option.key + '</span></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.option.id + '">	</div>';
+                        html += '<div class="col-sm-4"><input id="text-value-row'+option_text_row+'" name="text-value-row'+option_text_row+'" readonly style="margin-top:3px;" value="'+option.key+'"  class="form-control" "></input></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '">	</div>';
 
                         option_text_row++;
                         $('#tab-option .tab-content').append(html);

@@ -290,7 +290,7 @@ def update_scrolling(request, pk):
         print(e)
 
     return render(request, 'About/add-scrolling-text.html',
-                  {'scrolling_tr': scrolling_tr[0], 'scrolling_eng': scrolling_eng[0], 'form': form})
+                  {'scrolling_tr': scrolling_tr, 'scrolling_eng': scrolling_eng, 'form': form})
 
 
 def delete_scrolling(request):
@@ -397,7 +397,7 @@ def update_headerText(request, pk):
     except Exception as e:
         print(e)
     return render(request, 'About/update-headerText.html',
-                  {'header_tr': header_tr[0], 'header_eng': header_eng[0], 'form': form})
+                  {'header_tr': header_tr, 'header_eng': header_eng, 'form': form})
 
 
 def delete_headerText(request):
