@@ -89,7 +89,7 @@ def add_company(request):
 
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
-                    logo = request.POST['retail-logo']
+                    logo = request.FILES['retail-logo']
                     retail_company = CompanyRetail(company=company, name=name, logo=logo)
                     retail_company.save()
                     company.retail = retail_company

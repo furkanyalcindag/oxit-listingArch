@@ -1,5 +1,7 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 {% block content %}
     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
          aria-labelledby="myLargeModalLabel"
@@ -145,6 +147,12 @@
                                                                    class="btn btn-danger"
                                                                    data-original-title="Ürünü Sil"><i
                                                                         class="fa fa-close"></i></a>
+                                                                 <a type="button"
+                                                                        onclick="getDefinition({{ product.product.pk }})"
+                                                                        data-toggle="tooltip" title="Açıklamalar"
+                                                                        class="btn btn-success"
+                                                                        data-original-title="Açıklamalar"><i
+                                                                        class="fa fa-search-plus"></i></a>
                                                                 <a href="{% url 'listArch:urun-aciklama-ekle' product.product.pk %}"
                                                                    data-toggle="tooltip" title="Açıklama Ekle"
                                                                    class="btn btn-warning"
@@ -161,12 +169,7 @@
                                                                    data-original-title="Performans Bilgisi Ekle"><i
                                                                         class="fa fa-plus"></i></a>
 
-                                                                <button type="button"
-                                                                        onclick="getDefinition({{ product.product.pk }})"
-                                                                        data-toggle="tooltip" title="Açıklamalar"
-                                                                        class="btn btn-success"
-                                                                        data-original-title="Açıklamalar"><i
-                                                                        class="fa fa-search-plus"></i></button>
+
                                                             </td>
                                                             <td class="text-center"><img
                                                                     src="/media/{{ product.image }}"
@@ -280,6 +283,61 @@
         });
 
 
+    </script>
+     <script>
+        function getDefinition(id) {
+            debugger;
+            var html = '';
+            $.ajax({
+                url: "{% url 'listArch:urun-aciklamasi-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    product_id: id,
+
+                },
+                success: function (response) {
+                    debugger;
+
+
+                    var definitions = response.product_definitions;
+
+                    debugger;
+                    html = '<div class="box-body table-responsive no-padding">';
+                    html += ' <table class="table table-responsive">';
+                    html += ' <tbody>';
+                    if (definitions.length  > 0 ){
+                        for (let i = 0; i < definitions.length; i++) {
+
+                            html += '<tr><td><strong>' + i + 1 + '-' + definitions[i].title_desc + '</strong></td>';
+                            html += '</tr>';
+                            html += '<tr><td>' + definitions[i].description + '</td>';
+                            let url='{% url 'listArch:urun-aciklama-guncelle' 0 %}';
+                            url=url.replace(0,definitions[i].id);
+                            html += '<td><a style="margin-left:5px;" href="'+url+'" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a></td></tr>';
+                        }
+                    }
+                    else {
+                        html+='<tr><td>Ürün Açıklaması Bulunmamaktadır.</td></tr>'
+                    }
+                    html += '</tbody></table></div>';
+
+                    $(".bodys").html(html);
+                }
+
+
+            });
+
+            $('.bd-example-modal-lg').modal('show');
+
+
+            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
+                // put your default event here
+                $(".bodys").html("");
+            });
+
+
+        }
     </script>
     <script>
         $(function () {
@@ -439,60 +497,7 @@
         }
 
     </script>
-    <script>
-        function getDefinition(id) {
-            debugger;
-            var html = '';
-            $.ajax({
-                url: "{% url 'listArch:urun-aciklamasi-getir' %}",
-                type: "post", // or "get"
-                async: false,
-                data: {
-                    product_id: id,
 
-                },
-                success: function (response) {
-                    debugger;
-
-
-                    var definitions = response.product_definitions;
-
-                    debugger;
-                    html = '<div class="box-body table-responsive no-padding">';
-                    html += ' <table class="table table-responsive">';
-                    html += ' <tbody><tr>';
-                    html += '<th>Açıklama</th><th></th></tr>';
-                    if (definitions.length  > 0 ){
-                        for (let i = 0; i < definitions.length; i++) {
-
-                            html += '<tr><td><strong>' + i + 1 + '-' + definitions[i].title_desc + '</strong></td>';
-                            html += '</tr>';
-                            html += '<tr><td>' + definitions[i].description + '</td>';
-                            html += '<td><a style="margin-left:5px;" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a></td></tr>';
-                        }
-                    }
-                    else {
-                        html+='<tr><td>Ürün Açıklaması Bulunmamaktadır.</td></tr>'
-                    }
-                    html += '</tbody></table></div>';
-
-                    $(".bodys").html(html);
-                }
-
-
-            });
-
-            $('.bd-example-modal-lg').modal('show');
-
-
-            $(".bd-example-modal-lg").on("hidden.bs.modal", function () {
-                // put your default event here
-                $(".bodys").html("");
-            });
-
-
-        }
-    </script>
 
     <script>
         function delete_product(id) {
@@ -529,5 +534,6 @@
             });
         }
     </script>
+
 {% endblock %}
 

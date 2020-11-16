@@ -54,7 +54,7 @@ def add_profile(request):
 
                 subject, from_email, to = 'List Of Room Giriş Bilgileri', EMAIL_HOST_USER, user2.email
                 text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-                html_content = '<p> <strong>Site adresi:</strong><a href="http://http://185.86.4.199:8082/">ListOfRoom</a></p>'
+                html_content = '<p> <strong>Site adresi:</strong><a href="http://185.86.4.199:8082/">ListOfRoom</a></p>'
                 html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
                 html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
                 msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
@@ -62,7 +62,7 @@ def add_profile(request):
                 msg.send()
 
                 messages.success(request, "Profil Başarıyla Kayıt Edildi.")
-                return redirect('listArch:profil-kaydet')
+                return redirect('listArch:profil-listesi')
             else:
                 messages.success(request, "Alanları Kontrol Ediniz.")
         except Exception as e:

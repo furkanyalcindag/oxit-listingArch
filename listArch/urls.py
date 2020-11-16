@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'urun-getir/$', ProductViews.get_products, name='urun-getir'),
 
     url(r'add-product-definition/(?P<pk>\d+)$', ProductViews.add_productDefinition, name='urun-aciklama-ekle'),
+    url(r'product-definition-update/(?P<pk>\d+)$', ProductViews.update_productDefinition, name='urun-aciklama-guncelle'),
 
     url(r'product-list/$', ProductViews.product_list, name='urunler'),
     url(r'edit-product/(?P<uuid>[0-9a-f-]+)$', ProductViews.product_edit, name='urun-duzenle'),

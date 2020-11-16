@@ -30,6 +30,7 @@ from listArch.serializers.ProductSerializer import ProductSerializer
 from listArch.services import general_methods
 from listArch.services.general_methods import category_parent_show
 from listArch.models.Image import Image
+from oxiterp.settings.base import home_lang_code
 
 
 def add_product(request):
@@ -324,7 +325,7 @@ def product_edit(request, uuid):
                    'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                    'categories': cat_array, 'product_image_form': product_image_form,
                    'product_definitions': product_definitions,
-                   'loop_value': product_option_value.count(),'text_value':text_value,
+                   'loop_value': product_option_value.count(), 'text_value': text_value,
                    })
 
 
@@ -404,6 +405,43 @@ def add_productDefinition(request, pk):
         print(e)
     return render(request, 'product/add-product-definition.html',
                   {})
+
+
+def update_productDefinition(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    product_def = ProductDefinition.objects.get(pk=pk)
+    definitionDesc = DefinitionDescription.objects.filter(definition=product_def.definition).filter(
+        lang_code=1)
+    definitionDesc_eng = DefinitionDescription.objects.filter(definition=product_def.definition).filter(
+        lang_code=2)
+    try:
+
+        if request.method == 'POST':
+            product_def.key = request.POST['title[tr]']
+            product_def.save()
+
+            for definition_tr in definitionDesc:
+                definition_tr.title_desc = request.POST['title[tr]']
+                definition_tr.description = request.POST['content[tr]']
+                definition_tr.save()
+
+            for definition_eng in definitionDesc_eng:
+                definition_eng.title_desc = request.POST['title[eng]']
+                definition_eng.description = request.POST['content[eng]']
+                definition_eng.save()
+
+            messages.success(request, "Açıklama Başarıyla Düzenlendi.")
+            return redirect('listArch:urunler')
+
+
+    except Exception as e:
+        print(e)
+    return render(request, 'product/product-definition-update.html',
+                  {'def_tr': definitionDesc[0], 'def_eng': definitionDesc_eng[0]})
 
 
 @api_view(http_method_names=['POST'])
@@ -525,6 +563,7 @@ def add_chart_graphic(request, uuid):
     product = ""
     try:
         product = Product.objects.get(uuid=uuid)
+        product_graphic=ProductChart.objects.filter(product=product)
         if request.POST:
             count = request.POST['count']
             count = count.split(',')
@@ -559,4 +598,4 @@ def add_chart_graphic(request, uuid):
 
         return JsonResponse({'status': 'Fail', 'msg': e})
     return render(request, 'product/productChartValue.html',
-                  {'product': product, })
+                  {'product': product,'graphics':product_graphic })

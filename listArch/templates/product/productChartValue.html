@@ -73,7 +73,7 @@
 
                         <div class="box-body">
 
-                            <form action="{% url 'listArch:urune-grafik-ekle' product.pk%}" name="form-option"
+                            <form action="{% url 'listArch:urune-grafik-ekle' product.uuid%}" name="form-option"
                                   method="post" enctype="multipart/form-data" id="form-option" class="form-horizontal">
                                 {% csrf_token %}
                                 <input type="hidden" id="count" name="count" value="0">
@@ -129,6 +129,9 @@
                                 </fieldset>
 
                             </form>
+
+                            <hr>
+
                         </div>
                         <hr>
 
