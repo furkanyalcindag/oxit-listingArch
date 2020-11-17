@@ -116,7 +116,7 @@
                                 <th>Email</th>
                                 <th>Firma Web Site</th>
                                 <th>Ülke/Şehir</th>
-                                <th>Açıklama</th>
+
 
                             </tr>
                             </thead>
@@ -240,21 +240,16 @@
                         }
                     },
                     {
-                        "data": null,
-                        render: function (data, type, full, meta, row) {
-                            return full.country.name;
 
-
-                        }
-                    },
-                    {
                         "render": function (data, type, full, meta, row) {
                             let html;
-
-                            html = ' <button class="btn btn-primary" type="btn" title="Düzenle" onclick="getCompanyDescription(' + full.id + ')"><i class="fa fa-search"></i></button>';
+                            html=''+full.country.name+'/'+full.city.name+''
                             return html;
+
+
                         }
                     },
+
 
 
                 ]
@@ -334,7 +329,7 @@
         }</script>
     <script>
         function delete_company(id) {
-            document.getElementById('content_messages').innerHTML = 'Firmatı Silmek İstediğinizden Emin Misiniz?';
+            document.getElementById('content_messages').innerHTML = 'Firmayı Silmek İstediğinizden Emin Misiniz?';
 
             $(".deneme23").on("shown.bs.modal", function (e) {
                 $("#btn-conf").click(function () {

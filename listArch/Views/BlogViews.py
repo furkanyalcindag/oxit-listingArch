@@ -63,6 +63,7 @@ def add_blog_desc(request):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'blog/add-blog.html',
                   {'blogDesc_form': blogDesc_form, 'companies': companies, 'company_blog_form': company_blog_form})
 
@@ -112,6 +113,7 @@ def update_blog(request, pk):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'blog/update-blog.html',
                   {'companies': companies, 'images': images_blog, 'blog': blog,
                    'blog_tr': blog_tr, 'blog_eng': blog_eng, 'company': company_blog,
@@ -197,5 +199,6 @@ def add_blog_businessType(request, pk):
 
         except Exception as e:
             print(e)
+            return redirect('listArch:admin-error-sayfasi')
     else:
         return render(request, 'blog/add_businessType_blog.html', {'profile': profile})

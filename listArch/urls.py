@@ -3,7 +3,7 @@ from django.urls import path
 
 from listArch.Views import OptionViews, CategoryViews, ProductViews, DashboardViews, CompanyViews, APIViews, HomeViews, \
     BlogViews, FileViews, IntroductionViews, UserViews, AboutViews, ListViews, SubscriberViews, BusinessTypeViews, \
-    CollectionViews, ProfileViews, StaffViews, ServiceViews
+    CollectionViews, ProfileViews, StaffViews, ServiceViews, CountryViews
 
 app_name = 'listArch'
 
@@ -187,6 +187,7 @@ urlpatterns = [
     url(r'delete-business-type/$', BusinessTypeViews.delete_business_type, name='profil-adi-sil'),
 
     url(r'error/$', HomeViews.error_page, name='404-sayfasi'),
+    url(r'404/$', AboutViews.admin_error_page, name='admin-error-sayfasi'),
 
     # koleksiyon
     url(r'create-collection/$', CollectionViews.add_collection, name='koleksiyon-kaydet'),
@@ -214,5 +215,9 @@ urlpatterns = [
     # Service
     url(r'add-service/$', ServiceViews.add_service, name='hizmet-ekle'),
     url(r'delete-service/$', ServiceViews.delete_service, name='hizmet-sil'),
+
+    # Country-City
+    url(r'add-country-city/$', CountryViews.add_country, name='ulke-sehir-ekle'),
+    url(r'countries/$', CountryViews.countries, name='ulkeler'),
 
 ]

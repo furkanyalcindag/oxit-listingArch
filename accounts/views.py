@@ -9,6 +9,7 @@ from django.contrib import auth, messages
 from listArch import urls
 from accounts.forms import ResetPassword
 from listArch.services import general_methods
+from oxiterp.settings.base import EMAIL_HOST_USER
 
 
 def index(request):
@@ -60,7 +61,7 @@ def forgot(request):
             # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
             user = obj.save()
             html_content = ''
-            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
+            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, obj.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
             html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>List Of Room</p>'
             html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
@@ -89,7 +90,7 @@ def user_forgot(request):
             # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
             user = obj.save()
             html_content = ''
-            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', 'burcu.dogan@oxityazilim.com', obj.email
+            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, obj.email
             text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
             html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>GVERCİN</p>'
             html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'

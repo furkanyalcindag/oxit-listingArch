@@ -1,0 +1,253 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+
+    <!-- success modal -->
+
+    <section class="content-header">
+        <h1>
+            {{ obj.name }}
+
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
+            <li><a >{{ parent.name }}</a></li>
+            <li><a >{{ obj.name }}</a></li>
+        </ol>
+
+    </section>
+    <section class="content">
+        {% if messages %}
+            {% for message in messages %}
+
+
+                {% if message.tags == 'warning' %}
+
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> Hata !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if message.tags == 'success' %}
+
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Başarılı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+
+
+        {% endif %}
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+
+            <section class="col-xs-12 ">
+
+
+                <div class="box">
+
+
+                    <div class="box-body">
+                        <div class="container-fluid">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-list"></i> Ülkeler</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form action=""
+                                          method="post" enctype="multipart/form-data" id="form-option">
+                                        <a href="{% url 'listArch:ulke-sehir-ekle' %}" class="btn btn-app">
+                                            <i class="fa fa-plus"></i> Ülke Ekle
+                                        </a>
+                                        <div class="table-responsive">
+                                            <table id="features" class="display responsive nowrap" cellspacing="0"
+                                                   width="100%">
+                                                <thead>
+                                                <tr class="text-left">
+
+                                                    <td>Eylem</td>
+                                                    <td><a>Ülke Adı</a></td>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for country in countries %}
+                                                    <tr>
+
+                                                        <td>
+                                                            <a href=""
+                                                               data-toggle="tooltip" title="" class="btn btn-primary"
+                                                               data-original-title="Düzenle"><i
+                                                                    class="fa fa-pencil"></i></a>
+                                                            <button type="button"
+                                                                    onclick=""
+                                                                    data-toggle="tooltip" title=""
+                                                                    class="btn btn-danger"
+                                                                    data-original-title="Sil"><i
+                                                                    class="fa fa-close"></i></button>
+                                                        </td>
+                                                        <td class="text-left">{{ country.name }}</td>
+
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </section>
+
+
+        </div>
+        <!-- /.row (main row) -->
+        <div class="modal modal-danger fade in deneme23" tabindex="-1" role="dialog" id="modal-danger"
+             aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Uyarı</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content_messages"></p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left btn-ok" id="btn-conf"
+                                data-dismiss="modal">Evet
+                        </button>
+                        <button type="button" class="btn btn-outline" id="btn-close">Hayır</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+    </section>
+
+
+    <script>
+        $(function () {
+            $('#features').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': true
+            })
+
+        })
+    </script>
+
+
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            var i = 0;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (i; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+
+    </script>
+
+    <script>
+        function delete_option(id) {
+            document.getElementById('content_messages').innerHTML = 'Seçeneği Silmek İstediğinizden Emin Misiniz?';
+
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:secenek-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            option_id: id,
+                        },
+                        success: function (result) {
+
+                            if (result.status == 'Success') {
+                                swal("Başarılı", " Seçenek Silindi", "success");
+                                window.location.replace("{% url "listArch:secenekler" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+    </script>
+
+{% endblock %}
+

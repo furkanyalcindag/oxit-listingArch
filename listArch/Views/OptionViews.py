@@ -84,6 +84,7 @@ def add_option(request):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
 
 def feature_list(request):
@@ -261,6 +262,7 @@ def update_option(request, pk):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
 
 

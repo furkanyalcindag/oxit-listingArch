@@ -144,7 +144,6 @@ def add_product(request):
                         product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
                         product_option.save()
 
-
                 messages.success(request, "Ürün Başarıyla eklendi.")
                 return redirect('listArch:urun-ekle')
             else:
@@ -152,6 +151,7 @@ def add_product(request):
 
         except Exception as e:
             print(e)
+            return redirect('listArch:admin-error-sayfasi')
 
     return render(request, 'product/add-product.html',
                   {'options': options, 'product_form': product_form,
@@ -249,12 +249,6 @@ def product_edit(request, uuid):
                     eng.description = request.POST['product_description[eng][name]']
                     eng.save()
 
-                for f in request.FILES.getlist('input2[]'):
-                    image = Image(image=f)
-                    image.save()
-                    productImages = ProductImage(image=image, product=product)
-                    productImages.save()
-
                 product.related_product.clear()
                 for related_product in product_form.cleaned_data['related_product']:
                     product.related_product.add(related_product)
@@ -324,9 +318,10 @@ def product_edit(request, uuid):
                        'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                        'categories': cat_array, 'product_image_form': product_image_form,
                        'product_definitions': product_definitions,
-                       'loop_value': product_option_value.count(), 'text_value': text_value,})
+                       'loop_value': product_option_value.count(), 'text_value': text_value, })
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
 
 @login_required
@@ -403,6 +398,7 @@ def add_productDefinition(request, pk):
         return render(request, 'product/add-product-definition.html', )
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
 
 def update_productDefinition(request, pk):
@@ -411,7 +407,8 @@ def update_productDefinition(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    product_def = ProductDefinition.objects.get(pk=pk)
+    definition = Definition.objects.get(pk=pk)
+    product_def = ProductDefinition.objects.get(definition=definition)
     definitionDesc = DefinitionDescription.objects.filter(definition=product_def.definition).filter(
         lang_code=1)
     definitionDesc_eng = DefinitionDescription.objects.filter(definition=product_def.definition).filter(
@@ -439,6 +436,7 @@ def update_productDefinition(request, pk):
                       {'def_tr': definitionDesc[0], 'def_eng': definitionDesc_eng[0]})
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
 
 @api_view(http_method_names=['POST'])
@@ -616,3 +614,4 @@ def add_chart_graphic(request, uuid):
                       {'product': product, 'graphics': product_graphic})
     except Exception as e:
         return print(e)
+        return redirect('listArch:admin-error-sayfasi')

@@ -133,7 +133,7 @@ def add_company(request):
 
         except Exception as e:
             print(e)
-
+            return redirect('listArch:admin-error-sayfasi')
     return render(request, 'company/add-company.html',
                   {'company_form': company_form, 'user_form': user_form, 'company_all': company_all})
 
@@ -233,6 +233,7 @@ def update_company(request, pk):
                 messages.warning(request, 'Alanları Kontrol Edin.')
         except Exception as e:
             print(e)
+            return redirect('listArch:admin-error-sayfasi')
     return render(request, 'company/update-company.html',
                   {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
                    'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
@@ -322,6 +323,7 @@ def add_companyDefinition(request, pk):
 
         except Exception as e:
             print(e)
+            return redirect('listArch:admin-error-sayfasi')
     return render(request, 'product/add-product-definition.html', )
 
 
@@ -359,6 +361,7 @@ def get_company_definition(request, pk):
 
             except Exception as e:
                 print(e)
+                return redirect('listArch:admin-error-sayfasi')
         return render(request, 'product/product-definition-update.html',
                       {'def_tr': definitionDesc[0], 'def_eng': definitionDesc2[0]})
     else:

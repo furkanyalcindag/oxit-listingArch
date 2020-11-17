@@ -38,6 +38,7 @@ def add_businessType(request):
                 messages.success(request, "Alanları kontrol ediniz.")
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'businessType/add-businessType.html', {'business_types': business_types, 'form': form})
 
 
@@ -58,6 +59,7 @@ def update_businessType(request, pk):
 
         except Exception as e:
             print(e)
+            return redirect('listArch:admin-error-sayfasi')
 
 
 def delete_business_type(request):

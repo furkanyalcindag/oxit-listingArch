@@ -54,8 +54,7 @@ def add_category(request):
                 messages.warning(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
-        messages.warning(request, "Alanları Kontrol Edin.")
-
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'category/add-category.html', {'categories': categories, 'category_form': category_form})
 
 
@@ -77,7 +76,7 @@ def return_categories(request):
             cat_array.append(cat_dict)
     except Exception as e:
         print(e)
-
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'category/category-list.html', {'categories': cat_array})
 
 
@@ -161,6 +160,7 @@ def update_category(request, pk):
                 messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
     return render(request, 'category/category-update.html',
                   {'parent': category_parent, 'category_tr': category_desc1[0],

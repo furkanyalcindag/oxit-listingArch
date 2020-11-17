@@ -46,6 +46,7 @@ def add_about(request):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/add-about.html')
 
 
@@ -93,7 +94,7 @@ def about_update(request, pk):
             about.key = request.POST['title[tr]']
             about.save()
 
-            #about_tr[0] ile yapıldığında kayıt etmiyor.
+            # about_tr[0] ile yapıldığında kayıt etmiyor.
             for tr in about_tr:
                 tr.title_desc = request.POST['title[tr]']
                 tr.description = request.POST['content[tr]']
@@ -104,7 +105,8 @@ def about_update(request, pk):
                 eng.description = request.POST['content[eng]']
                 eng.save()
 
-            log_content = '<p><strong style="color:red">ADMIN , HAKKIMIZDA ID:' + str(about.pk )+ ' </strong> yazısı güncellendi.</p>'
+            log_content = '<p><strong style="color:red">ADMIN , HAKKIMIZDA ID:' + str(
+                about.pk) + ' </strong> yazısı güncellendi.</p>'
             log = Log(user=request.user, content=log_content)
             log.save()
 
@@ -113,6 +115,7 @@ def about_update(request, pk):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/update_about.html',
                   {'about_tr': about_tr[0], 'about_eng': about_eng[0]})
 
@@ -145,6 +148,7 @@ def add_contact(request):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/add-contact.html', {'form': form})
 
 
@@ -164,7 +168,8 @@ def update_contact(request, pk):
                 contact.isActive = form.cleaned_data['isActive']
                 contact.save()
 
-                log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + str(contact.pk) + ' </strong> bilgisini güncelledi.</p>'
+                log_content = '<p><strong style="color:red">ADMIN , İLETİŞİM ID:' + str(
+                    contact.pk) + ' </strong> bilgisini güncelledi.</p>'
                 log = Log(user=request.user, content=log_content)
                 log.save()
 
@@ -174,6 +179,7 @@ def update_contact(request, pk):
                 messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/add-contact.html', {'form': form})
 
 
@@ -240,6 +246,7 @@ def add_scrolling(request):
                 messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
 
     return render(request, 'About/add-scrolling-text.html', {'form': form})
 
@@ -278,7 +285,8 @@ def update_scrolling(request, pk):
                     eng.subTextDesc = request.POST['subText[eng]']
                     eng.save()
 
-                log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + str(scrolling.pk) + ' </strong> bilgisini güncelledi.</p>'
+                log_content = '<p><strong style="color:red">ADMIN , Search Yazı:' + str(
+                    scrolling.pk) + ' </strong> bilgisini güncelledi.</p>'
                 log = Log(user=request.user, content=log_content)
                 log.save()
                 messages.success(request, "Yazı Kayıt Edildi.")
@@ -288,7 +296,7 @@ def update_scrolling(request, pk):
                 messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
-
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/add-scrolling-text.html',
                   {'scrolling_tr': scrolling_tr, 'scrolling_eng': scrolling_eng, 'form': form})
 
@@ -348,6 +356,7 @@ def add_header_text(request):
                 messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/add-header-text.html', {'form': form})
 
 
@@ -396,6 +405,7 @@ def update_headerText(request, pk):
                     messages.success(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'About/update-headerText.html',
                   {'header_tr': header_tr, 'header_eng': header_eng, 'form': form})
 
@@ -423,3 +433,6 @@ def delete_headerText(request):
 
             return JsonResponse({'status': 'Fail', 'msg': e})
 
+
+def admin_error_page(request):
+    return render(request, 'admin-404.html')

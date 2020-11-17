@@ -52,6 +52,7 @@ def add_introduction_desc(request):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'Introduct/add-introduction-element.html',
                   {'introduction_form': introduction_form, 'introduction_desc_form': introduction_desc_form, })
 
@@ -99,6 +100,7 @@ def update_introduction_desc(request, pk):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'Introduct/add-introduction-element.html',
                   {'introduction_form': introduction_form, 'introduction_desc_form': introduction_desc_form,
                    'product_all': product_all})
@@ -134,6 +136,7 @@ def add_introduction_page_title(request):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'Introduct/add-introduct-page-title.html')
 
 
@@ -164,6 +167,7 @@ def update_introduction_page_title(request, pk):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'Introduct/update-title.html', {'title_tr': title_tr, 'title_eng': title_eng})
 
 

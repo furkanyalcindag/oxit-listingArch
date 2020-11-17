@@ -293,10 +293,10 @@
             let html = '<tr id="option-value-row' + option_value_row + '">';
             html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
             html += '    <div class="input-group">';
-            html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/indir.png" title="English"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
+            html += '      <span class="input-group-addon"><img  src="/media/en-gb.png" title="English"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][eng][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
             html += '    </div>';
             html += '    <div class="input-group">';
-            html += '      <span class="input-group-addon"><img style="width:30px;height: 10px;" src="/media/tr.png" title="Türkçe"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][tr][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
+            html += '      <span class="input-group-addon"><img  src="/media/tr-tr.png" title="Türkçe"/></span><input type="text" name="option_value[' + option_value_row + '][option_value_description][tr][name]" value="" placeholder="Seçenek Değer Adı" class="form-control" />';
             html += '    </div>';
             html += '  </td>';
             html += '  <td class="text-right"><button type="button" onclick="remove(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
@@ -337,7 +337,7 @@
             debugger;
             $('#option-value-row' + id + '').remove();
             count = jQuery.grep(count, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById("row_number").value = count;
             console.log(count)
@@ -348,7 +348,7 @@
             debugger;
             $('#value-row-range' + id + '').remove();
             count = jQuery.grep(count, function (value) {
-                return value != id;
+                return value !== id;
             });
             console.log(count)
             document.getElementById("row_number").value = count;

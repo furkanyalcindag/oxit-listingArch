@@ -41,6 +41,7 @@ def add_collection_company(request, pk):
 
     except Exception as e:
         print(e)
+        return redirect('listArch:admin-error-sayfasi')
     return render(request, 'Collection/add_collection_company.html',
                   {'company_products': company_products, 'company': company.pk, 'collections': collections})
 
