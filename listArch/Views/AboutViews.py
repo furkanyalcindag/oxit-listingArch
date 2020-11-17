@@ -297,7 +297,7 @@ def update_scrolling(request, pk):
     except Exception as e:
         print(e)
         return redirect('listArch:admin-error-sayfasi')
-    if scrolling_eng.count() > 0:
+    if scrolling_eng.count() > 0 and scrolling_tr.count() > 0:
         return render(request, 'About/add-scrolling-text.html',
                   {'scrolling_tr': scrolling_tr[0], 'scrolling_eng': scrolling_eng[0], 'form': form})
     else:
