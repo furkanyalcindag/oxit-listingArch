@@ -1,7 +1,7 @@
 {% extends 'base_layout.html' %}
 {% load static %}
-    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
-    <script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
+<script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'fieldChooser/js/jquery.lwMultiSelect.js' %}"></script>
 {% block content %}
     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="situation" role="dialog"
          aria-labelledby="myLargeModalLabel"
@@ -36,7 +36,7 @@
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
             <li><a>{{ parent.name }}</a></li>
-            <li><a >{{ obj.name }}</a></li>
+            <li><a>{{ obj.name }}</a></li>
         </ol>
 
     </section>
@@ -147,11 +147,11 @@
                                                                    class="btn btn-danger"
                                                                    data-original-title="Ürünü Sil"><i
                                                                         class="fa fa-close"></i></a>
-                                                                 <a type="button"
-                                                                        onclick="getDefinition({{ product.product.pk }})"
-                                                                        data-toggle="tooltip" title="Açıklamalar"
-                                                                        class="btn btn-success"
-                                                                        data-original-title="Açıklamalar"><i
+                                                                <a type="button"
+                                                                   onclick="getDefinition({{ product.product.pk }})"
+                                                                   data-toggle="tooltip" title="Açıklamalar"
+                                                                   class="btn btn-success"
+                                                                   data-original-title="Açıklamalar"><i
                                                                         class="fa fa-search-plus"></i></a>
                                                                 <a href="{% url 'listArch:urun-aciklama-ekle' product.product.pk %}"
                                                                    data-toggle="tooltip" title="Açıklama Ekle"
@@ -284,7 +284,7 @@
 
 
     </script>
-     <script>
+    <script>
         function getDefinition(id) {
             debugger;
             var html = '';
@@ -306,19 +306,20 @@
                     html = '<div class="box-body table-responsive no-padding">';
                     html += ' <table class="table table-responsive">';
                     html += ' <tbody>';
-                    if (definitions.length  > 0 ){
+                    if (definitions.length > 0) {
                         for (let i = 0; i < definitions.length; i++) {
 
                             html += '<tr><td><strong>' + i + 1 + '-' + definitions[i].title_desc + '</strong></td>';
                             html += '</tr>';
                             html += '<tr><td>' + definitions[i].description + '</td>';
-                            let url='{% url 'listArch:urun-aciklama-guncelle' 0 %}';
-                            url=url.replace(0,definitions[i].id);
-                            html += '<td><a style="margin-left:5px;" href="'+url+'" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a></td></tr>';
+                            let url = '{% url 'listArch:urun-aciklama-guncelle' 0 %}';
+                            url = url.replace(0, definitions[i].definition.id);
+
+                            html += '<td><a style="margin-left:5px;" href="' + url + '" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a></td>';
+                            html += '<td><a style="margin-left:2px;" onclick="delete_product_definition(' + definitions[i].definition.id + ')" type="button" class="btn btn-sm btn-danger"><i class="fa fa-close"></i></a></td></tr>';
                         }
-                    }
-                    else {
-                        html+='<tr><td>Ürün Açıklaması Bulunmamaktadır.</td></tr>'
+                    } else {
+                        html += '<tr><td>Ürün Açıklaması Bulunmamaktadır.</td></tr>'
                     }
                     html += '</tbody></table></div>';
 
@@ -516,6 +517,41 @@
 
                             if (result.status === 'Success') {
                                 swal("Başarılı", " Ürün Silindi", "success");
+                                window.location.replace("{% url "listArch:urunler" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
+
+        function delete_product_definition(id) {
+            debugger;
+            document.getElementById('content_messages').innerHTML = 'Açıklamayı Silmek İstediğinizden Emin Misiniz?';
+
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:urun-aciklama-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            definition_id: id,
+                        },
+                        success: function (result) {
+
+                            if (result.status === 'Success') {
+                                swal("Başarılı", "Açıklama Silindi", "success");
                                 window.location.replace("{% url "listArch:urunler" %}");
 
 

@@ -426,6 +426,10 @@
         let option_value_row = 0;
         let value = 0;
         let count_value = [];
+        let count_text = []
+
+
+
 
         function get_option() {
             debugger;
@@ -447,14 +451,17 @@
 
                     if (option.type === 'text') {
                         debugger;
-                        html = '	<div class="form-group" style="margin-top: 5px;">';
+                        html='<div class="row" id="text-form-' + option_text_row + '" >';
+                        html += '<div class="form-group"  style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
-                        html += '<div class="col-sm-4"><input id="text-value-row'+option_text_row+'" name="text-value-row'+option_text_row+'" readonly style="margin-top:3px;" value="'+option.key+'"  class="form-control" "></input></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '">	</div>';
+                        html += '<div class="col-sm-4"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.key + '"  class="form-control"></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '"><button type="button" id="remove' + option_text_row + '" onclick="remove_text('+option_text_row+')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>	</div>';
+                        html+="</div>";
 
-                        option_text_row++;
                         $('#tab-option .tab-content').append(html);
+                        count_text.push(parseInt(option_text_row));
                         document.getElementById('text-value-row').value = option_text_row;
+                        option_text_row++;
 
 
                     }
@@ -500,6 +507,18 @@
 
             });
         }
+         function remove_text(id) {
+            debugger;
+            $('#text-form-'+ id +'').remove();
+            count_text = jQuery.grep(count_text, function (value) {
+                return value !== id;
+            });
+            document.getElementById('text-value-row').value = count_text;
+            console.log(count_text)
+
+
+        }
+
 
 
         function addOptionValue() {
@@ -558,7 +577,7 @@
             debugger;
             $('#option-value-row' + id + '').remove();
             count_value = jQuery.grep(count_value, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById('value-row').value = count_value;
             console.log(count_value)

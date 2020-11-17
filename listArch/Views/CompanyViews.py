@@ -1,5 +1,4 @@
 import datetime
-
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -39,8 +38,9 @@ def add_company(request):
     user_form = UserCompanyForm()
 
     company_all = Company.objects.all()
-    try:
-        if request.method == 'POST':
+
+    if request.method == 'POST':
+        try:
             company_form = CompanyForm(request.POST or None, request.FILES or None)
 
             data = request.POST.copy()
@@ -79,7 +79,8 @@ def add_company(request):
                                   date=company_form.cleaned_data['date'],
                                   address_link=company_form.cleaned_data['address_link'],
                                   business_type=company_form.cleaned_data['business_type'],
-                                  isSponsor=company_form.cleaned_data['isSponsor']
+                                  isSponsor=company_form.cleaned_data['isSponsor'],
+                                  city=company_form.cleaned_data['city']
 
                                   )
                 company.save()
@@ -130,10 +131,11 @@ def add_company(request):
             else:
                 messages.warning(request, 'Alanları Kontrol Ediniz.')
 
-        return render(request, 'company/add-company.html',
-                      {'company_form': company_form, 'user_form': user_form, 'company_all': company_all})
-    except Exception as e:
-        print(e)
+        except Exception as e:
+            print(e)
+
+    return render(request, 'company/add-company.html',
+                  {'company_form': company_form, 'user_form': user_form, 'company_all': company_all})
 
 
 def return_companies(request):
@@ -146,7 +148,7 @@ def return_companies(request):
 
 
 @api_view()
-def getCompany(request, pk):
+def getCompany(pk):
     company = Company.objects.filter(pk=pk)
     data = CompanySerializer(company, many=True)
 
@@ -177,9 +179,8 @@ def update_company(request, pk):
     i = 0
     companies = Company.objects.all()
     retails = CompanyRetail.objects.filter(company=company)
-    try:
-        if request.method == 'POST':
-
+    if request.method == 'POST':
+        try:
             if user_form.is_valid() and company_form.is_valid():
                 company.user.first_name = user_form.cleaned_data['first_name']
                 company.user.last_name = user_form.cleaned_data['last_name']
@@ -230,13 +231,12 @@ def update_company(request, pk):
                 return redirect('listArch:firma-listesi')
             else:
                 messages.warning(request, 'Alanları Kontrol Edin.')
-
-        return render(request, 'company/update-company.html',
-                      {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
-                       'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
-                       })
-    except Exception as e:
-        print(e)
+        except Exception as e:
+            print(e)
+    return render(request, 'company/update-company.html',
+                  {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
+                   'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
+                   })
 
 
 @api_view()
@@ -296,9 +296,11 @@ def add_companyDefinition(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    company = Company.objects.get(pk=pk)
 
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        try:
+
             definition = Definition(key=request.POST['title[tr]'])
             definition.save()
 
@@ -312,17 +314,55 @@ def add_companyDefinition(request, pk):
                                                     description=request.POST['content[eng]'])
             definitionDesc2.save()
 
-            company = Company.objects.get(pk=pk)
-
             company_definition = CompanyDefinition(company=company, definition=definition)
             company_definition.save()
 
             messages.success(request, "Açıklama Başarıyla Kayıt Edildi.")
             return redirect('listArch:firma-listesi')
-        return render(request, 'product/add-product-definition.html',)
-    except Exception as e:
-        print(e)
 
+        except Exception as e:
+            print(e)
+    return render(request, 'product/add-product-definition.html', )
+
+
+def get_company_definition(request, pk):
+    company = Company.objects.get(pk=pk)
+    company_def = CompanyDefinition.objects.filter(company=company)
+    definitionDesc = []
+    definitionDesc2 = []
+    if company_def.count() > 0:
+        definitionDesc = DefinitionDescription.objects.filter(lang_code=1).filter(
+            definition=company_def[0].definition)
+        definitionDesc2 = DefinitionDescription.objects.filter(lang_code=2).filter(
+            definition=company_def[0].definition)
+    if company_def.count() > 0:
+
+        if request.method == 'POST':
+            try:
+
+                for definition in company_def:
+                    definition.definition.key = request.POST['title[tr]']
+                    definition.definition.save()
+
+                    for definition_tr in definitionDesc:
+                        definition_tr.title_desc = request.POST['title[tr]']
+                        definition_tr.description = request.POST['content[tr]']
+                        definition_tr.save()
+
+                    for definition_eng in definitionDesc2:
+                        definition_eng.title_desc = request.POST['title[eng]']
+                        definition_eng.description = request.POST['content[eng]']
+                        definition_eng.save()
+
+                    messages.success(request, "Açıklama Başarıyla Düzenlendi.")
+                    return redirect('listArch:firma-listesi')
+
+            except Exception as e:
+                print(e)
+        return render(request, 'product/product-definition-update.html',
+                      {'def_tr': definitionDesc[0], 'def_eng': definitionDesc2[0]})
+    else:
+        return redirect('listArch:firma-aciklama-ekle', pk)
 
 
 @login_required

@@ -100,7 +100,7 @@ class GetProfile(APIView):
 
         profile_total = Profile.objects.count()
         profile = Profile.objects.filter(
-            user__first_name__icontains=request.data['search[value]']).order_by('id')[
+            user__first_name__icontains=request.data['search[value]']).order_by('-id')[
                     int(start):end]
         filteredTotal = Profile.objects.filter(
             user__first_name__icontains=request.data['search[value]']).count()

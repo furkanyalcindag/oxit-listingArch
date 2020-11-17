@@ -30,7 +30,6 @@ from listArch.serializers.ProductSerializer import ProductSerializer
 from listArch.services import general_methods
 from listArch.services.general_methods import category_parent_show
 from listArch.models.Image import Image
-from oxiterp.settings.base import home_lang_code
 
 
 def add_product(request):
@@ -42,8 +41,8 @@ def add_product(request):
     options = Option.objects.all()
     product_form = ProductForm()
     companies = Company.objects.filter(user__is_active=True)
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        try:
 
             product_form = ProductForm(request.POST or None)
             product_image_form = ProductImageForm(request.POST or None, request.FILES)
@@ -132,27 +131,31 @@ def add_product(request):
                                                                 range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
                             x = x + 1
-                if request.POST['text-value-row'] != "":
-                    option_range = request.POST['text-value-row']
-                    if option_range != "":
-                        x = 0
-                        while x < int(option_range):
-                            text_key = request.POST['text-value-row' + str(x) + '']
-                            option = Option.objects.get(key=text_key)
-                            product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
-                            product_option.save()
-                            x = x + 1
+                count_text = request.POST['text-value-row']
+                if count_text != '':
+                    count_text = count_text.split(',')
+                    array_text = []
+                    for count in count_text:
+                        array_text.append(count)
+
+                    for x in array_text:
+                        text_key = request.POST['text-value-row' + str(x) + '']
+                        option = Option.objects.get(key=text_key)
+                        product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
+                        product_option.save()
+
 
                 messages.success(request, "Ürün Başarıyla eklendi.")
                 return redirect('listArch:urun-ekle')
             else:
                 messages.success(request, "Alanları kontrol ediniz.")
-        return render(request, 'product/add-product.html',
-                      {'options': options, 'product_form': product_form,
-                       'companies': companies, })
 
-    except Exception as e:
-        print(e)
+        except Exception as e:
+            print(e)
+
+    return render(request, 'product/add-product.html',
+                  {'options': options, 'product_form': product_form,
+                   'companies': companies, })
 
 
 def product_list(request):
@@ -184,20 +187,21 @@ def product_edit(request, uuid):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    product = Product.objects.get(uuid=uuid)
-    product_array = []
-    options = Option.objects.all()
-    companies = Company.objects.filter(user__is_active=True)
-    product_image = ProductImage()
-    product_option_value = ProductOptionValue()
-    cat_array = []
-    product_form = ProductForm(request.POST or None, request.FILES or None, instance=product)
-    product_image_form = ProductImageForm(request.POST or None, request.FILES)
-    product_video_form = VideoForm(request.POST or None, request.FILES)
-    text_value = ProductOptionValue.objects.filter(product=product)
-    categories = Category.objects.all()
-    product_definitions = ProductDefinition.objects.filter(product=product)
     try:
+        product = Product.objects.get(uuid=uuid)
+        product_array = []
+        options = Option.objects.all()
+        companies = Company.objects.filter(user__is_active=True)
+        product_image = ProductImage()
+        product_option_value = ProductOptionValue()
+        cat_array = []
+        product_form = ProductForm(request.POST or None, request.FILES or None, instance=product)
+        product_image_form = ProductImageForm(request.POST or None, request.FILES)
+        product_video_form = VideoForm(request.POST or None, request.FILES)
+        text_value = ProductOptionValue.objects.filter(product=product)
+        categories = Category.objects.all()
+        product_definitions = ProductDefinition.objects.filter(product=product)
+
         for category in categories:
             cat_dict = dict()
             parent_cat = category_parent_show(category)
@@ -297,16 +301,18 @@ def product_edit(request, uuid):
                                                                 range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
                             x = x + 1
-                if request.POST['text-value-row'] != "":
-                    option_range = request.POST['text-value-row']
-                    if option_range != "":
-                        x = 0
-                        while x < int(option_range):
-                            text_key = request.POST['text-value-row' + str(x) + '']
-                            option = Option.objects.get(key=text_key)
-                            product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
-                            product_option.save()
-                            x = x + 1
+                count_text = request.POST['text-value-row']
+                if count_text != '':
+                    count_text = count_text.split(',')
+                    array_text = []
+                    for count in count_text:
+                        array_text.append(count)
+
+                    for x in array_text:
+                        text_key = request.POST['text-value-row' + str(x) + '']
+                        option = Option.objects.get(key=text_key)
+                        product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
+                        product_option.save()
 
                 messages.success(request, "Ürün Başarıyla Düzenlendi.")
 
@@ -314,12 +320,11 @@ def product_edit(request, uuid):
             else:
                 messages.warning(request, "Alanları kontrol ediniz.")
         return render(request, 'product/product-edit.html',
-                      {'product': product_array[0], 'options': options, 'product_form': product_form,
+                      {'product': product_array, 'options': options, 'product_form': product_form,
                        'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                        'categories': cat_array, 'product_image_form': product_image_form,
                        'product_definitions': product_definitions,
-                       'loop_value': product_option_value.count(), 'text_value': text_value,
-                       })
+                       'loop_value': product_option_value.count(), 'text_value': text_value,})
     except Exception as e:
         print(e)
 
@@ -395,8 +400,7 @@ def add_productDefinition(request, pk):
             messages.success(request, "Açıklama Başarıyla Kayıt Edildi.")
             return redirect('listArch:urunler')
 
-        return render(request, 'product/add-product-definition.html',
-                      {})
+        return render(request, 'product/add-product-definition.html', )
     except Exception as e:
         print(e)
 
@@ -482,6 +486,28 @@ def product_delete(request):
             product_id = request.POST['product_id']
             product = Product.objects.filter(pk=product_id)
             product[0].delete()
+
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+@login_required
+def product_definition_delete(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+
+    if request.POST:
+        try:
+
+            definition_id = request.POST['definition_id']
+            product = Definition.objects.get(pk=definition_id)
+            product.delete()
 
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 

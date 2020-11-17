@@ -57,11 +57,13 @@ urlpatterns = [
     url(r'urun-getir/$', ProductViews.get_products, name='urun-getir'),
 
     url(r'add-product-definition/(?P<pk>\d+)$', ProductViews.add_productDefinition, name='urun-aciklama-ekle'),
-    url(r'product-definition-update/(?P<pk>\d+)$', ProductViews.update_productDefinition, name='urun-aciklama-guncelle'),
+    url(r'product-definition-update/(?P<pk>\d+)$', ProductViews.update_productDefinition,
+        name='urun-aciklama-guncelle'),
 
     url(r'product-list/$', ProductViews.product_list, name='urunler'),
     url(r'edit-product/(?P<uuid>[0-9a-f-]+)$', ProductViews.product_edit, name='urun-duzenle'),
     url(r'delete-product/$', ProductViews.product_delete, name='urun-sil'),
+    url(r'product-definition-delete/$', ProductViews.product_definition_delete, name='urun-aciklama-sil'),
 
     url(r'product-image-delete/$', ProductViews.product_image_delete, name='urun-resmi-sil'),
     url(r'delete-product-option/$', ProductViews.product_option_delete, name='urun-secenegi-sil'),
@@ -80,6 +82,7 @@ urlpatterns = [
 
     url(r'get-company/(?P<pk>\d+)$', CompanyViews.getCompany, name='firma-aciklamasi-getir'),
     url(r'update-company/(?P<pk>\d+)$', CompanyViews.update_company, name='firma-düzenle'),
+    url(r'company-definition-edit/(?P<pk>\d+)$', CompanyViews.get_company_definition, name='firma-aciklamasi-duzenle'),
     url(r'delete-company/$', CompanyViews.company_delete, name='firma-sil'),
     url(r'company-all-product/$', CompanyViews.return_company_products, name='firmanin-urun-listesi'),
     url(r'category-all-product/(?P<pk>\d+)$', CompanyViews.company_category_products,
@@ -192,7 +195,7 @@ urlpatterns = [
     url(r'add-collection-product/$', CollectionViews.add_product_to_collection, name='koleksiyona-urun-ekle'),
     url(r'add-collection-company/(?P<pk>\d+)$', CollectionViews.add_collection_company, name='firmaya-koleksiyon-ekle'),
 
-    #Profile
+    # Profile
     url(r'profile-add/$', ProfileViews.add_profile, name='profil-kaydet'),
     url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
     url(r'profiller/$', ProfileViews.profile_list, name='profil-listesi'),
@@ -202,14 +205,13 @@ urlpatterns = [
     url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),
     url(r'blog-page/$', HomeViews.blog_page, name='blog-page'),
 
-
-    #Staff
+    # Staff
     url(r'add-staff/$', StaffViews.register_staff, name='personel-ekle'),
     url(r'staff/$', StaffViews.staff, name='personeller'),
     url(r'staff-passive/$', StaffViews.passive_staff, name='personel-pasif-et'),
     url(r'staff-activate/$', StaffViews.active_staff, name='aktif-et-personel'),
 
-    #Service
+    # Service
     url(r'add-service/$', ServiceViews.add_service, name='hizmet-ekle'),
     url(r'delete-service/$', ServiceViews.delete_service, name='hizmet-sil'),
 

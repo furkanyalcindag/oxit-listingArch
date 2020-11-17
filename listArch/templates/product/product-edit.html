@@ -104,259 +104,269 @@
                                                 <li class=""><a href="#tab-file" data-toggle="tab"
                                                                 aria-expanded="false">Bağlantılar</a></li>
                                             </ul>
-                                            <div class="tab-content">
-                                                <div class="tab-pane" id="tab-general">
-                                                    <div class="col-sm-10">
-                                                        <div class="form-group ">
-                                                            <label>Ürün Adı</label>
+                                            {% for product in product %}
+                                                <div class="tab-content">
+                                                    <div class="tab-pane" id="tab-general">
+                                                        <div class="col-sm-10">
+                                                            <div class="form-group ">
+                                                                <label>Ürün Adı</label>
 
-                                                            <div class="input-group"><span
-                                                                    class="input-group-addon"><img
-                                                                    src="/media/en-gb.png" title="eng"></span>
-                                                                <input type="text"
-                                                                       name="product_description[eng][name]"
-                                                                       value="{{ product.product_desc }}"
-                                                                       placeholder="Ürün Adı"
-                                                                       class="form-control"/>
+                                                                <div class="input-group"><span
+                                                                        class="input-group-addon"><img
+                                                                        src="/media/en-gb.png" title="eng"></span>
+                                                                    <input type="text"
+                                                                           name="product_description[eng][name]"
+                                                                           value="{{ product.product_desc }}"
+                                                                           placeholder="Ürün Adı"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                                <div class="input-group"><span
+                                                                        class="input-group-addon"><img
+                                                                        src="/media/tr-tr.png" title="TR"></span>
+                                                                    <input type="text"
+                                                                           name="product_description[tr][name]"
+                                                                           value="{{ product.product_desc2 }}"
+                                                                           placeholder="Ürün Adı"
+                                                                           class="form-control"/>
+                                                                </div>
+
                                                             </div>
-                                                            <div class="input-group"><span
-                                                                    class="input-group-addon"><img
-                                                                    src="/media/tr-tr.png" title="TR"></span>
-                                                                <input type="text"
-                                                                       name="product_description[tr][name]"
-                                                                       value="{{ product.product_desc2 }}"
-                                                                       placeholder="Ürün Adı"
-                                                                       class="form-control"/>
+                                                            <div class="form-group">
+                                                                <label>Ürün Kodu</label>
+
+                                                                {{ product_form.code }}
                                                             </div>
+                                                            <div class="form-group">
+                                                                <label>Ürün Firma Kodu</label>
 
+                                                                {{ product_form.company_code }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="input-type">Aktif
+                                                                    Ürün?</label>
+
+                                                                {{ product_form.isActive }}
+
+                                                                <label style="margin-left: 15px;" for="input-type">Reklam
+                                                                    Ürünü</label>
+
+                                                                {{ product_form.isAdvert }}
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label>Ürün Kodu</label>
 
-                                                            {{ product_form.code }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Ürün Firma Kodu</label>
+                                                    </div>
+                                                    <div class="tab-pane active" id="tab-image">
+                                                        <div class="table-responsive">
+                                                            <table id="image"
+                                                                   class="table table-striped table-bordered table-hover">
+                                                                <thead>
+                                                                <tr>
+                                                                    <td>Resim</td>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
 
-                                                            {{ product_form.company_code }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="input-type">Aktif
-                                                                Ürün?</label>
+                                                                <tr>
+                                                                    <td class="text-left"><img
+                                                                            src="/media/{{ product.image }}"
+                                                                            class="product-img"
+                                                                            style="width: 150px;height: 150px;">
+                                                                        <input type="hidden" name="image"
+                                                                               value="catalog/demo/ipod_classic_1.jpg"
+                                                                               id="input-image"></td>
+                                                                </tr>
+                                                                </tbody>
 
-                                                            {{ product_form.isActive }}
+                                                            </table>
 
-                                                            <label style="margin-left: 15px;" for="input-type">Reklam
-                                                                Ürünü</label>
+                                                            <table id="images"
+                                                                   class="table table-striped table-bordered table-hover">
+                                                                <thead>
+                                                                <tr>
+                                                                    <td class="text-left">Ek Resimler</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                {% if product.images %}
+                                                                    {% for product_image in product.images %}
+                                                                        <tr id="image-row{{ forloop.counter0 }}">
 
-                                                            {{ product_form.isAdvert }}
+                                                                            <td class="text-left"><a href=""
+                                                                                                     id="thumb-image{{ forloop.counter0 }}"
+                                                                                                     data-toggle="image"
+                                                                                                     class="img-thumbnail"><img
+                                                                                    src="/media/{{ product_image.image.image }}"
+                                                                                    class="product-img"
+                                                                                    style="height: 150px;width: 150px;"></a>
+                                                                                <input type="hidden"
+                                                                                       name="product_image[{{ forloop.counter0 }}][image]"
+                                                                                       value="{{ product_image.image.image }}"
+                                                                                       id="input-image{{ forloop.counter0 }}">
+                                                                            </td>
+
+                                                                            <td class="text-left">
+                                                                                <button type="button"
+                                                                                        onclick="image_delete({{ forloop.counter0 }},{{ product_image.image.pk }})"
+                                                                                        data-toggle="tooltip" title=""
+                                                                                        class="btn btn-danger"
+                                                                                        data-original-title="Kaldır"><i
+                                                                                        class="fa fa-minus-circle"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                                </tbody>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <td colspan="1"></td>
+                                                                    <td class="text-left">
+                                                                        <button type="button" onclick="addImage();"
+                                                                                data-toggle="tooltip" title=""
+                                                                                class="btn btn-primary"
+                                                                                data-original-title="Resim Ekle"><i
+                                                                                class="fa fa-plus-circle"></i></button>
+                                                                    </td>
+                                                                    <input type="hidden" name="image_row"
+                                                                           id="image_row"/>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+
                                                         </div>
                                                     </div>
+                                                    <div class="tab-pane " id="tab-cover-image">
+                                                        <br>
+                                                        <div class="col-lg-6">
+                                                            {{ product_form.cover_image }}
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <img src="/media/{{ product.product.cover_image }}"
+                                                                 class="product-img"
+                                                                 style="width: 100px;height: 100px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane " id="tab-option">
+                                                        <br>
+                                                        <div class="row">
+                                                            {% for option_value in product.values %}
+                                                                <div class="row" style="margin-left: 3px">
+                                                                <div class="tab-info">
+                                                                    <div id="option-value-row{{ forloop.counter0 }}">
+                                                                        <div class="col-sm-6">
+                                                                            <div style="margin-top:3px;">
+                                                                                {% if option_value.option_value.option.type == 'range' %}
+                                                                                    <input readonly type="text"
+                                                                                           name="option-key-[{{ forloop.counter0 }}]"
+                                                                                           class="form-control"
+                                                                                           value="{{ option_value.range_value }}">
+                                                                                {% elif  option_value.text_value %}
+                                                                                    <input readonly type="text"
+                                                                                           name="option-key-[{{ forloop.counter0 }}]"
+                                                                                           class="form-control"
+                                                                                           value="{{ option_value.text_value.key }}">
 
-                                                </div>
-                                                <div class="tab-pane active" id="tab-image">
-                                                    <div class="table-responsive">
-                                                        <table id="image"
-                                                               class="table table-striped table-bordered table-hover">
-                                                            <thead>
-                                                            <tr>
-                                                                <td>Resim</td>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
+                                                                                {% else %}
+                                                                                    <input readonly type="text"
+                                                                                           name="option-key-[{{ forloop.counter0 }}]"
+                                                                                           class="form-control"
+                                                                                           value="{{ option_value.option_value.value }}">
+                                                                                {% endif %}
 
-                                                            <tr>
-                                                                <td class="text-left"><img
-                                                                        src="/media/{{ product.image }}"
-                                                                        class="product-img"
-                                                                        style="width: 150px;height: 150px;">
-                                                                    <input type="hidden" name="image"
-                                                                           value="catalog/demo/ipod_classic_1.jpg"
-                                                                           id="input-image"></td>
-                                                            </tr>
-                                                            </tbody>
 
-                                                        </table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
 
-                                                        <table id="images"
-                                                               class="table table-striped table-bordered table-hover">
-                                                            <thead>
-                                                            <tr>
-                                                                <td class="text-left">Ek Resimler</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            {% if product.images %}
-                                                                {% for product_image in product.images %}
-                                                                    <tr id="image-row{{ forloop.counter0 }}">
-
-                                                                        <td class="text-left"><a href=""
-                                                                                                 id="thumb-image{{ forloop.counter0 }}"
-                                                                                                 data-toggle="image"
-                                                                                                 class="img-thumbnail"><img
-                                                                                src="/media/{{ product_image.image.image }}"
-                                                                                class="product-img"
-                                                                                style="height: 150px;width: 150px;"></a>
-                                                                            <input type="hidden"
-                                                                                   name="product_image[{{ forloop.counter0 }}][image]"
-                                                                                   value="{{ product_image.image.image }}"
-                                                                                   id="input-image{{ forloop.counter0 }}">
-                                                                        </td>
-
-                                                                        <td class="text-left">
                                                                             <button type="button"
-                                                                                    onclick="image_delete({{ forloop.counter0 }},{{ product_image.image.pk }})"
-                                                                                    data-toggle="tooltip" title=""
-                                                                                    class="btn btn-danger"
-                                                                                    data-original-title="Kaldır"><i
+                                                                                    onclick="option_delete({{ forloop.counter0 }} ,{{ option_value.pk }})"
+                                                                                    data-toggle="tooltip"
+                                                                                    title="Kaldır"
+                                                                                    class="btn btn-danger"><i
                                                                                     class="fa fa-minus-circle"></i>
                                                                             </button>
-                                                                        </td>
-                                                                    </tr>
-                                                                {% endfor %}
-                                                            {% endif %}
-                                                            </tbody>
-                                                            <tfoot>
-                                                            <tr>
-                                                                <td colspan="1"></td>
-                                                                <td class="text-left">
-                                                                    <button type="button" onclick="addImage();"
-                                                                            data-toggle="tooltip" title=""
-                                                                            class="btn btn-primary"
-                                                                            data-original-title="Resim Ekle"><i
-                                                                            class="fa fa-plus-circle"></i></button>
-                                                                </td>
-                                                                <input type="hidden" name="image_row" id="image_row"/>
-                                                            </tr>
-                                                            </tfoot>
-                                                        </table>
+ {% if not option_value.text_value %}
+                                                                                <span
+                                                                                        style="margin-top:3px;"
+                                                                                        class="btn btn-default">{{ option_value.option_value.option.key }}</span>
 
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane " id="tab-cover-image">
-                                                    <br>
-                                                    <div class="col-lg-6">
-                                                        {{ product_form.cover_image }}
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <img src="/media/{{ product.product.cover_image }}"
-                                                             class="product-img"
-                                                             style="width: 100px;height: 100px;">
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane " id="tab-option">
-                                                    <br>
-                                                    <div class="row">
-                                                        {% for option_value in product.values %}
-                                                            <div class="tab-info">
-                                                                <div id="option-value-row{{ forloop.counter0 }}">
-                                                                    <div class="col-sm-6">
-                                                                        <div style="margin-top:3px;">
-                                                                            {% if option_value.option_value.option.type == 'range' %}
-                                                                                <input readonly type="text"
-                                                                                       name="option-key-[{{ forloop.counter0 }}]"
-                                                                                       class="form-control"
-                                                                                       value="{{ option_value.range_value }}">
-                                                                            {% elif  option_value.text_value  %}
-                                                                                <input readonly type="text"
-                                                                                       name="option-key-[{{ forloop.counter0 }}]"
-                                                                                       class="form-control"
-                                                                                       value="{{ option_value.text_value.key }}">
-                                                                                {% else %}
-                                                                                <input readonly type="text"
-                                                                                       name="option-key-[{{ forloop.counter0 }}]"
-                                                                                       class="form-control"
-                                                                                       value="{{ option_value.option_value.value }}">
                                                                             {% endif %}
-
-
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-sm-6">
-                                                                        <button type="button"
-                                                                                onclick="option_delete({{ forloop.counter0 }} ,{{ option_value.pk }})"
-                                                                                data-toggle="tooltip"
-                                                                                title="Kaldır"
-                                                                                class="btn btn-danger"><i
-                                                                                class="fa fa-minus-circle"></i>
-                                                                        </button>
-                                                                        {% if not option_value.text_value %}
-                                                                        <span
-                                                                                style="margin-top:3px;"
-                                                                                class="btn btn-default">{{ option_value.option_value.option.key }}</span> {% endif %}
-                                                                    </div>
 
 
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                                </div>
 
 
 
-                                                        {% endfor %}
-                                                    </div>
+                                                            {% endfor %}
+                                                        </div>
 
 
-                                                    <div class="row">
-                                                     <input type="hidden" value="" id="text-value-row" name="text-value-row">
+                                                        <div class="row">
+                                                            <input type="hidden" value="" id="text-value-row"
+                                                                   name="text-value-row">
 
-                                                        <div class="col-lg-12" style="margin-top: 20px;">
-                                                            <select class="form-control select2 select2-hidden-accessible"
-                                                                    style="width: 100%" id="option_key"
-                                                                    name="option-key" onchange="get_option()"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                            <div class="col-lg-12" style="margin-top: 20px;">
+                                                                <select class="form-control select2 select2-hidden-accessible"
+                                                                        style="width: 100%" id="option_key"
+                                                                        name="option-key" onchange="get_option()"
+                                                                        tabindex="-1" aria-hidden="true">
 
-                                                                <option value="">---------</option>
+                                                                    <option value="">---------</option>
 
-                                                                {% for option in options %}
-                                                                    <option value="{{ option.key }}">{{ option.key }}</option>
-                                                                {% endfor %}
+                                                                    {% for option in options %}
+                                                                        <option value="{{ option.key }}">{{ option.key }}</option>
+                                                                    {% endfor %}
 
 
-                                                            </select>
-                                                            <div class="col-sm-10">
-                                                                <div class="row">
-                                                                    <div class="tab-content" style="width: 100%"></div>
+                                                                </select>
+                                                                <div class="col-sm-10">
+                                                                    <div class="row">
+                                                                        <div class="tab-content"
+                                                                             style="width: 100%"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
+                                                    <div class="tab-pane" id="tab-file">
 
+                                                        <br>
+                                                        <label>Firma Seçin</label>
+                                                        <select class="form-control select2 select2-hidden-accessible"
+                                                                style="width: 100%" id="product-company"
+                                                                name="product-company">
+
+                                                            {% for company in companies %}
+                                                                {% if product.product.company.name == company.name %}
+                                                                    <option selected
+                                                                            value="{{ company.pk }}">{{ company.name }}</option>
+                                                                {% else %}
+                                                                    <option value="{{ company.pk }}">{{ company.name }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            <option value="">---------</option>
+
+                                                        </select>
+
+                                                        <label style="margin-top: 30px;">Kategori Seçin</label>
+                                                        {{ product_form.category }}
+
+
+                                                        <label style="margin-top: 30px;">Dosya Seçin</label>
+                                                        {{ product_form.file }}
+
+                                                        <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
+                                                        {{ product_form.related_product }}
+
+
+                                                    </div>
                                                 </div>
-                                                <div class="tab-pane" id="tab-file">
-
-                                                    <br>
-                                                    <label>Firma Seçin</label>
-                                                    <select class="form-control select2 select2-hidden-accessible"
-                                                            style="width: 100%" id="product-company"
-                                                            name="product-company">
-
-                                                        {% for company in companies %}
-                                                            {% if product.product.company.name == company.name %}
-                                                                <option selected
-                                                                        value="{{ company.pk }}">{{ company.name }}</option>
-                                                            {% else %}
-                                                                <option value="{{ company.pk }}">{{ company.name }}</option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                        <option value="">---------</option>
-
-                                                    </select>
-
-                                                    <label style="margin-top: 30px;">Kategori Seçin</label>
-                                                    {{ product_form.category }}
-
-
-                                                    <label style="margin-top: 30px;">Dosya Seçin</label>
-                                                    {{ product_form.file }}
-
-                                                    <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
-                                                    {{ product_form.related_product }}
-
-
-                                                </div>
-                                            </div>
-
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -486,10 +496,9 @@
     </script>
     <script>
         let option_row = 0;
-
-
         let option_text_row = 0;
         let option_range = 0;
+        let count_text=[]
 
         function get_option() {
 
@@ -511,18 +520,20 @@
 
                     if (option.type === 'text') {
                         debugger;
-                        html = '	<div class="form-group" style="margin-top: 5px;">';
+                        html = '<div class="row" id="text-form-' + option_text_row + '" >';
+                        html += '<div class="form-group"  style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
-                        html += '<div class="col-sm-4"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.key + '"  class="form-control" "></input></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '">	</div>';
-
+                        html += '<div class="col-sm-4"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.key + '"  class="form-control"></div>';
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '"><button type="button" id="remove' + option_text_row + '" onclick="remove_text(' + option_text_row + ')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>	</div>';
+                        html += "</div>";
 
                         $('#tab-option .tab-content').append(html);
+                        count_text.push(parseInt(option_text_row));
                         document.getElementById('text-value-row').value = option_text_row;
                         option_text_row++;
 
-                    }
 
+                    }
 
 
                     if (option.option.type === 'select' || option.option.type === 'radio' || option.option.type === 'checkbox') {
@@ -550,6 +561,17 @@
 
 
             });
+        }
+        function remove_text(id) {
+            debugger;
+            $('#text-form-'+ id +'').remove();
+            count_text = jQuery.grep(count_text, function (value) {
+                return value !== id;
+            });
+            document.getElementById('text-value-row').value = count_text;
+            console.log(count_text)
+
+
         }
     </script>
 
