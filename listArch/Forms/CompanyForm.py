@@ -19,17 +19,17 @@ class CompanyForm(ModelForm):
             'name': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adı', 'required': 'required'}),
             'address': forms.Textarea(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Adresi', 'required': 'required', 'rows': '4'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Adresi', 'rows': '4'}),
             'address_link': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Adresi Linki', 'required': 'required', 'rows': '4'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Adresi Linki',  'rows': '4'}),
             'phone': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Telefonu', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Telefonu', }),
             'userDescription': forms.Textarea(
                 attrs={'class': 'form-control ', 'rows': '5', 'placeholder': 'Açıklama', }),
             'website': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Web Site Adresi', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Web Site Adresi',}),
             'map': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Konum Bilgisi', 'required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Konum Bilgisi', }),
 
             'country': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',

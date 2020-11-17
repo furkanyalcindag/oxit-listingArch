@@ -1,5 +1,4 @@
 from io import BytesIO
-
 import qrcode
 from django.contrib.sites.models import Site
 from django.db import models
@@ -16,7 +15,7 @@ class Product(models.Model):
     name = models.TextField(blank=True, null=True, verbose_name='Ürün Adı')
     code = models.TextField(blank=True, null=True, verbose_name='Ürün Kodu')
     company_code = models.TextField(blank=True, null=True, verbose_name='Ürün Kodu')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True,
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True,
                                 verbose_name='Ürüne Ait Firma')
     isActive = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True,
@@ -38,7 +37,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name+str(self.id))
             super().save(*args, **kwargs)
         from PIL import Image, ImageDraw
         from django.core.files import File

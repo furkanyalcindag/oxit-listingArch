@@ -182,9 +182,10 @@
                             let html;
 
                             if (full.isActive === false) {
+
                                 html = '<button class="btn btn-success" onclick="subscriber_approve(' + full.id + ')"  title="Onayla"><i class="fa fa-check-square"></i></button>';
                             } else {
-                                html = '<button class="btn btn-danger"><i class="fa fa-check-square"></i></button>';
+                                html = '<button onclick="" class="btn btn-danger"><i class="fa fa-check-square"></i></button>';
 
                             }
                             return html;

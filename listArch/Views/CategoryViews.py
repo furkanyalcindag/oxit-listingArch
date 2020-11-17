@@ -66,7 +66,7 @@ def return_categories(request):
         return redirect('accounts:login')
     cat_array = []
     try:
-        categories = CategoryDesc.objects.filter(lang_code=1).order_by('-id')
+        categories = CategoryDesc.objects.filter(lang_code=1).order_by('-description').filter(category__isActive=True)
 
         for category in categories:
             cat_dict = dict()
@@ -179,8 +179,12 @@ def delete_category(request):
 
             category_id = request.POST['category_id']
             category = Category.objects.get(pk=category_id)
-            category.delete()
-            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+            if not category.is_parent:
+                category.isActive = False
+                category.save()
+                return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+            else:
+                return JsonResponse({'status': 'Error', 'messages': 'Alt Kategori Silinemez !! '})
 
         except Exception as e:
 

@@ -22,6 +22,5 @@ class Option(models.Model):
     isBasic = models.BooleanField(default=False)
     category = models.ManyToManyField(Category, null=True, blank=True)
 
-
     def __str__(self):
         return '%s %s %s' % (self.key, '-', self.type)

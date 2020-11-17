@@ -265,12 +265,12 @@
                         success: function (result) {
 
                             if (result.status === 'Success') {
-                                swal("Başarılı", " Kategori Silindi.", "success");
+                                swal("Başarılı", result.messages, "success");
                                 window.location.replace("{% url "listArch:kategori-listesi" %}");
 
 
                             } else {
-                                swal("Başarısız", result.messages, "error");
+                                swal("", result.messages, "error");
                             }
                         }
                     });
