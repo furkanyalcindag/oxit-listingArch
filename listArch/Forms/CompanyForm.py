@@ -21,22 +21,22 @@ class CompanyForm(ModelForm):
             'address': forms.Textarea(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adresi', 'rows': '4'}),
             'address_link': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Adresi Linki',  'rows': '4'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Adresi Linki', 'rows': '4'}),
             'phone': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Telefonu', }),
             'userDescription': forms.Textarea(
                 attrs={'class': 'form-control ', 'rows': '5', 'placeholder': 'Açıklama', }),
             'website': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Web Site Adresi',}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Web Site Adresi', }),
             'map': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Konum Bilgisi', }),
 
             'country': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',
-                       'style': 'width: 100%;'}),
+                       'style': 'width: 100%;', 'required': 'required'}),
             'city': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',
-                       'style': 'width: 100%;'}),
+                       'style': 'width: 100%;', 'required': 'required'}),
             'date': forms.DateInput(
                 attrs={'class': 'form-control  pull-right', 'type': 'date',
                        'autocomplete': 'off', 'format': '%d-%m-%Y',

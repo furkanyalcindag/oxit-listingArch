@@ -81,27 +81,31 @@
                                                 <div class="tab-pane active" id="tab-general">
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.first_name.label }}</label>
+                                                               for="input-image">{{ user_form.first_name.label }}<small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ user_form.first_name }}
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.last_name.label }}</label>
+                                                               for="input-image">{{ user_form.last_name.label }}<small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ user_form.last_name }}
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">Email</label>
+                                                               for="input-image">Email<small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ user_form.email }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">Telefon</label>
+                                                               for="input-image">Telefon<small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10"><input maxlength="11" type="text" class="form-control"
                                                                                       value="" placeholder="Telefon"
                                                                                       id="phone" name="phone">

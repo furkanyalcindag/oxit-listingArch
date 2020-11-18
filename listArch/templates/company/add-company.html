@@ -9,8 +9,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a >Katalog</a></li>
-            <li><a >Firma Ekle</a></li>
+            <li><a>Katalog</a></li>
+            <li><a>Firma Ekle</a></li>
         </ol>
 
     </section>
@@ -84,28 +84,32 @@
                                                 <div class="tab-pane active" id="tab-general">
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.first_name.label }}</label>
+                                                               for="input-image">{{ user_form.first_name.label }} <small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ user_form.first_name }}
                                                             <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.last_name.label }}</label>
+                                                               for="input-image">{{ user_form.last_name.label }}<small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ user_form.last_name }}
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group required">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-name"> {{ company_form.name.label }}</label>
+                                                               for="input-name"> {{ company_form.name.label }} <small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">
                                                             {{ company_form.name }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">Logo</label>
+                                                               for="input-image">Logo <small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ company_form.logo }}
                                                         </div>
                                                     </div>
@@ -123,13 +127,15 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">Email</label>
+                                                               for="input-image">Email<small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ user_form.email }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">Profil Adı</label>
+                                                               for="input-image">Profil Adı <small
+                                                                style="color: red">*</small></label>
                                                         <div class="col-sm-10">{{ company_form.business_type }}
                                                         </div>
                                                     </div>
@@ -179,13 +185,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Ülke</label>
+                                                <label class="col-sm-2 control-label" for="input-type">Ülke <small
+                                                                style="color: red">*</small></label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.country }}
                                                 </div>
                                             </div>
-                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Şehir</label>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="input-type">Şehir <small
+                                                                style="color: red">*</small></label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.city }}
                                                 </div>
@@ -219,7 +227,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Sponsor mu?</label>
+                                                <label class="col-sm-2 control-label" for="input-type">Sponsor
+                                                    mu?</label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.isSponsor }}
                                                 </div>
@@ -272,7 +281,8 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label class="col-sm-1 control-label" for="input-type">Yönetici
-                                                    Hikayesi</label>
+                                                    Hikayesi <small
+                                                                style="color: red">*</small></label>
                                                 <div class="col-sm-11">
                                                     {{ company_form.userDescription }}
                                                 </div>
@@ -360,12 +370,12 @@
     </script>
 
     <script>
-        let social_row =0;
+        let social_row = 0;
         let count = []
 
         function addSocial() {
             debugger;
-           let html = '<tr id="social-row' + social_row + '">';
+            let html = '<tr id="social-row' + social_row + '">';
             html += '<td class="text-left">';
             html += '<select name="company_social[' + social_row + '][name]" class="form-control select2 " style="width: 100%" id="social">';
             html += '<option value="Instagram">Instagram</option><option value="Facebook">Facebook</option>';

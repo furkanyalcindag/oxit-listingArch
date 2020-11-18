@@ -17,11 +17,11 @@ class ProductForm(ModelForm):
             'related_product', 'file')
         widgets = {
             'company_code': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Ürün Kodu'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Ürün Kodu','required': 'required'}),
             'code': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Ürün Kodu'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Ürün Kodu','required': 'required'}),
             'price': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Fiyat(₺)', 'required': 'required'}),
+                attrs={'class': 'form-control', 'placeholder': 'Fiyat(₺)'}),
         }
 
     category = forms.ModelMultipleChoiceField(queryset=Category.objects.all())

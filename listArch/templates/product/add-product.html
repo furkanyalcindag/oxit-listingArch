@@ -112,7 +112,8 @@
                                                 <div class="tab-pane active" id="tab-general">
                                                     <div class="col-sm-10">
                                                         <div class="form-group ">
-                                                            <label>Ürün Adı</label>
+                                                            <label>Ürün Adı<small
+                                                                style="color: red">*</small></label>
 
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
@@ -140,12 +141,14 @@
                                                             {{ product_form.price }}
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Ürün Kodu</label>
+                                                            <label>Ürün Kodu<small
+                                                                style="color: red">*</small></label>
 
                                                             {{ product_form.code }}
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Ürün Firma Kodu</label>
+                                                            <label>Ürün Firma Kodu<small
+                                                                style="color: red">*</small></label>
 
                                                             {{ product_form.company_code }}
                                                         </div>
@@ -173,7 +176,8 @@
                                                                class="table table-striped table-bordered table-hover">
                                                             <thead>
                                                             <tr>
-                                                                <td class="text-left">Ürün Resmi</td>
+                                                                <td class="text-left">Ürün Resmi<small
+                                                                style="color: red">*</small></td>
                                                                 <td></td>
                                                             </tr>
                                                             </thead>
@@ -230,7 +234,8 @@
                                                 <div class="tab-pane" id="tab-cover-image">
                                                     <br>
                                                     <div class="col-lg-6">
-                                                        <label for="">Kapak Resmi</label>
+                                                        <label for="">Kapak Resmi<small
+                                                                style="color: red">*</small></label>
                                                         {{ product_form.cover_image }}
 
 
@@ -243,8 +248,10 @@
                                                 <div class="tab-pane " id="tab-option">
                                                     <br>
                                                     <div class="row">
-                                                        <div class="col-sm-2 " id="option-tab">
 
+                                                        <div class="col-sm-2 " id="option-tab">
+<label for="">Seçenekler<small
+                                                                style="color: red">*</small></label>
                                                             <select class="form-control select2 select2-hidden-accessible"
                                                                     style="width: 100%" id="option_key"
                                                                     name="option-key"
@@ -297,7 +304,8 @@
 
                                                     <br>
 
-                                                    <label>Firma Seçin</label>
+                                                    <label>Firma Seçin<small
+                                                                style="color: red">*</small></label>
                                                     <select class="form-control select2 select2-hidden-accessible"
                                                             style="width: 100%" id="product-company"
                                                             name="product-company">
@@ -315,7 +323,8 @@
                                                     {{ product_form.file }}
 
 
-                                                    <label style="margin-top: 30px;">Kategorileri Seçin</label>
+                                                    <label style="margin-top: 30px;">Kategorileri Seçin<small
+                                                                style="color: red">*</small></label>
                                                     {{ product_form.category }}
 
 

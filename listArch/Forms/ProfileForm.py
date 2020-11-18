@@ -11,11 +11,11 @@ class ProfileForm(ModelForm):
         widgets = {
 
             'website': forms.TextInput(
-                attrs={'class': 'form-control ', 'required': 'required'}),
+                attrs={'class': 'form-control '}),
             'map': forms.TextInput(
-                attrs={'class': 'form-control ', 'required': 'required'}),
+                attrs={'class': 'form-control '}),
             'address': forms.Textarea(
-                attrs={'class': 'form-control ', 'required': 'required'}),
+                attrs={'class': 'form-control '}),
             'country': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',
                        'style': 'width: 100%;'}),
@@ -24,6 +24,6 @@ class ProfileForm(ModelForm):
                        'style': 'width: 100%;'}),
             'profile_name': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible',
-                       'style': 'width: 100%;'}),
+                       'style': 'width: 100%;', 'required': 'required'}),
 
         }
