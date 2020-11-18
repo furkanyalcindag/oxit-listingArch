@@ -10,6 +10,7 @@ class List(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='açıklama')
     reference_list = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     type = models.CharField(max_length=250, null=True, blank=True)
+    modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 
     def __str__(self):
         return '%d %s %s' % (self.id, '-', self.list_name)

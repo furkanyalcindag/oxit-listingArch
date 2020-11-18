@@ -207,7 +207,7 @@
 
                                                                         <td class="text-left">
                                                                             <button type="button"
-                                                                                    onclick="image_delete({{ image.image.pk }})"
+                                                                                    onclick="image_delete({{ image.image.pk }} , {{ forloop.counter0 }})"
                                                                                     data-toggle="tooltip" title=""
                                                                                     class="btn btn-danger"
                                                                                     data-original-title="Kaldır"><i
@@ -243,6 +243,7 @@
                                                             <tr>
                                                                 <td>Firma</td>
                                                                 <td>Ürün</td>
+
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -253,7 +254,11 @@
                                                                             name="company_id" id="company_id"
                                                                             onChange="urunGetir()">
                                                                         {% for company in companies %}
-                                                                            <option value="{{ company.pk }}">{{ company.name }}</option>
+                                                                            {% if company.name == company_blog.company.name %}
+                                                                                <option selected value="{{ company.pk }}">{{ company.name }}</option>
+                                                                            {% else %}
+                                                                                <option value="{{ company.pk }}">{{ company.name }}</option>
+                                                                            {% endif %}
                                                                         {% endfor %}
 
                                                                     </select>
@@ -381,6 +386,7 @@
 
 
         function remove_image(id) {
+            debugger
             $('#image-row' + id + '').remove();
             image_row = image_row - 1;
             number--;
@@ -444,7 +450,7 @@
         $(document).ready(function () {
 
             urunGetir();
-            $('#product_id').val('{{ product }}').trigger('change'); // Select the option with a value of '1'
+            $('#product_id').val('{{ company_blog.product }}').trigger('change'); // Select the option with a value of '1'
 
             //console.log($('#ilce_id').select2('data'))
 
@@ -462,7 +468,7 @@
 
         }
 
-        function image_delete(id) {
+        function image_delete(id, count) {
             let html = 'Fotoğrafı silmek istediğinizden emin misiniz?<br>';
             document.getElementById('content').innerHTML = html;
             $(".deneme23").on("shown.bs.modal", function (e) {
@@ -476,8 +482,9 @@
 
                         },
                         success: function (result) {
-
-                            if (result.status == 'Success') {
+                            debugger;
+                            if (result.status === 'Success') {
+                                document.getElementById('image-row' + count + '').remove();
                                 swal("Başarılı", " Fotoğraf Silindi.", "success");
 
 

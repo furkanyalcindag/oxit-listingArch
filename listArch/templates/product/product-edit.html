@@ -252,51 +252,51 @@
                                                         <div class="row">
                                                             {% for option_value in product.values %}
                                                                 <div class="row" style="margin-left: 3px">
-                                                                <div class="tab-info">
-                                                                    <div id="option-value-row{{ forloop.counter0 }}">
-                                                                        <div class="col-sm-6">
-                                                                            <div style="margin-top:3px;">
-                                                                                {% if option_value.option_value.option.type == 'range' %}
-                                                                                    <input readonly type="text"
-                                                                                           name="option-key-[{{ forloop.counter0 }}]"
-                                                                                           class="form-control"
-                                                                                           value="{{ option_value.range_value }}">
-                                                                                {% elif  option_value.text_value %}
-                                                                                    <input readonly type="text"
-                                                                                           name="option-key-[{{ forloop.counter0 }}]"
-                                                                                           class="form-control"
-                                                                                           value="{{ option_value.text_value.key }}">
+                                                                    <div class="tab-info">
+                                                                        <div id="option-value-row{{ forloop.counter0 }}">
+                                                                            <div class="col-sm-6">
+                                                                                <div style="margin-top:3px;">
+                                                                                    {% if option_value.option_value.option.type == 'range' %}
+                                                                                        <input readonly type="text"
+                                                                                               name="option-key-[{{ forloop.counter0 }}]"
+                                                                                               class="form-control"
+                                                                                               value="{{ option_value.range_value }}">
+                                                                                    {% elif  option_value.text_value %}
+                                                                                        <input readonly type="text"
+                                                                                               name="option-key-[{{ forloop.counter0 }}]"
+                                                                                               class="form-control"
+                                                                                               value="{{ option_value.text_value.key }}">
 
-                                                                                {% else %}
-                                                                                    <input readonly type="text"
-                                                                                           name="option-key-[{{ forloop.counter0 }}]"
-                                                                                           class="form-control"
-                                                                                           value="{{ option_value.option_value.value }}">
-                                                                                {% endif %}
+                                                                                    {% else %}
+                                                                                        <input readonly type="text"
+                                                                                               name="option-key-[{{ forloop.counter0 }}]"
+                                                                                               class="form-control"
+                                                                                               value="{{ option_value.option_value.value }}">
+                                                                                    {% endif %}
 
 
+                                                                                </div>
                                                                             </div>
+                                                                            <div class="col-sm-6">
+
+                                                                                <button type="button"
+                                                                                        onclick="option_delete({{ forloop.counter0 }} ,{{ option_value.pk }})"
+                                                                                        data-toggle="tooltip"
+                                                                                        title="Kaldır"
+                                                                                        class="btn btn-danger"><i
+                                                                                        class="fa fa-minus-circle"></i>
+                                                                                </button>
+                                                                                {% if not option_value.text_value %}
+                                                                                    <span
+                                                                                            style="margin-top:3px;"
+                                                                                            class="btn btn-default">{{ option_value.option_value.option.key }}</span>
+
+                                                                                {% endif %}
+                                                                            </div>
+
+
                                                                         </div>
-                                                                        <div class="col-sm-6">
-
-                                                                            <button type="button"
-                                                                                    onclick="option_delete({{ forloop.counter0 }} ,{{ option_value.pk }})"
-                                                                                    data-toggle="tooltip"
-                                                                                    title="Kaldır"
-                                                                                    class="btn btn-danger"><i
-                                                                                    class="fa fa-minus-circle"></i>
-                                                                            </button>
- {% if not option_value.text_value %}
-                                                                                <span
-                                                                                        style="margin-top:3px;"
-                                                                                        class="btn btn-default">{{ option_value.option_value.option.key }}</span>
-
-                                                                            {% endif %}
-                                                                        </div>
-
-
                                                                     </div>
-                                                                </div>
                                                                 </div>
 
 
@@ -340,6 +340,7 @@
                                                         <select class="form-control select2 select2-hidden-accessible"
                                                                 style="width: 100%" id="product-company"
                                                                 name="product-company">
+                                                            <option value="">---------</option>
 
                                                             {% for company in companies %}
                                                                 {% if product.product.company.name == company.name %}
@@ -349,7 +350,6 @@
                                                                     <option value="{{ company.pk }}">{{ company.name }}</option>
                                                                 {% endif %}
                                                             {% endfor %}
-                                                            <option value="">---------</option>
 
                                                         </select>
 
@@ -498,7 +498,7 @@
         let option_row = 0;
         let option_text_row = 0;
         let option_range = 0;
-        let count_text=[]
+        let count_text = []
 
         function get_option() {
 
@@ -562,9 +562,10 @@
 
             });
         }
+
         function remove_text(id) {
             debugger;
-            $('#text-form-'+ id +'').remove();
+            $('#text-form-' + id + '').remove();
             count_text = jQuery.grep(count_text, function (value) {
                 return value !== id;
             });

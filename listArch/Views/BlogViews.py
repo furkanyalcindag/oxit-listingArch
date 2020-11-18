@@ -80,44 +80,47 @@ def update_blog(request, pk):
     blog_eng = BlogDesc.objects.filter(lang_code=2).filter(blog=blog)[0]
     images_blog = BlogImage.objects.filter(blog=blog)
     company_blog = CompanyBlog.objects.get(blog=blog)
+    product = company_blog.product
     companies = Company.objects.all()
 
-    company_blog_form = CompanyBlogForm(request.POST, request.FILES, instance=company_blog)
+    company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog)
 
     try:
         if request.method == 'POST':
+            if company_blog_form.is_valid():
 
-            blog.key = request.POST['content[tr]']
-            blog.save()
+                blog.key = request.POST['content[tr]']
+                blog.save()
 
-            blog_tr.description = request.POST['content[tr]']
-            blog_tr.title_desc = request.POST['title[tr]']
-            blog_tr.save()
+                blog_tr.description = request.POST['content[tr]']
+                blog_tr.title_desc = request.POST['title[tr]']
+                blog_tr.save()
 
-            blog_eng.description = request.POST['content[eng]']
-            blog_eng.title_desc = request.POST['title[eng]']
-            blog_eng.save()
+                blog_eng.description = request.POST['content[eng]']
+                blog_eng.title_desc = request.POST['title[eng]']
+                blog_eng.save()
 
-            for f in request.FILES.getlist('input2[]'):
-                image = Image(image=f)
-                image.save()
-                blog_image = BlogImage(image=image, blog=blog)
-                blog_image.save()
+                for f in request.FILES.getlist('input2[]'):
+                    image = Image(image=f)
+                    image.save()
+                    blog_image = BlogImage(image=image, blog=blog)
+                    blog_image.save()
 
-            company_blog.product = Product.objects.get(pk=int(request.POST['product']))
-            company_blog.company = Company.objects.get(pk=int(request.POST['company_id']))
-            company_blog.save()
+                company_blog.product = company_blog_form.cleaned_data['product']
+                company_blog.save()
+                company_blog.company = Company.objects.get(pk=int(request.POST['company_id']))
+                company_blog.save()
 
-            messages.success(request, "Blog Bilgileri Başarıyla Düzenlendi.")
-            return redirect('listArch:bloglar')
+                messages.success(request, "Blog Bilgileri Başarıyla Düzenlendi.")
+                return redirect('listArch:bloglar')
 
     except Exception as e:
         print(e)
         return redirect('listArch:admin-error-sayfasi')
     return render(request, 'blog/update-blog.html',
-                  {'companies': companies, 'images': images_blog, 'blog': blog,
-                   'blog_tr': blog_tr, 'blog_eng': blog_eng, 'company': company_blog,
-                   'company_blog_form': company_blog_form, 'product': company_blog.company})
+                  {'companies': companies, 'images': images_blog, 'blog': blog, 'product': product,
+                   'blog_tr': blog_tr, 'blog_eng': blog_eng, 'company_blog': company_blog,
+                   'company_blog_form': company_blog_form})
 
 
 def blogs(request):

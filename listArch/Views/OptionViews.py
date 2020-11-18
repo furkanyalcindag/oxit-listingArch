@@ -241,8 +241,8 @@ def update_option(request, pk):
                         value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
 
                         if type == 'range':
-                            value = OptionValue(option=option, value=option_desc2[0].description, min=value_tr,
-                                                max=value_eng)
+                            value = OptionValue(option=option, value=option_desc2[0].description, min=value_eng,
+                                                max=value_tr)
                             value.save()
                         else:
                             value = OptionValue(option=option, value=value_tr)

@@ -82,9 +82,10 @@
                                         class="btn btn-primary pull-right" data-original-title="Kaydet"><i
                                         class="fa fa-save"></i></button>
                                 <fieldset>
-                                    <legend>Seçenek</legend>
+                                    <legend>Seçenek <small style="font-size:10px;color: red">(*) </small><small style="font-size:10px">belirtilen alanlar zorunlu alan</small></legend>
                                     <div class="form-group required">
-                                        <label class="col-sm-2 control-label">Seçenek Adı</label>
+                                        <label class="col-sm-2 control-label">Seçenek Adı<small style="color: red">*</small></label>
+
                                         <div class="col-sm-10">
                                             <div class="input-group"><span class="input-group-addon"><img
                                                     src="/media/en-gb.png" title="ENg"></span>
@@ -99,7 +100,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="input-type">Türü</label>
+                                        <label class="col-sm-2 control-label" for="input-type">Türü<small style="color: red">*</small></label>
                                         <div class="col-sm-10">
                                             <select name="type" id="input-type" class="form-control">
                                                 <optgroup label="Seçiniz">
@@ -116,7 +117,7 @@
 
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="input-type">Temel Seçenek Mi?</label>
+                                        <label class="col-sm-2 control-label"  for="input-type">Temel Seçenek Mi?<small style="color: red">*</small></label>
                                         <div class="col-sm-10">
                                             {{ option_form.isBasic }}
                                         </div>
@@ -124,7 +125,7 @@
                                     </div>
                                     <div class="form-group" style="display: block" id="advanced-option"
                                          name="advanced-option">
-                                        <label class="col-sm-2 control-label" for="input-type">Kategori Seçin</label>
+                                        <label class="col-sm-2 control-label" for="input-type">Kategori Seçin<small style="color: red">*</small></label>
 
                                         <div class="col-sm-10">
                                             {{ category_form.category }}
@@ -133,7 +134,7 @@
                                     </div>
                                 </fieldset>
                                 <fieldset style="display: none;">
-                                    <legend>Seçenek Değeri</legend>
+                                    <legend>Seçenek Değeri <small style="color: red">*</small></legend>
                                     <table id="option-value" class="table table-striped table-bordered table-hover">
                                         <thead>
                                         <tr>
@@ -178,9 +179,10 @@
     <script>
         $(document).ready(function () {
             //set initial state.
+            debugger;
             $('#basic_value').val($(this).is(':checked'));
 
-            $('#is_basic').change(function () {
+            $('#id_isBasic').change(function () {
                 if ($(this).is(":checked")) {
                     $('#advanced-option').css('display', 'none');
                     $('#basic_value').val($(this).is(':checked'));
@@ -190,6 +192,7 @@
                     $('#basic_value').val($(this).is(':checked'));
 
                 }
+
 
 
             });
@@ -263,10 +266,10 @@
                 let html = '<tr id="value-row-range' + option_value_row + '"">';
                 html += '  <td class="text-left">';
                 html += '    <div class="input-group">';
-                html += '     <input type="text" name="option_value[min]" value="" placeholder="min" class="form-control" />';
+                html += '    <span  class="input-group-addon">Min </span> <input type="text" name="option_value[min]" value="" placeholder="min" class="form-control" />';
                 html += '    </div>';
                 html += '    <div class="input-group">';
-                html += '      <input type="text" name="option_value[max]" value="" placeholder="max" class="form-control" />';
+                html += '      <span  class="input-group-addon">Max </span><input type="text" name="option_value[max]" value="" placeholder="max" class="form-control" />';
                 html += '    </div>';
                 html += '  </td>';
                 html += '  <td class="text-right"><button type="button" onclick="remove_range(' + option_value_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';

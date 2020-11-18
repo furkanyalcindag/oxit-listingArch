@@ -7,4 +7,6 @@ class GraphicValue(models.Model):
     middle = models.CharField(null=True, blank=True, verbose_name="Ara Değer", max_length=250)
     current_value = models.CharField(null=True, blank=True, verbose_name="Mevcut Değer", max_length=250)
     unit = models.CharField(null=True, blank=True, verbose_name="Grafik Birimi", max_length=250)
+    creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi', null=True, blank=True)
+    modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 

@@ -5,7 +5,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from listArch.Forms.UserForm import UserForm
-from listArch.models import Staff
+from listArch.Forms.UserUpdateForm import UserUpdateForm
+from listArch.models import Staff, Setting
 from listArch.services import general_methods
 from oxiterp.settings.base import EMAIL_HOST_USER
 
@@ -44,14 +45,17 @@ def register_staff(request):
             staff.phone = request.POST['phone']
             staff.save()
 
-            subject, from_email, to = 'List Of Room Giriş Bilgileri', EMAIL_HOST_USER, user2.email
-            text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-            html_content = '<p> <strong>Site adresi:</strong><a href="http://127.0.0.1:8000/">ListOfRoom</a></p>'
-            html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
-            html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            email = Setting.objects.filter(name='email')
+            if email:
+                if email[0].isActive:
+                    subject, from_email, to = 'List Of Room Giriş Bilgileri', EMAIL_HOST_USER, user2.email
+                    text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+                    html_content = '<p> <strong>Site adresi:</strong><a href="http://185.86.4.199:8082/">ListOfRoom</a></p>'
+                    html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
+                    html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send()
 
             messages.success(request, 'Personel Bilgileri Başarıyla Kayıt Edildi.')
 
@@ -61,6 +65,38 @@ def register_staff(request):
 
     return render(request, 'User/add_staff.html',
                   {'user_form': user_form})
+
+
+def update_staff(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    staff = Staff.objects.get(pk=pk)
+    user_form = UserUpdateForm(request.POST or None, instance=staff.user)
+
+    if request.method == 'POST':
+
+        if user_form.is_valid():
+            staff.user.first_name = user_form.cleaned_data['first_name']
+            staff.user.last_name = user_form.cleaned_data['last_name']
+            staff.user.last_name = user_form.cleaned_data['last_name']
+            staff.user.email = user_form.cleaned_data['email']
+            staff.user.username = user_form.cleaned_data['email']
+            staff.user.save()
+
+            staff.phone = request.POST['phone']
+            staff.save()
+
+            messages.success(request, 'Personel Bilgileri Başarıyla Kayıt Edildi.')
+
+            return redirect('listArch:personeller')
+        else:
+            messages.warning(request, 'Alanları Kontrol Ediniz')
+
+    return render(request, 'User/update-staff.html',
+                  {'user_form': user_form,'staff':staff})
 
 
 def staff(request):
@@ -85,6 +121,7 @@ def passive_staff(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
 
 def active_staff(request):
     perm = general_methods.control_access(request)

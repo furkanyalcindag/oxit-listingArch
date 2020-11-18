@@ -15,7 +15,7 @@ def add_category(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    categories = Category.objects.all()
+    categories = Category.objects.filter(isActive=True)
     category_form = CategoryForm()
     try:
         if request.method == 'POST':
@@ -54,7 +54,8 @@ def add_category(request):
                 messages.warning(request, "Alanları Kontrol Edin.")
     except Exception as e:
         print(e)
-        return redirect('listArch:admin-error-sayfasi')
+        messages.warning(request, '')
+
     return render(request, 'category/add-category.html', {'categories': categories, 'category_form': category_form})
 
 
@@ -66,7 +67,7 @@ def return_categories(request):
         return redirect('accounts:login')
     cat_array = []
     try:
-        categories = CategoryDesc.objects.filter(lang_code=1).order_by('-description').filter(category__isActive=True)
+        categories = CategoryDesc.objects.filter(category__isActive=True).filter(lang_code=1).order_by('category__name')
 
         for category in categories:
             cat_dict = dict()
@@ -179,12 +180,13 @@ def delete_category(request):
 
             category_id = request.POST['category_id']
             category = Category.objects.get(pk=category_id)
-            if not category.is_parent:
+            category_parent = Category.objects.filter(isActive=True).filter(parent=category)
+            if category_parent.count() == 0:
                 category.isActive = False
                 category.save()
                 return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
             else:
-                return JsonResponse({'status': 'Error', 'messages': 'Alt Kategori Silinemez !! '})
+                return JsonResponse({'status': 'Error', 'messages': 'Üst Kategori Silinemez !! '})
 
         except Exception as e:
 

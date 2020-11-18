@@ -8,6 +8,7 @@ from django.contrib import auth, messages
 
 from listArch import urls
 from accounts.forms import ResetPassword
+from listArch.models.Setting import Setting
 from listArch.services import general_methods
 from oxiterp.settings.base import EMAIL_HOST_USER
 
@@ -17,8 +18,6 @@ def index(request):
 
 
 def login(request):
-
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -61,14 +60,17 @@ def forgot(request):
             # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
             user = obj.save()
             html_content = ''
-            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, obj.email
-            text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>List Of Room</p>'
-            html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
-            html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            email = Setting.objects.filter(name='email')
+            if email:
+                if email[0].isActive:
+                    subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, obj.email
+                    text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+                    html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>List Of Room</p>'
+                    html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
+                    html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send()
 
             messages.success(request, "Giriş bilgileriniz mail adresinize gönderildi. ")
             return redirect("accounts:login")
@@ -78,7 +80,8 @@ def forgot(request):
 
     return render(request, 'registration/forgot.html')
 
-#müşteri
+
+# müşteri
 def user_forgot(request):
     if request.method == 'POST':
         mail = request.POST.get('username')
@@ -90,14 +93,17 @@ def user_forgot(request):
             # form.cleaned_data['password'] = make_password(form.cleaned_data['password'])
             user = obj.save()
             html_content = ''
-            subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, obj.email
-            text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-            html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>GVERCİN</p>'
-            html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
-            html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            email = Setting.objects.filter(name='email')
+            if email:
+                if email[0].isActive:
+                    subject, from_email, to = 'Oxit Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, obj.email
+                    text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+                    html_content = '<p> <strong>Site adresi:</strong> <a href="http://127.0.0.1:8000/"></a>List Of Room</p>'
+                    html_content = html_content + '<p><strong>Kullanıcı Adı : </strong> ' + obj.username + '</p>'
+                    html_content = html_content + '<p><strong>Şifre : </strong> ' + password + '</p>'
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send()
 
             messages.success(request, "Giriş bilgileriniz mail adresinize gönderildi. ")
             return redirect("listArch:kullanici-giris-yap")
@@ -193,5 +199,3 @@ def permission(request, pk):
 
     return render(request, 'permission/izin-ayar.html',
                   {'menu': menu2, 'ownmenu': ownMenu, 'group': group})
-
-

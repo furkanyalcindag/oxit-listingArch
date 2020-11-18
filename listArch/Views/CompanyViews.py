@@ -8,6 +8,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
+from listArch.models.Setting import Setting
 
 from listArch.Forms.CompanyForm import CompanyForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
@@ -117,14 +118,17 @@ def add_company(request):
                         company_social = CompanySocialAccount(company=company, social_account=social)
                         company_social.save()
 
-                subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, user2.email
-                text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
-                html_content = '<p> <strong>Site adresi:</strong> <a href="http://http://185.86.4.199:8082/">oxit.com.tr</a></p>'
-                html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
-                html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                msg.attach_alternative(html_content, "text/html")
-                msg.send()
+                email = Setting.objects.filter(name='email')
+                if email:
+                    if email[0].isActive:
+                        subject, from_email, to = 'OXIT Kullanıcı Giriş Bilgileri', EMAIL_HOST_USER, user2.email
+                        text_content = 'Aşağıda ki bilgileri kullanarak sisteme giriş yapabilirsiniz.'
+                        html_content = '<p> <strong>Site adresi:</strong> <a href="http://http://185.86.4.199:8082/">oxit.com.tr</a></p>'
+                        html_content = html_content + '<p><strong>Kullanıcı Adı: </strong>' + user2.username + '</p>'
+                        html_content = html_content + '<p><strong>Şifre: </strong>' + password + '</p>'
+                        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                        msg.attach_alternative(html_content, "text/html")
+                        msg.send()
 
                 messages.success(request, 'Firma Bilgileri Başarıyla Kayıt Edilmiştir.')
                 return redirect('listArch:firma-listesi')

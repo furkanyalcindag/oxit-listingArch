@@ -87,17 +87,17 @@
                                                     <div class="col-sm-8">
                                                         <div class="input-group"><span class="input-group-addon">
                                                             <img src="/media/en-gb.png" title="ENg"></span>
-                                                           <input type="text" name="eng-service" id="eng-service"
+                                                            <input type="text" name="eng-service" id="eng-service"
                                                                    value=""
                                                                    placeholder="Hizmet Adı" class="form-control">
                                                         </div>
                                                         <div class="input-group"><span class="input-group-addon">
                                                             <img src="/media/tr-tr.png" title="TR"></span>
-                                                           <input type="text" name="tr-service" id="tr-service"
+                                                            <input type="text" name="tr-service" id="tr-service"
                                                                    value=""
                                                                    placeholder="Hizmet Adı" class="form-control">
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <div class="col-sm-2" style="margin-top: 15px">
                                                         <button type="submit" form="form-option" data-toggle="tooltip"
@@ -148,12 +148,17 @@
 
                                                             <td>{{ forloop.counter }}</td>
                                                             <td>
-
+                                                                <a href="{% url 'listArch:hizmet-guncelle' service.service.pk %}"
+                                                                   data-toggle="tooltip"
+                                                                   class="btn btn-primary"
+                                                                   data-original-title="Düzenle"><i
+                                                                        class="fa fa-edit"></i></a>
                                                                 <a onclick="service_delete({{ service.service.pk }})"
-                                                                   data-toggle="tooltip" title=""
+                                                                   data-toggle="tooltip"
                                                                    class="btn btn-danger"
                                                                    data-original-title="Sil"><i
                                                                         class="fa fa-close"></i></a>
+
                                                             </td>
 
                                                             <td>{{ service.description }}</td>

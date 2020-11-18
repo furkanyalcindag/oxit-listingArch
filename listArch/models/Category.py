@@ -16,6 +16,8 @@ class Category(models.Model):
     uuid = models.UUIDField(editable=False, null=True, blank=True)
     count = models.IntegerField(null=True, blank=True, verbose_name='Sayaç', default=0)
     slug = models.SlugField(null=True, unique=True)
+    creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi', null=True, blank=True)
+    modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 
     def __str__(self):
         return str(category_parent_show(self))

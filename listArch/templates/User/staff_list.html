@@ -109,6 +109,10 @@
                                                             </td>
 
                                                             <td>
+                                                            <a href="{% url 'listArch:personel-guncelle' staff.pk %}"
+                                                                       data-toggle="tooltip" title=""
+                                                                       class="btn btn-primary"
+                                                                       data-original-title="Passive"><i class="fa fa-edit"></i></a>
                                                                 {% if staff.isActive %}
                                                                     <a onclick="staff_passive({{ staff.pk }})"
                                                                        data-toggle="tooltip" title=""

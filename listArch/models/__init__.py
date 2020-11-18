@@ -64,3 +64,6 @@ from .ProductVideo import ProductVideo
 from .Service import Service
 from .ServiceDesc import ServiceDesc
 from .CompanyRetail import CompanyRetail
+from .CountryDesc import CountryDesc
+from .CityDesc import CityDesc
+from .Setting import Setting

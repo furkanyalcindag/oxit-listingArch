@@ -18,3 +18,4 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='profile_image/', null=True, blank=True, verbose_name='Resim', default='logo1.png')
 
 
+

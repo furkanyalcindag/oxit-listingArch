@@ -22,5 +22,5 @@ class CompanyBlogForm(ModelForm):
 
             'company': forms.Select(choices=CHOICES_WITH_BLANK,
                                     attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                           'style': 'width: 100%;'}),
+                                           'style': 'width: 100%;', "onChange": 'urunGetir()'}),
         }

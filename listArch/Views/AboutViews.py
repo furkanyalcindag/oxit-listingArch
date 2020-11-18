@@ -377,9 +377,9 @@ def update_headerText(request, pk):
         return redirect('accounts:login')
 
     headerText = HeaderText.objects.get(pk=pk)
-    header_tr = HeaderTextDesc.objects.filter(headerText__isActive=True).filter(headerText=headerText).filter(
+    header_tr = HeaderTextDesc.objects.filter(headerText=headerText).filter(
         lang_code=1)
-    header_eng = HeaderTextDesc.objects.filter(headerText__isActive=True).filter(headerText=headerText).filter(
+    header_eng = HeaderTextDesc.objects.filter(headerText=headerText).filter(
         lang_code=2)
     form = HeaderTextForm(request.POST or None, instance=headerText)
 

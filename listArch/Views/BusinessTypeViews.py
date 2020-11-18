@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from listArch.Forms.BusinessTypeForm import BusinessTypeForm
-from listArch.models import BusinessType, BusinessTypeDesc
+from listArch.models import BusinessType, BusinessTypeDesc, Company
 from listArch.services import general_methods
 
 
@@ -73,8 +73,17 @@ def delete_business_type(request):
 
             business_type_id = request.POST['id']
             business_type = BusinessType.objects.get(pk=business_type_id)
-            business_type.delete()
-            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+            company_business_type = Company.objects.filter(business_type=business_type)
+            if company_business_type.count() == 0:
+                business_type.delete()
+                return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+            else:
+                company_name = ''
+                for company in company_business_type:
+                    company_name = company.name + '-' + company_name
+                return JsonResponse({'error': 'Success',
+                                     'messages': 'Profil Bilgisi silinemez !! ' + company_name + ' firmalarında tanımlıdır.'})
 
         except Exception as e:
 

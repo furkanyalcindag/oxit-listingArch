@@ -208,12 +208,15 @@ urlpatterns = [
 
     # Staff
     url(r'add-staff/$', StaffViews.register_staff, name='personel-ekle'),
+    url(r'update-staff/(?P<pk>\d+)$', StaffViews.update_staff, name='personel-guncelle'),
+
     url(r'staff/$', StaffViews.staff, name='personeller'),
     url(r'staff-passive/$', StaffViews.passive_staff, name='personel-pasif-et'),
     url(r'staff-activate/$', StaffViews.active_staff, name='aktif-et-personel'),
 
     # Service
     url(r'add-service/$', ServiceViews.add_service, name='hizmet-ekle'),
+    url(r'edit-service/(?P<pk>\d+)$', ServiceViews.update_service, name='hizmet-guncelle'),
     url(r'delete-service/$', ServiceViews.delete_service, name='hizmet-sil'),
 
     # Country-City

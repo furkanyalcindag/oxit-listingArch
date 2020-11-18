@@ -28,6 +28,8 @@ class Company(models.Model):
     cover_image = models.ImageField(upload_to='company_image/', null=True, blank=True, verbose_name='Kapak Fotoğrafı',
                                     default='logo1.png')
     service = models.ManyToManyField(Service, null=True, blank=True)
+    creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi', null=True, blank=True)
+    modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)

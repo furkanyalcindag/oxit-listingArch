@@ -1,7 +1,10 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.template.context_processors import media
 from rest_framework.decorators import api_view
 
 from listArch.Forms.FileDescForm import FileDescForm
@@ -10,6 +13,7 @@ from listArch.models.FileDesc import FileDesc
 from listArch.models.File import File
 from listArch.serializers.FileSerializer import FileSerializer
 from listArch.services import general_methods
+from oxiterp.settings.base import BASE_DIR
 
 
 def add_file(request):
@@ -75,12 +79,13 @@ def update_file(request, pk):
         logout(request)
         return redirect('accounts:login')
     file = File.objects.get(pk=pk)
+    name = file.file
     file_desc = FileDesc.objects.filter(lang_code=1).filter(file_id=file.pk)
     file_desc2 = FileDesc.objects.filter(lang_code=2).filter(file_id=file.pk)
 
     file_form = FileForm(request.POST or None, request.FILES or None, instance=file)
-    fileDesc_form = FileDescForm(request.POST or None,request.FILES or None, instance=file_desc[0])
-    fileDesc_form2 = FileDescForm(request.POST or None,request.FILES or None, instance=file_desc2[0])
+    fileDesc_form = FileDescForm(request.POST or None, request.FILES or None, instance=file_desc[0])
+    fileDesc_form2 = FileDescForm(request.POST or None, request.FILES or None, instance=file_desc2[0])
 
     if request.method == 'POST':
         if file_form.is_valid() and fileDesc_form.is_valid():
@@ -94,12 +99,15 @@ def update_file(request, pk):
             file_desc2[0].file_title = request.POST['file_title[eng]']
             file_desc2[0].save()
 
+            os.remove(name.path)
+
             messages.success(request, "Dosya başarıyla güncellendi.")
             return redirect('listArch:dosyalar')
 
     return render(request, 'File/file-update.html',
                   {'file_form': file_form, 'file_desc_form': fileDesc_form, 'fileDesc_form2': fileDesc_form2,
                    'file_desc': file_desc[0], 'file_desc2': file_desc2[0]})
+
 
 @api_view(http_method_names=['POST'])
 def get_file(request):
