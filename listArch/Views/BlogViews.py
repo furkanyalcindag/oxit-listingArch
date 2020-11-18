@@ -80,8 +80,9 @@ def update_blog(request, pk):
     blog_eng = BlogDesc.objects.filter(lang_code=2).filter(blog=blog)[0]
     images_blog = BlogImage.objects.filter(blog=blog)
     company_blog = CompanyBlog.objects.get(blog=blog)
-    product = company_blog.product
+    product_blog = company_blog.product
     companies = Company.objects.all()
+    products=Product.objects.all()
 
     company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog)
 
@@ -118,9 +119,9 @@ def update_blog(request, pk):
         print(e)
         return redirect('listArch:admin-error-sayfasi')
     return render(request, 'blog/update-blog.html',
-                  {'companies': companies, 'images': images_blog, 'blog': blog, 'product': product,
+                  {'companies': companies, 'images': images_blog, 'blog': blog, 'product_blog': product_blog,
                    'blog_tr': blog_tr, 'blog_eng': blog_eng, 'company_blog': company_blog,
-                   'company_blog_form': company_blog_form})
+                   'company_blog_form': company_blog_form,'products':products})
 
 
 def blogs(request):

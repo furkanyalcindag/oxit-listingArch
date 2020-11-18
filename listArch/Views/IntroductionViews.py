@@ -89,6 +89,7 @@ def update_introduction_desc(request, pk):
                     eng.description = introduction_desc_form.cleaned_data['description']
                     eng.save()
 
+                introduction.product.clear()
                 for product in introduction_form.cleaned_data['product']:
                     introduction.product.add(product)
 

@@ -264,7 +264,18 @@
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    {{ company_blog_form.product }}
+                                                                    <select style="width: 100%"
+                                                                            class="form-control select2 select2-hidden-accessible"
+                                                                            name="product_id" id="product_id">
+                                                                        {% for product in products %}
+                                                                            {% if product.name == product_blog.name %}
+                                                                                <option selected value="{{ product.pk }}">{{ product.name }}</option>
+                                                                            {% else %}
+                                                                                <option value="{{ product.pk }}">{{ product.name }}</option>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+
+                                                                    </select>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -308,6 +319,13 @@
 
 
             });
+debugger;
+            $('#product_id').val('{{ product_blog }}').trigger('change'); // Select the option with a value of '1'
+
+             urunGetir();
+
+            //console.log($('#ilce_id').select2('data'))
+
 
 
         });
@@ -447,15 +465,6 @@
     </script>
     <script>
 
-        $(document).ready(function () {
-
-            urunGetir();
-            $('#product_id').val('{{ company_blog.product }}').trigger('change'); // Select the option with a value of '1'
-
-            //console.log($('#ilce_id').select2('data'))
-
-
-        });
 
         function remove(row) {
             $('#image-row' + row + '').remove();
