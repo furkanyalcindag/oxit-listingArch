@@ -132,7 +132,7 @@ def get_random_secret_key():
 def parent_categories_list(request):
     from listArch.models import CategoryDesc
     categories = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category__is_parent=True).filter(
-        category__isBasic=True).order_by('category__order')
+        category__isBasic=True).filter(category__isActive=True).order_by('category__order')
     return {"parent_categories": categories}
 
 

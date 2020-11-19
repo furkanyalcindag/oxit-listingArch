@@ -16,7 +16,7 @@
                         {% csrf_token %}
 
                         <div class="col-md-12" style="margin-bottom: 50px">
-                            <h2 style="font-family: 'Allerta Stencil', sans-serif;">
+                            <h2 style=";font-size:63px;font-weight:600;font-family: 'Montserrat', sans-serif;">
                                 <span class="typed-words">{{ scrolling_text.description }}</span>
                             </h2>
                             <h4 >{{ scrolling_text.subTextDesc }}</h4>
@@ -46,8 +46,8 @@
                                     <a style="    width: 110px;height: 100px;
     float: left;
     padding: 25px 5px 0px 0px;" href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
-                                       class="highlighted-category" style="">
-                                        <img height="36" src="/media/{{ category.category.icon }}" alt="Bricks-in-Bytes">
+                                       class="highlighted-category">
+                                        <img height="48" src="/media/{{ category.category.icon }}" alt="Bricks-in-Bytes">
                                         <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
     display: block;
     width: 100px;">{{ category.description }}</h4>

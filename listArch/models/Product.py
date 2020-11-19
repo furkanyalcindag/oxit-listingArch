@@ -38,9 +38,9 @@ class Product(models.Model):
     def __str__(self):
         return '%s %s %s' % (self.name, '-', self.code)
 
-    def save(self, *args, **kwargs):
+    def slug_save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name+str(self.id))
+            self.slug = slugify(self.name+'-'+str(self.code))
             super().save(*args, **kwargs)
         from PIL import Image, ImageDraw
         from django.core.files import File

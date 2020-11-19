@@ -78,7 +78,6 @@ def add_company(request):
                                   noOfEmployees=company_form.cleaned_data['noOfEmployees'],
                                   annualSales=company_form.cleaned_data['annualSales'],
                                   date=company_form.cleaned_data['date'],
-                                  address_link=company_form.cleaned_data['address_link'],
                                   business_type=company_form.cleaned_data['business_type'],
                                   isSponsor=company_form.cleaned_data['isSponsor'],
                                   city=company_form.cleaned_data['city']

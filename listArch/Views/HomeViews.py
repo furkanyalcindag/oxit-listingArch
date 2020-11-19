@@ -125,22 +125,26 @@ def product_detail(request, slug):
             count=Count('option_value'))
         for option in options_value:
             option_dict = dict()
-            if  option['option_value']:
+            if option['option_value']:
 
-                product_option = \
-                    OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(
-                        option_value_id=option['option_value'])[
-                        0].option_value.option
-                option_dict['option'] = \
-                    OptionDesc.objects.filter(option_id=product_option.pk).filter(lang_code=home_lang_code)[
-                        0]
-                option_dict['values'] = OptionValueDesc.objects.filter(option_value_id=option['option_value']).filter(
-                    lang_code=home_lang_code)
-                option_dict['range_value'] = \
-                    ProductOptionValue.objects.filter(product=product).filter(option_value_id=option['option_value'])[0]
-                array.append(option_dict)
+                if not OptionValue.objects.filter(pk=option['option_value'])[0].option.type == 'range':
+                    product_option = \
+                        OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(
+                            option_value_id=option['option_value'])[
+                            0].option_value.option
+                    option_dict['option'] = \
+                        OptionDesc.objects.filter(option_id=product_option.pk).filter(lang_code=home_lang_code)[
+                            0]
+                    option_dict['values'] = OptionValueDesc.objects.filter(
+                        option_value_id=option['option_value']).filter(
+                        lang_code=home_lang_code)
 
-
+                    array.append(option_dict)
+                else:
+                    option_dict['range_value'] = \
+                        ProductOptionValue.objects.filter(product=product).filter(
+                            option_value_id=option['option_value'])[0]
+                    array.append(option_dict)
         socials = CompanySocialAccount.objects.filter(company=product.company)
         # distinct('product')
 
@@ -354,7 +358,8 @@ def get_company_info(request, pk):
         for company_def in company_definitions:
             desc_dict = dict()
             desc_dict['desc'] = \
-            DefinitionDescription.objects.filter(definition=company_def.definition).filter(lang_code=home_lang_code)[0]
+                DefinitionDescription.objects.filter(definition=company_def.definition).filter(
+                    lang_code=home_lang_code)[0]
             company_definition_array.append(desc_dict)
         category_products = Product.objects.filter(company=company).values('category').annotate(
             dcount=Count('category'))
@@ -610,7 +615,7 @@ def home_products(request, pk):
                 IntroductionPageDesc.objects.filter(introduction=x[0]).filter(lang_code=home_lang_code)[
                     0]
             dict_introduction['title'] = \
-            IntroductionTitleDesc.objects.filter(title=title).filter(lang_code=home_lang_code)[0]
+                IntroductionTitleDesc.objects.filter(title=title).filter(lang_code=home_lang_code)[0]
 
             array.append(dict_introduction)
 

@@ -79,7 +79,6 @@
                                 <fieldset>
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <label>Firma</label>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab-general">
                                                     <div class="form-group">
@@ -148,7 +147,7 @@
 
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                        >Mağaza</label>
+                                                        >Marka</label>
                                                         <div class="col-sm-10"><select onchange="add_retail()"
                                                                                        name="retail"
                                                                                        id="retail"
@@ -177,13 +176,7 @@
                                                     {{ company_form.address }}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Adres
-                                                    Link</label>
-                                                <div class="col-sm-10">
-                                                    {{ company_form.address_link }}
-                                                </div>
-                                            </div>
+
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Ülke <small
                                                                 style="color: red">*</small></label>
@@ -280,8 +273,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">
-                                                <label class="col-sm-1 control-label" for="input-type">Yönetici
-                                                    Hikayesi <small
+                                                <label class="col-sm-1 control-label" for="input-type">Firma
+                                                    Hakkında <small
                                                                 style="color: red">*</small></label>
                                                 <div class="col-sm-11">
                                                     {{ company_form.userDescription }}

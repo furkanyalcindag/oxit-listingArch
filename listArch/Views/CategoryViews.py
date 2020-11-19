@@ -29,6 +29,7 @@ def add_category(request):
                                     isBasic=category_form.cleaned_data['isBasic'],
                                     order=category_form.cleaned_data['order'], icon=request.FILES['icon'])
                 category.save()
+                category.slug_save()
 
                 if request.POST['category_parent'] == "":
                     category.is_parent = True

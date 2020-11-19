@@ -22,7 +22,7 @@ class Category(models.Model):
     def __str__(self):
         return str(category_parent_show(self))
 
-    def save(self, *args, **kwargs):
+    def slug_save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name+str(self.id))
         return super().save(*args, **kwargs)

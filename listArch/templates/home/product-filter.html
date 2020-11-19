@@ -378,96 +378,98 @@
                     <div class="col-lg-12 col-md-12 ">
                         <div class="row">
                             <div class="col-lg-12">
-                                {% for product in advert_product %}
-                                    <div class="col-1-5" style="margin-bottom: 55px;">
-                                        <div class="hovereffect">
-                                            <div class="listing-item ">
-                                                <img src="/media/{{ product.product.cover_image }}" alt=""
-                                                     style="border: 2px solid #fd9116">
-                                                <div class="overlay" style="text-align: center">
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                        style="margin-top:50px;font-size:16px">{{ product.product.company.name }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                        style="font-size:10px">{{ product.product.name }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                        style="font-size:16px">ID {{ product.product.code }}</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                        style="font-size:16px">250$ Sqm</h2>
-                                                    <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                        style="font-size:10px">{{ product.product.company.country.name }}</h2>
-                                                    <a style="left: 5px;
+                                {% if advert_product %}
+                                    {% for product in advert_product %}
+                                        <div class="col-1-5" style="margin-bottom: 55px;">
+                                            <div class="hovereffect">
+                                                <div class="listing-item ">
+                                                    <img src="/media/{{ product.product.cover_image }}" alt=""
+                                                         style="border: 2px solid #fd9116">
+                                                    <div class="overlay" style="text-align: center">
+                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
+                                                            style="margin-top:50px;font-size:16px">{{ product.product.company.name }}</h2>
+                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
+                                                            style="font-size:10px">{{ product.product.name }}</h2>
+                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
+                                                            style="font-size:16px">ID {{ product.product.code }}</h2>
+                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
+                                                            style="font-size:16px">250$ Sqm</h2>
+                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
+                                                            style="font-size:10px">{{ product.product.company.country.name }}</h2>
+                                                        <a style="left: 5px;
                                        bottom: 100px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
                                        color: #fff;"
-                                                       href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
-                                                        <i
-                                                                class="im im-icon-Phone-2"></i></a>
-                                                    <a class=" popup-with-zoom-anim"
-                                                       style="right: 5px; bottom: 100px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
-                                                       href="#small-dialog-{{ product.product.pk }}"> <i
-                                                            class="im im-icon-Like"></i></a>
-                                                    <div id="small-dialog-{{ product.product.pk }}"
-                                                         class="zoom-anim-dialog mfp-hide" style="color: black">
+                                                           href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
+                                                            <i
+                                                                    class="im im-icon-Phone-2"></i></a>
+                                                        <a class=" popup-with-zoom-anim"
+                                                           style="right: 5px; bottom: 100px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                           href="#small-dialog-{{ product.product.pk }}"> <i
+                                                                class="im im-icon-Like"></i></a>
+                                                        <div id="small-dialog-{{ product.product.pk }}"
+                                                             class="zoom-anim-dialog mfp-hide" style="color: black">
 
-                                                        <div class="message-reply margin-top-0"
-                                                             style="background: white;width: 100%">
-                                                            <div class="add-listing-section">
-                                                                <!-- Headline -->
-                                                                <div class="add-listing-headline"
-                                                                     style="padding: 8px 40px;">
-                                                                    <h3 style="font-weight: 700">{{ product.product.name }}</h3>
-                                                                </div>
-                                                                <!-- Title -->
-                                                                <div class="row with-forms">
-                                                                    <div class="col-md-12"
-                                                                         style="margin-top: -21px;  padding-top: 9px;">
+                                                            <div class="message-reply margin-top-0"
+                                                                 style="background: white;width: 100%">
+                                                                <div class="add-listing-section">
+                                                                    <!-- Headline -->
+                                                                    <div class="add-listing-headline"
+                                                                         style="padding: 8px 40px;">
+                                                                        <h3 style="font-weight: 700">{{ product.product.name }}</h3>
+                                                                    </div>
+                                                                    <!-- Title -->
+                                                                    <div class="row with-forms">
+                                                                        <div class="col-md-12"
+                                                                             style="margin-top: -21px;  padding-top: 9px;">
 
-                                                                        <div class="col-md-6">
-                                                                            <img style="margin-bottom: 10px"
-                                                                                 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                                                 src="/media/{{ product.product.cover_image }}"
-                                                                                 alt="">
+                                                                            <div class="col-md-6">
+                                                                                <img style="margin-bottom: 10px"
+                                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
+                                                                                     src="/media/{{ product.product.cover_image }}"
+                                                                                     alt="">
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <h4>Liste Seç</h4>
+                                                                                <hr>
+                                                                                {% for list in lists %}
+                                                                                    <p>
+                                                                                        +
+                                                                                        <a style="color:#000;font-size: 12px;"
+                                                                                           type="button"
+                                                                                           href="{% url 'listArch:kullanici-listeye-urun-ekle' list.pk product.product.pk %}">{{ list.list_name }}: {{ list.description }}</a>
+
+                                                                                    </p>
+                                                                                {% endfor %}
+                                                                            </div>
+
+                                                                            <a href="#small-dialog-{{ forloop.counter }}"
+                                                                               class="rate-review button default popup-with-zoom-anim"
+                                                                               style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
+                                                                                Liste
+                                                                                Oluştur</a>
+
                                                                         </div>
-                                                                        <div class="col-md-6">
-                                                                            <h4>Liste Seç</h4>
-                                                                            <hr>
-                                                                            {% for list in lists %}
-                                                                                <p>
-                                                                                    +
-                                                                                    <a style="color:#000;font-size: 12px;"
-                                                                                       type="button"
-                                                                                       href="{% url 'listArch:kullanici-listeye-urun-ekle' list.pk product.product.pk %}">{{ list.list_name }}: {{ list.description }}</a>
-
-                                                                                </p>
-                                                                            {% endfor %}
-                                                                        </div>
-
-                                                                        <a href="#small-dialog-{{ forloop.counter }}"
-                                                                           class="rate-review button default popup-with-zoom-anim"
-                                                                           style="font-size: 15px; background: #fd9116;  color: black; line-height: 36px; height: 34px">Yeni
-                                                                            Liste
-                                                                            Oluştur</a>
 
                                                                     </div>
 
                                                                 </div>
 
                                                             </div>
-
                                                         </div>
                                                     </div>
+                                                    <div class="listing-badge now-open">Ads</div>
                                                 </div>
-                                                <div class="listing-badge now-open">Ads</div>
                                             </div>
                                         </div>
-                                    </div>
 
 
 
-                                {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                         <div id="filter-values"></div>

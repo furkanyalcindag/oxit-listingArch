@@ -24,7 +24,7 @@ class ProductForm(ModelForm):
                 attrs={'class': 'form-control', 'placeholder': 'Fiyat(₺)'}),
         }
 
-    category = forms.ModelMultipleChoiceField(queryset=Category.objects.all())
+    category = forms.ModelMultipleChoiceField(queryset=Category.objects.filter(isActive=True))
     related_product = forms.ModelMultipleChoiceField(queryset=Product.objects.all(), required=False)
     file = forms.ModelMultipleChoiceField(queryset=File.objects.all(), required=False)
 
