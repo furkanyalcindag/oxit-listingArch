@@ -12,12 +12,14 @@ class CompanyForm(ModelForm):
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor'
+            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor','code'
         )
 
         widgets = {
             'name': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adı', 'required': 'required'}),
+            'code': forms.TextInput(
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Kodu', 'required': 'required'}),
             'address': forms.Textarea(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adresi', 'rows': '4'}),
             'address_link': forms.TextInput(

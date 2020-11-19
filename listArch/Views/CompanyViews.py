@@ -80,7 +80,8 @@ def add_company(request):
                                   date=company_form.cleaned_data['date'],
                                   business_type=company_form.cleaned_data['business_type'],
                                   isSponsor=company_form.cleaned_data['isSponsor'],
-                                  city=company_form.cleaned_data['city']
+                                  city=company_form.cleaned_data['city'],
+                                  code=company_form.cleaned_data['code']
 
                                   )
                 company.save()
@@ -192,6 +193,8 @@ def update_company(request, pk):
                 company.user.is_active = True
                 company.user.save()
                 company.logo = company_form.cleaned_data['logo']
+                company.code=company_form.cleaned_data['code']
+                company.isSponsor=company_form.cleaned_data['isSponsor']
                 company.save()
                 company_form.save()
 

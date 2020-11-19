@@ -24,12 +24,14 @@ class Company(models.Model):
     annualSales = models.DecimalField(max_digits=10, decimal_places=2, null=True,
                                       verbose_name='Yıllık Satış Tutarı')
     address_link = models.TextField(null=True, blank=True, verbose_name='Konum Linki')
-    business_type = models.ForeignKey(BusinessType, null=True, blank=True, verbose_name='Firma Tipi',on_delete=models.SET_NULL)
+    business_type = models.ForeignKey(BusinessType, null=True, blank=True, verbose_name='Firma Tipi',
+                                      on_delete=models.SET_NULL)
     cover_image = models.ImageField(upload_to='company_image/', null=True, blank=True, verbose_name='Kapak Fotoğrafı',
                                     default='logo1.png')
     service = models.ManyToManyField(Service, null=True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi', null=True, blank=True)
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
+    code = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)
