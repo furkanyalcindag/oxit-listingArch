@@ -12,7 +12,7 @@ class CompanyForm(ModelForm):
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor',
+            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor'
         )
 
         widgets = {

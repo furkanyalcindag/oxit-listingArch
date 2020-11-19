@@ -58,6 +58,7 @@ def add_product(request):
                                   isAdvert=product_form.cleaned_data['isAdvert'])
 
                 product.save()
+                product.slug_save()
                 product.cover_image = request.FILES['cover_image']
                 product.save()
 

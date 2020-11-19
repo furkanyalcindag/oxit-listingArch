@@ -12,8 +12,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a >{{ parent.name }}</a></li>
-            <li><a >{{ obj.name }}</a></li>
+            <li><a>{{ parent.name }}</a></li>
+            <li><a>{{ obj.name }}</a></li>
         </ol>
 
     </section>
@@ -93,9 +93,9 @@
 ">
 
                                                     <td>Eylem</td>
+                                                    <td><a>Seçenek Adı</a></td>
+                                                    <td>Kategori Adı</td>
 
-                                                    <td><a>Seçenek Adı</a>
-                                                    </td>
 
                                                 </tr>
                                                 </thead>
@@ -116,6 +116,13 @@
                                                                     class="fa fa-close"></i></button>
                                                         </td>
                                                         <td class="text-left">{{ option_desc.option.key }}</td>
+                                                        <td>
+                                                            {% if option_desc.option.category %}
+                                                                {% for  category in option_desc.option.category.all %}
+                                                                    {{ category.name }}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </td>
 
                                                     </tr>
                                                 {% endfor %}

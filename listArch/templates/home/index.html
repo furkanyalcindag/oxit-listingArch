@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content2 %}
 
-{% load change_lang %}
+    {% load change_lang %}
 
     <div class="main-search-container centered dark-overlay" style="height: 110vh ;
 
@@ -19,7 +19,7 @@
                             <h2 style=";font-size:63px;font-weight:600;font-family: 'Montserrat', sans-serif;">
                                 <span class="typed-words">{{ scrolling_text.description }}</span>
                             </h2>
-                            <h4 >{{ scrolling_text.subTextDesc }}</h4>
+                            <h4>{{ scrolling_text.subTextDesc }}</h4>
                             <div class="main-search-input">
                                 <div class="main-search-input-item">
                                     <input type="text" placeholder="Start your Search ..." value=""
@@ -42,17 +42,29 @@
                             <!-- Box -->
                             {% for category in parent_categories %}
 
-
+                                {% if category.category.is_click %}
                                     <a style="    width: 110px;height: 100px;
     float: left;
     padding: 25px 5px 0px 0px;" href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
                                        class="highlighted-category">
-                                        <img height="48" src="/media/{{ category.category.icon }}" alt="Bricks-in-Bytes">
+                                        <img height="48" src="/media/{{ category.category.icon }}"
+                                             alt="Bricks-in-Bytes">
                                         <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
     display: block;
     width: 100px;">{{ category.description }}</h4>
                                     </a>
-
+                                {% else %}
+                                    <a style="    width: 110px;height: 100px;
+    float: left;
+    padding: 25px 5px 0px 0px;"
+                                       class="highlighted-category">
+                                        <img height="48" src="/media/{{ category.category.icon }}"
+                                             alt="Bricks-in-Bytes">
+                                        <h4 style=" font-family: 'Montserrat', sans-serif;font-size: 12px; margin-top: 5px;
+    display: block;
+    width: 100px;">{{ category.description }}</h4>
+                                    </a>
+                                {% endif %}
 
                             {% endfor %}
                         </div>
@@ -72,56 +84,56 @@
     <!-- Category Boxes / End -->
     <!-- Info Section -->
 
-       <div class="container" style=" width: 100%; border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
+    <div class="container" style=" width: 100%; border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116;">
         <div class="row">
 
 
-                  <div class="col-md-2">
-                    <a  class="category-small-box">
-                        <h4>{{ 'product'|get_item_by_lang }}</h4>
-                        <span class="category-box-counter">500.000+</span>
-                    </a>
-
-                        </div>
-
-                    <div class="col-md-2">
-                    <a  class="category-small-box">
-                        <h4>{{ 'brands' |get_item_by_lang }}</h4>
-                        <span class="category-box-counter">1500+</span>
-                    </a></div>
-
-                    <div class="col-md-2">
-                    <a  class="category-small-box">
-                        <h4>{{ 'category'|get_item_by_lang }}</h4>
-                        <span class="category-box-counter">50.000+</span>
-                    </a></div>
-
-                    <div class="col-md-2">
-                    <a  class="category-small-box">
-                        <h4>{{ 'features'|get_item_by_lang }}</h4>
-                        <span class="category-box-counter">250.000+</span>
-                    </a></div>
-
-                     <div class="col-md-2">
-                    <a  class="category-small-box">
-                        <h4>{{ 'files' |get_item_by_lang }}</h4>
-                        <span class="category-box-counter">6.000.000+</span>
-                    </a></div>
-                           <div class="col-md-2">
-                    <a  class="category-small-box">
-                        <h4>{{ 'files' |get_item_by_lang }}</h4>
-                        <span class="category-box-counter">6.000.000+</span>
-                    </a></div>
+            <div class="col-md-2">
+                <a class="category-small-box">
+                    <h4>{{ 'product'|get_item_by_lang }}</h4>
+                    <span class="category-box-counter">500.000+</span>
+                </a>
 
             </div>
+
+            <div class="col-md-2">
+                <a class="category-small-box">
+                    <h4>{{ 'brands' |get_item_by_lang }}</h4>
+                    <span class="category-box-counter">1500+</span>
+                </a></div>
+
+            <div class="col-md-2">
+                <a class="category-small-box">
+                    <h4>{{ 'category'|get_item_by_lang }}</h4>
+                    <span class="category-box-counter">50.000+</span>
+                </a></div>
+
+            <div class="col-md-2">
+                <a class="category-small-box">
+                    <h4>{{ 'features'|get_item_by_lang }}</h4>
+                    <span class="category-box-counter">250.000+</span>
+                </a></div>
+
+            <div class="col-md-2">
+                <a class="category-small-box">
+                    <h4>{{ 'files' |get_item_by_lang }}</h4>
+                    <span class="category-box-counter">6.000.000+</span>
+                </a></div>
+            <div class="col-md-2">
+                <a class="category-small-box">
+                    <h4>{{ 'files' |get_item_by_lang }}</h4>
+                    <span class="category-box-counter">6.000.000+</span>
+                </a></div>
+
         </div>
+    </div>
 
     </div>
 
 
     <!-- Logo Carousel -->
 
-    <div class="row" >
+    <div class="row">
         <!-- Carousel -->
         <div class="col-md-12" style="   margin-top: 1px;padding-bottom: 1px;
     border-bottom: 2px solid #fd9116;">
@@ -227,7 +239,9 @@
                                     <p style="margin-bottom:2px"><a style="color: #000;
     width: -webkit-fill-available;
     padding: 5px;background: #fd9116;
-    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}" class="button">{{ 'login'| get_item_by_lang }}</a></p>
+    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}"
+                                                                    class="button">{{ 'login'| get_item_by_lang }}</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +255,9 @@
                                     <p style="margin-bottom:2px"><a style="color: #000;
     width: -webkit-fill-available;
     padding: 5px;
-    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}" class="button">{{ 'sign_up'| get_item_by_lang }}</a></p>
+    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}"
+                                                                    class="button">{{ 'sign_up'| get_item_by_lang }}</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>

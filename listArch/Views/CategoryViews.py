@@ -15,7 +15,7 @@ def add_category(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    categories = Category.objects.filter(isActive=True)
+    categories = Category.objects.filter(isActive=True).filter(is_parent=True)
     category_form = CategoryForm()
     try:
         if request.method == 'POST':
@@ -27,7 +27,8 @@ def add_category(request):
 
                 category = Category(name=category_tr, isActive=category_form.cleaned_data['isActive'],
                                     isBasic=category_form.cleaned_data['isBasic'],
-                                    order=category_form.cleaned_data['order'], icon=request.FILES['icon'])
+                                    order=category_form.cleaned_data['order'], icon=request.FILES['icon'],
+                                    is_click=category_form.cleaned_data['is_click'])
                 category.save()
                 category.slug_save()
 
@@ -130,6 +131,7 @@ def update_category(request, pk):
                 category.order = category_form.cleaned_data['order']
                 category.icon = category_form.cleaned_data['icon']
                 category.name = category_tr
+                category.is_click = category_form.cleaned_data['is_click']
 
                 category.save()
 

@@ -4,7 +4,7 @@
 
     <section class="content-header">
         <h1>
-            Profil Adı Düzenle
+            Profil Adı Ekle
 
         </h1>
         <ol class="breadcrumb">
@@ -66,6 +66,7 @@
 
             <section class="col-lg-12 ">
 
+
                 <div class="box-body">
 
                     <div class="box box-primary">
@@ -87,7 +88,7 @@
                                                         <div class="input-group"><span class="input-group-addon">
                                                             <img src="/media/en-gb.png" title="ENg"></span>
                                                            <input type="text" name="eng-type"
-                                                                   value=""
+                                                                   value="{{ business_eng.description }}"
                                                                    placeholder="Profil Adı" class="form-control">
                                                         </div>
                                                         <div class="input-group"><span class="input-group-addon">
@@ -152,11 +153,6 @@
                                                                    class="btn btn-danger"
                                                                    data-original-title="Sil"><i
                                                                         class="fa fa-close"></i></a>
-                                                                <a href="{% url 'listArch:profil-adi-guncelle'  business_type.business_type.pk%}"
-                                                                   data-toggle="tooltip" title=""
-                                                                   class="btn btn-primary"
-                                                                   data-original-title="Düzenle"><i
-                                                                        class="fa fa-edit"></i></a>
                                                             </td>
 
                                                             <td>{{ business_type.description }}</td>

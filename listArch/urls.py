@@ -184,6 +184,8 @@ urlpatterns = [
 
     # businessType
     url(r'add-profile-name/$', BusinessTypeViews.add_businessType, name='profil-adi-ekle'),
+    url(r'update-profile-name/(?P<pk>\d+)$', BusinessTypeViews.update_businessType, name='profil-adi-guncelle'),
+
     url(r'delete-business-type/$', BusinessTypeViews.delete_business_type, name='profil-adi-sil'),
 
     url(r'error/$', HomeViews.error_page, name='404-sayfasi'),

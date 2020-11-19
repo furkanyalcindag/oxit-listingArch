@@ -48,18 +48,33 @@ def update_businessType(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+    business_type = BusinessType.objects.get(pk=pk)
+    business_types = BusinessTypeDesc.objects.filter(lang_code=1)
+    business_tr = BusinessTypeDesc.objects.filter(lang_code=1).filter(business_type=business_type)
+    business_eng = BusinessTypeDesc.objects.filter(lang_code=2).filter(business_type=business_type)
+
+    form = BusinessTypeForm(request.POST or None, instance=business_type)
+
     if request.method == 'POST':
         try:
-            business_type = BusinessType.objects.get(pk=pk)
-            business_type.type = request.POST['business-type']
-
+            business_type.key = form.cleaned_data['key']
+            business_type.isProduct_based = form.cleaned_data['isProduct_based']
             business_type.save()
+            for business_tr in business_tr:
+                business_tr.description = form.cleaned_data['key']
+                business_tr.save()
+            for business_eng in business_eng:
+                business_eng.description = request.POST['eng-type']
+                business_eng.save()
 
-            messages.success(request, "Profil Adı Başarıyla Kayıt Edildi.")
-
+            messages.success(request, "Profil Adı Başarıyla Güncellendi.")
+            return redirect('listArch:profil-adi-ekle')
         except Exception as e:
             print(e)
             return redirect('listArch:admin-error-sayfasi')
+    return render(request, 'businessType/update-bussinessType.html',
+                  {'business_types': business_types, 'form': form, 'business_tr': business_tr[0],
+                   'business_eng': business_eng[0]})
 
 
 def delete_business_type(request):

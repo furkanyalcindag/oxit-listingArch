@@ -18,11 +18,12 @@ class Category(models.Model):
     slug = models.SlugField(null=True, unique=True)
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi', null=True, blank=True)
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
+    is_click = models.BooleanField(default=True, null=True, blank=True)
 
     def __str__(self):
         return str(category_parent_show(self))
 
     def slug_save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name+str(self.id))
+            self.slug = slugify(self.name + str(self.id))
         return super().save(*args, **kwargs)
