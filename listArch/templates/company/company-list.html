@@ -79,8 +79,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a >{{ parent.name }}</a></li>
-            <li><a >{{ obj.name }}</a></li>
+            <li><a>{{ parent.name }}</a></li>
+            <li><a>{{ obj.name }}</a></li>
         </ol>
 
     </section>
@@ -106,15 +106,12 @@
                                cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>Firma No</th>
+                                <th>ID</th>
                                 <th>İşlem</th>
                                 <th>Resim</th>
-                                <th>Yetkili</th>
                                 <th>Firma Adı</th>
-                                <th>Firma Adresi</th>
-                                <th>Firma Telefonu</th>
-                                <th>Email</th>
-                                <th>Firma Web Site</th>
+                                <th>Profil</th>
+                                <th>Yetkili</th>
                                 <th>Ülke/Şehir</th>
 
 
@@ -195,7 +192,7 @@
                             let url3 = '{% url 'listArch:firmaya-koleksiyon-ekle' 0 %}'.replace(0, full.id);
 
                             html = '<a class="btn btn-primary" type="btn" title="Düzenle" href="' + url + '"><i class="fa fa-edit"></i></a>';
-                            html += '<a style="margin-left: 5px;" class="btn btn-success" type="btn" title="Koleksiyon Ekle" href="'+url3+'"><i class="fa  fa-picture-o"></i></a>';
+                            html += '<a style="margin-left: 5px;" class="btn btn-success" type="btn" title="Koleksiyon Ekle" href="' + url3 + '"><i class="fa  fa-picture-o"></i></a>';
 
                             html += '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Açıklama Ekle" href="' + url2 + '"><i class="fa fa-plus"></i></a>';
                             html += '<button type="button" style="margin-left: 5px;" onclick="delete_company(' + full.id + ')" class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
@@ -211,7 +208,18 @@
                             return html;
                         }
                     },
+                    {"data": "name"},
                     {
+                        "data": null,
+                        "render": function (data, type, full, meta, row) {
+                            let html;
+                            html=''+full.business_type.key+'';
+                            return html;
+
+
+                        }
+                    },
+                     {
                         "data": null,
                         render: function (data, type, row) {
                             return row.user.first_name + ' ' + row.user.last_name;
@@ -219,37 +227,20 @@
 
                         }
                     },
-                    {"data": "name"},
-                    {"data": "address"},
 
 
-                    {"data": "phone"},
-                    {
-                        "data": null,
-                        render: function (data, type, row) {
-                            return row.user.email;
 
 
-                        }
-                    },
-                    {
-                        "render": function (data, type, full, meta, row) {
-                            let html;
-                            html = '<a href="' + full.website + '"></a>' + full.website + '';
-                            return html;
-                        }
-                    },
                     {
 
                         "render": function (data, type, full, meta, row) {
                             let html;
-                            html=''+full.country.name+'/'+full.city.name+''
+                            html = '' + full.country.name + '/' + full.city.name + ''
                             return html;
 
 
                         }
                     },
-
 
 
                 ]

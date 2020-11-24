@@ -12,20 +12,22 @@ class CompanyForm(ModelForm):
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor','code'
+            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor','title','mobilePhone',
         )
 
         widgets = {
             'name': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adı', 'required': 'required'}),
-            'code': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Kodu', 'required': 'required'}),
+            'title': forms.TextInput(
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Yetkili Ünvanı'}),
             'address': forms.Textarea(
                 attrs={'class': 'form-control ', 'placeholder': 'Firma Adresi', 'rows': '4'}),
             'address_link': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Adresi Linki', 'rows': '4'}),
             'phone': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Telefonu', }),
+                attrs={'class': 'form-control ', 'placeholder': '(örnek: +903123718 )', }),
+            'mobilePhone': forms.TextInput(
+                attrs={'class': 'form-control ', 'placeholder': '(örnek: +905302163718)', }),
             'userDescription': forms.Textarea(
                 attrs={'class': 'form-control ', 'rows': '5', 'placeholder': 'Açıklama', }),
             'website': forms.TextInput(

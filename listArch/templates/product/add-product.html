@@ -113,7 +113,7 @@
                                                     <div class="col-sm-10">
                                                         <div class="form-group ">
                                                             <label>Ürün Adı<small
-                                                                style="color: red">*</small></label>
+                                                                    style="color: red">*</small></label>
 
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
@@ -142,13 +142,19 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Ürün Kodu<small
-                                                                style="color: red">*</small></label>
+                                                                    style="color: red">*</small></label>
 
                                                             {{ product_form.code }}
                                                         </div>
                                                         <div class="form-group">
+                                                            <label>Ürün Sıra Kodu<small
+                                                                    style="color: red">*</small></label>
+
+                                                            {{ product_form.code2 }}
+                                                        </div>
+                                                        <div class="form-group">
                                                             <label>Ürün Firma Kodu<small
-                                                                style="color: red">*</small></label>
+                                                                    style="color: red">*</small></label>
 
                                                             {{ product_form.company_code }}
                                                         </div>
@@ -177,7 +183,7 @@
                                                             <thead>
                                                             <tr>
                                                                 <td class="text-left">Ürün Resmi<small
-                                                                style="color: red">*</small></td>
+                                                                        style="color: red">*  (560*560 pixels)</small></td>
                                                                 <td></td>
                                                             </tr>
                                                             </thead>
@@ -237,7 +243,7 @@
                                                         <label for="">Kapak Resmi<small
                                                                 style="color: red">*</small></label>
                                                         {{ product_form.cover_image }}
-
+                                                        <small style="color: red">(560*560 pixels) </small>
 
                                                     </div>
                                                 </div>
@@ -250,8 +256,8 @@
                                                     <div class="row">
 
                                                         <div class="col-sm-2 " id="option-tab">
-<label for="">Seçenekler<small
-                                                                style="color: red">*</small></label>
+                                                            <label for="">Seçenekler<small
+                                                                    style="color: red">*</small></label>
                                                             <select class="form-control select2 select2-hidden-accessible"
                                                                     style="width: 100%" id="option_key"
                                                                     name="option-key"
@@ -305,16 +311,28 @@
                                                     <br>
 
                                                     <label>Firma Seçin<small
-                                                                style="color: red">*</small></label>
+                                                            style="color: red">*</small></label>
                                                     <select class="form-control select2 select2-hidden-accessible"
                                                             style="width: 100%" id="product-company"
-                                                            name="product-company">
+                                                            name="product-company" onchange="get_company()">
 
                                                         <option value="">---------</option>
+
 
                                                         {% for company in companies %}
                                                             <option value="{{ company.pk }}">{{ company.name }}</option>
                                                         {% endfor %}
+
+
+                                                    </select>
+                                                    <br><br>
+                                                    <label>Firma Kodu Seçin<small
+                                                            style="color: red">*</small></label>
+                                                    <select class="form-control select2 select2-hidden-accessible"
+                                                            style="width: 100%" id="company-code"
+                                                            name="company-code">
+
+                                                        <option value="">---------</option>
 
 
                                                     </select>
@@ -324,7 +342,7 @@
 
 
                                                     <label style="margin-top: 30px;">Kategorileri Seçin<small
-                                                                style="color: red">*</small></label>
+                                                            style="color: red">*</small></label>
                                                     {{ product_form.category }}
 
 
@@ -368,6 +386,8 @@
 
 
             });
+
+            get_company();
 
 
         });
@@ -438,8 +458,6 @@
         let count_text = []
 
 
-
-
         function get_option() {
             debugger;
             let value = 0;
@@ -460,12 +478,12 @@
 
                     if (option.type === 'text') {
                         debugger;
-                        html='<div class="row" id="text-form-' + option_text_row + '" >';
+                        html = '<div class="row" id="text-form-' + option_text_row + '" >';
                         html += '<div class="form-group"  style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
                         html += '<div class="col-sm-4"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.key + '"  class="form-control"></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '"><button type="button" id="remove' + option_text_row + '" onclick="remove_text('+option_text_row+')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>	</div>';
-                        html+="</div>";
+                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '"><button type="button" id="remove' + option_text_row + '" onclick="remove_text(' + option_text_row + ')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>	</div>';
+                        html += "</div>";
 
                         $('#tab-option .tab-content').append(html);
                         count_text.push(parseInt(option_text_row));
@@ -516,9 +534,10 @@
 
             });
         }
-         function remove_text(id) {
+
+        function remove_text(id) {
             debugger;
-            $('#text-form-'+ id +'').remove();
+            $('#text-form-' + id + '').remove();
             count_text = jQuery.grep(count_text, function (value) {
                 return value !== id;
             });
@@ -527,7 +546,6 @@
 
 
         }
-
 
 
         function addOptionValue() {
@@ -654,6 +672,34 @@
             });
             document.getElementById("video_row").value = count_video;
             console.log(count_video)
+
+        }
+
+
+        function get_company() {
+            debugger;
+            var e = document.getElementById("product-company");
+            var company_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'listArch:firma-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    company_id: company_id,
+
+                },
+                success: function (result) {
+                    debugger;
+                    let select = document.getElementById("company-code");
+
+
+                    $('#company-code').empty();
+
+                    for (let i = 0; i < result.firmalar.length; i++) {
+                        select.options[select.options.length] = new Option(result.firmalar[i].code, result.firmalar[i].code);
+                    }
+                }
+            });
         }
 
     </script>

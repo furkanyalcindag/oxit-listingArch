@@ -1,71 +1,10 @@
 {% extends 'base.html' %}
 {% load change_lang %}
 
-{% block content2 %}
-    {% include 'parent_category_slider.html' %}
-    <div class="main-search-container centered" data-background-image="/media/main-search-background-01.jpg"
-         style="height: 250px">
-        <div class="main-search-inner">
-
-            <div class="">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 style="font-family: 'Allerta Stencil', sans-serif;">
-                            <span class="typed-words">{{ scrolling_text.description }}</span>
-                        </h2>
-                        <h4>{{ scrolling_text.subTextDesc }}</h4>
-                        <div class="main-search-input">
-                            <div class="main-search-input-item">
-                                <select data-placeholder="All Categories" class="chosen-select">
-                                    <option selected>Architecture</option>
-                                    <option>Hotels</option>
-                                    <option>Restaurants</option>
-                                    <option>Fitness</option>
-                                    <option>Events</option>
-                                </select>
-
-                            </div>
-
-                            <div class="main-search-input-item">
-                                <input type="text" placeholder="Start to search" value="">
-                            </div>
-
-                            <button class="button" onclick="">
-                                Search
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Featured Categories - End -->
-
-            </div>
-
-        </div>
-    </div>
-
-
-
-{% endblock %}
 
 {% block content %}
-    {% include 'count_box.html' %}
-    <div id="titlebar" style="border-bottom:1px solid #fff;border-top: 2px solid #fd9116">
-        <div class="" style="margin-left: 20px">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Breadcrumbs -->
-                    <nav id="breadcrumbs">
-                        <ul>
-                            <li><a href="{% url 'listArch:index' %}">{{ 'home_page' |get_item_by_lang }}</a></li>
-                            <li><a>{{ 'about' |get_item_by_lang }}</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <div class="container" style="width: 90%">
 
     <div class="row" style="margin: 10px;">
 
@@ -94,6 +33,155 @@
 
             </div>
         </div>
+    </div>
+
+     <div id="footer">
+
+        <div class="" style="margin-left: 45px;margin-right: 45px">
+            <div class="row">
+
+                <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
+                    <h4>{{ 'about'| get_item_by_lang }}</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">{{ 'What_we_do'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'Philosophy'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'investor_relations'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'advertises'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'client_center'| get_item_by_lang }}</a></li>
+                        <li><a href="#">{{ 'careers'| get_item_by_lang }}</a></li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
+                    <h4>{{ 'connect'| get_item_by_lang }}</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
+                    <h4>{{ 'contact'| get_item_by_lang }}</h4>
+
+                    <ul class="footer-links">
+                        <li><a href="#">{{ 'phone'| get_item_by_lang }}</a></li>
+                        <li><a href="#">Mail</a></li>
+                        <li><a href="#">Whatsapp</a></li>
+                        <li><a href="#">{{ 'phone'|get_item_by_lang }}</a></li>
+                        <li><a href="#">Mail</a></li>
+                        <li><a href="#">Whatsapp</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
+                    <h4>{{ 'language'| get_item_by_lang }}</h4>
+
+                    <ul class="footer-links">
+                        <li><a href="#">TR</a></li>
+                        <li><a href="#">EN</a></li>
+
+                    </ul>
+                </div>
+
+
+                <div class="col-md-4  col-sm-12">
+                    <h4>{{ 'join_today'| get_item_by_lang }}</h4>
+                    <section id="contact">
+
+
+                        <div id="contact-message">
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+
+                            </div>
+
+                            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                <div>
+                                    <p style="margin-bottom:2px"><a style="color: #000;
+    width: -webkit-fill-available;
+    padding: 5px;background: #fd9116;
+    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}"
+                                                                    class="button">{{ 'login'| get_item_by_lang }}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+
+                            </div>
+
+                            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                                <div>
+                                    <p style="margin-bottom:2px"><a style="color: #000;
+    width: -webkit-fill-available;
+    padding: 5px;
+    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}"
+                                                                    class="button">{{ 'sign_up'| get_item_by_lang }}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <form method="post" action="{% url 'listArch:abone-ekle' %}#subscriber"
+                                  autocomplete="on">
+                                {% csrf_token %}
+
+                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
+
+                                    <input name="subscriber" type="text" id="subscriber"
+                                           placeholder="Your E-Mail Address for news" required="required"
+                                           class="error">
+
+                                </div>
+
+                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+
+
+                                    <input style="width: -webkit-fill-available;background:#fd9116" type="submit"
+                                           class="submit button" id="submit" value="SUBSCRIBE">
+
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="notification success closeable" style="height: 30px;text-align: center">
+                                    <p style="line-height: 1px;text-align: center">{{ message }}</p>
+                                    <a class="close" style="line-height: 0px"></a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </section>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
     </div>
 
 {% endblock %}

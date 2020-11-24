@@ -13,13 +13,14 @@ import uuid
 
 class Product(models.Model):
     name = models.TextField(blank=True, null=True, verbose_name='Ürün Adı')
-    code = models.TextField(blank=True, null=True, verbose_name='Ürün Kodu')
+    code = models.CharField(max_length=100, blank=True, null=True, verbose_name='Ürün Kodu')
+    code2 = models.CharField(max_length=100, blank=True, null=True, verbose_name='Ürün Sıra Kodu')
+    code3 = models.CharField(max_length=100, null=True, blank=True)
     company_code = models.TextField(blank=True, null=True, verbose_name='Ürün Kodu')
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True,
                                 verbose_name='Ürüne Ait Firma')
     isActive = models.BooleanField(default=False)
-    price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True,
-                                verbose_name='Ürün Fiyatı')
+    price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True, verbose_name='Ürün Fiyatı')
     cover_image = models.ImageField(upload_to='image/', null=True, blank=True, verbose_name='Ürün Kapak Resmi')
     category = models.ManyToManyField(Category, null=True, blank=True)
     isSponsor = models.BooleanField(default=False)
@@ -39,7 +40,7 @@ class Product(models.Model):
 
     def slug_save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name+'-'+str(self.code))
+            self.slug = slugify(self.name + '-' + str(self.code))
             super().save(*args, **kwargs)
         from PIL import Image, ImageDraw
         from django.core.files import File

@@ -14,14 +14,16 @@ class ProductForm(ModelForm):
         model = Product
         fields = (
             'category', 'isActive', 'company_code', 'code', 'cover_image', 'isAdvert', 'price',
-            'related_product', 'file')
+            'related_product', 'file', 'code2',)
         widgets = {
             'company_code': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Firma Ürün Kodu','required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Firma Ürün Kodu', 'required': 'required'}),
             'code': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Ürün Kodu','required': 'required'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Ürün Kodu', 'required': 'required'}),
+            'code2': forms.TextInput(
+                attrs={'class': 'form-control ', 'placeholder': 'Ürün Kodu2', 'required': 'required'}),
             'price': forms.NumberInput(
-                attrs={'class': 'form-control', 'placeholder': 'Fiyat(₺)'}),
+                attrs={'class': 'form-control', 'placeholder': 'Fiyat($)'}),
         }
 
     category = forms.ModelMultipleChoiceField(queryset=Category.objects.filter(isActive=True))

@@ -49,14 +49,11 @@ def add_option(request):
                 option_desc2 = OptionDesc(option=option, lang_code=1, description=option_description_tr)
                 option_desc2.save()
 
-                is_basic = option_form.cleaned_data['isBasic']
-                if is_basic:
-                    option.isBasic = True
-                    option.save()
-                else:
+                option.isBasic = option_form.cleaned_data['isBasic']
+                option.save()
 
-                    for category in category_form.cleaned_data['category']:
-                        option.category.add(category)
+                for category in category_form.cleaned_data['category']:
+                    option.category.add(category)
 
                 if option.type == 'range':
                     min = request.POST['option_value[min]']

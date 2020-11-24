@@ -14,7 +14,7 @@ from listArch.Forms.CompanyForm import CompanyForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
 from listArch.models import Company, SocialMedia, Product, Category, ProductFile, ProductOptionValue, Option, \
-    OptionValue, CompanyRetail
+    OptionValue, CompanyRetail, CompanyCode
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.CompanySocialAccount import CompanySocialAccount
 from listArch.models.Definition import Definition
@@ -81,10 +81,21 @@ def add_company(request):
                                   business_type=company_form.cleaned_data['business_type'],
                                   isSponsor=company_form.cleaned_data['isSponsor'],
                                   city=company_form.cleaned_data['city'],
-                                  code=company_form.cleaned_data['code']
+                                  title=company_form.cleaned_data['title'],
+                                  mobilePhone=company_form.cleaned_data['mobilePhone']
 
                                   )
                 company.save()
+
+                count = request.POST['code-row']
+                count = count.split(',')
+                array_code = []
+                for count in count:
+                    array_code.append(count)
+
+                for code in array_code:
+                    company_code = CompanyCode(company=company, code=request.POST['company-code' + str(code) + ''])
+                    company_code.save()
 
                 for service in company_form.cleaned_data['service']:
                     company.service.add(service)
@@ -183,6 +194,8 @@ def update_company(request, pk):
     i = 0
     companies = Company.objects.all()
     retails = CompanyRetail.objects.filter(company=company)
+    codes = CompanyCode.objects.filter(company=company)
+
     if request.method == 'POST':
         try:
             if user_form.is_valid() and company_form.is_valid():
@@ -193,14 +206,26 @@ def update_company(request, pk):
                 company.user.is_active = True
                 company.user.save()
                 company.logo = company_form.cleaned_data['logo']
-                company.code=company_form.cleaned_data['code']
-                company.isSponsor=company_form.cleaned_data['isSponsor']
+                company.isSponsor = company_form.cleaned_data['isSponsor']
+                company.title=company_form.cleaned_data['title']
+                company.mobilePhone=company_form.cleaned_data['mobilePhone']
+                company.phone=company_form.cleaned_data['phone']
                 company.save()
                 company_form.save()
 
                 company.service.clear()
                 for service in company_form.cleaned_data['service']:
                     company.service.add(service)
+
+                count = request.POST['code-row']
+                count = count.split(',')
+                array_code = []
+                for count in count:
+                    array_code.append(count)
+
+                for code in array_code:
+                    company_code = CompanyCode(company=company, code=request.POST['company-code' + str(code) + ''])
+                    company_code.save()
 
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
@@ -242,6 +267,7 @@ def update_company(request, pk):
             return redirect('listArch:admin-error-sayfasi')
     return render(request, 'company/update-company.html',
                   {'company_form': company_form, 'user_form': user_form, 'social_accounts': social_accounts,
+                   'codes': codes,'company':company,
                    'loop': social_accounts.count(), 'companies': companies, 'retails': retails,
                    })
 
@@ -295,6 +321,36 @@ def edit_social_account(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+@api_view(http_method_names=['POST'])
+def edit_company_code(request):
+    if request.POST:
+        try:
+
+            code_id = request.POST.get('code_id')
+            company_code = CompanyCode.objects.filter(pk=code_id)
+            product = Product.objects.filter(code3=company_code[0].code)
+
+            new_code = request.POST['code']
+            if new_code == company_code[0].code:
+                return JsonResponse({'status': 'Success', 'messages': 'Firma Kodunu Düzenleyebilirsiniz'})
+
+            else:
+                for code in company_code:
+                    code.code = new_code
+                    code.save()
+                    if product:
+                        product.code3 = code.code
+                        product.save()
+
+
+
+            return JsonResponse({'status': 'Success', 'messages': 'Firma Kodu Düzenlendi'})
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status': 'error', 'messages': 'Kod düzenlenemedi'})
 
 
 def add_companyDefinition(request, pk):
@@ -454,6 +510,25 @@ def delete_retail(request):
             retail_id = request.POST['retail_id']
             retail = CompanyRetail.objects.get(pk=retail_id)
             retail.delete()
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+def delete_code(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+
+            code_id = request.POST['code_id']
+            code = CompanyCode.objects.get(pk=int(code_id))
+            code.delete()
             return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
 
         except Exception as e:

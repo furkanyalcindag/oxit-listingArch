@@ -79,12 +79,12 @@ def update_blog(request, pk):
     blog_tr = BlogDesc.objects.filter(lang_code=1).filter(blog=blog)[0]
     blog_eng = BlogDesc.objects.filter(lang_code=2).filter(blog=blog)[0]
     images_blog = BlogImage.objects.filter(blog=blog)
-    company_blog = CompanyBlog.objects.get(blog=blog)
+    company_blog = CompanyBlog.objects.filter(blog=blog)
     product_blog = company_blog.product
     companies = Company.objects.all()
-    products=Product.objects.all()
+    products = Product.objects.all()
 
-    company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog)
+    company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog[0])
 
     try:
         if request.method == 'POST':
@@ -107,10 +107,11 @@ def update_blog(request, pk):
                     blog_image = BlogImage(image=image, blog=blog)
                     blog_image.save()
 
-                company_blog.product = company_blog_form.cleaned_data['product']
-                company_blog.save()
-                company_blog.company = Company.objects.get(pk=int(request.POST['company_id']))
-                company_blog.save()
+                for company_blog in company_blog:
+                    company_blog.product = company_blog_form.cleaned_data['product']
+                    company_blog.save()
+                    company_blog.company = Company.objects.get(pk=int(request.POST['company_id']))
+                    company_blog.save()
 
                 messages.success(request, "Blog Bilgileri Başarıyla Düzenlendi.")
                 return redirect('listArch:bloglar')
@@ -121,7 +122,7 @@ def update_blog(request, pk):
     return render(request, 'blog/update-blog.html',
                   {'companies': companies, 'images': images_blog, 'blog': blog, 'product_blog': product_blog,
                    'blog_tr': blog_tr, 'blog_eng': blog_eng, 'company_blog': company_blog,
-                   'company_blog_form': company_blog_form,'products':products})
+                   'company_blog_form': company_blog_form, 'products': products})
 
 
 def blogs(request):

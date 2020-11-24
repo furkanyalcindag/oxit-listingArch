@@ -177,7 +177,7 @@
                                                                     src="/media/{{ product.image }}"
                                                                     class="product-img" style="height: 33px;"></a></td>
                                                             <td class="text-left">{{ product.product.name }}</td>
-                                                            <td class="text-left">{{ product.product.code }}</td>
+                                                            <td class="text-left">{{ product.product.code }}-{{ product.product.code3 }}-{{ product.product.code2 }}</td>
 
                                                             <td> {% for category in product.product.category.all %}
                                                                 {{ category.name }},{% endfor %}</td>

@@ -81,22 +81,6 @@
                                         <div class="col-lg-6">
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab-general">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.first_name.label }} <small
-                                                                style="color: red">*</small></label>
-                                                        <div class="col-sm-10">{{ user_form.first_name }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.last_name.label }}<small
-                                                                style="color: red">*</small></label>
-                                                        <div class="col-sm-10">{{ user_form.last_name }}
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-group required">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-name"> {{ company_form.name.label }} <small
@@ -105,32 +89,15 @@
                                                             {{ company_form.name }}
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group required">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Logo <small
-                                                                style="color: red">*</small></label>
+                                                                style="color: red">* </small> </label>
                                                         <div class="col-sm-10">{{ company_form.logo }}
+                                                            <small style="color: red">(180*80 pixels) </small>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label" for="input-image">Web Site
-                                                            Adresi</label>
-                                                        <div class="col-sm-10">{{ company_form.website }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">Telefon</label>
-                                                        <div class="col-sm-10">{{ company_form.phone }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">Email<small
-                                                                style="color: red">*</small></label>
-                                                        <div class="col-sm-10">{{ user_form.email }}
-                                                        </div>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
                                                                for="input-image">Profil Adı <small
@@ -144,6 +111,52 @@
                                                         <div class="col-sm-10">{{ company_form.service }}
                                                         </div>
                                                     </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Firma Yetkili Adı <small
+                                                                style="color: red">*</small></label>
+                                                        <div class="col-sm-10">{{ user_form.first_name }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Firma Yetkili Soyadı <small
+                                                                style="color: red">*</small></label>
+                                                        <div class="col-sm-10">{{ user_form.last_name }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Email<small
+                                                                style="color: red">*</small></label>
+                                                        <div class="col-sm-10">{{ user_form.email }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Firma Yetkili Ünvanı </label>
+                                                        <div class="col-sm-10">{{ company_form.title }}
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Sabit Telefon</label>
+                                                        <div class="col-sm-10">{{ company_form.phone }}
+                                                        </div>
+                                                    </div>
+                                                 <div class="form-group">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Cep Telefonu</label>
+                                                        <div class="col-sm-10">{{ company_form.mobilePhone }}
+                                                        </div>
+                                                    </div>
+
+
 
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
@@ -179,18 +192,24 @@
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Ülke <small
-                                                                style="color: red">*</small></label>
+                                                        style="color: red">*</small></label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.country }}
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Şehir <small
-                                                                style="color: red">*</small></label>
+                                                        style="color: red">*</small></label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.city }}
                                                 </div>
                                             </div>
+                                             <div class="form-group">
+                                                        <label class="col-sm-2 control-label" for="input-image">Web Site
+                                                            Adresi</label>
+                                                        <div class="col-sm-10">{{ company_form.website }}
+                                                        </div>
+                                                    </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Konum</label>
@@ -227,11 +246,43 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Firma
-                                                    Kodu</label>
-                                                <div class="col-sm-10">
-                                                    {{ company_form.code }}
+                                                <input type="hidden" value="" id="code-row" name="code-row">
+
+                                                <div class="form-group">
+                                                    <div class="col-sm-2">
+                                                        <label class="col-sm-2 control-label" for="input-type">Firma
+                                                            Kodu</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <div class="table-responsive">
+                                                            <table id="add-code"
+                                                                   class="table table-striped table-bordered">
+                                                                <thead>
+                                                                <tr>
+                                                                    <td class="">Kod</td>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+
+
+                                                                </tbody>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <td class="text-right">
+                                                                        <button type="button" onclick="addCode();"
+                                                                                data-toggle="tooltip" title=""
+                                                                                class="btn btn-primary"
+                                                                                data-original-title="Code Ekle"><i
+                                                                                class="fa fa-plus-circle"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+
                                             </div>
 
                                         </div>
@@ -282,7 +333,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-1 control-label" for="input-type">Firma
                                                     Hakkında <small
-                                                                style="color: red">*</small></label>
+                                                            style="color: red">*</small></label>
                                                 <div class="col-sm-11">
                                                     {{ company_form.userDescription }}
                                                 </div>
@@ -402,6 +453,37 @@
             console.log(count)
 
 
+        }
+
+        function remove_code(id) {
+            debugger;
+            $('#company-code-row' + id + '').remove();
+            count_code = jQuery.grep(count_code, function (value) {
+                return value !== id;
+            });
+            document.getElementById("code-row").value = count_code;
+            console.log(count_code)
+
+
+        }
+
+        count_code = []
+        code_row = 1;
+
+        function addCode() {
+            debugger;
+            let html = '';
+            html += '<tr><td><div id="company-code-row' + code_row + '" class="col-md-10"> <div class="col-md-6">';
+            html += ' <input type="text" placeholder="Firma Kodu" class="form-control" id="company-code' + code_row + '" name="company-code' + code_row + '">';
+            html += '</div><div class="col-md-6">';
+            html += '<button type="button" onclick="remove_code(' + code_row + ');" data-toggle="tooltip" class="btn btn-xs btn-danger" data-original-title="Kod Ekle"><i class="fa fa-close"></i></button>';
+            html += '</div></div>';
+            html += '<div id="add-code" name="add-code"></div></td>/tr>';
+
+            $('#add-code tbody').append(html);
+            count_code.push(parseInt(code_row));
+            code_row++;
+            document.getElementById("code-row").value = count_code;
         }
 
         function add_retail() {

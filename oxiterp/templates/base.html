@@ -118,11 +118,15 @@
                         </li>
 
 
-                        <li><a class=" hidden-sm hidden-xs " href="{% url 'listArch:anasayfa-hakkimizda-sayfasi' %}">{{ 'about' |get_item_by_lang }}</a></li>
+                        <li><a class=" hidden-sm hidden-xs "
+                               href="{% url 'listArch:anasayfa-hakkimizda-sayfasi' %}">{{ 'about' |get_item_by_lang }}</a>
+                        </li>
 
 
                         <li><a href="#">{{ 'advertises' |get_item_by_lang }}</a></li>
-                        <li><a href="{% url 'listArch:anasayfa-iletisim-sayfasi' %}">{{ 'contact' |get_item_by_lang }}</a></li>
+                        <li>
+                            <a href="{% url 'listArch:anasayfa-iletisim-sayfasi' %}">{{ 'contact' |get_item_by_lang }}</a>
+                        </li>
 
 
                     </ul>
@@ -522,8 +526,28 @@
 
 
     let options = [];
+    let product_option = []
 
-    function option(type, value_id, value) {
+    function get_product_options(option, value, type) {
+        debugger;
+        let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
+        let array = []
+        let array_option = []
+        for (let i = 0; i < checkedBoxes.length; i++) {
+            if (checkedBoxes[i].getAttribute('data-option') === '' + option + '') {
+                array.push(checkedBoxes[i].value)
+                let temp = {"type": type, "option_id": option, "value": {array}}
+                array_option.push(temp)
+            }
+
+        }
+    }
+
+    let current_option = []
+    let filter_options = []
+
+
+    function option(option, value, type) {
         debugger;
         let temp;
         if (type === 'range') {
@@ -538,16 +562,67 @@
                 }
             }
             options.push(temp)
+
         } else {
-            var checkbox = document.getElementById(value);
-            temp = {"type": type, "option_id": value_id, "value": value}
-            if ($(checkbox).is(':checked')) {
-                options.push(temp)
-            } else {
-                options.pop(temp)
+            let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
+
+            if (current_option.length > 0) {
+                for (let i = 0; i < filter_options.length; i++) {
+                    if (checkedBoxes[i]) {
+                        if (checkedBoxes[i].dataset.option.includes(filter_options[i].option) === false) {
+                            filter_options[i].splice(i, 1)
+
+                        }
+                        if (typeof checkedBoxes[i].dataset.option.includes(current_option[i]) === false) {
+                            current_option.splice(i, 1);
+
+                        }
+                    }
+
+                    for (let x = 0; x < filter_options[i].values.length; x++) {
+
+                        if (typeof checkedBoxes[x].value.includes(filter_options[i].values[x]) === false) {
+                            filter_options[i].values.splice(x, 1)
+
+                        }
+                    }
+
+
+                }
+            }
+
+
+            debugger;
+
+
+            for (let i = 0; i < checkedBoxes.length; i++) {
+
+                if (current_option.includes(checkedBoxes[i].dataset.option)) {
+                    if (filter_options.find(item => item.option).values.includes(checkedBoxes[i].value) === false)
+                        filter_options.find(item => item.option).values.push(checkedBoxes[i].value)
+                    else {
+                        console.log(filter_options)
+                    }
+
+
+                } else {
+                    let new_option = []
+                    new_option.push(checkedBoxes[i].value)
+                    let new_temp = {
+                        "option": checkedBoxes[i].dataset.option,
+                        "values": new_option,
+                        "type": checkedBoxes[i].type
+                    }
+                    filter_options.push(new_temp)
+                    current_option.push(checkedBoxes[i].dataset.option)
+                }
+
 
             }
+
+
         }
+
         console.log(options)
         let category = document.getElementById('filtered-category').value;
         $.ajax({
@@ -556,7 +631,7 @@
             async: false,
             dataType: "json",
             data: {
-                options: JSON.stringify(options),
+                options: JSON.stringify(filter_options),
                 category: category,
             },
             success: function (response) {
@@ -572,16 +647,16 @@
 
                         html += '<div class="col-1-5">';
                         let url = '{% url 'listArch:urun-detay' 0 %}';
-                        url = url.replace(0, '' + products[i].product.slug + '')
+                        url = url.replace(0, '' + products[i].slug + '')
                         html += ' <div class="hovereffect" onclick="location.href=\'' + url + '\';">';
                         html += '<div class="listing-item ">';
-                        html += '<img src="' + products[i].product.cover_image + '" alt="">';
+                        html += '<img style="height: 200px !important;" src="' + products[i].cover_image + '" alt="">';
                         html += '<div class="overlay">';
-                        html += '<h2 style="font-size:16px">' + products[i].product.company.name + '</h2>';
-                        html += '<h2 style="font-size:10px">' + products[i].product.name + '</h2>';
-                        html += '<h2 style="font-size:16px">ID' + products[i].product.code + '</h2>';
-                        html += '<h2 style="font-size:16px">' + products[i].product.price + '$ Sqm</h2>';
-                        html += '<h2 style="font-size:10px">' + products[i].product.company.country.name + '</h2>';
+                        html += '<h2 style="font-size:16px">' + products[i].company.name + '</h2>';
+                        html += '<h2 class="margin-top-40" style="font-size:12px">' + products[i].name + '</h2>';
+                        html += '<h2 style="font-size:16px">ID' + products[i].code + '</h2>';
+                        html += '<h2 class="margin-top-45" style="font-size:10px">' + products[i].price + '$ Sqm</h2>';
+                        html += '<h2 style="font-size:10px">' + products[i].company.country.name + '</h2>';
                         html += '<a style="left: 5px; bottom: 5px; position: absolute; text-align: left; float: left; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>\n'
                         html += '<a style="right: 5px;  bottom: 5px; position: absolute;  text-align: right; float: right; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>\n'
                         html += '</div></div></div></div>';

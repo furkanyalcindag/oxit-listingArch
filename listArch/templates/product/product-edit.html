@@ -132,9 +132,20 @@
 
                                                             </div>
                                                             <div class="form-group">
+                                                                <label>Ürün Fiyatı</label>
+
+                                                                {{ product_form.price }}
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label>Ürün Kodu</label>
 
                                                                 {{ product_form.code }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Ürün Sıra Kodu<small
+                                                                        style="color: red">*</small></label>
+
+                                                                {{ product_form.code2 }}
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Ürün Firma Kodu</label>
@@ -161,7 +172,9 @@
                                                                    class="table table-striped table-bordered table-hover">
                                                                 <thead>
                                                                 <tr>
-                                                                    <td>Resim</td>
+                                                                    <td>Resim <small
+                                                                            style="color: red">* (560*560
+                                                                        pixels)</small></td>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -240,6 +253,7 @@
                                                         <br>
                                                         <div class="col-lg-6">
                                                             {{ product_form.cover_image }}
+                                                            <small style="color: red">(560*560 pixels) </small>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <img src="/media/{{ product.product.cover_image }}"
@@ -339,7 +353,7 @@
                                                         <label>Firma Seçin</label>
                                                         <select class="form-control select2 select2-hidden-accessible"
                                                                 style="width: 100%" id="product-company"
-                                                                name="product-company">
+                                                                name="product-company" onchange="get_company()">
                                                             <option value="">---------</option>
 
                                                             {% for company in companies %}
@@ -352,6 +366,16 @@
                                                             {% endfor %}
 
                                                         </select>
+                                                        <br><br>
+                                                        <label>Firma Kodu Seçin<small
+                                                                style="color: red">*</small></label>
+                                                        <select class="form-control select2 select2-hidden-accessible"
+                                                                style="width: 100%" id="company-code"
+                                                                name="company-code">
+
+
+                                                        </select>
+
 
                                                         <label style="margin-top: 30px;">Kategori Seçin</label>
                                                         {{ product_form.category }}
@@ -495,6 +519,12 @@
 
     </script>
     <script>
+        $(document).ready(function () {
+            //set initial state.
+            get_company();
+
+
+        });
         let option_row = 0;
         let option_text_row = 0;
         let option_range = 0;
@@ -787,6 +817,40 @@
             });
 
 
+        }
+
+        function get_company() {
+            debugger;
+            var e = document.getElementById("product-company");
+            var company_id = e.options[e.selectedIndex].value;
+            $.ajax({
+                url: "{% url 'listArch:firma-getir' %}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    company_id: company_id,
+
+                },
+                success: function (result) {
+                    debugger;
+                    let select = document.getElementById("company-code");
+
+
+                    $('#company-code').empty();
+
+                    for (let i = 0; i < result.firmalar.length; i++) {
+                        console.log(result.firmalar[i].code)
+                        if (result.firmalar[i].code === '{{ product_code.code3 }}') {
+                            select.options[select.options.length] = new Option(result.firmalar[i].code, result.firmalar[i].code);
+                            document.getElementById('company-code').getElementsByTagName('option')[i].selected = result.firmalar[i].code;
+                        } else {
+                            select.options[select.options.length] = new Option(result.firmalar[i].code, result.firmalar[i].code);
+
+                        }
+                    }
+
+                }
+            });
         }
 
 

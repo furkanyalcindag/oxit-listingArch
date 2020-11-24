@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue
+from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue, CompanyCode
 from listArch.models.OptionValue import OptionValue
 from listArch.models.ProductVideo import ProductVideo
 from listArch.models.Video import Video
@@ -25,6 +25,8 @@ from listArch.models.ProductDesc import ProductDesc
 from listArch.models.ProductOptionValue import ProductOptionValue
 from listArch.models.Option import Option
 from listArch.models.ProductImage import ProductImage
+from listArch.serializers.CompanyCodeSerializer import CompanyCodeSerializer
+from listArch.serializers.CompanySerializer import CompanySerializer
 from listArch.serializers.ProductDefinitionSerializer import ProductDefinitionSerializer
 from listArch.serializers.ProductSerializer import ProductSerializer
 from listArch.services import general_methods
@@ -52,10 +54,10 @@ def add_product(request):
 
                 company = Company.objects.get(pk=int(request.POST['product-company']))
                 product = Product(name=request.POST['product_description[tr][name]'], company=company,
-                                  code=product_form.cleaned_data['code'],
+                                  code=product_form.cleaned_data['code'], code2=product_form.cleaned_data['code2'],
                                   isActive=product_form.cleaned_data['isActive'],
                                   company_code=product_form.cleaned_data['company_code'],
-                                  isAdvert=product_form.cleaned_data['isAdvert'])
+                                  isAdvert=product_form.cleaned_data['isAdvert'], code3=request.POST['company-code'])
 
                 product.save()
                 product.slug_save()
@@ -239,6 +241,7 @@ def product_edit(request, uuid):
                 product.cover_image = product_form.cleaned_data['cover_image']
                 product.company_code = product_form.cleaned_data['company_code']
                 product.name = request.POST['product_description[tr][name]']
+                product.code3 = request.POST['company-code']
                 product.save()
 
                 for tr in product_desc:
@@ -318,7 +321,7 @@ def product_edit(request, uuid):
                       {'product': product_array, 'options': options, 'product_form': product_form,
                        'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                        'categories': cat_array, 'product_image_form': product_image_form,
-                       'product_definitions': product_definitions,
+                       'product_definitions': product_definitions,'product_code':product,
                        'loop_value': product_option_value.count(), 'text_value': text_value, })
     except Exception as e:
         print(e)
@@ -540,6 +543,32 @@ def get_products(request):
             return JsonResponse({'status': 'Fail', 'msg': e})
 
 
+@api_view(http_method_names=['POST'])
+def get_company(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+
+            company_id = request.POST.get('company_id')
+            company = Company.objects.get(pk=int(company_id))
+            company_codes = CompanyCode.objects.filter(company=company)
+
+            data = CompanyCodeSerializer(company_codes, many=True)
+
+            responseData = dict()
+            responseData['firmalar'] = data.data
+
+            return JsonResponse(responseData, safe=True)
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+
 def add_graphic(request, pk):
     try:
         graph_form = GraphicValueForm()
@@ -614,5 +643,5 @@ def add_chart_graphic(request, uuid):
         return render(request, 'product/productChartValue.html',
                       {'product': product, 'graphics': product_graphic})
     except Exception as e:
-        return print(e)
+        print(e)
         return redirect('listArch:admin-error-sayfasi')

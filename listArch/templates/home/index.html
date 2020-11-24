@@ -3,9 +3,7 @@
 
     {% load change_lang %}
 
-    <div class="main-search-container centered dark-overlay" style="height: 110vh ;
-
-    border-top: 2px solid #fd9116;">
+    <div class="main-search-container centered dark-overlay" style="height: 110vh ;">
 
         <div class="main-search-inner">
 
@@ -41,8 +39,8 @@
                         <div class="highlighted-categories hidden-xs hidden-sm">
                             <!-- Box -->
                             {% for category in parent_categories %}
-
                                 {% if category.category.is_click %}
+
                                     <a style="    width: 110px;height: 100px;
     float: left;
     padding: 25px 5px 0px 0px;" href="{% url 'listArch:anasayfa-urunler' category.category.pk %}"
@@ -53,6 +51,7 @@
     display: block;
     width: 100px;">{{ category.description }}</h4>
                                     </a>
+
                                 {% else %}
                                     <a style="    width: 110px;height: 100px;
     float: left;
@@ -65,7 +64,6 @@
     width: 100px;">{{ category.description }}</h4>
                                     </a>
                                 {% endif %}
-
                             {% endfor %}
                         </div>
                     </div>

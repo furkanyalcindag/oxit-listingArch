@@ -26,9 +26,10 @@ from oxiterp.settings.base import home_lang_code
 
 
 def base2(request):
-    category_parent = CategoryDesc.objects.filter(category__is_parent=True).filter(lang_code=home_lang_code).order_by(
+    category_parent = CategoryDesc.objects.filter(category__is_parent=True).filter(category__isActive=True).filter(
+        lang_code=home_lang_code).order_by(
         'category__order')[:6]
-    categories = CategoryDesc.objects.filter(lang_code=home_lang_code)
+    categories = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category__isActive=True)
     companies = Company.objects.all()
 
     return render(request, 'home/index.html',
@@ -515,48 +516,105 @@ def filtered_products(request):
 
 
 @api_view(http_method_names=['POST'])
-def filtered_products_range(request):
+def filtered(request):
     if request.POST:
         try:
             tmp = request.POST['options']
             category = request.POST['category']
-            array = json.loads(tmp)
+            options = json.loads(tmp)
+            products_1 = dict()
+            products_2 = dict()
+            product_list = ProductOptionValue.objects.filter(product__category=Category.objects.get(pk=category))
 
-            if len(array) > 0:
-                product = QuerySet(ProductOptionValue)
-                for item in array:
-                    if item['type'] == 'range':
-                        if array.index(item) == 0:
-                            product = product.filter(product__category__id=int(category)).distinct(
-                                'product').filter(
-                                option_value__option__id=int(item['option_id'])).filter(
-                                range_value__gte=int(item['value'].split('-')[0])).filter(
-                                range_value__lte=int(item['value'].split('-')[1]))
+            filtered_products = dict()
+            if len(options) > 0:
+                productOptionValue = dict()
+                for item in options:
+                    if options.index(item) == 0:
+                        if item['type'] == 'range':
+                            if options.index(item) == 0:
+                                productOptionValue = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).distinct(
+                                    'product').filter(
+                                    option_value__option__id=int(item['option_id'])).filter(
+                                    range_value__gte=int(item['value'].split('-')[0])).filter(
+                                    range_value__lte=int(item['value'].split('-')[1]))
+                            else:
+                                x = ProductOptionValue.objects.filter(
+                                    option_value__option__id=int(item['option_id'])).filter(
+                                    range_value__gte=int(item['value'].split('-')[0])).distinct('product').filter(
+                                    range_value__lte=int(item['value'].split('-')[1]))
+
+                                productOptionValue = x and productOptionValue
+
+
+                        elif item['type'] == 'checkbox':
+                            productOptionValue = ProductOptionValue.objects.filter(
+                                product__category__id=int(category)).distinct(
+                                'product')
+                            for value in item['values']:
+                                new_productOptionValue = productOptionValue.filter(
+                                    option_value__id=int(value)).distinct(
+                                    'product')
+                                for product in new_productOptionValue:
+                                    products_1[product.product.pk] = product.product.pk
+                                product_list = list(products_1.values())
+
+                            for id in product_list:
+                                product = Product.objects.get(pk=id)
+                                filtered_products[id] = product
+
                         else:
-                            x = ProductOptionValue.objects.filter(
-                                option_value__option__id=int(item['option_id'])).filter(
-                                range_value__gte=int(item['value'].split('-')[0])).distinct('product').filter(
-                                range_value__lte=int(item['value'].split('-')[1]))
-
-                            product = x and product
-
-
-                    elif item['type'] == 'checkbox':
-                        if array.index(item) == 0:
-                            product = product.filter(product__category__id=int(category)).distinct(
-                                'product').filter(
-                                option_value_id=item['value'])
-                        else:
-
-                            x = ProductOptionValue.objects.filter(product__category__id=int(category)).distinct(
-                                'product').filter(
-                                option_value_id=item['value'])
-                            product = (set(x) & set(product))
+                            print(productOptionValue)
                     else:
-                        print(product)
+                        product_list_2 = list()
+                        products_2 = dict()
+                        if item['type'] == 'range':
+                            if options.index(item) == 0:
+                                productOptionValue = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).distinct(
+                                    'product').filter(
+                                    option_value__option__id=int(item['option_id'])).filter(
+                                    range_value__gte=int(item['value'].split('-')[0])).filter(
+                                    range_value__lte=int(item['value'].split('-')[1]))
+                            else:
+                                x = ProductOptionValue.objects.filter(
+                                    option_value__option__id=int(item['option_id'])).filter(
+                                    range_value__gte=int(item['value'].split('-')[0])).distinct('product').filter(
+                                    range_value__lte=int(item['value'].split('-')[1]))
+
+                                productOptionValue = x and productOptionValue
+
+
+                        elif item['type'] == 'checkbox':
+                            if options.index(item) == 0:
+                                productOptionValue = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).distinct(
+                                    'product')
+                            for value in item['values']:
+                                new_productOptionValue = productOptionValue.filter(
+                                    option_value__id=int(value)).distinct(
+                                    'product')
+                                for product in new_productOptionValue:
+                                    products_2[product.product.pk] = product.product.pk
+                                product_list_2 = list(products_2.values())
+
+                            set1 = set(product_list)
+                            products_id = set1.intersection(product_list_2)
+                            filter=dict()
+                            for id in products_id:
+                                product = Product.objects.get(pk=id)
+                                filter[id] = product
+
+                            filtered_products=filter
+                            product_list=products_id
+                        else:
+                            print(productOptionValue)
             else:
-                product = ProductOptionValue.objects.filter(product__category__id=int(category)).distinct('product')
-            data = ProductValueSerializer(product, many=True)
+                filtered_products = Product.objects.filter(category__id=int(category)).distinct(
+                    'id')
+
+            data = ProductSerializer(list(filtered_products.values()), many=True)
 
             responseData = dict()
             responseData['products'] = data.data

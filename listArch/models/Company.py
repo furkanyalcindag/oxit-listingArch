@@ -13,7 +13,7 @@ class Company(models.Model):
     logo = models.ImageField(upload_to='logo/', null=True, blank=True, verbose_name='Dosya', default='logo1.png')
     date = models.DateField(null=True, blank=True, verbose_name='Kuruluş Tarihi')
     address = models.TextField(null=True, blank=True, verbose_name='Firma Adresi')
-    phone = models.CharField(null=True, blank=True, verbose_name='Firma Telefonu', max_length=11)
+    phone = models.CharField(null=True, blank=True, verbose_name='Firma Telefonu', max_length=10)
     website = models.TextField(null=True, blank=True, verbose_name='Firma Web Adresi')
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Ülke')
     city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Şehir')
@@ -31,7 +31,9 @@ class Company(models.Model):
     service = models.ManyToManyField(Service, null=True, blank=True)
     creationDate = models.DateTimeField(auto_now_add=True, verbose_name='Kayıt Tarihi', null=True, blank=True)
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
-    code = models.CharField(max_length=250, null=True, blank=True)
+    title = models.CharField(max_length=250, null=True, blank=True, verbose_name="Ünvan")
+    mobilePhone = models.CharField(null=True, blank=True, verbose_name='Firma Cep Telefonu', max_length=13)
+
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)

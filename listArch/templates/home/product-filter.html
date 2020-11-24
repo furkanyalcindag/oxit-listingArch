@@ -90,8 +90,9 @@
                                                         {% for value in option.values %}
                                                             <input id="{{ value.option_value.pk }}"
                                                                    type="checkbox"
-                                                                   onchange="option('checkbox',{{ value.option_value.option.pk }},this.value)"
-                                                                   name="{{ value.option_value.pk }}"
+                                                                   onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
+                                                                   name="checkbox"
+                                                                   data-option="{{ value.option_value.option.pk }}"
                                                                    value="{{ value.option_value.pk }}">
                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
                                                         {% endfor %}
@@ -382,9 +383,9 @@
                                     {% for product in advert_product %}
                                         <div class="col-1-5" style="margin-bottom: 55px;">
                                             <div class="hovereffect">
-                                                <div class="listing-item ">
+                                                <div class="listing-item">
                                                     <img src="/media/{{ product.product.cover_image }}" alt=""
-                                                         style="border: 2px solid #fd9116">
+                                                         style="height:200px !important;border: 2px solid #fd9116">
                                                     <div class="overlay" style="text-align: center">
                                                         <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
                                                             style="margin-top:50px;font-size:16px">{{ product.product.company.name }}</h2>
@@ -483,24 +484,24 @@
                                                 <div class="col-1-5">
                                                     <div class="hovereffect">
                                                         <div class="listing-item ">
-                                                            <img
-                                                                    src="/media/{{ product.product.cover_image }}"
-                                                                    alt="">
+                                                            <img style="height: 200px !important;"
+                                                                 src="/media/{{ product.product.cover_image }}"
+                                                                 alt="">
                                                             <div class="overlay">
-                                                                <h2 style="margin-top:50px;font-size:16px"
-                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.company.name }}</h2>
-                                                                <h2 style="font-size:10px"
-                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.name }}</h2>
                                                                 <h2 style="font-size:16px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.company.name }}</h2>
+                                                                <h2 style="font-size:12px"
+                                                                    onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.name }}</h2>
+                                                                <h2 class="margin-top-40" style="font-size:14px"
                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
                                                                     ID {{ product.product.code }}</h2>
-                                                                <h2 style="font-size:16px"
+                                                                <h2 class="margin-top-45" style="font-size:10px"
                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
                                                                     250$ Sqm</h2>
                                                                 <h2 style="font-size:10px"
                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.company.country.name }}</h2>
                                                                 <a style="left: 5px;
-                                       bottom: 100px;
+                                       bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
@@ -510,7 +511,7 @@
                                                                     <i
                                                                             class="im im-icon-Phone-2"></i></a>
                                                                 <a class=" popup-with-zoom-anim"
-                                                                   style="right: 5px; bottom: 100px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                                   style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
                                                                    href="#small-dialog-{{ product.product.pk }}"> <i
                                                                         class="im im-icon-Like"></i></a>
                                                             </div>
@@ -1233,6 +1234,7 @@
             }
         }
     });
+
 
 
 </script>
