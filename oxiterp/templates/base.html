@@ -528,20 +528,6 @@
     let options = [];
     let product_option = []
 
-    function get_product_options(option, value, type) {
-        debugger;
-        let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
-        let array = []
-        let array_option = []
-        for (let i = 0; i < checkedBoxes.length; i++) {
-            if (checkedBoxes[i].getAttribute('data-option') === '' + option + '') {
-                array.push(checkedBoxes[i].value)
-                let temp = {"type": type, "option_id": option, "value": {array}}
-                array_option.push(temp)
-            }
-
-        }
-    }
 
     let current_option = []
     let filter_options = []
@@ -564,31 +550,48 @@
             options.push(temp)
 
         } else {
+            let values = []
+            $("input[type=checkbox]:checked").each(function () {
+                values.push($(this).val());
+            });
             let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
 
-            if (current_option.length > 0) {
+            if (document.getElementById(''+value+'').checked === false){
+                   if (current_option.length > 0) {
                 for (let i = 0; i < filter_options.length; i++) {
                     if (checkedBoxes[i]) {
-                        if (checkedBoxes[i].dataset.option.includes(filter_options[i].option) === false) {
-                            filter_options[i].splice(i, 1)
 
+                        if (checkedBoxes[i].dataset.option.includes(filter_options[i].option) === false) {
+                            filter_options.splice(i, 1)
+
+                        } else {
+                            if (filter_options[i].values.length > 1) {
+                                for (let j = 0; j < filter_options[i].values.length; j++) {
+                                    if (checkedBoxes.length > j) {
+                                        if (values.includes(filter_options[i].values[j]) === false) {
+                                            filter_options[i].values.splice(j,1)
+                                        }
+                                    } else {
+                                        filter_options[i].values.splice(j, 1)
+
+                                    }
+
+                                }
+                            }
                         }
                         if (typeof checkedBoxes[i].dataset.option.includes(current_option[i]) === false) {
                             current_option.splice(i, 1);
 
-                        }
-                    }
-
-                    for (let x = 0; x < filter_options[i].values.length; x++) {
-
-                        if (typeof checkedBoxes[x].value.includes(filter_options[i].values[x]) === false) {
-                            filter_options[i].values.splice(x, 1)
 
                         }
+                    } else {
+                        filter_options.splice(i, 1)
+                        current_option.splice(i, 1);
                     }
-
 
                 }
+            }
+
             }
 
 

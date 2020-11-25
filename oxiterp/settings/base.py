@@ -183,10 +183,10 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True"""
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.ogrencegezegeni.com'
+EMAIL_HOST = 'mail.oxit.web.tr'
 EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'deneme@ogrencegezegeni.com'
-EMAIL_HOST_PASSWORD = 'OXit0512'
+EMAIL_HOST_USER = 'deneme@oxit.web.tr'
+EMAIL_HOST_PASSWORD = 'BSew74D9'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 

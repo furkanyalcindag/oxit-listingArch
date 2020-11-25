@@ -20,8 +20,8 @@ class Company(models.Model):
     map = models.TextField(null=True, blank=True, verbose_name='Konum')
     userDescription = models.TextField(null=True, blank=True, verbose_name='Kullanıcı Hikayesi')
     isSponsor = models.BooleanField(default=False)
-    noOfEmployees = models.IntegerField(null=True, blank=True, verbose_name='Çalışan Sayısı')
-    annualSales = models.DecimalField(max_digits=10, decimal_places=2, null=True,
+    noOfEmployees = models.TextField(null=True, blank=True, verbose_name='Çalışan Sayısı')
+    annualSales = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
                                       verbose_name='Yıllık Satış Tutarı')
     address_link = models.TextField(null=True, blank=True, verbose_name='Konum Linki')
     business_type = models.ForeignKey(BusinessType, null=True, blank=True, verbose_name='Firma Tipi',
@@ -33,7 +33,6 @@ class Company(models.Model):
     modificationDate = models.DateTimeField(auto_now=True, verbose_name='Güncelleme Tarihi')
     title = models.CharField(max_length=250, null=True, blank=True, verbose_name="Ünvan")
     mobilePhone = models.CharField(null=True, blank=True, verbose_name='Firma Cep Telefonu', max_length=13)
-
 
     def __str__(self):
         return '%s %s %s %s' % (self.name, '-', self.user.first_name, self.user.last_name)

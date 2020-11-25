@@ -12,7 +12,7 @@ class CompanyForm(ModelForm):
         model = Company
         fields = (
             'name', 'address', 'phone', 'userDescription', 'logo', 'country', 'city', 'website', 'map', 'annualSales',
-            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor','title','mobilePhone',
+            'noOfEmployees', 'date', 'address_link', 'business_type', 'service', 'isSponsor', 'title', 'mobilePhone',
         )
 
         widgets = {
@@ -46,10 +46,10 @@ class CompanyForm(ModelForm):
                        'autocomplete': 'off', 'format': '%d-%m-%Y',
                        }),
             'annualSales': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Yıllık Satış Tutarı'}),
+                attrs={'class': 'form-control ', 'placeholder': 'Yıllık Satış Tutarı' ,'required': 'False'}),
 
-            'noOfEmployees': forms.NumberInput(
-                attrs={'class': 'form-control ', 'placeholder': 'Çalışan Sayısı'}),
+            'noOfEmployees': forms.TextInput(
+                attrs={'class': 'form-control ', 'placeholder': 'Çalışan Sayısı', 'required': 'False'}),
             'business_type': forms.Select(
                 attrs={'class': 'form-control select2 select2-hidden-accessible', 'name': 'type',
                        'style': 'width: 100%;', 'required': 'required'}),

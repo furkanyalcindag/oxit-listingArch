@@ -610,11 +610,13 @@ def filtered(request):
                             product_list=products_id
                         else:
                             print(productOptionValue)
+                data = ProductSerializer(list(filtered_products.values()), many=True)
             else:
                 filtered_products = Product.objects.filter(category__id=int(category)).distinct(
                     'id')
+                data = ProductSerializer(list(filtered_products), many=True)
 
-            data = ProductSerializer(list(filtered_products.values()), many=True)
+
 
             responseData = dict()
             responseData['products'] = data.data
