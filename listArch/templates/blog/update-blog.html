@@ -254,8 +254,9 @@
                                                                             name="company_id" id="company_id"
                                                                             onChange="urunGetir()">
                                                                         {% for company in companies %}
-                                                                            {% if company.name == company_blog.company.name %}
-                                                                                <option selected value="{{ company.pk }}">{{ company.name }}</option>
+                                                                            {% if company.name == company_blog.name %}
+                                                                                <option selected
+                                                                                        value="{{ company.pk }}">{{ company.name }}</option>
                                                                             {% else %}
                                                                                 <option value="{{ company.pk }}">{{ company.name }}</option>
                                                                             {% endif %}
@@ -267,13 +268,6 @@
                                                                     <select style="width: 100%"
                                                                             class="form-control select2 select2-hidden-accessible"
                                                                             name="product_id" id="product_id">
-                                                                        {% for product in products %}
-                                                                            {% if product.name == product_blog.name %}
-                                                                                <option selected value="{{ product.pk }}">{{ product.name }}</option>
-                                                                            {% else %}
-                                                                                <option value="{{ product.pk }}">{{ product.name }}</option>
-                                                                            {% endif %}
-                                                                        {% endfor %}
 
                                                                     </select>
                                                                 </td>
@@ -305,6 +299,9 @@
 
     <script>
         $(document).ready(function () {
+            debugger;
+            urunGetir();
+
             //set initial state.
             $('#basic_value').val($(this).is(':checked'));
 
@@ -319,13 +316,9 @@
 
 
             });
-debugger;
-            $('#product_id').val('{{ product_blog }}').trigger('change'); // Select the option with a value of '1'
 
-             urunGetir();
 
             //console.log($('#ilce_id').select2('data'))
-
 
 
         });
@@ -455,7 +448,12 @@ debugger;
                     $('#product_id').empty();
 
                     for (let i = 0; i < result.urunler.length; i++) {
-                        select.options[select.options.length] = new Option(result.urunler[i].name, result.urunler[i].id);
+                        if (result.urunler[i].name === '{{ product_blog.name }}') {
+                            select.options[select.options.length] = new Option(result.urunler[i].name, result.urunler[i].id);
+                            select.selectedIndex=i;
+
+                        } else
+                            select.options[select.options.length] = new Option(result.urunler[i].name, result.urunler[i].id);
                     }
                 }
             });

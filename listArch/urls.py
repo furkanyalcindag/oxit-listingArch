@@ -55,6 +55,7 @@ urlpatterns = [
     url(r'filter-page-search/$', HomeViews.search_product_filter, name='filtreleme-sayfasi-search'),
 
     url(r'urun-getir/$', ProductViews.get_products, name='urun-getir'),
+    url(r'firma-getir/$', ProductViews.get_company, name='firma-getir'),
 
     url(r'add-product-definition/(?P<pk>\d+)$', ProductViews.add_productDefinition, name='urun-aciklama-ekle'),
     url(r'product-definition-update/(?P<pk>\d+)$', ProductViews.update_productDefinition,
@@ -69,13 +70,14 @@ urlpatterns = [
     url(r'delete-product-option/$', ProductViews.product_option_delete, name='urun-secenegi-sil'),
     url(r'get-product-definition/$', ProductViews.get_product_definition, name='urun-aciklamasi-getir'),
     url(r'product-apply-filter/$', HomeViews.filtered_products, name='urun-filtrele'),
-    url(r'product-apply-filter-range/$', HomeViews.filtered_products_range, name='urun-filtrele-range'),
+    url(r'product-apply-filter-range/$', HomeViews.filtered, name='urun-filtrele-range'),
     url(r'add-product-graphic/(?P<pk>\d+)$', ProductViews.add_graphic, name='urun-performans-grafigi-ekle'),
     url(r'add-product-chart/(?P<uuid>[0-9a-f-]+)$', ProductViews.add_chart_graphic, name='urune-grafik-ekle'),
 
     # Company
     url(r'profile/$', UserViews.company_information, name='firma-profil'),
-
+    url(r'company-code-edit/$', CompanyViews.edit_company_code,
+        name='firma-kod-düzenle'),
     url(r'add-company/$', CompanyViews.add_company, name='firma-ekle'),
     url(r'company-list/$', CompanyViews.return_companies, name='firma-listesi'),
     url(r'get-api-companies/$', APIViews.GetCompany.as_view(), name='firma-list-api'),
@@ -100,6 +102,7 @@ urlpatterns = [
     url(r'company-social-edit/$', CompanyViews.edit_social_account,
         name='firma-sosyalMedya-düzenle'),
     url(r'delete-retail/$', CompanyViews.delete_retail, name='magaza-sil'),
+    url(r'delete-company-code/$', CompanyViews.delete_code, name='firma-kod-sil'),
 
     # Blog
     url(r'add-blog/$', BlogViews.add_blog_desc, name='blog-ekle'),

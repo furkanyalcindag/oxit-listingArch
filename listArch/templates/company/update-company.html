@@ -34,8 +34,8 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a >Firmalar</a></li>
-            <li><a >Firma Düzenle</a></li>
+            <li><a>Firmalar</a></li>
+            <li><a>Firma Düzenle</a></li>
         </ol>
 
     </section>
@@ -108,67 +108,84 @@
                                 <fieldset>
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <label>Firma</label>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab-general">
+                                                    <div class="form-group required">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-name"> {{ company_form.name.label }}<small
+                                                                style="color: red">* </small> </label>
+                                                        <div class="col-sm-10">
+                                                            {{ company_form.name }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Logo<small
+                                                                style="color: red">* </small> </label>
+                                                        <div class="col-sm-5">{{ company_form.logo }}
+                                                            <small style="color: red">(180*80 pixels) </small>
+
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <img src="/media/{{ company.logo }}" alt="">
+
+                                                        </div>
+
+                                                    </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.first_name.label }}</label>
-                                                        <div class="col-sm-10">{{ user_form.first_name }}
-                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                               for="input-image">Profil Adı<small
+                                                                style="color: red">* </small> </label>
+                                                        <div class="col-sm-10">{{ company_form.business_type }}
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">{{ user_form.last_name.label }}</label>
+                                                               for="input-image">Hizmetleri Seçin </label>
+                                                        <div class="col-sm-10">{{ company_form.service }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Firma Yetkili Adı<small
+                                                                style="color: red">* </small> </label>
+                                                        <div class="col-sm-10">{{ user_form.first_name }}
+                                                            <input type="hidden" name="image" value="" id="input-image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group required">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-image">Firma Yetkili Soyadı<small
+                                                                style="color: red">* </small> </label>
                                                         <div class="col-sm-10">{{ user_form.last_name }}
                                                             <input type="hidden" name="image" value="" id="input-image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group required">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-name"> {{ company_form.name.label }}</label>
+                                                               for="input-name">Firma Yetkili Ünvanı</label>
                                                         <div class="col-sm-10">
-                                                            {{ company_form.name }}
+                                                            {{ company_form.title }}
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">Logo</label>
-                                                        <div class="col-sm-10">{{ company_form.logo }}
 
-                                                        </div>
-                                                    </div>
+
                                                     <div class="form-group">
                                                         <label class="col-sm-2 control-label" for="input-image">Web Site
                                                             Adresi</label>
                                                         <div class="col-sm-10">{{ company_form.website }}
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+
+                                                    <div class="form-group required">
                                                         <label class="col-sm-2 control-label"
-                                                               for="input-image">Telefon</label>
-                                                        <div class="col-sm-10">{{ company_form.phone }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">Email</label>
+                                                               for="input-image">Email<small
+                                                                style="color: red">* </small> </label>
                                                         <div class="col-sm-10">{{ user_form.email }}
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">Profil Adı</label>
-                                                        <div class="col-sm-10">{{ company_form.business_type }}
-                                                        </div>
-                                                    </div>
-                                                <div class="form-group">
-                                                        <label class="col-sm-2 control-label"
-                                                               for="input-image">Hizmetleri Seçin </label>
-                                                        <div class="col-sm-10">{{ company_form.service }}
-                                                        </div>
-                                                    </div>
+
+
                                                     <div class="form-group">
 
                                                         <label class="col-sm-2 control-label"
@@ -208,6 +225,18 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
+                                                <label class="col-sm-2 control-label"
+                                                       for="input-image">Sabit Telefon</label>
+                                                <div class="col-sm-10">{{ company_form.phone }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label"
+                                                       for="input-image">Cep Telefonu</label>
+                                                <div class="col-sm-10">{{ company_form.mobilePhone }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Adres</label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.address }}
@@ -220,14 +249,16 @@
                                                     {{ company_form.address_link }}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Ülke</label>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label" for="input-type">Ülke<small
+                                                                style="color: red">* </small> </label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.country }}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Şehir</label>
+                                            <div class="form-group required">
+                                                <label class="col-sm-2 control-label" for="input-type">Şehir<small
+                                                                style="color: red">* </small> </label>
                                                 <div class="col-sm-10">
                                                     {{ company_form.city }}
                                                 </div>
@@ -259,7 +290,7 @@
                                                     {{ company_form.date }}
                                                 </div>
                                             </div>
-                                             <div class="form-group">
+                                            <div class="form-group">
                                                 <label class="col-sm-2 control-label" for="input-type">Sponsor
                                                     mu?</label>
                                                 <div class="col-sm-10">
@@ -267,11 +298,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label" for="input-type">Firma
-                                                    Kodu</label>
-                                                <div class="col-sm-10">
-                                                    {{ company_form.code }}
-                                                </div>
+                                                <input type="hidden" value="" id="code-row" name="code-row">
+
+
                                             </div>
 
                                         </div>
@@ -310,7 +339,8 @@
 
                                                                         </select>
                                                                     </td>
-                                                                    <td class="text-right"><input type="text" readonly
+                                                                    <td class="text-right"><input type="text"
+                                                                                                  readonly
                                                                                                   id="company_social[{{ forloop.counter0 }}][link]"
                                                                                                   name="company_social[{{ forloop.counter0 }}][link]"
                                                                                                   value="{{ social.social_account.link }}"
@@ -318,9 +348,9 @@
                                                                                                   class="form-control"/>
                                                                     </td>
 
-
                                                                     <td class="text-left">
-                                                                        <input type="hidden" value="" id="remove_row"
+                                                                        <input type="hidden" value=""
+                                                                               id="remove_row"
                                                                                name="remove_row"/>
                                                                         <button type="button"
                                                                                 onclick="remove({{ forloop.counter0 }})"
@@ -331,7 +361,8 @@
 
                                                                         <button type="button"
                                                                                 onclick="getCompanySocialAccount({{ social.pk }},{{ forloop.counter0 }})"
-                                                                                data-toggle="tooltip" title="Düzenle"
+                                                                                data-toggle="tooltip"
+                                                                                title="Düzenle"
                                                                                 class="btn btn-primary"><i
                                                                                 class="fa fa-edit"></i>
                                                                         </button>
@@ -364,14 +395,15 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">
-                                                <label class="col-sm-1 control-label" for="input-type">Açıklama</label>
+                                                <label class="col-sm-1 control-label"
+                                                       for="input-type">Firma Hakkında<small
+                                                                style="color: red">* </small> </label>
                                                 <div class="col-sm-11">
                                                     {{ company_form.userDescription }}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </fieldset>
                                 <button type="submit" form="form-option" data-toggle="tooltip" title=""
                                         class="btn btn-primary pull-right" data-original-title="Kaydet"
@@ -477,8 +509,41 @@
     </script>
 
     <script>
+
+        count_code = []
+        code_row = {{ codes |length }} +1;
+
+        function addCode() {
+            debugger;
+            let html = '';
+            html += '<tr id="company-code-row' + code_row + '"><td><div  class="col-md-10"> <div class="col-md-6">';
+            html += ' <input type="text" placeholder="Firma Kodu" class="form-control" id="company-code' + code_row + '" name="company-code' + code_row + '">';
+            html += '</div><div class="col-md-6">';
+            html += '<button type="button" onclick="remove_code(' + code_row + ');" data-toggle="tooltip" class="btn btn-xs btn-danger" data-original-title="Kod Ekle"><i class="fa fa-close"></i></button>';
+            html += '</div></div>';
+            html += '<div id="add-code" name="add-code"></div></td></tr>';
+
+            $('#add-code tbody').append(html);
+            count_code.push(parseInt(code_row));
+            code_row++;
+            document.getElementById("code-row").value = count_code;
+        }
+
+        function remove_code(id) {
+            debugger;
+            $('#company-code-row' + id + '').remove();
+            count_code = jQuery.grep(count_code, function (value) {
+                return value !== id;
+            });
+            document.getElementById("code-row").value = count_code;
+            console.log(count_code)
+
+
+        }
+
         let social_row = {{ loop }};
         let count = []
+
 
         $(document).ready(function () {
             debugger;
@@ -515,7 +580,7 @@
             debugger;
             $('#social-row' + social_row + '').remove();
             count = jQuery.grep(count, function (value) {
-                return value != social_row;
+                return value !== social_row;
             });
             document.getElementById("row_number").value = count;
             console.log(count)
@@ -541,7 +606,7 @@
                 success: function (result) {
                     debugger;
 
-                    if (result.status == 'Success') {
+                    if (result.status === 'Success') {
 
 
                         document.getElementById('company_social[' + count + '][link]').value = link;
@@ -553,6 +618,34 @@
 
                     } else {
                         swal("Başarısız", result.messages, "error");
+                    }
+
+                }
+
+            });
+        }
+
+        function editCompanyCode(count, id) {
+            debugger;
+            document.getElementById('company-code-' + count + '').removeAttribute('readonly');
+            let name = document.getElementById('company-code-' + count + '').value;
+            $.ajax({
+                url: "{% url 'listArch:firma-kod-düzenle'%}",
+                type: "post", // or "get"
+                async: false,
+                data: {
+                    code_id: id,
+                    code: name,
+
+                },
+                success: function (result) {
+                    debugger;
+
+                    if (result.status === 'Success') {
+                        swal("", result.messages, "success");
+
+                    } else {
+                        swal("", result.messages, "error");
                     }
 
                 }
@@ -643,6 +736,39 @@
                             if (result.status === 'Success') {
                                 swal("Başarılı", " Mağaza  Kaldırıldı.", "success");
                                 document.getElementById('retail-' + id + '').remove();
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
+        function code_delete(count, id) {
+            let html = 'Kodu kaldırmak istediğinizden emin misiniz?';
+            document.getElementById('content').innerHTML = html;
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:firma-kod-sil' %}",
+                        type: "post", // or "get"
+                        data: {
+                            code_id: id,
+
+
+                        },
+                        success: function (result) {
+
+                            if (result.status === 'Success') {
+                                swal("Başarılı", "Kod  Silindi.", "success");
+                                document.getElementById('company-code-row' + count + '').remove()
+
 
                             } else {
                                 swal("Başarısız", result.messages, "error");
