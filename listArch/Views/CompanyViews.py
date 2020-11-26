@@ -216,16 +216,16 @@ def update_company(request, pk):
                 company.service.clear()
                 for service in company_form.cleaned_data['service']:
                     company.service.add(service)
+                if request.POST['code-row'] != '':
+                    count = request.POST['code-row']
+                    count = count.split(',')
+                    array_code = []
+                    for count in count:
+                        array_code.append(count)
 
-                count = request.POST['code-row']
-                count = count.split(',')
-                array_code = []
-                for count in count:
-                    array_code.append(count)
-
-                for code in array_code:
-                    company_code = CompanyCode(company=company, code=request.POST['company-code' + str(code) + ''])
-                    company_code.save()
+                    for code in array_code:
+                        company_code = CompanyCode(company=company, code=request.POST['company-code' + str(code) + ''])
+                        company_code.save()
 
                 if request.POST['retail'] == 'news':
                     name = request.POST['retail-name']
