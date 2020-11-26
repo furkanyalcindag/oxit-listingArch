@@ -21,7 +21,7 @@ class Company(models.Model):
     userDescription = models.TextField(null=True, blank=True, verbose_name='Kullanıcı Hikayesi')
     isSponsor = models.BooleanField(default=False)
     noOfEmployees = models.TextField(null=True, blank=True, verbose_name='Çalışan Sayısı')
-    annualSales = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True,
+    annualSales = models.DecimalField(max_digits=16, decimal_places=2, null=True, blank=True,
                                       verbose_name='Yıllık Satış Tutarı')
     address_link = models.TextField(null=True, blank=True, verbose_name='Konum Linki')
     business_type = models.ForeignKey(BusinessType, null=True, blank=True, verbose_name='Firma Tipi',
