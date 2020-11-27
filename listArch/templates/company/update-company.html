@@ -625,33 +625,7 @@
             });
         }
 
-        function editCompanyCode(count, id) {
-            debugger;
-            document.getElementById('company-code-' + count + '').removeAttribute('readonly');
-            let name = document.getElementById('company-code-' + count + '').value;
-            $.ajax({
-                url: "{% url 'listArch:firma-kod-düzenle'%}",
-                type: "post", // or "get"
-                async: false,
-                data: {
-                    code_id: id,
-                    code: name,
 
-                },
-                success: function (result) {
-                    debugger;
-
-                    if (result.status === 'Success') {
-                        swal("", result.messages, "success");
-
-                    } else {
-                        swal("", result.messages, "error");
-                    }
-
-                }
-
-            });
-        }
 
 
     </script>
