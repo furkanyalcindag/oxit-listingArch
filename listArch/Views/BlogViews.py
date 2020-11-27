@@ -5,9 +5,14 @@ from django.shortcuts import redirect, render
 from listArch.Forms.BlogDescForm import BlogDescForm
 from listArch.Forms.BlogDescImageForm import BlogDescImageForm
 from listArch.Forms.CompanyBlogForm import CompanyBlogForm
-
-from listArch.models import Company, Image, BlogImage, BlogDesc, Blog, Product, BlogProduct, ProfileBlog, BusinessType, \
-    Profile
+from listArch.models.Image import Image
+from listArch.models.BlogImage import BlogImage
+from listArch.models.BlogDesc import BlogDesc
+from listArch.models.Blog import Blog
+from listArch.models.Profile import Profile
+from listArch.models.ProfileBlog import ProfileBlog
+from listArch.models.Product import Product
+from listArch.models.Company import Company
 from listArch.models.CompanyBlog import CompanyBlog
 from listArch.services import general_methods
 
@@ -189,14 +194,15 @@ def add_blog_businessType(request, pk):
                                       lang_code=1)
                 blog_desc2.save()
 
-                image_row = int(request.POST['image_row'])
-                i = 0
-                while i <= image_row:
-                    image = Image(image=blogDesc_image_form.files['product_image[' + str(i) + '][image]'])
-                    image.save()
-                    blog_image = BlogImage(blog=blog, image=image)
-                    blog_image.save()
-                    i = i + 1
+                if request.POST['image_row'] != '':
+                    image_row = int(request.POST['image_row'])
+                    i = 0
+                    while i <= image_row:
+                        image = Image(image=blogDesc_image_form.files['product_image[' + str(i) + '][image]'])
+                        image.save()
+                        blog_image = BlogImage(blog=blog, image=image)
+                        blog_image.save()
+                        i = i + 1
 
                 blog_business = ProfileBlog(profile=profile, blog=blog)
                 blog_business.save()

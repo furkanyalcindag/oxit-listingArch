@@ -73,12 +73,16 @@ urlpatterns = [
     url(r'product-apply-filter-range/$', HomeViews.filtered, name='urun-filtrele-range'),
     url(r'add-product-graphic/(?P<pk>\d+)$', ProductViews.add_graphic, name='urun-performans-grafigi-ekle'),
     url(r'add-product-chart/(?P<uuid>[0-9a-f-]+)$', ProductViews.add_chart_graphic, name='urune-grafik-ekle'),
+    url(r'add-file-product/(?P<pk>\d+)$', ProductViews.add_product_file, name='urune-dosya-ekle'),
+    url(r'delete-product-file/$', ProductViews.delete_product_file, name='urun-dosya-sil'),
 
     # Company
     url(r'profile/$', UserViews.company_information, name='firma-profil'),
-    url(r'company-code-edit/$', CompanyViews.edit_company_code,
+    url(r'company-code-edit/(?P<pk>\d+)$', CompanyViews.edit_code,
         name='firma-kod-düzenle'),
     url(r'add-company/$', CompanyViews.add_company, name='firma-ekle'),
+    url(r'add-company/(?P<pk>\d+)$', CompanyViews.add_company_codes, name='firma-kodu-ekle'),
+
     url(r'company-list/$', CompanyViews.return_companies, name='firma-listesi'),
     url(r'get-api-companies/$', APIViews.GetCompany.as_view(), name='firma-list-api'),
 
@@ -118,6 +122,7 @@ urlpatterns = [
     url(r'file-delete/$', FileViews.delete_file, name='dosya-sil'),
     url(r'file-update/(?P<pk>\d+)$', FileViews.update_file, name='dosya-guncelle'),
     url(r'get-file/$', FileViews.get_file, name='dosya-getir'),
+    url(r'get-file-company-category/$', FileViews.get_file_category_company, name='firmanin-kategorinin-dosyalarini getir'),
 
     # Introduction
     url(r'add-element-to-introduction-page/$', IntroductionViews.add_introduction_desc,
@@ -149,7 +154,7 @@ urlpatterns = [
 
     # Contact
     url(r'update-about/(?P<pk>\d+)$', AboutViews.about_update, name='hakkimizda-guncelle'),
-    url(r'add-contact/$', AboutViews.add_contact, name='iletisim-bilgisi-ekle'),
+    url(r'iletisim-bilgisi-ekle/$', AboutViews.add_contact, name='iletisim-bilgisi-ekle'),
     url(r'update-contact/(?P<pk>\d+)$', AboutViews.update_contact, name='iletisim-bilgisi-guncelle'),
     url(r'contact-page/$', AboutViews.get_contact, name='iletisim-bilgisi'),
     url(r'contact-delete/$', AboutViews.delete_contact, name='iletisim-bilgisi-sil'),

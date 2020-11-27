@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue, CompanyCode
+from listArch.Forms.FileForm import FileForm
+from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue, CompanyCode, File
 from listArch.models.OptionValue import OptionValue
 from listArch.models.ProductVideo import ProductVideo
 from listArch.models.Video import Video
@@ -321,7 +322,7 @@ def product_edit(request, uuid):
                       {'product': product_array, 'options': options, 'product_form': product_form,
                        'companies': companies, 'loop': product_image.count(), 'value_row': product_option_value.count(),
                        'categories': cat_array, 'product_image_form': product_image_form,
-                       'product_definitions': product_definitions,'product_code':product,
+                       'product_definitions': product_definitions, 'product_code': product,
                        'loop_value': product_option_value.count(), 'text_value': text_value, })
     except Exception as e:
         print(e)
@@ -645,3 +646,46 @@ def add_chart_graphic(request, uuid):
     except Exception as e:
         print(e)
         return redirect('listArch:admin-error-sayfasi')
+
+
+def add_product_file(request, pk):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    file_form = FileForm()
+    product = Product.objects.get(pk=pk)
+    try:
+        if request.method == 'POST':
+
+            for file in request.POST['id_file']:
+                product.file.add(file)
+
+            messages.success(request, "Dosya Başarıyla Kayıt Edildi.")
+            return redirect('listArch:urune-dosya-ekle', pk)
+
+        return render(request, 'product/add-product-file.html', {'form': file_form, 'product': product})
+    except Exception as e:
+        print(e)
+        return redirect('listArch:admin-error-sayfasi')
+
+
+def delete_product_file(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+
+            file_id = request.POST['file_id']
+            file = File.objects.get(pk=int(file_id))
+            product_file = Product.objects.get(pk=request.POST['product_id'])
+            product_file.file.remove(file)
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'error', 'messages': 'Dosya Silinemedi'})

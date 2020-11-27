@@ -11,7 +11,6 @@ from listArch.models import Profile, BusinessTypeDesc, Country, Setting
 from listArch.services import general_methods
 from oxiterp.settings.base import EMAIL_HOST_USER
 
-
 def add_profile(request):
     perm = general_methods.control_access(request)
 

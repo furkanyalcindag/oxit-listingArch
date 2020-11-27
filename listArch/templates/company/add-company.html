@@ -245,45 +245,7 @@
                                                     {{ company_form.isSponsor }}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <input type="hidden" value="" id="code-row" name="code-row">
 
-                                                <div class="form-group">
-                                                    <div class="col-sm-2">
-                                                        <label class="col-sm-2 control-label" for="input-type">Firma
-                                                            Kodu</label>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        <div class="table-responsive">
-                                                            <table id="add-code"
-                                                                   class="table table-striped table-bordered">
-                                                                <thead>
-                                                                <tr>
-                                                                    <td class="">Kod</td>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-
-
-                                                                </tbody>
-                                                                <tfoot>
-                                                                <tr>
-                                                                    <td class="text-right">
-                                                                        <button type="button" onclick="addCode();"
-                                                                                data-toggle="tooltip" title=""
-                                                                                class="btn btn-primary"
-                                                                                data-original-title="Code Ekle"><i
-                                                                                class="fa fa-plus-circle"></i></button>
-                                                                    </td>
-                                                                </tr>
-                                                                </tfoot>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
 
                                         </div>
                                     </div>
@@ -425,7 +387,7 @@
         let count = []
 
         function addSocial() {
-            debugger;
+
             let html = '<tr id="social-row' + social_row + '">';
             html += '<td class="text-left">';
             html += '<select name="company_social[' + social_row + '][name]" class="form-control select2 " style="width: 100%" id="social">';
@@ -444,7 +406,7 @@
 
 
         function remove(social_row) {
-            debugger;
+
             $('#social-row' + social_row + '').remove();
             count = jQuery.grep(count, function (value) {
                 return value !== social_row;
@@ -455,55 +417,9 @@
 
         }
 
-        function remove_code(id) {
-            debugger;
-            $('#company-code-row' + id + '').remove();
-            count_code = jQuery.grep(count_code, function (value) {
-                return value !== id;
-            });
-            document.getElementById("code-row").value = count_code;
-            console.log(count_code)
 
 
-        }
 
-        count_code = []
-        code_row = 1;
-
-        function addCode() {
-            debugger;
-            let html = '';
-            html += '<tr><td><div id="company-code-row' + code_row + '" class="col-md-10"> <div class="col-md-6">';
-            html += ' <input type="text" placeholder="Firma Kodu" class="form-control" id="company-code' + code_row + '" name="company-code' + code_row + '">';
-            html += '</div><div class="col-md-6">';
-            html += '<button type="button" onclick="remove_code(' + code_row + ');" data-toggle="tooltip" class="btn btn-xs btn-danger" data-original-title="Kod Ekle"><i class="fa fa-close"></i></button>';
-            html += '</div></div>';
-            html += '<div id="add-code" name="add-code"></div></td>/tr>';
-
-            $('#add-code tbody').append(html);
-            count_code.push(parseInt(code_row));
-            code_row++;
-            document.getElementById("code-row").value = count_code;
-        }
-
-        function add_retail() {
-            debugger;
-            let e = document.getElementById("retail");
-            let retail = e.options[e.selectedIndex].value;
-            let html = "";
-            if (retail === "news") {
-                html = '<div class="form-group">';
-                html += '<label class="col-sm-2 control-label" for="input-type">Mağaza Adı</label>';
-                html += '<div class="col-sm-10"><input id="retail-name" name="retail-name" type="text" class="form-control" placeholder="Firma Adı">';
-                html += '</div></div>';
-                html += '<div class="form-group"><label class="col-sm-2 control-label" for="input-type">Mağaza Logo</label>';
-                html += '<div class="col-sm-10">';
-                html += '<input id="retail-logo" name="retail-logo" type="file" class="form-control"></div></div>';
-            }
-
-            document.getElementById('new-retail').innerHTML = html;
-
-        }
     </script>
 
 

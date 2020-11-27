@@ -1,7 +1,6 @@
 from django.db import models
 
-from listArch.models.Blog import Blog
-from listArch.models.Product import Product
+
 from listArch.models.Company import Company
 
 

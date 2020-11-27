@@ -750,39 +750,6 @@
             });
         }
 
-        function code_delete(count, id) {
-            let html = 'Kodu kaldırmak istediğinizden emin misiniz?';
-            document.getElementById('content').innerHTML = html;
-            $(".deneme23").on("shown.bs.modal", function (e) {
-                $("#btn-conf").click(function () {
-                    $.ajax({
-                        url: "{% url 'listArch:firma-kod-sil' %}",
-                        type: "post", // or "get"
-                        data: {
-                            code_id: id,
-
-
-                        },
-                        success: function (result) {
-
-                            if (result.status === 'Success') {
-                                swal("Başarılı", "Kod  Silindi.", "success");
-                                document.getElementById('company-code-row' + count + '').remove()
-
-
-                            } else {
-                                swal("Başarısız", result.messages, "error");
-                            }
-                        }
-                    });
-                });
-
-            }).modal('show');
-            $('#btn-close').click(function () {
-                $('#modal-danger').modal('hide');
-            });
-        }
-
 
     </script>
 

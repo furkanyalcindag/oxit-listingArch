@@ -4,16 +4,14 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.template.context_processors import media
 from rest_framework.decorators import api_view
-
 from listArch.Forms.FileDescForm import FileDescForm
 from listArch.Forms.FileForm import FileForm
+from listArch.models import Company, Category
 from listArch.models.FileDesc import FileDesc
 from listArch.models.File import File
-from listArch.serializers.FileSerializer import FileSerializer
+from listArch.serializers.FileSerlializer import FileSerializer
 from listArch.services import general_methods
-from oxiterp.settings.base import BASE_DIR
 
 
 def add_file(request):
@@ -29,7 +27,8 @@ def add_file(request):
         fileDesc_form = FileDescForm(request.POST, request.FILES)
         if file_form.is_valid() and fileDesc_form.is_valid():
             file = File(file=file_form.cleaned_data['file'], file_title=file_form.cleaned_data['file_title'],
-                        file_type=file_form.cleaned_data['file_type'])
+                        file_type=file_form.cleaned_data['file_type'], category=file_form.cleaned_data['category'],
+                        company=file_form.cleaned_data['company'])
             file.save()
             file_desc = FileDesc(file=file, lang_code=1, file_title=fileDesc_form.cleaned_data['file_title'])
             file_desc.save()
@@ -124,6 +123,34 @@ def get_file(request):
 
             responseData = dict()
             responseData['files'] = data.data
+
+            return JsonResponse(responseData, safe=True)
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+@api_view(http_method_names=['POST'])
+def get_file_category_company(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+
+            company_id = request.POST.get('company_id')
+            company = Company.objects.get(pk=int(company_id))
+            category = Category.objects.get(pk=int(request.POST['category_id']))
+
+            files = File.objects.filter(category=category).filter(company=company)
+
+            data = FileSerializer(files, many=True)
+
+            responseData = dict()
+            responseData['dosyalar'] = data.data
 
             return JsonResponse(responseData, safe=True)
 

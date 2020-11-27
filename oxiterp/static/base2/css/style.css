@@ -728,7 +728,9 @@ body .user-menu ul li a:hover, #navigation.style-1 ul li:hover a {
 }
 
 #navigation.style-1 {
-    margin-top: 4px
+    margin-top: 5px;
+    margin-bottom: 5px;
+
 }
 
 body #navigation ul .mega-menu:not(.mm-panel) ul a, body #navigation.style-1 ul ul li {
@@ -2199,7 +2201,7 @@ body .typed-cursor.typed-cursor--blink.typed-fade-out {
 }
 
 .main-search-inner .highlighted-category {
-    padding: 0px 5px;
+    padding: 3px 5px;
 
     display: inline-block
 }
@@ -8031,7 +8033,7 @@ a.read-more:hover i {
 .blog-page .blog-post {
     margin: 0px 0px 0 0px;
     text-align: center;
-    //border: 2px solid #ffffff;
+/ / border: 2 px solid #ffffff;
     padding: 10px;
     width: 24%;
 }
@@ -8846,18 +8848,18 @@ body .style-2 .ui-accordion .ui-accordion-header, body .style-2 .trigger a {
     padding: 7px 20px;
     transition: .3s;
     display: inline-block;
-   line-height: 30px;
+    line-height: 30px;
     font-size: 16px;
     font-weight: 500
 }
 
-.table-info{
+.table-info {
 
-        width: 10%;
+    width: 10%;
     text-align: center;
 }
 
-.page-padding{
+.page-padding {
     padding-left: 0px !important;
     padding-right: 0px !important;
 
@@ -12049,7 +12051,7 @@ span.like-icon {
 .category-small-box:hover {
 / / background-color: #66676b;
     color: #fff;
-    //transform: translateY(-6px)
+/ / transform: translateY(- 6 px)
 }
 
 .category-small-box h4 {
@@ -17504,7 +17506,7 @@ img.mfp-img {
     float: left;
     height: 100%;
     min-height: 1px;
-        width: 80px !important;
+    width: 80px !important;
 }
 
 .slick-slide img {
@@ -17620,7 +17622,7 @@ img.mfp-img {
 
 .slick-next {
     right: 3px;
-   display: block !important;
+    display: block !important;
     transform: translate3d(70px, -85%, 0)
 }
 
@@ -19201,7 +19203,7 @@ h4 span.headline-detail {
     body #dashboard #logo, body #logo {
         position: relative;
         margin: 0 !important;
-        //margin-top: 5px !important;
+    / / margin-top: 5 px !important;
         width: calc(100% - 70px);
         text-align: left
     }
@@ -20080,29 +20082,29 @@ div.layout-style {
 }
 
 
-.top-slider{
+.top-slider {
 
     height: 45px;
-border-top: 2px solid #fd9116;
+    border-top: 2px solid #fd9116;
     border-bottom: 2px solid #fd9116;
 }
 
-.top-slider-img{
+.top-slider-img {
 
-  height: 20px !important;
+    height: 20px !important;
 
 }
 
-.top-slider-h5{
+.top-slider-h5 {
 
-    margin-top:5px;
+    margin-top: 5px;
     display: block;
     font-size: 8px;
 
 }
 
-.padding-0-lr{
-padding-left: 3px !important;
+.padding-0-lr {
+    padding-left: 3px !important;
     padding-right: 3px !important;
 
 }

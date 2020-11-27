@@ -190,11 +190,15 @@
                             url = url.replace(0, full.id);
                             let url2 = '{% url 'listArch:firma-aciklamasi-duzenle' 0 %}'.replace(0, full.id);
                             let url3 = '{% url 'listArch:firmaya-koleksiyon-ekle' 0 %}'.replace(0, full.id);
+                            let url4 = '{% url 'listArch:firma-kodu-ekle' 0 %}'.replace(0, full.id);
+
 
                             html = '<a class="btn btn-primary" type="btn" title="Düzenle" href="' + url + '"><i class="fa fa-edit"></i></a>';
                             html += '<a style="margin-left: 5px;" class="btn btn-success" type="btn" title="Koleksiyon Ekle" href="' + url3 + '"><i class="fa  fa-picture-o"></i></a>';
 
                             html += '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Açıklama Ekle" href="' + url2 + '"><i class="fa fa-plus"></i></a>';
+                            html += '<a style="margin-left: 5px;" class="btn btn-primary" type="btn" title="Firma Kodları" href="'+url4+'"><i class="fa fa-ticket"></i></a>';
+
                             html += '<button type="button" style="margin-left: 5px;" onclick="delete_company(' + full.id + ')" class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
 
 
@@ -213,13 +217,13 @@
                         "data": null,
                         "render": function (data, type, full, meta, row) {
                             let html;
-                            html=''+full.business_type.key+'';
+                            html = '' + full.business_type.key + '';
                             return html;
 
 
                         }
                     },
-                     {
+                    {
                         "data": null,
                         render: function (data, type, row) {
                             return row.user.first_name + ' ' + row.user.last_name;
@@ -227,8 +231,6 @@
 
                         }
                     },
-
-
 
 
                     {

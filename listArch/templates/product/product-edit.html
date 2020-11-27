@@ -173,7 +173,7 @@
                                                                 <thead>
                                                                 <tr>
                                                                     <td>Resim <small
-                                                                            style="color: red">* (560*560
+                                                                            style="color: red">* (1920*920)
                                                                         pixels)</small></td>
                                                                 </tr>
                                                                 </thead>
@@ -549,7 +549,6 @@
 
 
                     if (option.type === 'text') {
-                        debugger;
                         html = '<div class="row" id="text-form-' + option_text_row + '" >';
                         html += '<div class="form-group"  style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
@@ -594,7 +593,6 @@
         }
 
         function remove_text(id) {
-            debugger;
             $('#text-form-' + id + '').remove();
             count_text = jQuery.grep(count_text, function (value) {
                 return value !== id;
@@ -618,7 +616,6 @@
 
 
         function addOptionValue() {
-            debugger;
 
             let e = document.getElementById("option_key");
             let option_key = e.options[e.selectedIndex].value;
@@ -631,7 +628,6 @@
 
                 },
                 success: function (response) {
-                    debugger;
                     var option_values = response.values;
                     let html;
 

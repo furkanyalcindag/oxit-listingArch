@@ -1,187 +1,149 @@
 {% extends 'base.html' %}
 {% load change_lang %}
 
-
 {% block content %}
+    <div class="container" style="width: 70%">
 
-    <div class="container" style="width: 90%">
+        <div class="row" style="margin: 10px;">
 
-    <div class="row" style="margin: 10px;">
+            <h2 class="" style="padding: 10px;border: 1px solid;text-align: center">{{ 'about' |get_item_by_lang }}</h2>
 
-        <h2 class="" style="padding: 10px;border: 1px solid">{{ 'about' |get_item_by_lang }}</h2>
+            <!-- Breadcrumbs -->
 
-        <!-- Breadcrumbs -->
+            <div class="blog-post single-post">
 
-        <div class="blog-post single-post">
-
-            <!-- Img -->
-            <div class="post-content">
-                <img style="width: 100%;height: 250px;margin-bottom: 20px" class="post-img" src="/media/about-page.jpg" alt="">
+                <!-- Img -->
+                <div class="post-content">
 
 
-                <!-- Content -->
-
-                <!-- Content -->
-
-                <h2><a href="#">{{ about.title_desc }} </a></h2>
+                    <h2><a href="#">{{ about.title_desc }} </a></h2>
 
 
-                <p style="">{{ about.description | safe }}</p>
-
-
-                <div class="clearfix"></div>
-
-            </div>
-        </div>
-    </div>
-
-     <div id="footer">
-
-        <div class="" style="margin-left: 45px;margin-right: 45px">
-            <div class="row">
-
-                <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
-                    <h4>{{ 'about'| get_item_by_lang }}</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">{{ 'What_we_do'| get_item_by_lang }}</a></li>
-                        <li><a href="#">{{ 'Philosophy'| get_item_by_lang }}</a></li>
-                        <li><a href="#">{{ 'investor_relations'| get_item_by_lang }}</a></li>
-                        <li><a href="#">{{ 'advertises'| get_item_by_lang }}</a></li>
-                        <li><a href="#">{{ 'client_center'| get_item_by_lang }}</a></li>
-                        <li><a href="#">{{ 'careers'| get_item_by_lang }}</a></li>
-                    </ul>
-
-                    <div class="clearfix"></div>
-                </div>
-
-
-                <div class="col-md-2 col-sm-6 " style="text-transform: uppercase;font-size: 13px">
-                    <h4>{{ 'connect'| get_item_by_lang }}</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
-                    </ul>
+                    {{ about.description | safe }}
 
 
                     <div class="clearfix"></div>
+
                 </div>
+            </div>
+        </div>
 
 
-                <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
-                    <h4>{{ 'contact'| get_item_by_lang }}</h4>
+    </div>
+    <section class="fullwidth padding-top-35 padding-bottom-20" style="background: #1c3444;border-top: 2px solid #fd9116;
 
-                    <ul class="footer-links">
-                        <li><a href="#">{{ 'phone'| get_item_by_lang }}</a></li>
-                        <li><a href="#">Mail</a></li>
-                        <li><a href="#">Whatsapp</a></li>
-                        <li><a href="#">{{ 'phone'|get_item_by_lang }}</a></li>
-                        <li><a href="#">Mail</a></li>
-                        <li><a href="#">Whatsapp</a></li>
+    margin-top: 1px;">
+        <div class="">
+            <div class="row icons-container" style="margin:0 25px;">
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line"
+                         style="background: #1c3444;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Bag-Coins" style="border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px">{{ 'product'| get_item_by_lang }}</h3>
+
+                    </div>
+                    <ul class="list-4 color" style="text-align: initial;margin-left: 20%;font-size: 13px;">
+                        {% for parent in category_parent %}
+                            <li style="line-height: 15px;">
+                                <a href="{% url 'listArch:anasayfa-urunler' parent.category.pk %}">{{ parent.description }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line"
+                         style="background: #ffffff;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;color: #000000;width: 66px;
+    height: 66px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">{{ 'explore'| get_item_by_lang }}</h3>
 
+                    </div>
+                    <ul class="list-4 color"
+                        style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">{{ 'brand'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'retails'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'fairs'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'smart_life'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'testing_tools'| get_item_by_lang }}</a></li>
+                    </ul>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line"
+                         style="background: #1c3444;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px">{{ 'solutions'| get_item_by_lang }}</h3>
 
-                <div class="col-md-2  col-sm-12" style="text-transform: uppercase;font-size: 13px">
-                    <h4>{{ 'language'| get_item_by_lang }}</h4>
-
-                    <ul class="footer-links">
-                        <li><a href="#">TR</a></li>
-                        <li><a href="#">EN</a></li>
+                    </div>
+                    <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">{{ 'prerogative'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'credentialing'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'trade_show'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'software'| get_item_by_lang }}</a></li>
 
                     </ul>
                 </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line"
+                         style="background: #ffffff;width: 200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="color: #000000;border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000000">{{ 'research'| get_item_by_lang }}</h3>
 
+                    </div>
+                    <ul class="list-4 color"
+                        style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">{{ 'regulations'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'news'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'competitions'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'events'| get_item_by_lang }}</a></li>
 
-                <div class="col-md-4  col-sm-12">
-                    <h4>{{ 'join_today'| get_item_by_lang }}</h4>
-                    <section id="contact">
-
-
-                        <div id="contact-message">
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
-
-                            </div>
-
-                            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                <div>
-                                    <p style="margin-bottom:2px"><a style="color: #000;
-    width: -webkit-fill-available;
-    padding: 5px;background: #fd9116;
-    text-align: center;" href="{% url 'listArch:kullanici-giris-yap' %}"
-                                                                    class="button">{{ 'login'| get_item_by_lang }}</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
-
-                            </div>
-
-                            <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-                                <div>
-                                    <p style="margin-bottom:2px"><a style="color: #000;
-    width: -webkit-fill-available;
-    padding: 5px;
-    text-align: center;background: #fd9116" href="{% url 'listArch:kullanici-kaydet' %}"
-                                                                    class="button">{{ 'sign_up'| get_item_by_lang }}</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <form method="post" action="{% url 'listArch:abone-ekle' %}#subscriber"
-                                  autocomplete="on">
-                                {% csrf_token %}
-
-                                <div class="col-md-9" style="padding-left: 0px; padding-right: 0px;">
-
-                                    <input name="subscriber" type="text" id="subscriber"
-                                           placeholder="Your E-Mail Address for news" required="required"
-                                           class="error">
-
-                                </div>
-
-                                <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
-
-
-                                    <input style="width: -webkit-fill-available;background:#fd9116" type="submit"
-                                           class="submit button" id="submit" value="SUBSCRIBE">
-
-
-                                </div>
-
-                            </form>
-
-                        </div>
-
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="notification success closeable" style="height: 30px;text-align: center">
-                                    <p style="line-height: 1px;text-align: center">{{ message }}</p>
-                                    <a class="close" style="line-height: 0px"></a>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    </section>
-
+                    </ul>
                 </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line"
+                         style="background: #1c3444;width: 200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;width: 70px;
+    height: 70px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px">{{ 'business'| get_item_by_lang }}</h3>
 
+                    </div>
+                    <ul class="list-4 color" style="text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">{{ 'designers'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'consultants'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'contractor'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ '3d_modelers'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'retails'| get_item_by_lang }}</a></li>
+                    </ul>
+                </div>
+                <!-- Stage -->
+                <div class="col-md-2">
+                    <div class="icon-box-2 with-line"
+                         style="background: #ffffff;width:200px;height: 150px; margin-left: 27px;">
+                        <i class="im im-icon-Checked-User" style="border: 1px solid;color: #000000;width: 66px;
+    height: 66px;"></i>
+                        <h3 style="margin-top: 3px;font-size: 20px;color: #000">{{ 'company'| get_item_by_lang }}</h3>
+
+                    </div>
+                    <ul class="list-4 color"
+                        style="color: #000000;text-align: initial;margin-left: 26%;font-size: 13px">
+                        <li style="line-height: 15px;"><a href="#">{{ 'What_we_do'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'Philosophy'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'investor_relations'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'client_center'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'careers'| get_item_by_lang }}</a></li>
+                        <li style="line-height: 15px;"><a href="#">{{ 'advertise'| get_item_by_lang }}</a></li>
+                    </ul>
+                </div>
 
             </div>
-
         </div>
-    </div>
-
-    </div>
+    </section>
 
 {% endblock %}

@@ -4,10 +4,15 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from listArch.Forms.ContactForm import ContactForm
 from listArch.Forms.HeaderTextForm import HeaderTextForm
+from listArch.models.HeaderText import HeaderText
+from listArch.models.HeaderTextDesc import HeaderTextDesc
+from listArch.models.ScrollingTextDesc import ScrollingTextDesc
+from listArch.models.Contact import Contact
+from listArch.models.AboutDesc import AboutDesc
 from listArch.models.Log import Log
 from listArch.models.ScrollingText import ScrollingText
 from listArch.Forms.ScrollingTextForm import ScrollingTextForm
-from listArch.models import About, AboutDesc, Contact, ScrollingTextDesc, HeaderTextDesc, HeaderText
+from listArch.models.About import About
 from listArch.services import general_methods
 from oxiterp.settings.base import home_lang_code
 
@@ -23,9 +28,7 @@ def add_about(request):
             about = About(key=request.POST['title[tr]'])
             about.save()
 
-            if request.POST['isActive'] == 'on':
-                about.isActive = True
-                about.save()
+
 
             aboutDesc = AboutDesc(about=about, lang_code=1,
                                   title_desc=request.POST['title[tr]'],

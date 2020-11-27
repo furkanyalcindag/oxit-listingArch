@@ -74,12 +74,13 @@
     <header id="header-container">
 
         <!-- Header -->
-        <div id="header">
+        <div id="header" style="border-bottom: 2px solid #fd9116;padding: 0 !important;">
             <div class="left-side">
 
                 <!-- Logo -->
                 <div id="logo">
-                    <a href="{% url 'listArch:index' %}"><img style="height: 40px;" src="/media/lofr-logo-beyaz.png"
+                    <a href="{% url 'listArch:index' %}"><img style="height: 40px;margin-bottom: 5px;
+    margin-left: 15px;" src="/media/lofr-logo-beyaz.png"
                                                               alt="list of room"></a>
                 </div>
 
@@ -430,7 +431,7 @@
 </script>
 <script>
     function searchGetProduct() {
-        debugger;
+
         let name = document.getElementById('product_name').value;
         $.ajax({
             url: "{% url 'listArch:product-search'%}",
@@ -441,7 +442,7 @@
 
             },
             success: function (response) {
-                debugger;
+
 
                 if (response.product.length !== 0) {
 
@@ -490,7 +491,7 @@
 
 
     function searchGetProductCategory() {
-        debugger;
+
         let e = document.getElementById('category');
         var category_id = e.options[e.selectedIndex].value;
         let url = "{% url "listArch:urun-filtreleme-sayfasi" 0 %}"
@@ -500,7 +501,7 @@
 
 
     function searchGetProductBrand() {
-        debugger;
+
         let e = document.getElementById('company');
         var brand_id = e.options[e.selectedIndex].value;
         let url = "{% url "listArch:firmanin-urunleri" 0 %}"
@@ -518,7 +519,7 @@
 
 
     function write_range_change(id) {
-        debugger;
+
         document.getElementById('range-min[' + id + ']').value = document.getElementById('min[' + id + ']').value;
         document.getElementById('range-max[' + id + ']').value = document.getElementById('max[' + id + ']').value;
 
@@ -534,7 +535,7 @@
 
 
     function option(option, value, type) {
-        debugger;
+
         let temp;
         if (type === 'range') {
             write_range_change(value_id)
@@ -556,74 +557,75 @@
             });
             let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
 
-            if (document.getElementById(''+value+'').checked === false){
-                   if (current_option.length > 0) {
-                for (let i = 0; i < filter_options.length; i++) {
-                    if (checkedBoxes[i]) {
+            if (document.getElementById('' + value + '').checked === false) {
+                if (current_option.length > 0) {
+                    for (let i = 0; i < filter_options.length; i++) {
+                        if (checkedBoxes[i]) {
 
-                        if (checkedBoxes[i].dataset.option.includes(filter_options[i].option) === false) {
-                            filter_options.splice(i, 1)
+                            if (checkedBoxes[i].dataset.option.includes(filter_options[i].option) === false) {
+                                filter_options.splice(i, 1)
 
-                        } else {
-                            if (filter_options[i].values.length > 1) {
-                                for (let j = 0; j < filter_options[i].values.length; j++) {
-                                    if (checkedBoxes.length > j) {
-                                        if (values.includes(filter_options[i].values[j]) === false) {
-                                            filter_options[i].values.splice(j,1)
+                            } else {
+                                if (filter_options[i].values.length > 1) {
+                                    for (let j = 0; j < filter_options[i].values.length; j++) {
+                                        if (checkedBoxes.length > j) {
+                                            if (values.includes(filter_options[i].values[j]) === false) {
+                                                filter_options[i].values.splice(j, 1)
+                                            }
+                                        } else {
+                                            filter_options[i].values.splice(j, 1)
+
                                         }
-                                    } else {
-                                        filter_options[i].values.splice(j, 1)
 
                                     }
-
                                 }
                             }
-                        }
-                        if (typeof checkedBoxes[i].dataset.option.includes(current_option[i]) === false) {
+                            if (typeof checkedBoxes[i].dataset.option.includes(current_option[i]) === false) {
+                                current_option.splice(i, 1);
+
+
+                            }
+                        } else {
+                            filter_options.splice(i, 1)
                             current_option.splice(i, 1);
-
-
                         }
-                    } else {
-                        filter_options.splice(i, 1)
-                        current_option.splice(i, 1);
-                    }
 
+                    }
                 }
-            }
 
             }
 
 
             debugger;
+            if (document.getElementById('' + value + '').checked === true) {
 
+                for (let i = 0; i < checkedBoxes.length; i++) {
 
-            for (let i = 0; i < checkedBoxes.length; i++) {
+                    if (current_option.includes(checkedBoxes[i].dataset.option)) {
+                        if (checkedBoxes[i].dataset.option === filter_options.find(item => item.option).option) {
+                            if (filter_options.find(item => item.option).values.includes(checkedBoxes[i].value) === false)
+                                filter_options.find(item => item.option).values.push(checkedBoxes[i].value)
+                            else {
+                                console.log(filter_options)
+                            }
+                        }
 
-                if (current_option.includes(checkedBoxes[i].dataset.option)) {
-                    if (filter_options.find(item => item.option).values.includes(checkedBoxes[i].value) === false)
-                        filter_options.find(item => item.option).values.push(checkedBoxes[i].value)
-                    else {
-                        console.log(filter_options)
+                    } else {
+                        let new_option = []
+                        new_option.push(checkedBoxes[i].value)
+                        let new_temp = {
+                            "option": checkedBoxes[i].dataset.option,
+                            "values": new_option,
+                            "type": checkedBoxes[i].type
+                        }
+                        filter_options.push(new_temp)
+                        current_option.push(checkedBoxes[i].dataset.option)
                     }
 
 
-                } else {
-                    let new_option = []
-                    new_option.push(checkedBoxes[i].value)
-                    let new_temp = {
-                        "option": checkedBoxes[i].dataset.option,
-                        "values": new_option,
-                        "type": checkedBoxes[i].type
-                    }
-                    filter_options.push(new_temp)
-                    current_option.push(checkedBoxes[i].dataset.option)
                 }
 
-
             }
-
-
         }
 
         console.log(options)
@@ -638,7 +640,7 @@
                 category: category,
             },
             success: function (response) {
-                debugger;
+
 
                 let products = response.products;
                 let html = '';
@@ -686,7 +688,7 @@
     }
 
     function remove_item_list(list_id, product_id) {
-        debugger;
+
         $.ajax({
             url: "{% url 'listArch:kullanici-listeden-urun-cikar'%}",
             type: "post", // or "get"

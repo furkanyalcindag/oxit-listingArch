@@ -169,6 +169,11 @@
                                                                    class="btn btn-info"
                                                                    data-original-title="Performans Bilgisi Ekle"><i
                                                                         class="fa fa-plus"></i></a>
+                                                                 <a href="{% url 'listArch:urune-dosya-ekle' product.product.pk %}"
+                                                                   data-toggle="tooltip" title="Dosya Ekle"
+                                                                   class="btn btn-primary"
+                                                                   data-original-title="Dosya Ekle"><i
+                                                                        class="fa fa-folder-open-o"></i></a>
 
 
                                                             </td>
@@ -289,7 +294,6 @@
     </script>
     <script>
         function getDefinition(id) {
-            debugger;
             var html = '';
             $.ajax({
                 url: "{% url 'listArch:urun-aciklamasi-getir' %}",
@@ -300,7 +304,6 @@
 
                 },
                 success: function (response) {
-                    debugger;
 
 
                     var definitions = response.product_definitions;
@@ -430,7 +433,6 @@
         function addOptionValue() {
             let e = document.getElementById("option_key");
             let option_key = e.options[e.selectedIndex].value;
-            debugger;
             $.ajax({
                 url: "{% url 'listArch:secenek-degerlerini-getir' %}",
                 type: "post", // or "get"
@@ -440,7 +442,6 @@
 
                 },
                 success: function (response) {
-                    debugger;
                     var option_values = response.values;
                     let html;
 
@@ -473,7 +474,7 @@
     </script>
     <script>
         function removeElement(elementId) {
-            debugger;
+
 
             document.getElementById('key[' + elementId + ']').remove();
             document.getElementById('option-value-row[' + elementId + ']').remove();
@@ -505,7 +506,6 @@
 
     <script>
         function delete_product(id) {
-            debugger;
             document.getElementById('content_messages').innerHTML = 'Ürünü Silmek İstediğinizden Emin Misiniz?';
 
             $(".deneme23").on("shown.bs.modal", function (e) {
@@ -540,7 +540,7 @@
 
 
         function delete_product_definition(id) {
-            debugger;
+
             document.getElementById('content_messages').innerHTML = 'Açıklamayı Silmek İstediğinizden Emin Misiniz?';
 
             $(".deneme23").on("shown.bs.modal", function (e) {

@@ -243,16 +243,18 @@
                     <!-- Widget / End -->
                 </div>
                 <div class="widget margin-bottom-5 margin-top-5">
-                    <h3 class="margin-top-10 margin-left-10 margin-bottom-10">Most Visited </h3>
+                    <h3 class="margin-top-10 margin-left-10 margin-bottom-10">{{ 'mostVisited' |get_item_by_lang }}</h3>
                 </div>
                 {% for product in products %}
-                    <div class="col-lg-6 col-md-6" style="padding-left: 5px;padding-right: 5px;">
-                        <div class="hovereffect" onclick="location.href='#';">
-                            <div class="listing-item ">
-                                <img src="/media/{{ product.product.cover_image }}" alt="">
+                    {% if not product.product.isAdvert %}
+                        <div class="col-lg-6 col-md-6" style="padding-left: 5px;padding-right: 5px;">
+                            <div class="hovereffect" onclick="location.href='#';">
+                                <div class="listing-item ">
+                                    <img height="100" src="/media/{{ product.product.cover_image }}" alt="">
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
 
@@ -466,9 +468,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -830,7 +829,6 @@
                                                                                name="{{ value.option_value.pk }}"
                                                                                value="{{ value.option_value.pk }}">
                                                                         <label for="{{ value.option_value.pk }}">{{ value }}</label>
-
 
                                                                     {% endfor %}
 
@@ -1234,7 +1232,6 @@
             }
         }
     });
-
 
 
 </script>

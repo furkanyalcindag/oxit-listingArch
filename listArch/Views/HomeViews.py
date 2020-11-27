@@ -1,14 +1,40 @@
 import json
-from django.db.models import Count, Q, QuerySet
+from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
-
-from listArch.models import ProductOptionValue, Option, OptionValue, Company, IntroductionPage, \
-    IntroductionPageDesc, CategoryDesc, BlogDesc, CompanyBlog, RelatedProduct, \
-    OptionValueDesc, List, CompanyRetail, Contact, AboutDesc, ProductDesc, OptionDesc, ProductPerform, GraphicValueDesc, \
-    ProductChart, ChartValue, Value, ChartDesc, Profile, BusinessType, ProfileBlog, BlogImage, ProfileBlogDesc, \
-    BusinessTypeDesc, ProductVideo, ServiceDesc, Collection, CollectionProduct, IntroductionTitle
+from listArch.models.IntroductionPage import IntroductionPage
+from listArch.models.BlogDesc import BlogDesc
+from listArch.models.Value import Value
+from listArch.models.Option import Option
+from listArch.models.OptionValue import OptionValue
+from listArch.models.Company import Company
+from listArch.models.IntroductionPageDesc import IntroductionPageDesc
+from listArch.models.CategoryDesc import CategoryDesc
+from listArch.models.List import List
+from listArch.models.OptionValueDesc import OptionValueDesc
+from listArch.models.OptionValueDesc import OptionValueDesc
+from listArch.models.CompanyBlog import CompanyBlog
+from listArch.models.CompanyRetail import CompanyRetail
+from listArch.models.Contact import Contact
+from listArch.models.ProductDesc import ProductDesc
+from listArch.models.OptionDesc import OptionDesc
+from listArch.models.ProductPerform import ProductPerform
+from listArch.models.GraphicValueDesc import GraphicValueDesc
+from listArch.models.ProductChart import ProductChart
+from listArch.models.ChartValue import ChartValue
+from listArch.models.ChartDesc import ChartDesc
+from listArch.models.BusinessType import BusinessType
+from listArch.models.ProfileBlog import ProfileBlog
+from listArch.models.BlogImage import BlogImage
+from listArch.models.BusinessTypeDesc import BusinessTypeDesc
+from listArch.models.ProductVideo import ProductVideo
+from listArch.models.ServiceDesc import ServiceDesc
+from listArch.models.Collection import Collection
+from listArch.models.CollectionProduct import CollectionProduct
+from listArch.models.IntroductionTitle import IntroductionTitle
+from listArch.models.ProductOptionValue import ProductOptionValue
+from listArch.models.AboutDesc import AboutDesc
 from listArch.models.CompanyDefinition import CompanyDefinition
 from listArch.models.IntroductionTitleDesc import IntroductionTitleDesc
 from listArch.models.CompanySocialAccount import CompanySocialAccount
@@ -601,13 +627,13 @@ def filtered(request):
 
                             set1 = set(product_list)
                             products_id = set1.intersection(product_list_2)
-                            filter=dict()
+                            filter = dict()
                             for id in products_id:
                                 product = Product.objects.get(pk=id)
                                 filter[id] = product
 
-                            filtered_products=filter
-                            product_list=products_id
+                            filtered_products = filter
+                            product_list = products_id
                         else:
                             print(productOptionValue)
                 data = ProductSerializer(list(filtered_products.values()), many=True)
@@ -615,8 +641,6 @@ def filtered(request):
                 filtered_products = Product.objects.filter(category__id=int(category)).distinct(
                     'id')
                 data = ProductSerializer(list(filtered_products), many=True)
-
-
 
             responseData = dict()
             responseData['products'] = data.data
@@ -708,7 +732,6 @@ def about_page(request):
     if len(about) > 0:
         return render(request, 'home/about_page.html', {'about': about[0]})
     else:
-
         return render(request, 'home/about_page.html', {'about': '-'})
 
 

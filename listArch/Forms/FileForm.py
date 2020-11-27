@@ -26,11 +26,15 @@ CHOICES_WITH_BLANK = (
 class FileForm(ModelForm):
     class Meta:
         model = File
-        fields = ('file', 'file_title', 'file_type')
+        fields = ('file', 'file_title', 'file_type', 'category', 'company')
         widgets = {
             'file_type': forms.Select(choices=CHOICES_WITH_BLANK,
                                       attrs={'class': 'form-control select2 select2-hidden-accessible',
                                              'style': 'width: 100%;'}),
+            'category': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                            'style': 'width: 100%;', 'onchange': 'get_files()'}),
+            'company': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
+                                           'style': 'width: 100%;', 'onchange': 'get_files()'}),
             'file_title': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Dosya Adı', 'required': 'required', 'value': '',
                        'name': 'download_file_name[TR]'}),
