@@ -5,7 +5,13 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from listArch.Forms.FileForm import FileForm
-from listArch.models import ProductPerform, GraphicValue, GraphicValueDesc, Value, ChartValue, CompanyCode, File
+from listArch.models.ProductPerform import ProductPerform
+from listArch.models.ChartValue import ChartValue
+from listArch.models.Value import Value
+from listArch.models.CompanyCode import CompanyCode
+from listArch.models.File import File
+from listArch.models.GraphicValueDesc import GraphicValueDesc
+from listArch.models.GraphicValue import GraphicValue
 from listArch.models.OptionValue import OptionValue
 from listArch.models.ProductVideo import ProductVideo
 from listArch.models.Video import Video
@@ -27,7 +33,6 @@ from listArch.models.ProductOptionValue import ProductOptionValue
 from listArch.models.Option import Option
 from listArch.models.ProductImage import ProductImage
 from listArch.serializers.CompanyCodeSerializer import CompanyCodeSerializer
-from listArch.serializers.CompanySerializer import CompanySerializer
 from listArch.serializers.ProductDefinitionSerializer import ProductDefinitionSerializer
 from listArch.serializers.ProductSerializer import ProductSerializer
 from listArch.services import general_methods

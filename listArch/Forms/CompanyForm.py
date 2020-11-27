@@ -25,7 +25,7 @@ class CompanyForm(ModelForm):
             'address_link': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Adresi Linki', 'rows': '4'}),
             'phone': forms.TextInput(
-                attrs={'class': 'form-control ', 'placeholder': '(örnek: +903123718 )', }),
+                attrs={'class': 'form-control ', 'placeholder': '(örnek: +903123153718 )', }),
             'mobilePhone': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': '(örnek: +905302163718)', }),
             'userDescription': forms.Textarea(
