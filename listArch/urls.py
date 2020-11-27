@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'filter-page-search/$', HomeViews.search_product_filter, name='filtreleme-sayfasi-search'),
 
     url(r'urun-getir/$', ProductViews.get_products, name='urun-getir'),
-    url(r'firma-getir/$', ProductViews.get_company, name='firma-getir'),
+    url(r'firma-kodu-getir/$', ProductViews.get_company, name='firma-getir'),
 
     url(r'add-product-definition/(?P<pk>\d+)$', ProductViews.add_productDefinition, name='urun-aciklama-ekle'),
     url(r'product-definition-update/(?P<pk>\d+)$', ProductViews.update_productDefinition,
