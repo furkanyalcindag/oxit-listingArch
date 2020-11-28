@@ -546,11 +546,11 @@ def get_products(request):
 
 @api_view(http_method_names=['POST'])
 def get_company_code(request):
-    perm = general_methods.control_access(request)
+    '''perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
-        return redirect('accounts:login')
+        return redirect('accounts:login')'''
     if request.POST:
         try:
 
