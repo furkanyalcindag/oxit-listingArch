@@ -551,10 +551,10 @@ def get_company_code(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')'''
-    if request.POST:
+    if request.method=='POST':
         try:
 
-            company_id = request.POST.get('company_id')
+            company_id = request.data['company_id']
             company = Company.objects.get(pk=int(company_id))
             company_codes = CompanyCode.objects.filter(company=company)
 

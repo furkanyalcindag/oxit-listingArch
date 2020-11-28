@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from listArch.models import Company, CompanyCode
+from listArch.models.CompanyCode import  CompanyCode
 
 
 class CompanyCodeSerializer(serializers.ModelSerializer):
