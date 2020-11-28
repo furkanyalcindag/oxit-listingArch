@@ -178,7 +178,7 @@ def delete_category(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    if request.POST:
+    if request.method=='POST':
         try:
 
             category_id = request.POST['category_id']

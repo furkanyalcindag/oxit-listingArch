@@ -81,7 +81,7 @@ def get_company_products(request, pk):
 def product_detail(request, slug):
     try:
         product = Product.objects.get(slug=slug)
-        category = product.category.filter(is_parent=True)
+        category = product.category.filter(is_parent=False)
         graphics = ProductPerform.objects.filter(product=product)
         product_videos = ProductVideo.objects.filter(product=product)
 

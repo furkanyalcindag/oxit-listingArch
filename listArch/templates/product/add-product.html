@@ -57,6 +57,23 @@
                     </div>
 
                 {% endif %}
+                  {% if message.tags == 'info' %}
+
+                    <div class="alert alert-info alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-warning"></i> Uyarı !</h4>
+
+
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                {% endif %}
             {% endfor %}
 
 
@@ -118,7 +135,7 @@
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
                                                                     src="/media/en-gb.png" title="ENg"></span>
-                                                                <input type="text"
+                                                                <input type="text" required
                                                                        name="product_description[eng][name]"
                                                                        value=""
                                                                        placeholder="Ürün Adı"
@@ -127,7 +144,7 @@
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
                                                                     src="/media/tr-tr.png" title="TR"></span>
-                                                                <input type="text"
+                                                                <input type="text" required
                                                                        name="product_description[tr][name]"
                                                                        value=""
                                                                        placeholder="Ürün Adı"
@@ -183,7 +200,8 @@
                                                             <thead>
                                                             <tr>
                                                                 <td class="text-left">Ürün Resmi<small
-                                                                        style="color: red">*  (1920*920 pixels)</small></td>
+                                                                        style="color: red">* (1920*920 pixels)</small>
+                                                                </td>
                                                                 <td></td>
                                                             </tr>
                                                             </thead>
@@ -313,7 +331,7 @@
                                                     <label>Firma Seçin<small
                                                             style="color: red">*</small></label>
                                                     <select class="form-control select2 select2-hidden-accessible"
-                                                            style="width: 100%" id="product-company"
+                                                            style="width: 100%" id="product-company" required
                                                             name="product-company" onchange="get_company()">
 
                                                         <option value="">---------</option>
@@ -330,7 +348,7 @@
                                                             style="color: red">*</small></label>
                                                     <select class="form-control select2 select2-hidden-accessible"
                                                             style="width: 100%" id="company-code"
-                                                            name="company-code">
+                                                            name="company-code" required>
 
                                                         <option value="">---------</option>
 
@@ -617,7 +635,7 @@
 
         function addImage() {
             let html = '<tr id="image-row' + image_row + '">';
-            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+            html += '  <td class="text-left"><input required type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
             html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
             html += '  <td class="text-left"><button type="button" onclick="remove_image(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';

@@ -90,6 +90,7 @@
                                             <a href="{% url 'listArch:kategori-ekle' %}" class="btn btn-app">
                                                 <i class="fa fa-plus"></i> Kategori Ekle
                                             </a>
+
                                             <div class="table-responsive">
                                                 <table id="categories" class="display responsive nowrap" cellspacing="0"
                                                        width="100%">
@@ -99,7 +100,6 @@
                                                         <td>İşlem</td>
                                                         <td>Kategori Adı</td>
                                                         <td>İkon</td>
-                                                        <td>Aktiflik</td>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -120,15 +120,7 @@
 
                                                             <td>{{ category.category_name }}</td>
                                                             <td><img height="40" style="background-color:#000;: " src="/media/{{ category.category.icon }}" alt=""></td>
-                                                            <td>{% if category.category.isActive %}
-                                                                <span class="label label-success"><i
-                                                                        class="fa fa-check-square"></i></span>
-                                                            {% else %}
-                                                                <span class="label label-danger"><i
-                                                                        class="fa fa-window-close"></i></span>
 
-                                                            {% endif %}
-                                                            </td>
 
                                                         </tr>
                                                     {% endfor %}

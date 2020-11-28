@@ -80,55 +80,70 @@ def update_blog(request, pk):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    blog = Blog.objects.get(pk=pk)
-
-    blog_tr = BlogDesc.objects.filter(lang_code=1).filter(blog=blog)[0]
-    blog_eng = BlogDesc.objects.filter(lang_code=2).filter(blog=blog)[0]
-    images_blog = BlogImage.objects.filter(blog=blog)
-    company_blog = CompanyBlog.objects.filter(blog=blog)
+    blog = Blog.objects.filter(pk=pk)
+    companies = ""
+    images_blog = ""
     product_blog = ""
+    blog_tr = ""
+    blog_eng = ""
     company = ""
-    if company_blog:
-        company = company_blog[0].company
-        product_blog = company_blog[0].product
+    products = ""
+    company_blog_form = CompanyBlogForm()
     companies = Company.objects.all()
     products = Product.objects.all()
+    if blog:
+        blog=blog[0]
 
-    company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog[0])
+        blog_tr = BlogDesc.objects.filter(lang_code=1).filter(blog=blog)[0]
+        blog_eng = BlogDesc.objects.filter(lang_code=2).filter(blog=blog)[0]
+        images_blog = BlogImage.objects.filter(blog=blog)
+        company_blog = CompanyBlog.objects.filter(blog=blog)
+        if company_blog:
+            if company_blog:
+                company = company_blog[0].company
+                product_blog = company_blog[0].product
 
-    try:
-        if request.method == 'POST':
-            if company_blog_form.is_valid():
 
-                blog.key = request.POST['content[tr]']
-                blog.save()
+            company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog[0])
+        else:
+            company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None)
 
-                blog_tr.description = request.POST['content[tr]']
-                blog_tr.title_desc = request.POST['title[tr]']
-                blog_tr.save()
+        try:
+            if request.method == 'POST':
+                if company_blog_form.is_valid():
 
-                blog_eng.description = request.POST['content[eng]']
-                blog_eng.title_desc = request.POST['title[eng]']
-                blog_eng.save()
+                    blog.key = request.POST['content[tr]']
+                    blog.save()
 
-                for f in request.FILES.getlist('input2[]'):
-                    image = Image(image=f)
-                    image.save()
-                    blog_image = BlogImage(image=image, blog=blog)
-                    blog_image.save()
+                    blog_tr.description = request.POST['content[tr]']
+                    blog_tr.title_desc = request.POST['title[tr]']
+                    blog_tr.save()
 
-                for company_blog in company_blog:
-                    company_blog.product = Product.objects.get(pk=request.POST['product_id'])
-                    company_blog.save()
-                    company_blog.company = Company.objects.get(pk=int(request.POST['company_id']))
-                    company_blog.save()
+                    blog_eng.description = request.POST['content[eng]']
+                    blog_eng.title_desc = request.POST['title[eng]']
+                    blog_eng.save()
 
-                messages.success(request, "Blog Bilgileri Başarıyla Düzenlendi.")
-                return redirect('listArch:bloglar')
+                    for f in request.FILES.getlist('input2[]'):
+                        image = Image(image=f)
+                        image.save()
+                        blog_image = BlogImage(image=image, blog=blog)
+                        blog_image.save()
 
-    except Exception as e:
-        print(e)
-        return redirect('listArch:admin-error-sayfasi')
+                    for company_blog in company_blog:
+                        company_blog.product = Product.objects.get(pk=request.POST['product_id'])
+                        company_blog.save()
+                        company_blog.company = Company.objects.get(pk=int(request.POST['company_id']))
+                        company_blog.save()
+
+                    messages.success(request, "Blog Bilgileri Başarıyla Düzenlendi.")
+                    return redirect('listArch:bloglar')
+                messages.success(request, "Alanları kontrol ediniz.")
+
+        except Exception as e:
+            print(e)
+            return redirect('listArch:admin-error-sayfasi')
+    else:
+        messages.success(request, "Blog Bilgileri Başarıyla Düzenlendi.")
     return render(request, 'blog/update-blog.html',
                   {'companies': companies, 'images': images_blog, 'blog': blog, 'product_blog': product_blog,
                    'blog_tr': blog_tr, 'blog_eng': blog_eng, 'company_blog': company,

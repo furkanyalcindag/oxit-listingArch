@@ -110,7 +110,8 @@
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
                                                                     src="/media/en-gb.png" title="ENg"></span>
-                                                                <input type="text" class="form-control" id="title[eng]"
+                                                                <input required type="text" class="form-control"
+                                                                       id="title[eng]"
                                                                        name="title[eng]"></div>
 
 
@@ -118,7 +119,7 @@
 
                                                             <div class="input-group">
                                                                         <span class="input-group-addon">
-                                                                <textarea class="form-control textarea"
+                                                                <textarea required class="form-control textarea"
                                                                           id="content[eng]"
                                                                           name="content[eng]"
                                                                           rows="10" placeholder="İçerik .."></textarea></span>
@@ -130,7 +131,8 @@
                                                             <div class="input-group"><span
                                                                     class="input-group-addon"><img
                                                                     src="/media/tr-tr.png" title="TR"></span>
-                                                                <input placeholder="" type="text" class="form-control"
+                                                                <input required placeholder="" type="text"
+                                                                       class="form-control"
                                                                        id="title[tr]" name="title[tr]"></div>
                                                         </div>
                                                     </div>
@@ -138,7 +140,7 @@
                                                         <label for="">Açıklama</label>
                                                         <div class="input-group">
                                                                         <span class="input-group-addon">
-                                                                        <textarea class="form-control textarea"
+                                                                        <textarea required class="form-control textarea"
                                                                                   id="content[tr]"
                                                                                   name="content[tr]"
                                                                                   rows="10"
@@ -159,7 +161,26 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-
+                                                            <tr id="image-row0">
+                                                                <td class="text-left"><input required type="file"
+                                                                                             name="product_image[0][image]"
+                                                                                             value=""
+                                                                                             id="input-image0"/>
+                                                                </td>
+                                                                <td class="text-right"><input type="text"
+                                                                                              name="product_image[0][sort_order]"
+                                                                                              value=""
+                                                                                              placeholder="Sıralama"
+                                                                                              class="form-control"/>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <button type="button"
+                                                                            onclick="remove(0)"
+                                                                            data-toggle="tooltip" title="Kaldır"
+                                                                            class="btn btn-danger"><i
+                                                                            class="fa fa-minus-circle"></i></button>
+                                                                </td>
+                                                            </tr>
                                                             </tbody>
 
                                                             <tfoot>
@@ -195,7 +216,7 @@
                                                                     <select style="width: 100%"
                                                                             class="form-control select2 select2-hidden-accessible"
                                                                             name="company_id" id="company_id"
-                                                                            onChange="urunGetir()">
+                                                                            onChange="urunGetir()" required>
                                                                         {% for company in companies %}
                                                                             <option value="{{ company.pk }}">{{ company.name }}</option>
                                                                         {% endfor %}
@@ -310,11 +331,11 @@
 
 
     <script type="text/javascript">
-        var image_row = 0;
+        var image_row = 1;
 
         function addImage() {
-            html = '<tr id="image-row' + image_row + '">';
-            html += '  <td class="text-left"><input type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
+            let html = '<tr id="image-row' + image_row + '">';
+            html += '  <td class="text-left"><input required type="file" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
             html += '  <td class="text-right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" placeholder="Sıralama" class="form-control" /></td>';
             html += '  <td class="text-left"><button type="button" onclick="remove(' + image_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
             html += '</tr>';

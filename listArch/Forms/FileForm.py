@@ -30,13 +30,15 @@ class FileForm(ModelForm):
         widgets = {
             'file_type': forms.Select(choices=CHOICES_WITH_BLANK,
                                       attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                             'style': 'width: 100%;'}),
+                                             'style': 'width: 100%;', 'required': 'required'}),
+            'file': forms.FileInput(attrs={'required': 'required'}),
             'category': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                            'style': 'width: 100%;', 'onchange': 'get_files()'}),
+                                            'style': 'width: 100%;', 'onchange': 'get_files()',
+                                            'required': 'required'}),
             'company': forms.Select(attrs={'class': 'form-control select2 select2-hidden-accessible',
-                                           'style': 'width: 100%;', 'onchange': 'get_files()'}),
+                                           'style': 'width: 100%;', 'onchange': 'get_files()', 'required': 'required'}),
             'file_title': forms.TextInput(
                 attrs={'class': 'form-control ', 'placeholder': 'Dosya Adı', 'required': 'required', 'value': '',
-                       'name': 'download_file_name[TR]'}),
+                       'name': 'download_file_name[TR]', }),
 
         }

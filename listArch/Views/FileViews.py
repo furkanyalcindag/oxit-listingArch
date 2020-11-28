@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view
 from listArch.Forms.FileDescForm import FileDescForm
 from listArch.Forms.FileForm import FileForm
-from listArch.models import Company, Category
+from listArch.models import Company, Category, Product
 from listArch.models.FileDesc import FileDesc
 from listArch.models.File import File
 from listArch.serializers.FileSerlializer import FileSerializer
@@ -48,7 +48,7 @@ def files(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
-    files = FileDesc.objects.filter(lang_code=1)
+    files = FileDesc.objects.filter(lang_code=1).order_by('-id')
     return render(request, 'File/files.html', {'files': files})
 
 
@@ -141,11 +141,13 @@ def get_file_category_company(request):
     if request.POST:
         try:
 
-            company_id = request.POST.get('company_id')
-            company = Company.objects.get(pk=int(company_id))
-            category = Category.objects.get(pk=int(request.POST['category_id']))
-
-            files = File.objects.filter(category=category).filter(company=company)
+            product_id = request.POST['product_id']
+            category = Category.objects.filter(pk=int(request.POST['category_id']))
+            product = Product.objects.filter(pk=product_id)
+            if product and category:
+                files = File.objects.filter(company=product[0].company).filter(category=category[0])
+            else:
+                files = File()
 
             data = FileSerializer(files, many=True)
 

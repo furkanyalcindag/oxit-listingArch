@@ -61,7 +61,7 @@ def add_product(request):
                 company = Company.objects.get(pk=int(request.POST['product-company']))
                 product = Product(name=request.POST['product_description[tr][name]'], company=company,
                                   code=product_form.cleaned_data['code'], code2=product_form.cleaned_data['code2'],
-                                  isActive=product_form.cleaned_data['isActive'],
+                                  isActive=product_form.cleaned_data['isActive'],price=product_form.cleaned_data['price'],
                                   company_code=product_form.cleaned_data['company_code'],
                                   isAdvert=product_form.cleaned_data['isAdvert'], code3=request.POST['company-code'])
 
@@ -84,18 +84,20 @@ def add_product(request):
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
 
+                if request.POST['image_row'] != '':
+                    count = request.POST['image_row']
+                    count = count.split(',')
+                    array = []
+                    for count in count:
+                        array.append(count)
 
-                count = request.POST['image_row']
-                count = count.split(',')
-                array = []
-                for count in count:
-                    array.append(count)
-
-                for i in array:
-                    image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
-                    image.save()
-                    product_image = ProductImage(product=product, image=image)
-                    product_image.save()
+                    for i in array:
+                        image = Image(image=product_image_form.files['product_image[' + str(i) + '][image]'])
+                        image.save()
+                        product_image = ProductImage(product=product, image=image)
+                        product_image.save()
+                else:
+                    messages.success(request, "Ürün foroğraflarını girmediniz.")
 
                 video_count = request.POST['video_row']
                 if video_count != '':
@@ -264,8 +266,9 @@ def product_edit(request, uuid):
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
 
-                count = request.POST['image_row']
-                if count != '':
+
+                if request.POST['image_row'] != '':
+                    count = request.POST['image_row']
                     count = count.split(',')
                     array = []
                     for count in count:
@@ -276,6 +279,7 @@ def product_edit(request, uuid):
                         image.save()
                         product_image = ProductImage(product=product, image=image)
                         product_image.save()
+
 
                 count_value = request.POST['value-row']
                 if count_value != '':
@@ -546,12 +550,12 @@ def get_products(request):
 
 @api_view(http_method_names=['POST'])
 def get_company_code(request):
-    '''perm = general_methods.control_access(request)
+    perm = general_methods.control_access(request)
 
     if not perm:
         logout(request)
-        return redirect('accounts:login')'''
-    if request.method=='POST':
+        return redirect('accounts:login')
+    if request.method == 'POST':
         try:
 
             company_id = request.data['company_id']

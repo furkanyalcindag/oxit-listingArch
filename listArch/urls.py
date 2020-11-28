@@ -187,6 +187,8 @@ urlpatterns = [
     # Subscribe
     url(r'add-subscriber/$', SubscriberViews.add_subscriber, name='abone-ekle'),
     url(r'approved-subscriber/$', SubscriberViews.approve_subscriber, name='abone-onayla'),
+    url(r'passive-subscriber/$', SubscriberViews.passive_subscriber, name='abone-pasif-yap'),
+
     url(r'get-api-subcriber/$', APIViews.GetSubscriber.as_view(), name='abone-list-api'),
     url(r'list-subscriber/$', SubscriberViews.subscriber_list, name='abone-listesi'),
 

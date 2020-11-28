@@ -23,7 +23,7 @@ def subscriber_list(request):
 
 
 def approve_subscriber(request):
-    if request.POST:
+    if request.method=='POST':
         try:
             subscriber_id = request.POST['subscriber_id']
             subscriber = Subscriber.objects.get(pk=subscriber_id)
@@ -37,7 +37,7 @@ def approve_subscriber(request):
 
 
 def passive_subscriber(request):
-    if request.POST:
+    if request.method=='POST':
         try:
             subscriber_id = request.POST['subscriber_id']
             subscriber = Subscriber.objects.get(pk=subscriber_id)

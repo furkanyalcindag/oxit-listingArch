@@ -185,7 +185,7 @@
 
                                 html = '<button class="btn btn-success" onclick="subscriber_approve(' + full.id + ')"  title="Onayla"><i class="fa fa-check-square"></i></button>';
                             } else {
-                                html = '<button onclick="" class="btn btn-danger"><i class="fa fa-check-square"></i></button>';
+                                html = '<button onclick="subscriber_passive(' + full.id + ')" class="btn btn-danger"><i class="fa fa-check-square"></i></button>';
 
                             }
                             return html;
@@ -287,6 +287,41 @@
                 $('#modal-danger').modal('hide');
             });
         }
+
+        function subscriber_passive(id) {
+            document.getElementById('content_messages').innerHTML = 'Aboneyi pasif yapmak istediğinizden emin misiniz ?';
+            $(".deneme23").on("shown.bs.modal", function (e) {
+                $("#btn-conf").click(function () {
+                    $.ajax({
+                        url: "{% url 'listArch:abone-pasif-yap'%}",
+                        type: "post", // or "get"
+                        async: false,
+                        data: {
+                            subscriber_id: id,
+
+                        },
+                        success: function (result) {
+
+                            if (result.status === 'Success') {
+                                swal("Başarılı", " Abone pasif Edildi", "success");
+                                window.location.replace("{% url "listArch:abone-listesi" %}");
+
+
+                            } else {
+                                swal("Başarısız", result.messages, "error");
+                            }
+                        }
+
+
+                    });
+                });
+
+            }).modal('show');
+            $('#btn-close').click(function () {
+                $('#modal-danger').modal('hide');
+            });
+        }
+
 
 
 
