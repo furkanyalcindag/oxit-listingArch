@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'listArch',
     'widget_tweaks',
-    'django_filters',
+
     'qrcode',
     'django.contrib.sites',
 
