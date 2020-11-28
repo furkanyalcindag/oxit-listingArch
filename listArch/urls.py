@@ -55,7 +55,7 @@ urlpatterns = [
     url(r'filter-page-search/$', HomeViews.search_product_filter, name='filtreleme-sayfasi-search'),
 
     url(r'urun-getir/$', ProductViews.get_products, name='urun-getir'),
-    url(r'firma-kodu-getir/$', ProductViews.get_company, name='firma-getir'),
+    url(r'firma-kodu-getir/$', ProductViews.get_company_code, name='firma-kodu-getir'),
 
     url(r'add-product-definition/(?P<pk>\d+)$', ProductViews.add_productDefinition, name='urun-aciklama-ekle'),
     url(r'product-definition-update/(?P<pk>\d+)$', ProductViews.update_productDefinition,
@@ -211,6 +211,7 @@ urlpatterns = [
     url(r'profile-get-api/$', APIViews.GetProfile.as_view(), name='profile-list-api'),
     url(r'profiller/$', ProfileViews.profile_list, name='profil-listesi'),
     url(r'delete/$', ProfileViews.profile_delete, name='profili-sil'),
+    url(r'update-profile/(?P<pk>\d+)$', ProfileViews.update_profile, name='profil-guncelle'),
 
     url(r'profile-page/$', HomeViews.profile_page, name='profile-page'),
     url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),

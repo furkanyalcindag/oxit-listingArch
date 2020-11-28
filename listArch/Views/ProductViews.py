@@ -84,8 +84,6 @@ def add_product(request):
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
 
-                for file in product_form.cleaned_data['file']:
-                    product.file.add(file)
 
                 count = request.POST['image_row']
                 count = count.split(',')
@@ -265,9 +263,6 @@ def product_edit(request, uuid):
                 product.category.clear()
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
-                product.file.clear()
-                for file in product_form.cleaned_data['file']:
-                    product.file.add(file)
 
                 count = request.POST['image_row']
                 if count != '':
@@ -550,7 +545,7 @@ def get_products(request):
 
 
 @api_view(http_method_names=['POST'])
-def get_company(request):
+def get_company_code(request):
     perm = general_methods.control_access(request)
 
     if not perm:

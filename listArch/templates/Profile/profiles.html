@@ -79,7 +79,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{% url 'listArch:admin-dashboard' %}"><i class="fa fa-dashboard"></i> Anasayfa</a></li>
-            <li><a >{{ parent.name }}</a></li>
+            <li><a>{{ parent.name }}</a></li>
             <li><a>{{ obj.name }}</a></li>
         </ol>
 
@@ -112,7 +112,6 @@
                                 <th>Email</th>
                                 <th>Website Adresi</th>
                                 <th>Ülke</th>
-                                <th>Konum</th>
 
                             </tr>
                             </thead>
@@ -187,9 +186,12 @@
                             let html;
                             let url = '{% url 'listArch:profile-blog-ekle' 0 %}';
                             url = url.replace(0, full.id);
+                            let url2 = '{% url 'listArch:profil-guncelle' 0%}';
+                            url2 = url2.replace(0, full.id)
 
-                            html = '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Blog Ekle" href="'+url+'"><i class="fa fa-plus"></i></a>';
-                            html += '<button type="button" onclick="delete_profile('+full.id+')" style="margin-left: 5px;"  class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
+                            html = '<a style="margin-left: 5px;" class="btn btn-warning" type="btn" title="Blog Ekle" href="' + url + '"><i class="fa fa-plus"></i></a>';
+                            html += '<a style="margin-left: 5px;" class="btn btn-primary" type="btn" title="Düzenle" href="' + url2 + '"><i class="fa fa-edit"></i></a>';
+                            html += '<button type="button" onclick="delete_profile(' + full.id + ')" style="margin-left: 5px;"  class="btn btn-danger" type="btn" title="Sil" ><i class="fa fa-close"></i></button>';
 
                             return html;
                         }
@@ -237,14 +239,6 @@
                         render: function (data, type, full, meta, row) {
                             return full.country.name;
 
-                        }
-                    },
-                    {
-                        "data": null,
-                        "render": function (data, type, full, meta, row) {
-                            let html;
-                            html = '<a href="' + full.map + '">' + full.map + '</a>';
-                            return html;
                         }
                     },
 

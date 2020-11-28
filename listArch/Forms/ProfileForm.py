@@ -7,13 +7,15 @@ from listArch.models import Profile
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ('website', 'address', 'country', 'city', 'profile_name', 'image', 'map')
+        fields = ('website', 'address', 'country', 'city', 'profile_name', 'image', 'map', 'phone')
         widgets = {
 
             'website': forms.TextInput(
                 attrs={'class': 'form-control '}),
             'map': forms.TextInput(
                 attrs={'class': 'form-control '}),
+            'phone': forms.TextInput(
+                attrs={'class': 'form-control ', 'placeholder': '+905305426989'}),
             'address': forms.Textarea(
                 attrs={'class': 'form-control '}),
             'country': forms.Select(

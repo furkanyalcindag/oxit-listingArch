@@ -1,7 +1,7 @@
 from django.db import models
 
 
-from listArch.models.Company import Company
+from listArch.models import Company
 
 
 class CompanyCode(models.Model):

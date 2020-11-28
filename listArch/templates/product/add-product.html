@@ -337,9 +337,6 @@
 
                                                     </select>
 
-                                                    <label style="margin-top: 30px;">Dosya Seçin</label>
-                                                    {{ product_form.file }}
-
 
                                                     <label style="margin-top: 30px;">Kategorileri Seçin<small
                                                             style="color: red">*</small></label>
@@ -681,7 +678,7 @@
             var e = document.getElementById("product-company");
             var company_id = e.options[e.selectedIndex].value;
             $.ajax({
-                url: "{% url 'listArch:firma-getir' %}",
+                url: "{% url 'listArch:firma-kodu-getir' %}",
                 type: "post", // or "get"
                 async: false,
                 data: {

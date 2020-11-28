@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from listArch.Forms.BlogDescForm import BlogDescForm
@@ -217,3 +218,25 @@ def add_blog_businessType(request, pk):
             return redirect('listArch:admin-error-sayfasi')
     else:
         return render(request, 'blog/add_businessType_blog.html', {'profile': profile})
+
+
+@login_required
+def profile_blog_image_delete(request):
+    perm = general_methods.control_access(request)
+
+    if not perm:
+        logout(request)
+        return redirect('accounts:login')
+    if request.POST:
+        try:
+            image_id = request.POST.get('image_id')
+            image = Image.objects.get(pk=image_id)
+            product_image = BlogImage.objects.filter(image=image)
+            image.delete()
+            product_image.delete()
+
+            return JsonResponse({'status': 'Success', 'messages': 'save successfully'})
+
+        except Exception as e:
+
+            return JsonResponse({'status': 'Fail', 'msg': e})
