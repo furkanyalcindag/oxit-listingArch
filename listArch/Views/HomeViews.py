@@ -153,8 +153,8 @@ def product_detail(request, slug):
         for option in options_value:
             option_dict = dict()
             if option['option_value']:
-
-                if not OptionValue.objects.filter(pk=option['option_value'])[0].option.type == 'range':
+                type = OptionValue.objects.filter(pk=option['option_value'])[0].option.type
+                if type == 'checkbox':
                     product_option = \
                         OptionValueDesc.objects.filter(lang_code=home_lang_code).filter(
                             option_value_id=option['option_value'])[
@@ -167,10 +167,15 @@ def product_detail(request, slug):
                         lang_code=home_lang_code)
 
                     array.append(option_dict)
-                else:
+                elif type == 'range':
+                    option_dict['option'] = OptionDesc.objects.filter(
+                        option_id=OptionValue.objects.filter(pk=option['option_value'])[0].option.pk).filter(
+                        lang_code=home_lang_code)[
+                        0]
                     option_dict['range_value'] = \
                         ProductOptionValue.objects.filter(product=product).filter(
                             option_value_id=option['option_value'])[0]
+
                     array.append(option_dict)
         socials = CompanySocialAccount.objects.filter(company=product.company)
         # distinct('product')
@@ -203,8 +208,9 @@ def product_filter_page(request, pk):
         if cat_desc.count() > 0:
             category_desc = cat_desc[0]
         array = []
-        basic_options_value = OptionValue.objects.filter(option__isBasic=True).values('option',
-                                                                                      'option__type').annotate(
+        basic_options_value = OptionValue.objects.filter(option__category=category).filter(option__isBasic=True).values(
+            'option',
+            'option__type').annotate(
             count=Count('value'))
         for option in basic_options_value:
             option_dict = dict()
@@ -214,7 +220,8 @@ def product_filter_page(request, pk):
             option_dict['values'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
                 lang_code=home_lang_code).order_by('?')[:5]
             if len(option_dict['values']) == 0:
-                option_dict['range'] = OptionValue.objects.filter(option=option['option'])[0]
+                option_dict['range'] = \
+                OptionValue.objects.filter(option__category=category).filter(option=option['option'])[0]
             option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
                 lang_code=home_lang_code)
             option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
@@ -244,14 +251,18 @@ def product_filter_page(request, pk):
         advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
             product__category=category).order_by(
             'id')[:5]
+        option_text_basic = OptionDesc.objects.filter(option__type='text').filter(lang_code=home_lang_code).filter(
+            option__isBasic=True)
+        option_text_advanced = OptionDesc.objects.filter(option__type='text').filter(lang_code=home_lang_code).filter(
+            option__isBasic=False)
 
-        option_text = OptionDesc.objects.filter(option__type='text')
     except Exception as e:
         print(e)
         return redirect('listArch:404-sayfasi')
     return render(request, 'home/product-filter.html',
                   {'products': products, 'options': array, 'advanced_options': array_advanced,
-                   'option_text': option_text, 'category': category_desc, "parent_cat": parent_cat[0],
+                   'option_text_advanced': option_text_advanced, 'option_text_basic': option_text_basic,
+                   'category': category_desc, "parent_cat": parent_cat[0],
                    'cat_desc': category_desc, 'advert_product': advert_product,
                    'lists': list})
 

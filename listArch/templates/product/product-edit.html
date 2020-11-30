@@ -275,11 +275,11 @@
                                                                                                name="option-key-[{{ forloop.counter0 }}]"
                                                                                                class="form-control"
                                                                                                value="{{ option_value.range_value }}">
-                                                                                    {% elif  option_value.text_value %}
-                                                                                        <input readonly type="text"
+                                                                                    {% elif  option_value.option_value.option.type == 'text' %}
+                                                                                       <input readonly type="text"
                                                                                                name="option-key-[{{ forloop.counter0 }}]"
                                                                                                class="form-control"
-                                                                                               value="{{ option_value.text_value.key }}">
+                                                                                               value="{{ option_value.text_value }}">
 
                                                                                     {% else %}
                                                                                         <input readonly type="text"
@@ -300,12 +300,11 @@
                                                                                         class="btn btn-danger"><i
                                                                                         class="fa fa-minus-circle"></i>
                                                                                 </button>
-                                                                                {% if not option_value.text_value %}
-                                                                                    <span
-                                                                                            style="margin-top:3px;"
+
+                                                                                    <span style="margin-top:3px;"
                                                                                             class="btn btn-default">{{ option_value.option_value.option.key }}</span>
 
-                                                                                {% endif %}
+
                                                                             </div>
 
 
@@ -379,8 +378,6 @@
 
                                                         <label style="margin-top: 30px;">Kategori Seçin</label>
                                                         {{ product_form.category }}
-
-
 
 
                                                         <label style="margin-top: 30px;">İlişkili Ürünleri Seçin</label>
@@ -527,7 +524,8 @@
         let option_row = 0;
         let option_text_row = 0;
         let option_range = 0;
-        let count_text = []
+        let count_text = [];
+        let count_range = [];
 
         function get_option() {
 
@@ -543,21 +541,21 @@
 
                 },
                 success: function (response) {
+                    debugger;
                     var option = response.options[0];
                     let html;
 
-
-                    if (option.type === 'text') {
+                    if (option.option.type === 'text') {
                         html = '<div class="row" id="text-form-' + option_text_row + '" >';
                         html += '<div class="form-group"  style="margin-top: 5px;">';
                         html += '	  <label class="col-sm-2 control-label" for="input-value' + option_text_row + '">Seçenek Değeri</label>';
-                        html += '<div class="col-sm-4"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.key + '"  class="form-control"></div>';
-                        html += '<input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '"><button type="button" id="remove' + option_text_row + '" onclick="remove_text(' + option_text_row + ')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>	</div>';
+                        html += '<div class="col-sm-3"><input id="text-value-row' + option_text_row + '" name="text-value-row' + option_text_row + '" readonly style="margin-top:3px;" value="' + option.option.key + '"  class="form-control"></div>';
+                        html += '<div class="col-sm-6"><input placeholder="Anahtar Kelimeler" style="width: 100%" id="text_value' + option_text_row + '" class="form-control" type="text" value="" name="text_value' + option_text_row + '"><input type="hidden" id="option-type[' + option_text_row + ']" name="option-type[' + option_text_row + ']" value="' + option.id + '"></div><div class="col-sm-1"><button type="button" id="remove' + option_text_row + '" onclick="remove_text(' + option_text_row + ')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div>	</div>';
                         html += "</div>";
 
                         $('#tab-option .tab-content').append(html);
                         count_text.push(parseInt(option_text_row));
-                        document.getElementById('text-value-row').value = option_text_row;
+                        document.getElementById('text-value-row').value = count_text;
                         option_text_row++;
 
 
@@ -574,11 +572,14 @@
                     }
                     if (option.option.type === 'range') {
 
-                        html = '<div id="range' + option.option.key + '" class="form-group"><div class="col-sm-8" style="margin-top:3px;" ><input readonly id="option_range' + option_range + '" name="option_range' + option_range +
-                            '" type="text" class="form-control" value="' + option.option.key + ' ( min: ' + option.min + ' - max: ' + option.max + ' )"></div><div class="col-md-4"  style="margin-top:3px;" ><div class="col-md-6"><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_range + '"><input style="width: 100px" id="range_value' + option_range + '" class="form-control" type="text" value="" name="range_value' + option_range + '"></div><div class="col-md-6"><button type="button" id="remove' + option_range + '" onclick="remove_range(' + option_range + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div></div></div>';
+                        html = '<div style="margin-top: 5px;" id="range' + option_range + '" class="form-group">';
+                        html += '<label class="col-sm-2 control-label" for="input-value' + option_range + '">Seçenek Değeri</label>';
+                        html += '<div class="col-sm-4"><input id="range-value-row' + option_range + '" name="range-value-row' + option_range + '" readonly style="margin-top:3px;" value="' + option.option.key + '"  class="form-control"></div>';
+                        html += '<div class="col-sm-3"><input placeholder="Değer" style="width: 200px" id="range_value' + option_range + '" class="form-control" type="text" value="" name="range_value' + option_range + '"><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_range + '"></div><div class="col-sm-3"><button type="button" id="remove' + option_range + '" onclick="remove_range(' + option_range + ')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div></div>';
+                        html += "</div>";
 
-                        document.getElementById('option_range_count').value = option_range
-
+                        count_range.push(parseInt(option_range));
+                        document.getElementById('option_range_count').value = count_range
                         option_range++;
                         $('#tab-option .tab-content').append(html);
 
@@ -592,6 +593,7 @@
         }
 
         function remove_text(id) {
+            debugger;
             $('#text-form-' + id + '').remove();
             count_text = jQuery.grep(count_text, function (value) {
                 return value !== id;
@@ -668,7 +670,7 @@
             debugger;
             $('#option-value-row' + id + '').remove();
             count_value = jQuery.grep(count_value, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById('value-row').value = count_value;
             console.log(count_value)
@@ -694,7 +696,7 @@
         function remove_image(id) {
             $('#image-row' + id + '').remove();
             count_image = jQuery.grep(count_image, function (value) {
-                return value != id;
+                return value !== id;
             });
             document.getElementById("image_row").value = count_image;
             console.log(count_image)
@@ -702,11 +704,12 @@
 
 
         function remove_range(id) {
-            $('#option_range' + id + '').remove();
-            $('#remove' + id + '').remove();
-            $('#range_value' + id + '').remove();
-
-            option_range = option_range - 1;
+            debugger;
+            $('#range' + id + '').remove();
+            count_range = jQuery.grep(count_range, function (value) {
+                return value !== id;
+            });
+            document.getElementById('option_range_count').value = count_range
 
         }
 

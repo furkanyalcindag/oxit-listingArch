@@ -61,7 +61,8 @@ def add_product(request):
                 company = Company.objects.get(pk=int(request.POST['product-company']))
                 product = Product(name=request.POST['product_description[tr][name]'], company=company,
                                   code=product_form.cleaned_data['code'], code2=product_form.cleaned_data['code2'],
-                                  isActive=product_form.cleaned_data['isActive'],price=product_form.cleaned_data['price'],
+                                  isActive=product_form.cleaned_data['isActive'],
+                                  price=product_form.cleaned_data['price'],
                                   company_code=product_form.cleaned_data['company_code'],
                                   isAdvert=product_form.cleaned_data['isAdvert'], code3=request.POST['company-code'])
 
@@ -150,7 +151,9 @@ def add_product(request):
                     for x in array_text:
                         text_key = request.POST['text-value-row' + str(x) + '']
                         option = Option.objects.get(key=text_key)
-                        product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
+                        optionValue = OptionValue.objects.get(option=option)
+                        product_option = ProductOptionValue(product=product, option_value=optionValue,
+                                                            text_value=request.POST['text-value-' + str(x) + ''])
                         product_option.save()
 
                 messages.success(request, "Ürün Başarıyla eklendi.")
@@ -266,7 +269,6 @@ def product_edit(request, uuid):
                 for category in product_form.cleaned_data['category']:
                     product.category.add(category)
 
-
                 if request.POST['image_row'] != '':
                     count = request.POST['image_row']
                     count = count.split(',')
@@ -279,7 +281,6 @@ def product_edit(request, uuid):
                         image.save()
                         product_image = ProductImage(product=product, image=image)
                         product_image.save()
-
 
                 count_value = request.POST['value-row']
                 if count_value != '':
@@ -294,16 +295,20 @@ def product_edit(request, uuid):
                         product_option_value.save()
 
                 if request.POST['option_range_count'] != "":
-                    option_range = request.POST['option_range_count']
-                    if option_range != "":
-                        x = 0
-                        while x <= int(option_range):
+                    count_range = request.POST['option_range_count']
+                    if count_range != '':
+                        count_range = count_range.split(',')
+                        array_range = []
+                        for count in count_range:
+                            array_range.append(count)
+
+                        for x in array_range:
                             option_value = OptionValue.objects.get(option=Option.objects.get(
                                 pk=int(request.POST['option_range_id' + str(x) + ''])))
                             product_option = ProductOptionValue(product=product, option_value=option_value,
                                                                 range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
-                            x = x + 1
+
                 count_text = request.POST['text-value-row']
                 if count_text != '':
                     count_text = count_text.split(',')
@@ -314,7 +319,9 @@ def product_edit(request, uuid):
                     for x in array_text:
                         text_key = request.POST['text-value-row' + str(x) + '']
                         option = Option.objects.get(key=text_key)
-                        product_option = ProductOptionValue(product=product, option_value=None, text_value=option)
+                        optionValue = OptionValue.objects.get(option=option)
+                        product_option = ProductOptionValue(product=product, option_value=optionValue,
+                                                            text_value=request.POST['text_value' + str(x) + ''])
                         product_option.save()
 
                 messages.success(request, "Ürün Başarıyla Düzenlendi.")

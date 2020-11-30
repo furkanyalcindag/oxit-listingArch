@@ -615,20 +615,21 @@
                                     </tr>
 
                                     {% for option in options %}
-                                        {% if forloop.counter0|divisibleby:2 == 0 %}
+
+                                        {% if not option.option.option.isBasic %}
                                             <tr>
-                                                {% if option.option.option.isBasic %}
-                                                    <th scope="row">{{ option.option.description }}</th>
+                                                <th scope="row">{{ option.option.description }}</th>
+                                                {% if option.option.option.type == 'checkbox' %}
+
                                                     {% for value in option.values %}
-                                                        {% if option.option.option.type == 'range' %}
-                                                            <td>{{ value.option_value.min }}-{{ value.option_value.max }}</td>
-                                                        {% else %}
-                                                            <td>{{ value.description }}</td>
-                                                        {% endif %}
+                                                        <td>{{ value.description }}</td>
                                                     {% endfor %}
+                                                {% elif option.option.option.type == 'range' %}
+                                                    <td>{{ option.range_value.range_value }}</td>
                                                 {% endif %}
-                                            </tr>
-                                        {% endif %}
+
+                                            </tr>  {% endif %}
+
                                     {% endfor %}
                                     </tbody>
                                 </table>
@@ -638,18 +639,20 @@
                                 <table id="product" class="table table-bordered">
                                     <tbody>
                                     {% for option in options %}
-                                        <tr>
-                                            {% if forloop.counter0|divisibleby:2 == 1 %}
+                                        {% if option.option.option.isBasic%}
+                                            <tr>
                                                 <th scope="row">{{ option.option.description }}</th>
-                                                {% for value in option.values %}
-                                                    {% if option.option.option.type == 'range' %}
-                                                        <td>{{ value.option_value.min }}-{{ value.option_value.max }}</td>
-                                                    {% else %}
+                                                {% if option.option.option.type == 'checkbox' %}
+                                                    {% for value in option.values %}
                                                         <td>{{ value.description }}</td>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% endif %}
-                                        </tr>
+                                                    {% endfor %}
+                                                {% elif option.option.option.type == 'range' %}
+                                                    <td>{{ option.range_value.range_value }}</td>
+                                                {% endif %}
+
+
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 </table>
@@ -800,22 +803,22 @@
                                         {% for related in product.related_product.all %}
                                             <div class="col-md-3" style="padding-left: 0;padding-right: 0">
                                                 <div class="hovereffect"
-                                                     onclick="location.href='{% url 'listArch:urun-detay' related.related_product.slug %}';">
+                                                     onclick="location.href='{% url 'listArch:urun-detay' related.slug %}';">
                                                     <div class="listing-item"
                                                          style="background:#fff;margin: 0 10px;">
                                                         <img style="border: 1px solid #e0e0e0;"
-                                                             src="/media/{{ related.related_product.cover_image }}"
+                                                             src="/media/{{ related.cover_image }}"
                                                              alt="">
                                                         <div class="overlay">
-                                                            <h2 style="position: relative;font-size: 16px;color: #fff;">{{ related.related_product.company.name }}</h2>
-                                                            <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.related_product.name }} </h2>
+                                                            <h2 style="position: relative;font-size: 16px;color: #fff;">{{ related.company.name }}</h2>
+                                                            <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.name }} </h2>
                                                             <h2 style="position: relative;font-size: 16px;color: #fff;">
                                                                 ID
-                                                                {{ related.related_product.code }}</h2>
+                                                                {{ related.code }}</h2>
                                                             <h2 style="position: relative;font-size: 16px;color: #fff;">
                                                                 250$
                                                                 Sqm</h2>
-                                                            <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.related_product.company.country.name }}</h2>
+                                                            <h2 style="position: relative;font-size: 10px;color: #fff;">{{ related.company.country.name }}</h2>
 
                                                             <a style="left: 5px;
                                        bottom: 5px;

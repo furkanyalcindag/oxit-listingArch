@@ -33,12 +33,6 @@ def add_option(request):
                 option_description_tr = request.POST['option_description[tr][name]']
                 option_description_eng = request.POST['option_description[eng][name]']
                 array = []
-                count = request.POST['row_number']
-                if count != '':
-                    count = count.split(',')
-
-                    for count in count:
-                        array.append(count)
 
                 option = Option(key=option_description_tr,
                                 type=type)
@@ -55,23 +49,28 @@ def add_option(request):
                 for category in category_form.cleaned_data['category']:
                     option.category.add(category)
 
-                if option.type == 'range':
-                    min = request.POST['option_value[min]']
-                    max = request.POST['option_value[max]']
-                    optionValue = OptionValue(option=option, min=min, max=max)
-                    optionValue.save()
-                    messages.success(request, "Seçenek Başarıyla eklendi.")
-                    return redirect('listArch:secenek-ekle')
+                if type == 'checkbox':
+                    count = request.POST['row_number']
+                    if count != '':
+                        count = count.split(',')
 
-                for i in array:
-                    value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
-                    optionValue = OptionValue(option=option, value=value_tr)
+                        for count in count:
+                            array.append(count)
+                    for i in array:
+                        value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
+                        optionValue = OptionValue(option=option, value=value_tr)
+                        optionValue.save()
+                        value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
+                        option_value_desc = OptionValueDesc(option_value=optionValue, description=value_eng,
+                                                            lang_code=2)
+                        option_value_desc.save()
+                        option_value_desc2 = OptionValueDesc(option_value=optionValue, description=value_tr,
+                                                             lang_code=1)
+                        option_value_desc2.save()
+
+                else:
+                    optionValue = OptionValue(option=option)
                     optionValue.save()
-                    value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
-                    option_value_desc = OptionValueDesc(option_value=optionValue, description=value_eng, lang_code=2)
-                    option_value_desc.save()
-                    option_value_desc2 = OptionValueDesc(option_value=optionValue, description=value_tr, lang_code=1)
-                    option_value_desc2.save()
 
                 messages.success(request, "Seçenek Başarıyla eklendi.")
                 return redirect('listArch:secenek-ekle')
@@ -98,17 +97,11 @@ def feature_list(request):
 def get_option(request):
     if request.POST:
         try:
-
             option_key = request.POST.get('option_id')
             option = Option.objects.filter(key=option_key)
-            if option[0].type == 'text':
-                option = Option.objects.filter(key=option_key)
-                data = OptionSerializer(option, many=True)
 
-
-            else:
-                option = OptionValue.objects.filter(option__key=option_key)
-                data = OptionValueSerializer(option, many=True)
+            options = OptionValue.objects.filter(option=option[0])
+            data = OptionValueSerializer(options, many=True)
 
             responseData = dict()
             responseData['options'] = data.data
@@ -185,12 +178,10 @@ def update_option(request, pk):
             option_value_desc2 = OptionValueDesc.objects.filter(option_value=option_value).filter(lang_code=2)
             option_dict['option_value'] = option_value
 
-            if option_value.option.type != 'range':
+            if option_value.option.type == 'checkbox':
                 option_dict['option_tr'] = option_value_desc[0]
                 option_dict['option_eng'] = option_value_desc2[0]
-            else:
-                option_dict['option_tr'] = option_value.min
-                option_dict['option_eng'] = option_value.max
+
             option_array.append(option_dict)
 
         if request.method == 'POST':
@@ -214,40 +205,38 @@ def update_option(request, pk):
                 option.save()
 
                 option.type = type
-                if isBasic:
-                    option.isBasic = True
-                    option.category.clear()
 
-                else:
-                    option.isBasic = False
-                    for category in category_form.cleaned_data['category']:
-                        option.category.add(category)
-
+                option.isBasic = option_form.cleaned_data['isBasic']
                 option.save()
+
+                option.category.clear()
+                for category in category_form.cleaned_data['category']:
+                    option.category.add(category)
+
                 for option_val in option_values:
                     option_val.delete()
-                count = request.POST['row_number']
-                count = count.split(',')
-                array = []
-                for count in count:
-                    array.append(count)
-                if count != '':
+                if type == 'checkbox':
+                    count = request.POST['row_number']
+                    count = count.split(',')
+                    array = []
+                    for count in count:
+                        array.append(count)
+                    if count != '':
 
-                    for i in array:
-                        value_eng = request.POST['option_value[' + str(i) + '][option_value_description][eng][name]']
-                        value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
+                        for i in array:
+                            value_eng = request.POST[
+                                'option_value[' + str(i) + '][option_value_description][eng][name]']
+                            value_tr = request.POST['option_value[' + str(i) + '][option_value_description][tr][name]']
 
-                        if type == 'range':
-                            value = OptionValue(option=option, value=option_desc2[0].description, min=value_eng,
-                                                max=value_tr)
-                            value.save()
-                        else:
                             value = OptionValue(option=option, value=value_tr)
                             value.save()
                             desc2 = OptionValueDesc(option_value=value, lang_code=1, description=value_tr)
                             desc2.save()
                             desc = OptionValueDesc(option_value=value, lang_code=2, description=value_eng)
                             desc.save()
+                else:
+                    optionValue = OptionValue(option=option)
+                    optionValue.save()
 
                 messages.success(request, "Seçenek Başarıyla Güncellendi.")
                 return redirect('listArch:secenekler')
@@ -260,7 +249,6 @@ def update_option(request, pk):
     except Exception as e:
         print(e)
         return redirect('listArch:admin-error-sayfasi')
-
 
 
 @login_required

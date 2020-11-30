@@ -308,45 +308,24 @@
         let option_value_row = {{ loop }};
 
         $(document).ready(function () {
-            debugger;
+
             for (let i = 0; i < option_value_row; i++) {
                 count.push(i)
             }
             document.getElementById("row_number").value = count;
 
-            let is_basic=document.getElementById('id_isBasic').checked;
-            if (is_basic) {
-                    $('#advanced-option').css('display', 'none');
-
-                } else {
-                    $('#advanced-option').css('display', 'block');
-
-                }
 
 
 
-             $('#id_isBasic').change(function () {
-                if ($(this).is(":checked")) {
-                    $('#advanced-option').css('display', 'none');
-
-                } else {
-                    $('#advanced-option').css('display', 'block');
-
-                }
-
-
-            });
 
 
         });
 
 
         $('select[name=\'type\']').on('change', function () {
-            debugger;
-            if (this.value === 'range') {
-                $('#option-value-table').parent().show();
-                count = []
-            } else if (this.value === 'checkbox') {
+
+
+            if (this.value === 'checkbox') {
                 $('#option-value-table').parent().show();
                 count = []
             } else {
@@ -362,7 +341,7 @@
 
         function add_option_value() {
 
-            debugger;
+
 
             let html = '<tr id="option-value-row' + option_value_row + '">';
             html += '  <td class="text-left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
@@ -386,7 +365,7 @@
         }
 
         function remove_row(id) {
-            debugger;
+
             $('#option-value-row' + id + '').remove();
             count = jQuery.grep(count, function (value) {
                 return value !== id;

@@ -29,7 +29,28 @@
     <link rel="stylesheet" href="{% static 'bower_components/morris.js/morris.css' %}">
     <script type="text/javascript" src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
+ <script>
+                        window.onload = function () {
+                            $('.slider').slick({
+                                autoplay:true,
+                                slidesToShow: 20,
+                                slidesToScroll: -5,
+                                infinite: true,
+                                cssEase: 'linear',
 
+                            });
+
+                        };
+                    </script>
+                    <style>
+                        .slider {
+                            width: 90%;
+                            height: 62px;
+                            margin: 0 auto;
+                            background: transparent;
+                        }
+
+                    </style>
     <style>
 
 
@@ -595,7 +616,7 @@
             }
 
 
-            debugger;
+
             if (document.getElementById('' + value + '').checked === true) {
 
                 for (let i = 0; i < checkedBoxes.length; i++) {
@@ -698,7 +719,7 @@
 
             },
             success: function (result) {
-                debugger;
+
                 if (result.status === 'Success') {
                     document.location.reload(true)
 
