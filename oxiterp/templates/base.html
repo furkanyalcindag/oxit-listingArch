@@ -29,28 +29,28 @@
     <link rel="stylesheet" href="{% static 'bower_components/morris.js/morris.css' %}">
     <script type="text/javascript" src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
- <script>
-                        window.onload = function () {
-                            $('.slider').slick({
-                                autoplay:true,
-                                slidesToShow: 20,
-                                slidesToScroll: -5,
-                                infinite: true,
-                                cssEase: 'linear',
+    <script>
+        window.onload = function () {
+            $('.slider').slick({
+                autoplay: true,
+                slidesToShow: 20,
+                slidesToScroll: -5,
+                infinite: true,
+                cssEase: 'linear',
 
-                            });
+            });
 
-                        };
-                    </script>
-                    <style>
-                        .slider {
-                            width: 90%;
-                            height: 62px;
-                            margin: 0 auto;
-                            background: transparent;
-                        }
+        };
+    </script>
+    <style>
+        .slider {
+            width: 90%;
+            height: 62px;
+            margin: 0 auto;
+            background: transparent;
+        }
 
-                    </style>
+    </style>
     <style>
 
 
@@ -532,7 +532,15 @@
 
 </script>
 
-
+<script>
+    function button_block(id) {
+        debugger;
+        let button = document.getElementById('button[' + id + ']')
+        if (button.style.display === 'none') {
+            button.style.display = 'block';
+        }
+    }
+</script>
 <script>
     let tmp = [];
     let filtered_products = [];
@@ -555,20 +563,28 @@
 
 
     function option(option, value, type) {
+        debugger;
 
-        let temp;
         if (type === 'range') {
-            write_range_change(value_id)
-            let min = document.getElementById('range-min[' + value_id + ']').value;
-            let max = document.getElementById('range-max[' + value_id + ']').value;
 
-            temp = {"type": type, "option_id": value_id, "value": min + '-' + max,}
-            for (let i = 0; i < options.length; i++) {
-                if (options[i]['option_id'] === temp['option_id']) {
-                    options.pop(options[i])
-                }
+            let min = document.getElementById('range-min[' + value + ']').value;
+            let max = document.getElementById('range-max[' + value + ']').value;
+
+            let new_option = []
+            new_option.push({'min': min, 'max': max})
+            let new_temp = {
+                "option": option,
+                "values": new_option,
+                "type": type,
             }
-            options.push(temp)
+
+                if (current_option.includes(option) === false) {
+
+                    filter_options.push(new_temp)
+
+                    current_option.push(option)
+
+            }
 
         } else {
             let values = []
@@ -616,7 +632,6 @@
             }
 
 
-
             if (document.getElementById('' + value + '').checked === true) {
 
                 for (let i = 0; i < checkedBoxes.length; i++) {
@@ -661,7 +676,7 @@
             },
             success: function (response) {
 
-
+debugger;
                 let products = response.products;
                 let html = '';
                 let filter_html = document.getElementById('product-filter');

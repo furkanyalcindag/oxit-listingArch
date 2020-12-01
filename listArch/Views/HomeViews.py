@@ -221,7 +221,7 @@ def product_filter_page(request, pk):
                 lang_code=home_lang_code).order_by('?')[:5]
             if len(option_dict['values']) == 0:
                 option_dict['range'] = \
-                OptionValue.objects.filter(option__category=category).filter(option=option['option'])[0]
+                    OptionValue.objects.filter(option__category=category).filter(option=option['option'])[0]
             option_dict['allValues'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
                 lang_code=home_lang_code)
             option_dict['count'] = OptionValueDesc.objects.filter(option_value__option__id=option['option']).filter(
@@ -251,9 +251,11 @@ def product_filter_page(request, pk):
         advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
             product__category=category).order_by(
             'id')[:5]
-        option_text_basic = OptionDesc.objects.filter(option__type='text').filter(lang_code=home_lang_code).filter(
+        option_text_basic = OptionDesc.objects.filter(option__category=category).filter(option__type='text').filter(
+            lang_code=home_lang_code).filter(
             option__isBasic=True)
-        option_text_advanced = OptionDesc.objects.filter(option__type='text').filter(lang_code=home_lang_code).filter(
+        option_text_advanced = OptionDesc.objects.filter(option__category=category).filter(option__type='text').filter(
+            lang_code=home_lang_code).filter(
             option__isBasic=False)
 
     except Exception as e:
@@ -562,27 +564,27 @@ def filtered(request):
             products_1 = dict()
             products_2 = dict()
             product_list = ProductOptionValue.objects.filter(product__category=Category.objects.get(pk=category))
-
+            data = ""
             filtered_products = dict()
             if len(options) > 0:
                 productOptionValue = dict()
                 for item in options:
                     if options.index(item) == 0:
                         if item['type'] == 'range':
-                            if options.index(item) == 0:
-                                productOptionValue = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).distinct(
-                                    'product').filter(
-                                    option_value__option__id=int(item['option_id'])).filter(
-                                    range_value__gte=int(item['value'].split('-')[0])).filter(
-                                    range_value__lte=int(item['value'].split('-')[1]))
-                            else:
-                                x = ProductOptionValue.objects.filter(
-                                    option_value__option__id=int(item['option_id'])).filter(
-                                    range_value__gte=int(item['value'].split('-')[0])).distinct('product').filter(
-                                    range_value__lte=int(item['value'].split('-')[1]))
 
-                                productOptionValue = x and productOptionValue
+                            productOptionValue_range = ProductOptionValue.objects.filter(
+                                product__category__id=int(category)).distinct(
+                                'product').filter(
+                                option_value__option__id=int(item['option'])).filter(
+                                range_value__gte=int(item['values'][0]['min'])).filter(
+                                range_value__lte=int(item['values'][0]['max']))
+
+                            filtered_products = list(filtered_products)
+                            for product_option in productOptionValue_range:
+                                filtered_products.append(product_option.product)
+                                data = ProductSerializer(filtered_products, many=True)
+
+
 
 
                         elif item['type'] == 'checkbox':
@@ -600,6 +602,8 @@ def filtered(request):
                             for id in product_list:
                                 product = Product.objects.get(pk=id)
                                 filtered_products[id] = product
+                                data = ProductSerializer(list(filtered_products.values()), many=True)
+
 
                         else:
                             print(productOptionValue)
@@ -607,20 +611,20 @@ def filtered(request):
                         product_list_2 = list()
                         products_2 = dict()
                         if item['type'] == 'range':
-                            if options.index(item) == 0:
-                                productOptionValue = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).distinct(
-                                    'product').filter(
-                                    option_value__option__id=int(item['option_id'])).filter(
-                                    range_value__gte=int(item['value'].split('-')[0])).filter(
-                                    range_value__lte=int(item['value'].split('-')[1]))
-                            else:
-                                x = ProductOptionValue.objects.filter(
-                                    option_value__option__id=int(item['option_id'])).filter(
-                                    range_value__gte=int(item['value'].split('-')[0])).distinct('product').filter(
-                                    range_value__lte=int(item['value'].split('-')[1]))
 
-                                productOptionValue = x and productOptionValue
+                            productOptionValue_range = ProductOptionValue.objects.filter(
+                                option_value__option__id=int(item['option'])).filter(
+                                range_value__gte=int(item['values'][0]['min'])).filter(
+                                range_value__lte=int(item['values'][0]['max'])).distinct('product')
+                            products_range = list()
+                            for product_option in productOptionValue_range:
+                                products_range.append(product_option.product)
+
+                            set1 = set(filtered_products)
+                            filter = set1.intersection(products_range)
+                            filtered_products = filter
+                            data = ProductSerializer(filtered_products, many=True)
+
 
 
                         elif item['type'] == 'checkbox':
@@ -645,13 +649,14 @@ def filtered(request):
 
                             filtered_products = filter
                             product_list = products_id
+                            data = ProductSerializer(list(filtered_products.values()), many=True)
+
                         else:
                             print(productOptionValue)
-                data = ProductSerializer(list(filtered_products.values()), many=True)
             else:
                 filtered_products = Product.objects.filter(category__id=int(category)).distinct(
                     'id')
-                data = ProductSerializer(list(filtered_products), many=True)
+                data = ProductSerializer(filtered_products, many=True)
 
             responseData = dict()
             responseData['products'] = data.data

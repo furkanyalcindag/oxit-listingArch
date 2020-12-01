@@ -102,7 +102,7 @@
 
 
                                             <div class="more-search-options relative"
-                                                 style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
+                                                 style="display: block !important;padding: 6px;;">
                                                 <!-- Checkboxes -->
 
                                                 <div class="checkboxes one-in-row ">
@@ -170,7 +170,7 @@
 
                                                                             <input id="{{ value.option_value.pk }}"
                                                                                    type="checkbox"
-                                                                                   onchange="option('checkbox',{{ option.option.option.pk }},this.value)"
+                                                                                   onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
                                                                                    name="{{ value.option_value.pk }}"
                                                                                    value="{{ value.option_value.pk }}">
                                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -201,6 +201,8 @@
 
 
                                 {% elif  option.option.option.type == 'range' %}
+
+
                                     <div class="row with-forms margin-top-2"
                                          style="border-top: 1px solid ;border-bottom: 1px solid">
 
@@ -214,17 +216,29 @@
                                         <div class="col-md-2"></div>
                                         <div class="col-md-5">
                                             <input style="height: 30px;width: 50px" type="text" placeholder="Min"
-                                                   value="0"
-                                                   id="range-min[]"
-                                                   name="range-min[]"/>
+                                                   value="0" onclick="button_block({{ forloop.counter0 }})"
+                                                   id="range-min[{{ forloop.counter0 }}]"
+                                                   name="range-min[{{ forloop.counter0 }}]"/>
                                         </div>
                                         <div class="col-md-5">
                                             <input style="height: 30px;width:50px ;" type="text" placeholder="Max"
                                                    value="0"
-                                                   id="range-max[]"
-                                                   name="range-max[]"/>
+                                                   onclick="button_block({{ forloop.counter0 }})"
+                                                   id="range-max[{{ forloop.counter0 }}]"
+                                                   name="range-max[{{ forloop.counter0 }}]"/>
                                         </div>
+                                        <div style="display: none"  id="button[{{ forloop.counter0 }}]">
+                                            <a class="rate-review popup-with-zoom-anim"
+                                               onclick="option({{ option.option.option.pk }},{{ forloop.counter0 }},'range')"
+                                               style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;margin-bottom: 5px; height: 20px; border-color: #fd9116;">
+                                                {{ 'apply'| get_item_by_lang }}
+                                            </a></div>
                                     </div>
+
+
+                                    <!-- Checkboxes / End -->
+
+
 
                                 {% endif %}
 
@@ -763,51 +777,51 @@
                             <!-- Row -->
                             {% if option.option.option.type == 'checkbox' %}
 
-                                  <div class="row with-forms">
-                                        <!-- Cities -->
-                                        <div class="col-md-12"
-                                             style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
+                                <div class="row with-forms">
+                                    <!-- Cities -->
+                                    <div class="col-md-12"
+                                         style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
 
-                                            <a href="#" style="font-size: 15px;text-transform: uppercase;"
-                                               class="more-search-options-trigger margin-bottom-5 margin-top-5"
-                                               data-open-title="{{ option.option.description }}"
-                                               data-close-title="{{ option.option.description }}"
-                                               id="{{ option.option.option.pk }}"
-                                            ></a>
+                                        <a href="#" style="font-size: 15px;text-transform: uppercase;"
+                                           class="more-search-options-trigger margin-bottom-5 margin-top-5"
+                                           data-open-title="{{ option.option.description }}"
+                                           data-close-title="{{ option.option.description }}"
+                                           id="{{ option.option.option.pk }}"
+                                        ></a>
 
 
-                                            <div class="more-search-options relative"
-                                                 style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
-                                                <!-- Checkboxes -->
+                                        <div class="more-search-options relative"
+                                             style="display: block !important;margin-top: -6px;padding: 6px;margin-bottom: -3px;">
+                                            <!-- Checkboxes -->
 
-                                                <div class="checkboxes one-in-row ">
-                                                    <div id="btnClick">
-                                                        {% for value in option.values %}
-                                                            <input id="{{ value.option_value.pk }}"
-                                                                   type="checkbox"
-                                                                   onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
-                                                                   name="checkbox"
-                                                                   data-option="{{ value.option_value.option.pk }}"
-                                                                   value="{{ value.option_value.pk }}">
-                                                            <label for="{{ value.option_value.pk }}">{{ value }}</label>
-                                                        {% endfor %}
-                                                    </div>
-
+                                            <div class="checkboxes one-in-row ">
+                                                <div id="btnClick">
+                                                    {% for value in option.values %}
+                                                        <input id="{{ value.option_value.pk }}"
+                                                               type="checkbox"
+                                                               onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
+                                                               name="checkbox"
+                                                               data-option="{{ value.option_value.option.pk }}"
+                                                               value="{{ value.option_value.pk }}">
+                                                        <label for="{{ value.option_value.pk }}">{{ value }}</label>
+                                                    {% endfor %}
                                                 </div>
 
-                                                <a href="#small-dialog-{{ option.option.option.pk }}"
-                                                   class="rate-review popup-with-zoom-anim"
-                                                   style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
-                                                    {{ 'all'| get_item_by_lang }} [{{ option.count }}]
-                                                </a>
-
-                                                <!-- Checkboxes / End -->
                                             </div>
 
+                                            <a href="#small-dialog-{{ option.option.option.pk }}"
+                                               class="rate-review popup-with-zoom-anim"
+                                               style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;; margin-bottom: 5px; height: 20px; border-color: #fd9116;">
+                                                {{ 'all'| get_item_by_lang }} [{{ option.count }}]
+                                            </a>
 
+                                            <!-- Checkboxes / End -->
                                         </div>
 
+
                                     </div>
+
+                                </div>
                                 <div id="small-dialog-{{ option.option.option.pk }}"
                                      class="zoom-anim-dialog mfp-hide" style="color: black">
 
@@ -844,7 +858,8 @@
                                                                     {% for value in option.allValues %}
 
                                                                         <input id="{{ value.option_value.pk }}"
-                                                                               type="checkbox" onchange="option('checkbox',{{ option.option.option.pk }},this.value)"
+                                                                               type="checkbox"
+                                                                               onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
                                                                                name="{{ value.option_value.pk }}"
                                                                                value="{{ value.option_value.pk }}">
                                                                         <label for="{{ value.option_value.pk }}">{{ value }}</label>
@@ -874,7 +889,8 @@
 
                             {% elif  option.option.option.type == 'range' %}
                                 <div class="row with-forms margin-top-2"
-                                     style="border-top: 1px solid ;border-bottom: 1px solid">
+                                     style="border-top: 1px solid ;border-bottom: 1px solid;width: 100%">
+
                                     <div class="col-md-12">
                                         <a href="#" style=";text-transform: uppercase;"
                                            class="more-search-options-trigger margin-bottom-5 margin-top-5"
@@ -895,6 +911,8 @@
                                                id="range-max[]"
                                                name="range-max[]"/>
                                     </div>
+
+
                                 </div>
 
                             {% endif %}
@@ -1031,3 +1049,4 @@
 
 
 </script>
+
