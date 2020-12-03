@@ -57,7 +57,7 @@
                     </div>
 
                 {% endif %}
-                  {% if message.tags == 'info' %}
+                {% if message.tags == 'info' %}
 
                     <div class="alert alert-info alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -470,7 +470,8 @@
         let option_value_row = 0;
         let value = 0;
         let count_value = [];
-        let count_text = []
+        let count_text = [];
+        let count_range = []
 
 
         function get_option() {
@@ -532,12 +533,15 @@
                     }
                     if (option.option.type === 'range') {
 
-                        html = '<div id="option-value-row' + option_value_row + '"><div class="form-group"><div class="col-sm-8" style="margin-top:3px;" ><input id="option_range' + option_row + '" name="option_range' + option_row +
-                            '" type="text" class="form-control" value="' + option.option.key + ' (min:' + option.min + ' - max:' + option.max + ')"><input style="margin-top: 5px;width: 100px" class="form-control" type="text" value="" name="range_value' + option_row + '"></div><div class="col-sm-4" style="margin-top:3px;" ><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_row + '"><button type="button" id="remove' + option_range + '" onclick="remove(' + option_row + ')" data-toggle="tooltip" title="Kaldır" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
-                        html += '</div></div>';
-                        option_row++;
-                        option_value_row++;
-                        document.getElementById('option_range_count').value = option_row;
+                        html = '<div style="margin-top: 5px;" id="range' + option_range + '" class="form-group">';
+                        html += '<label class="col-sm-2 control-label" for="input-value' + option_range + '">Seçenek Değeri</label>';
+                        html += '<div class="col-sm-4"><input id="range-value-row' + option_range + '" name="range-value-row' + option_range + '" readonly style="margin-top:3px;" value="' + option.option.key + '"  class="form-control"></div>';
+                        html += '<div class="col-sm-3"><input placeholder="Değer" style="width: 200px" id="range_value' + option_range + '" class="form-control" type="text" value="" name="range_value' + option_range + '"><input type="hidden" value="' + option.option.id + '" name="option_range_id' + option_range + '"></div><div class="col-sm-3"><button type="button" id="remove' + option_range + '" onclick="remove_range(' + option_range + ')" data-toggle="tooltip" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></div></div>';
+                        html += "</div>";
+
+                        count_range.push(parseInt(option_range));
+                        document.getElementById('option_range_count').value = count_range
+                        option_range++;
                         $('#tab-option .tab-content').append(html);
 
                     }
@@ -548,6 +552,17 @@
 
             });
         }
+
+        function remove_range(id) {
+            debugger;
+            $('#range' + id + '').remove();
+            count_range = jQuery.grep(count_range, function (value) {
+                return value !== id;
+            });
+            document.getElementById('option_range_count').value = count_range
+
+        }
+
 
         function remove_text(id) {
 

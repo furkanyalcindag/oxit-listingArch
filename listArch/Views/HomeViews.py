@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -557,6 +559,7 @@ def filtered_products(request):
 @api_view(http_method_names=['POST'])
 def filtered(request):
     if request.POST:
+        print(datetime.now())
         try:
             tmp = request.POST['options']
             category = request.POST['category']
@@ -569,20 +572,37 @@ def filtered(request):
             if len(options) > 0:
                 productOptionValue = dict()
                 for item in options:
+                    min = ""
+                    max = ""
                     if options.index(item) == 0:
+
                         if item['type'] == 'range':
 
+                            if item['values'][0]['min'] == '':
+                                min = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).filter(
+                                    option_value__option__id=int(item['option'])).order_by('range_value')[0].range_value
+                                max = item['values'][0]['max']
+
+                            elif item['values'][0]['max'] == '':
+                                max = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).filter(
+                                    option_value__option__id=int(item['option'])).order_by('-range_value')[
+                                    0].range_value
+                                min = item['values'][0]['min']
+                            else:
+                                min = item['values'][0]['min']
+                                max = item['values'][0]['max']
                             productOptionValue_range = ProductOptionValue.objects.filter(
                                 product__category__id=int(category)).distinct(
                                 'product').filter(
                                 option_value__option__id=int(item['option'])).filter(
-                                range_value__gte=int(item['values'][0]['min'])).filter(
-                                range_value__lte=int(item['values'][0]['max']))
+                                range_value__gte=int(min)).filter(
+                                range_value__lte=int(max))
 
                             filtered_products = list(filtered_products)
                             for product_option in productOptionValue_range:
                                 filtered_products.append(product_option.product)
-                                data = ProductSerializer(filtered_products, many=True)
 
 
 
@@ -602,64 +622,75 @@ def filtered(request):
                             for id in product_list:
                                 product = Product.objects.get(pk=id)
                                 filtered_products[id] = product
-                                data = ProductSerializer(list(filtered_products.values()), many=True)
+                            filtered_products = list(filtered_products.values())
+
 
 
                         else:
                             print(productOptionValue)
                     else:
-                        product_list_2 = list()
-                        products_2 = dict()
+                        product_list_value = list()
+                        products_id_dict = dict()
                         if item['type'] == 'range':
+
+                            if item['values'][0]['min'] == '':
+                                min = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).filter(
+                                    option_value__option__id=int(item['option'])).order_by('range_value')[0].range_value
+                                max = item['values'][0]['max']
+
+                            elif item['values'][0]['max'] == '':
+                                max = ProductOptionValue.objects.filter(
+                                    product__category__id=int(category)).filter(
+                                    option_value__option__id=int(item['option'])).order_by('-range_value')[
+                                    0].range_value
+                                min = item['values'][0]['min']
+                            else:
+                                min = item['values'][0]['min']
+                                max = item['values'][0]['max']
 
                             productOptionValue_range = ProductOptionValue.objects.filter(
                                 option_value__option__id=int(item['option'])).filter(
-                                range_value__gte=int(item['values'][0]['min'])).filter(
-                                range_value__lte=int(item['values'][0]['max'])).distinct('product')
+                                range_value__gte=int(min)).filter(
+                                range_value__lte=int(max)).distinct('product')
+
                             products_range = list()
                             for product_option in productOptionValue_range:
                                 products_range.append(product_option.product)
 
                             set1 = set(filtered_products)
                             filter = set1.intersection(products_range)
-                            filtered_products = filter
-                            data = ProductSerializer(filtered_products, many=True)
-
-
+                            filtered_products = list(filter)
 
                         elif item['type'] == 'checkbox':
-                            if options.index(item) == 0:
-                                productOptionValue = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).distinct(
-                                    'product')
+                            new_productOptionValue = ""
+                            productOptionValue = ProductOptionValue.objects.filter(
+                                product__category__id=int(category)).distinct(
+                                'product')
                             for value in item['values']:
                                 new_productOptionValue = productOptionValue.filter(
                                     option_value__id=int(value)).distinct(
                                     'product')
-                                for product in new_productOptionValue:
-                                    products_2[product.product.pk] = product.product.pk
-                                product_list_2 = list(products_2.values())
+                            for product in new_productOptionValue:
+                                product_list_value.append(product.product)
 
-                            set1 = set(product_list)
-                            products_id = set1.intersection(product_list_2)
-                            filter = dict()
-                            for id in products_id:
-                                product = Product.objects.get(pk=id)
-                                filter[id] = product
-
-                            filtered_products = filter
-                            product_list = products_id
-                            data = ProductSerializer(list(filtered_products.values()), many=True)
+                            set1 = set(filtered_products)
+                            filter = set1.intersection(product_list_value)
+                            filtered_products = list(filter)
 
                         else:
                             print(productOptionValue)
+
+                    data = ProductSerializer(filtered_products, many=True)
+
             else:
                 filtered_products = Product.objects.filter(category__id=int(category)).distinct(
-                    'id')
+                    'id')[:50]
                 data = ProductSerializer(filtered_products, many=True)
 
             responseData = dict()
             responseData['products'] = data.data
+            print(datetime.now())
 
             return JsonResponse(responseData, safe=True)
 

@@ -26,7 +26,9 @@
 
     <!-- breadcrumbs -->
     <div class="container" style="width: 100%;">
+
         <div class="row" style="border-top:1px solid;margin-top: 3px;margin-right: -13px;">
+
             <div class="col-md-2 col-lg-2" style="padding-left: 9px;
                padding-right: 9px;border-right: 1px solid;border-bottom:1px solid">
                 <div class="sidebar">
@@ -207,32 +209,37 @@
                                          style="border-top: 1px solid ;border-bottom: 1px solid">
 
                                         <div class="col-md-12">
-                                            <a href="#" style=";text-transform: uppercase;"
+                                            <a style=";text-transform: uppercase;"
                                                class="more-search-options-trigger margin-bottom-5 margin-top-5"
                                                data-open-title="{{ option.option.description }}"
                                                data-close-title="{{ option.option.description }}"
                                                id="{{ option.option.option.pk }}"></a>
                                         </div>
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-5">
-                                            <input style="height: 30px;width: 50px" type="text" placeholder="Min"
-                                                   value="0" onclick="button_block({{ forloop.counter0 }})"
-                                                   id="range-min[{{ forloop.counter0 }}]"
-                                                   name="range-min[{{ forloop.counter0 }}]"/>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <input class="x" style="height: 30px;width: 50px" type="text"
+                                                       placeholder="Min"
+                                                       value="" onclick="button_block({{ forloop.counter0 }})"
+                                                       id="range-min[{{ forloop.counter0 }}]"
+                                                       name="range-min[{{ forloop.counter0 }}]"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="x" style="height: 30px;width:50px ;" type="text"
+                                                       placeholder="Max"
+                                                       value=""
+                                                       onclick="button_block({{ forloop.counter0 }})"
+                                                       id="range-max[{{ forloop.counter0 }}]"
+                                                       name="range-max[{{ forloop.counter0 }}]"/>
+                                            </div>
+                                            <div class="col-md-4" style="display: none"
+                                                 id="button[{{ forloop.counter0 }}]">
+                                                <a class="button" type="button"
+                                                   onclick="option({{ option.option.option.pk }},{{ forloop.counter0 }},'range')"
+                                                   style="background: #fd9116;color: white; border-color: #fd9116;margin-top: 5px;
+">
+                                                    {{ 'apply'| get_item_by_lang }}
+                                                </a></div>
                                         </div>
-                                        <div class="col-md-5">
-                                            <input style="height: 30px;width:50px ;" type="text" placeholder="Max"
-                                                   value="0"
-                                                   onclick="button_block({{ forloop.counter0 }})"
-                                                   id="range-max[{{ forloop.counter0 }}]"
-                                                   name="range-max[{{ forloop.counter0 }}]"/>
-                                        </div>
-                                        <div style="display: none"  id="button[{{ forloop.counter0 }}]">
-                                            <a class="rate-review popup-with-zoom-anim"
-                                               onclick="option({{ option.option.option.pk }},{{ forloop.counter0 }},'range')"
-                                               style="background: #fd9116;color: white;width: 100%; text-align: center; line-height: 7px;margin-bottom: 5px; height: 20px; border-color: #fd9116;">
-                                                {{ 'apply'| get_item_by_lang }}
-                                            </a></div>
                                     </div>
 
 
@@ -248,9 +255,7 @@
 
 
                         <!-- More Search Options / End -->
-                        <button style="height: 40px;background: #fd9116" class="button fullwidth margin-top-25">
-                            {{ 'filter'| get_item_by_lang }}
-                        </button>
+
                     </div>
                     <!-- Widget / End -->
                 </div>
@@ -268,9 +273,13 @@
                         </div>
                     {% endif %}
                 {% endfor %}
-            </div>
 
-            <div class="col-md-8 col-lg-8 margin-top-20" style="padding-left: 30px;padding-right: 30px;">
+            </div>
+            <div id="loader" style="display: none"></div>
+            <div id="loader-opacity" class="col-md-8 col-lg-8 margin-top-20"
+                 style="padding-left: 30px;padding-right: 30px;">
+
+
                 {% if messages %}
                     {% for message in messages %}
                         <div class="notification warning closeable">
@@ -488,7 +497,7 @@
                         {% if products %}
                             <div id="product-filter">
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" id="product-filter-load-products">
 
                                         {% for product in products %}
                                             {% if not product.product.isAdvert %}
@@ -777,7 +786,7 @@
                             <!-- Row -->
                             {% if option.option.option.type == 'checkbox' %}
 
-                                <div class="row with-forms">
+                                <div class="row with-forms" id="{{ forloop.counter0 }}">
                                     <!-- Cities -->
                                     <div class="col-md-12"
                                          style="border-top: 1px solid;margin-top: 2px;border-bottom: 1px solid;width: 100%">
@@ -786,8 +795,7 @@
                                            class="more-search-options-trigger margin-bottom-5 margin-top-5"
                                            data-open-title="{{ option.option.description }}"
                                            data-close-title="{{ option.option.description }}"
-                                           id="{{ option.option.option.pk }}"
-                                        ></a>
+                                           id="{{ option.option.option.pk }}"></a>
 
 
                                         <div class="more-search-options relative"
@@ -888,8 +896,10 @@
 
 
                             {% elif  option.option.option.type == 'range' %}
+
+
                                 <div class="row with-forms margin-top-2"
-                                     style="border-top: 1px solid ;border-bottom: 1px solid;width: 100%">
+                                     style="border-top: 1px solid ;border-bottom: 1px solid">
 
                                     <div class="col-md-12">
                                         <a href="#" style=";text-transform: uppercase;"
@@ -898,22 +908,38 @@
                                            data-close-title="{{ option.option.description }}"
                                            id="{{ option.option.option.pk }}"></a>
                                     </div>
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-5">
-                                        <input style="height: 30px;width: 50px" type="text" placeholder="Min"
-                                               value="0"
-                                               id="range-min[]"
-                                               name="range-min[]"/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <input class="x" style="height: 30px;width: 50px" type="text"
+                                                       placeholder="Min"
+                                                       value="" onclick="button_block({{ forloop.counter0 }})"
+                                                       id="range-min[{{ forloop.counter0 }}]"
+                                                       name="range-min[{{ forloop.counter0 }}]"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="x" style="height: 30px;width:50px ;" type="text"
+                                                       placeholder="Max"
+                                                       value=""
+                                                       onclick="button_block({{ forloop.counter0 }})"
+                                                       id="range-max[{{ forloop.counter0 }}]"
+                                                       name="range-max[{{ forloop.counter0 }}]"/>
+                                            </div>
+                                            <div class="col-md-4" style="display: none"
+                                                 id="button[{{ forloop.counter0 }}]">
+                                                <a class="button" type="button" id="range-apply"
+                                                   onclick="option({{ option.option.option.pk }},{{ forloop.counter0 }},'range')"
+                                                   style="background: #fd9116;color: white; border-color: #fd9116;margin-top: 5px;
+">
+                                                    {{ 'apply'| get_item_by_lang }}
+                                                </a></div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <input style="height: 30px;width:50px ;" type="text" placeholder="Max"
-                                               value="0"
-                                               id="range-max[]"
-                                               name="range-max[]"/>
-                                    </div>
-
-
                                 </div>
+
+
+                                <!-- Checkboxes / End -->
+
 
                             {% endif %}
 
@@ -922,9 +948,7 @@
 
 
                         <!-- More Search Options / End -->
-                        <button style="height: 40px;background: #fd9116" class="button fullwidth margin-top-25">
-                            {{ 'filter'| get_item_by_lang }}
-                        </button>
+
                     </div>
                     <!-- Widget / End -->
                 </div>
@@ -936,9 +960,77 @@
 
 
 
-    <!-- /.modal-content -->
 
 
+
+    <style>
+        /* Center the loader */
+        #loader {
+            position: sticky;
+            left: 50%;
+            top: 50%;
+            z-index: 99999999;
+            margin: -100px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #fd9116;
+            border-bottom: 16px solid #fd9116;
+
+            width: 100px;
+            height: 100px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add animation to "page content" */
+        .animate-bottom {
+            position: relative;
+            -webkit-animation-name: animatebottom;
+            -webkit-animation-duration: 1s;
+            animation-name: animatebottom;
+            animation-duration: 1s
+        }
+
+        @-webkit-keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+            to {
+                bottom: 0px;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatebottom {
+            from {
+                bottom: -100px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content2 %}

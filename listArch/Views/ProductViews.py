@@ -131,16 +131,19 @@ def add_product(request):
                         product_option_value.save()
 
                 if request.POST['option_range_count'] != "":
-                    option_range = request.POST['option_range_count']
-                    if option_range != "":
-                        x = 0
-                        while x <= int(option_range):
+                    count_range = request.POST['option_range_count']
+                    if count_range != '':
+                        count_range = count_range.split(',')
+                        array_range = []
+                        for count in count_range:
+                            array_range.append(count)
+
+                        for x in array_range:
                             option_value = OptionValue.objects.get(option=Option.objects.get(
                                 pk=int(request.POST['option_range_id' + str(x) + ''])))
                             product_option = ProductOptionValue(product=product, option_value=option_value,
                                                                 range_value=request.POST['range_value' + str(x) + ''])
                             product_option.save()
-                            x = x + 1
                 count_text = request.POST['text-value-row']
                 if count_text != '':
                     count_text = count_text.split(',')

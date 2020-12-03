@@ -89,13 +89,13 @@
         }
     </style>
 </head>
-<body>
+<body id="body">
 <div id="wrapper">
 
     <header id="header-container">
 
         <!-- Header -->
-        <div id="header" style="border-bottom: 2px solid #fd9116;padding: 0 !important;">
+        <div id="header" style="padding: 0 !important;">
             <div class="left-side">
 
                 <!-- Logo -->
@@ -364,8 +364,118 @@
 <script type="text/javascript" src="{% static 'base2/scripts/custom.js' %}"></script>
 <script src='https://cdn3.devexpress.com/jslib/17.1.6/js/dx.all.js'></script>
 <script src="{% static 'base2/chart/canvasjs.min.js' %}"></script>
+<style>
 
 
+    @-webkit-keyframes tada {
+        from {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+        10%, 20% {
+            -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+        }
+        30%, 50%, 70%, 90% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        }
+        40%, 60%, 80% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        }
+        to {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+
+    @keyframes tada {
+        from {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+        10%, 20% {
+            -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);
+        }
+        30%, 50%, 70%, 90% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        }
+        40%, 60%, 80% {
+            -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+            transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        }
+        to {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+
+    @keyframes pulse {
+        from {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+        50% {
+            -webkit-transform: scale3d(1.05, 1.05, 1.05);
+            transform: scale3d(1.05, 1.05, 1.05);
+        }
+        to {
+            -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+        }
+    }
+
+    @-webkit-keyframes zoomIn {
+        from {
+            opacity: 0;
+            -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3);
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes zoomIn {
+        from {
+            opacity: 0;
+            -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3);
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+
+
+    .wtsp-iletism {
+        position: fixed;
+        bottom: 20px;
+        left: 0px;
+        z-index: 9999;
+        margin-left: 15px;
+    }
+
+
+    .wtsp-iletismone:hover .wtsp-iletism-circle {
+        border-color: #43b91e;
+    }
+
+    .wtsp-iletismone:hover .wtsp-iletism-circle-fill {
+        background-color: #43b91e;
+    }
+
+    .wtsp-iletismone:hover .wtsp-iletism-img-circle {
+        background-color: #43b91e;
+    }
+</style>
+<div class="wtsp-iletism" style="display: none" id="clear_all_button">
+    <button onclick="clear_all_filter()" class="button"
+            style="height:30px;color: #fff;padding: 5px;">{{ 'clear_all'| get_item_by_lang }}</button>
+</div>
 <!-- Google Autocomplete -->
 
 <script>
@@ -563,7 +673,11 @@
 
 
     function option(option, value, type) {
-        debugger;
+
+        console.log('start' + Date());
+
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('loader-opacity').style.opacity = 0.3;
 
         if (type === 'range') {
 
@@ -578,11 +692,11 @@
                 "type": type,
             }
 
-                if (current_option.includes(option) === false) {
+            if (current_option.includes(option) === false) {
 
-                    filter_options.push(new_temp)
+                filter_options.push(new_temp)
 
-                    current_option.push(option)
+                current_option.push(option)
 
             }
 
@@ -592,7 +706,7 @@
                 values.push($(this).val());
             });
             let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
-
+            debugger;
             if (document.getElementById('' + value + '').checked === false) {
                 if (current_option.length > 0) {
                     for (let i = 0; i < filter_options.length; i++) {
@@ -622,8 +736,11 @@
 
                             }
                         } else {
-                            filter_options.splice(i, 1)
-                            current_option.splice(i, 1);
+                            if (filter_options[i].type === 'checkbox') {
+                                filter_options.splice(i, 1)
+                                current_option.splice(i, 1);
+                            }
+
                         }
 
                     }
@@ -668,7 +785,7 @@
         $.ajax({
             url: "{% url 'listArch:urun-filtrele-range'%}",
             type: "post", // or "get"
-            async: false,
+            async: true,
             dataType: "json",
             data: {
                 options: JSON.stringify(filter_options),
@@ -676,15 +793,15 @@
             },
             success: function (response) {
 
-debugger;
+                debugger;
                 let products = response.products;
                 let html = '';
-                let filter_html = document.getElementById('product-filter');
+                let filter_html = document.getElementById('product-filter-load-products');
+                filter_html.innerHTML = '';
 
-                html = '<div id="product-filter"> <div class="row"> <div class="col-lg-12">';
                 if (products.length > 0) {
                     for (let i = 0; i < products.length; i++) {
-
+                        html = '';
                         html += '<div class="col-1-5">';
                         let url = '{% url 'listArch:urun-detay' 0 %}';
                         url = url.replace(0, '' + products[i].slug + '')
@@ -701,13 +818,18 @@ debugger;
                         html += '<a style="right: 5px;  bottom: 5px; position: absolute;  text-align: right; float: right; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>\n'
                         html += '</div></div></div></div>';
 
+                        filter_html.innerHTML = filter_html.innerHTML + html;
+
 
                     }
                 } else {
-                    html += '<p><h2 style="text-align: center">Aradığınız Ürün Bulunamadı</h2></p>';
+                    let html = '<p><h2 style="text-align: center">Aradığınız Ürün Bulunamadı</h2></p>';
+                    filter_html.innerHTML = filter_html.innerHTML + html;
                 }
+
+
                 document.getElementById('filtered_products').value = filtered_products;
-                html += ' </div> </div>  </div>';
+
 
                 let count = products.length;
                 let html2 = "";
@@ -715,8 +837,98 @@ debugger;
                 html2 = '<strong id="option_count"> [' + count + '] </strong>';
 
                 document.getElementById('option_count').innerHTML = html2;
+                //filter_html.innerHTML = html;
 
-                filter_html.innerHTML = html;
+                if (filter_options.length > 0) {
+                    document.getElementById("clear_all_button").style.display = 'block';
+                }
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('loader-opacity').style.opacity = 1;
+
+                console.log('finish ' + Date());
+
+            }
+        });
+    }
+
+    function clear_all_filter() {
+        filter_options = [];
+
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('loader-opacity').style.opacity = 0.3;
+        let checkedBoxes = document.querySelectorAll('input[name=checkbox]:checked');
+        for (let i = 0; i < checkedBoxes.length; i++) {
+            checkedBoxes[i].checked = false;
+        }
+
+        let range_inputs = document.getElementsByClassName('x');
+        for (let i = 0; i < range_inputs.length; i++) {
+            range_inputs[i].value = '';
+        }
+        document.getElementById('clear_all_button').style.display = 'none';
+        let category = document.getElementById('filtered-category').value;
+        $.ajax({
+            url: "{% url 'listArch:urun-filtrele-range'%}",
+            type: "post", // or "get"
+            async: true,
+            dataType: "json",
+            data: {
+                options: JSON.stringify(filter_options),
+                category: category,
+            },
+            success: function (response) {
+
+                debugger;
+                let products = response.products;
+                let html = '';
+                let filter_html = document.getElementById('product-filter-load-products');
+                filter_html.innerHTML = '';
+
+
+                if (products.length > 0) {
+                    for (let i = 0; i < products.length; i++) {
+                        html = '';
+                        html += '<div class="col-1-5">';
+                        let url = '{% url 'listArch:urun-detay' 0 %}';
+                        url = url.replace(0, '' + products[i].slug + '')
+                        html += ' <div class="hovereffect" onclick="location.href=\'' + url + '\';">';
+                        html += '<div class="listing-item ">';
+                        html += '<img style="height: 200px !important;" src="' + products[i].cover_image + '" alt="">';
+                        html += '<div class="overlay">';
+                        html += '<h2 style="font-size:16px">' + products[i].company.name + '</h2>';
+                        html += '<h2 class="margin-top-40" style="font-size:12px">' + products[i].name + '</h2>';
+                        html += '<h2 style="font-size:16px">ID' + products[i].code + '</h2>';
+                        html += '<h2 class="margin-top-45" style="font-size:10px">' + products[i].price + '$ Sqm</h2>';
+                        html += '<h2 style="font-size:10px">' + products[i].company.country.name + '</h2>';
+                        html += '<a style="left: 5px; bottom: 5px; position: absolute; text-align: left; float: left; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Phone-2"></i></a>\n'
+                        html += '<a style="right: 5px;  bottom: 5px; position: absolute;  text-align: right; float: right; font-size: 24px; color: #fff;" href="#"> <i class="im im-icon-Like"></i></a>\n'
+                        html += '</div></div></div></div>';
+
+                        filter_html.innerHTML = filter_html.innerHTML + html;
+
+                    }
+                } else {
+                    let html = '<p><h2 style="text-align: center">Aradığınız Ürün Bulunamadı</h2></p>';
+                    filter_html.innerHTML = filter_html.innerHTML + html;
+                }
+
+
+                document.getElementById('filtered_products').value = filtered_products;
+
+                let count = products.length;
+                let html2 = "";
+
+                html2 = '<strong id="option_count"> [' + count + '] </strong>';
+
+                document.getElementById('option_count').innerHTML = html2;
+                //filter_html.innerHTML = html;
+
+                if (filter_options.length > 0) {
+                    document.getElementById("clear_all_button").style.display = 'block';
+                }
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('loader-opacity').style.opacity = 1;
+
 
             }
         });
