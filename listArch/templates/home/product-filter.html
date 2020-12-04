@@ -408,7 +408,7 @@
 
                                         <div class="col-1-5" style="margin-bottom: 55px;">
                                             <div class="hovereffect">
-                                                <div class="listing-item" onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
+                                                <div class="listing-item">
                                                     <img src="/media/{{ product.product.cover_image }}" alt=""
                                                          style="height:200px !important;border: 2px solid #fd9116">
                                                     <div class="listing-badge now-open">Ads</div>
@@ -509,7 +509,7 @@
                                                 <div class="col-1-5">
 
                                                     <div class="hovereffect">
-                                                        <div class="listing-item " onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
+                                                        <div class="listing-item">
                                                             <img style="height: 200px !important;"
                                                                  src="/media/{{ product.product.cover_image }}"
                                                                  alt="">
@@ -853,11 +853,11 @@
                                                                              style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
                                                                             {% for option in advanced_options %}
                                                                                 {% if option.option.option.type == 'checkbox' %}
-                                                                                        <a href="#small-dialog-{{ option.option.option.pk }}"
-                                                                                           class="rate-review popup-with-zoom-anim"
-                                                                                           style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
-                                                                                            {{ option.option.description }}
-                                                                                        </a> <br>
+                                                                                    <a href="#small-dialog-{{ option.option.option.pk }}"
+                                                                                       class="rate-review popup-with-zoom-anim"
+                                                                                       style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
+                                                                                        {{ option.option.description }}
+                                                                                    </a> <br>
 
                                                                                 {% endif %}
                                                                             {% endfor %}
