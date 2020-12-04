@@ -699,8 +699,9 @@ def add_product_file(request, pk):
     try:
         if request.method == 'POST':
 
-            for file in request.POST['id_file']:
-                product.file.add(file)
+            for file in request.POST.getlist('id_file[]'):
+                fileProduct = File.objects.get(id=int(file))
+                product.file.add(fileProduct)
 
             messages.success(request, "Dosya Başarıyla Kayıt Edildi.")
             return redirect('listArch:urune-dosya-ekle', pk)
