@@ -408,7 +408,7 @@
 
                                         <div class="col-1-5" style="margin-bottom: 55px;">
                                             <div class="hovereffect">
-                                                <div class="listing-item">
+                                                <div class="listing-item" onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
                                                     <img src="/media/{{ product.product.cover_image }}" alt=""
                                                          style="height:200px !important;border: 2px solid #fd9116">
                                                     <div class="listing-badge now-open">Ads</div>
@@ -437,7 +437,7 @@
                                                            href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
                                                             <i class="im im-icon-Phone-2"></i></a>
                                                         <a class="popup-with-zoom-anim" type="button"
-                                                           style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                           style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;z-index: 9"
                                                            href="#small-dialog-{{ product.product.slug }}"> <i
                                                                 class="im im-icon-Like"></i></a>
                                                         <div id="small-dialog-{{ product.product.slug }}"
@@ -509,7 +509,7 @@
                                                 <div class="col-1-5">
 
                                                     <div class="hovereffect">
-                                                        <div class="listing-item ">
+                                                        <div class="listing-item " onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
                                                             <img style="height: 200px !important;"
                                                                  src="/media/{{ product.product.cover_image }}"
                                                                  alt="">
@@ -537,7 +537,7 @@
                                                                    href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
                                                                     <i class="im im-icon-Phone-2"></i></a>
                                                                 <a class=" popup-with-zoom-anim"
-                                                                   style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                                   style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;z-index: 9"
                                                                    href="#small-dialog-{{ product.product.key }}"> <i
                                                                         class="im im-icon-Like"></i></a>
                                                             </div>
