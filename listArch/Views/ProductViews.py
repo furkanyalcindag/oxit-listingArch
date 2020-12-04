@@ -1,3 +1,5 @@
+import traceback
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -705,6 +707,7 @@ def add_product_file(request, pk):
 
         return render(request, 'product/add-product-file.html', {'form': file_form, 'product': product})
     except Exception as e:
+        traceback.print_exc()
         print(e)
         return redirect('listArch:admin-error-sayfasi')
 
