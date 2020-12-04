@@ -71,7 +71,7 @@
                         <div class="col-md-2" style="padding-left: 0;
                      padding-right: 0;">
                             <a href="{% url 'listArch:firma-bilgileri'  product.company.pk %}"><img
-                                    src="/media/{{ product.company.logo }}" alt=""></a>
+                                    src="/media/{{ product.company.logo }}" alt="" style="margin-top: 15px"></a>
                         </div>
 
                         <div class="col-md-1" style="padding-left: 0;
@@ -84,27 +84,27 @@
                             <div id="listing-nav" class="listing-nav-container">
                                 <ul class="listing-nav" style="background:#000">
                                     <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 25px;height: 25px;text-align: center;"
+                                        <a style="border: 1px solid;border-radius: 50px;width: 50px;height: 50px;padding-top: 15px;font-size: 25px;text-align: center;"
                                            href="#listing-1" class="active">1</a>
                                     </li>
                                     <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 25px;height: 25px;text-align: center;"
+                                        <a style="border: 1px solid;border-radius: 50px;width: 50px;height: 50px;padding-top: 15px;font-size: 25px;text-align: center;"
                                            href="#listing-2" class="active">2</a>
                                     </li>
                                     <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 25px;height: 25px;text-align: center;"
+                                        <a style="border: 1px solid;border-radius: 50px;width: 50px;height: 50px;padding-top: 15px;font-size: 25px;text-align: center;"
                                            href="#listing-3" class="active">3</a>
                                     </li>
                                     <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 25px;height: 25px;text-align: center;"
+                                        <a style="border: 1px solid;border-radius: 50px;width: 50px;height: 50px;padding-top: 15px;font-size: 25px;text-align: center;"
                                            href="#listing-4" class="active">4</a>
                                     </li>
                                     <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 25px;height: 25px;text-align: center;"
+                                        <a style="border: 1px solid;border-radius: 50px;width: 50px;height: 50px;padding-top: 15px;font-size: 25px;text-align: center;"
                                            href="#listing-5" class="active">5</a>
                                     </li>
                                     <li>
-                                        <a style="border: 1px solid;border-radius: 50px;width: 25px;height: 25px;text-align: center;"
+                                        <a style="border: 1px solid;border-radius: 50px;width: 50px;height: 50px;padding-top: 15px;font-size: 25px;text-align: center;"
                                            href="#listing-6" class="active">6</a>
                                     </li>
                                 </ul>
@@ -639,7 +639,7 @@
                                 <table id="product" class="table table-bordered">
                                     <tbody>
                                     {% for option in options %}
-                                        {% if option.option.option.isBasic%}
+                                        {% if option.option.option.isBasic %}
                                             <tr>
                                                 <th scope="row">{{ option.option.description }}</th>
                                                 {% if option.option.option.type == 'checkbox' %}
