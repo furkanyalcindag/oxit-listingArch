@@ -51,7 +51,7 @@ class Product(models.Model):
             canvas = Image.new('RGB', (350, 350), 'white')
             draw = ImageDraw.Draw(canvas)
             canvas.paste(qrcode_img)
-            fname = f'qr_code-{self.name}.png'
+            fname = f'qr_code-{self.slug}.png'
             buffer = BytesIO()
             canvas.save(buffer, 'PNG')
             self.qr_code.save(fname, File(buffer), save=False)

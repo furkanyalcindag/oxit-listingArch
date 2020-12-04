@@ -762,7 +762,7 @@ def home_products(request, pk):
     cat = Category.objects.filter(pk=pk)
     category = CategoryDesc.objects.filter(category=cat[0]).filter(lang_code=home_lang_code)
     sub_categories = CategoryDesc.objects.filter(lang_code=home_lang_code).filter(category__isActive=True).filter(
-        category__parent__in=cat).order_by('?')[:40]
+        category__parent__in=cat).order_by('?')[:44]
     products = ProductDesc.objects.filter(lang_code=int(home_lang_code)).filter(product__category__in=cat).filter(
         product__isAdvert=True).order_by('?')[:6]
 
