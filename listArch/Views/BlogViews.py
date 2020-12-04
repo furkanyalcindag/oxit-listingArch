@@ -92,7 +92,7 @@ def update_blog(request, pk):
     companies = Company.objects.all()
     products = Product.objects.all()
     if blog:
-        blog=blog[0]
+        blog = blog[0]
 
         blog_tr = BlogDesc.objects.filter(lang_code=1).filter(blog=blog)[0]
         blog_eng = BlogDesc.objects.filter(lang_code=2).filter(blog=blog)[0]
@@ -102,7 +102,6 @@ def update_blog(request, pk):
             if company_blog:
                 company = company_blog[0].company
                 product_blog = company_blog[0].product
-
 
             company_blog_form = CompanyBlogForm(request.POST or None, request.FILES or None, instance=company_blog[0])
         else:

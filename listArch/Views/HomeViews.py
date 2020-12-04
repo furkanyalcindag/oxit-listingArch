@@ -249,7 +249,8 @@ def product_filter_page(request, pk):
                 lang_code=home_lang_code).count()
             array_advanced.append(option_dict)
 
-        products = ProductDesc.objects.filter(product__category=category).distinct('product_id')[:50]
+        products = ProductDesc.objects.filter(product__isAdvert=False).filter(product__category=category).distinct(
+            'product_id')[:150]
         advert_product = ProductDesc.objects.filter(product__isAdvert=True).filter(lang_code=home_lang_code).filter(
             product__category=category).order_by(
             'id')[:5]
@@ -409,9 +410,11 @@ def get_company_info(request, pk):
             product_categories = Product.objects.filter(company=company).filter(
                 category=Category.objects.get(pk=category_product['category'])).distinct('id')
             category_dict = dict()
-            category_dict['category'] = Category.objects.get(pk=category_product['category'])
-            category_dict['product_category'] = product_categories[0]
-            array.append(category_dict)
+            cat = Category.objects.filter(is_parent=False).filter(pk=category_product['category'])
+            if cat:
+                category_dict['category'] = cat[0]
+                category_dict['product_category'] = product_categories[0]
+                array.append(category_dict)
 
     except Exception as e:
         print(e)
@@ -577,35 +580,48 @@ def filtered(request):
                     if options.index(item) == 0:
 
                         if item['type'] == 'range':
-
-                            if item['values'][0]['min'] == '':
-                                min = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).filter(
-                                    option_value__option__id=int(item['option'])).order_by('range_value')[0].range_value
-                                max = item['values'][0]['max']
-
-                            elif item['values'][0]['max'] == '':
-                                max = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).filter(
-                                    option_value__option__id=int(item['option'])).order_by('-range_value')[
-                                    0].range_value
-                                min = item['values'][0]['min']
+                            productOptionValue_range = ''
+                            if item['values'][0]['min'] == '' and item['values'][0]['max'] == '':
+                                productOptionValue_range = ProductOptionValue.objects.filter(
+                                    option_value__option__id=int(item['option'])).distinct('product')
                             else:
-                                min = item['values'][0]['min']
-                                max = item['values'][0]['max']
-                            productOptionValue_range = ProductOptionValue.objects.filter(
-                                product__category__id=int(category)).distinct(
-                                'product').filter(
-                                option_value__option__id=int(item['option'])).filter(
-                                range_value__gte=int(min)).filter(
-                                range_value__lte=int(max))
+                                if item['values'][0]['min'] == '':
+                                    min = ProductOptionValue.objects.filter(
+                                        product__category__id=int(category)).filter(
+                                        option_value__option__id=int(item['option'])).order_by('range_value')
+                                    if min:
+                                        min = min[0].range_value
+                                        max = item['values'][0]['max']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__gte=int(min)).filter(
+                                            range_value__lte=int(max)).distinct('product')
+                                    else:
+                                        max = item['values'][0]['max']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__lte=int(max)).distinct('product')
 
-                            filtered_products = list(filtered_products)
-                            for product_option in productOptionValue_range:
-                                filtered_products.append(product_option.product)
+                                elif item['values'][0]['max'] == '':
+                                    max = ProductOptionValue.objects.filter(
+                                        product__category__id=int(category)).filter(
+                                        option_value__option__id=int(item['option'])).order_by('-range_value')
+                                    if max:
+                                        max = max[0].range_value
+                                        min = item['values'][0]['min']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__gte=int(min)).filter(
+                                            range_value__lte=int(max)).distinct('product')
+                                    else:
+                                        min = item['values'][0]['min']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__gte=int(min)).distinct('product')
 
-
-
+                                filtered_products = list(filtered_products)
+                                for product_option in productOptionValue_range:
+                                    filtered_products.append(product_option.product)
 
                         elif item['type'] == 'checkbox':
                             productOptionValue = ProductOptionValue.objects.filter(
@@ -632,35 +648,52 @@ def filtered(request):
                         product_list_value = list()
                         products_id_dict = dict()
                         if item['type'] == 'range':
-
-                            if item['values'][0]['min'] == '':
-                                min = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).filter(
-                                    option_value__option__id=int(item['option'])).order_by('range_value')[0].range_value
-                                max = item['values'][0]['max']
-
-                            elif item['values'][0]['max'] == '':
-                                max = ProductOptionValue.objects.filter(
-                                    product__category__id=int(category)).filter(
-                                    option_value__option__id=int(item['option'])).order_by('-range_value')[
-                                    0].range_value
-                                min = item['values'][0]['min']
+                            productOptionValue_range = ''
+                            if item['values'][0]['min'] == '' and item['values'][0]['max'] == '':
+                                productOptionValue_range = ProductOptionValue.objects.filter(
+                                    option_value__option__id=int(item['option'])).distinct('product')
                             else:
-                                min = item['values'][0]['min']
-                                max = item['values'][0]['max']
+                                if item['values'][0]['min'] == '':
+                                    min = ProductOptionValue.objects.filter(
+                                        product__category__id=int(category)).filter(
+                                        option_value__option__id=int(item['option'])).order_by('range_value')
+                                    if min:
+                                        min = min[0].range_value
+                                        max = item['values'][0]['max']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__gte=int(min)).filter(
+                                            range_value__lte=int(max)).distinct('product')
+                                    else:
+                                        max = item['values'][0]['max']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__lte=int(max)).distinct('product')
 
-                            productOptionValue_range = ProductOptionValue.objects.filter(
-                                option_value__option__id=int(item['option'])).filter(
-                                range_value__gte=int(min)).filter(
-                                range_value__lte=int(max)).distinct('product')
+                                elif item['values'][0]['max'] == '':
+                                    max = ProductOptionValue.objects.filter(
+                                        product__category__id=int(category)).filter(
+                                        option_value__option__id=int(item['option'])).order_by('-range_value')
+                                    if max:
+                                        max = max[0].range_value
+                                        min = item['values'][0]['min']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__gte=int(min)).filter(
+                                            range_value__lte=int(max)).distinct('product')
+                                    else:
+                                        min = item['values'][0]['min']
+                                        productOptionValue_range = ProductOptionValue.objects.filter(
+                                            option_value__option__id=int(item['option'])).filter(
+                                            range_value__gte=int(min)).distinct('product')
 
-                            products_range = list()
-                            for product_option in productOptionValue_range:
-                                products_range.append(product_option.product)
+                                products_range = list()
+                                for product_option in productOptionValue_range:
+                                    products_range.append(product_option.product)
 
-                            set1 = set(filtered_products)
-                            filter = set1.intersection(products_range)
-                            filtered_products = list(filter)
+                                set1 = set(filtered_products)
+                                filter = set1.intersection(products_range)
+                                filtered_products = list(filter)
 
                         elif item['type'] == 'checkbox':
                             new_productOptionValue = ""
@@ -805,7 +838,7 @@ def profile_page(request):
     for company_blog in company_blog:
         company_blog_dict = dict()
         company_blog_dict['company'] = company_blog
-        company_blog_dict['images'] = Product.objects.filter(company=company_blog.company).order_by('?')[:2]
+        company_blog_dict['images'] = BlogImage.objects.filter(blog=company_blog.blog).order_by('?')[:4]
         company_blog_dict['blog_desc'] = \
             BlogDesc.objects.filter(blog=company_blog.blog).filter(lang_code=home_lang_code)[0]
         company_blog_dict['profile_name'] = \

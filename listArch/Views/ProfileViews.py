@@ -51,7 +51,8 @@ def add_profile(request):
                                   phone=profile_form.cleaned_data['phone'],
                                   profile_name=profile_form.cleaned_data['profile_name'],
                                   map=profile_form.cleaned_data['map'],
-                                  image=profile_form.cleaned_data['image'])
+                                  image=profile_form.cleaned_data['image'],
+                                  category=profile_form.cleaned_data['category'])
 
                 profile.save()
                 email = Setting.objects.filter(name='email')
@@ -109,9 +110,9 @@ def update_profile(request, pk):
                 profile.profile_name = profile_form.cleaned_data['profile_name']
                 profile.map = profile_form.cleaned_data['map']
                 profile.image = profile_form.cleaned_data['image']
-                profile.phone=profile_form.cleaned_data['phone']
+                profile.phone = profile_form.cleaned_data['phone']
+                profile.category = profile_form.cleaned_data['category']
                 profile.save()
-
 
                 messages.success(request, "Profil Başarıyla Düzenlendi.")
                 return redirect('listArch:profil-listesi')
@@ -121,7 +122,7 @@ def update_profile(request, pk):
             print(e)
     return render(request, 'Profile/update-profile.html',
                   {'profile_form': profile_form, 'user_form': user_form, 'profile_names': profile_names,
-                   'countries': countries,'profile':profile})
+                   'countries': countries, 'profile': profile})
 
 
 def profile_list(request):

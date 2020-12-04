@@ -4,11 +4,8 @@
     {% load change_lang %}
 
     <div class="main-search-container centered dark-overlay" style="height: 110vh ;    border-top: 2px solid #fd9116;">
-
         <div class="main-search-inner">
-
             <div class="container">
-
                 <div class="row">
                     <form action="{% url 'listArch:urun-adi-arama' %}" method="get">
                         {% csrf_token %}

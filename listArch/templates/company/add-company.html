@@ -383,6 +383,29 @@
     </script>
 
     <script>
+
+    function
+
+    add_retail() {
+            debugger;
+            let e = document.getElementById("retail");
+            let retail = e.options[e.selectedIndex].value;
+            let html = "";
+            if (retail === "news") {
+                html = '<div class="form-group">';
+                html += '<label class="col-sm-2 control-label" for="input-type">Mağaza Adı</label>';
+                html += '<div class="col-sm-10"><input id="retail-name" name="retail-name" type="text" class="form-control" placeholder="Firma Adı">';
+                html += '</div></div>';
+                html += '<div class="form-group"><label class="col-sm-2 control-label" for="input-type">Mağaza Logo</label>';
+                html += '<div class="col-sm-10">';
+                html += '<input id="retail-logo" name="retail-logo" type="file" class="form-control"></div></div>';
+            }
+
+            document.getElementById('new-retail').innerHTML = html;
+
+        }
+
+
         let social_row = 0;
         let count = []
 

@@ -46,9 +46,18 @@ def add_product(request):
     if not perm:
         logout(request)
         return redirect('accounts:login')
+
     options = Option.objects.all()
     product_form = ProductForm()
     companies = Company.objects.filter(user__is_active=True)
+    product = None
+    product_desc = None
+    product_desc2 = None
+    product_image = None
+    image = None
+    product_option = None
+    product_video = None
+    product_option_value = None
     if request.method == 'POST':
         try:
 
@@ -114,21 +123,20 @@ def add_product(request):
                         product_video = ProductVideo(product=product, video=video)
                         product_video.save()
 
-                if request.POST['value-row'] != "":
-                    count = request.POST['value-row']
-                    count = count.split(',')
-                    array = []
-                    for count in count:
-                        array.append(count)
+                count = request.POST['value-row']
+                count = count.split(',')
+                array = []
+                for count in count:
+                    array.append(count)
 
-                    product_option_value = ProductOptionValue.objects.filter(product=product)
-                    for value in product_option_value:
-                        value.delete()
+                product_option_value = ProductOptionValue.objects.filter(product=product)
+                for value in product_option_value:
+                    value.delete()
 
-                    for j in array:
-                        value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
-                        product_option_value = ProductOptionValue(product=product, option_value=value[0])
-                        product_option_value.save()
+                for j in array:
+                    value = OptionValue.objects.filter(pk=int(request.POST['option-key-value[' + str(j) + ']']))
+                    product_option_value = ProductOptionValue(product=product, option_value=value[0])
+                    product_option_value.save()
 
                 if request.POST['option_range_count'] != "":
                     count_range = request.POST['option_range_count']
@@ -166,6 +174,22 @@ def add_product(request):
 
         except Exception as e:
             print(e)
+            if product != None:
+                product.delete()
+            if product_desc != None:
+                product_desc.delete()
+            if product_desc2 != None:
+                product_desc2.delete()
+            if product_image != None:
+                product_image.delete()
+            if image != None:
+                image.delete()
+            if product_option != None:
+                product_option.delete()
+            if product_video != None:
+                product_video.delete()
+            if product_option_value != None:
+                product_option_value.delete()
             return redirect('listArch:admin-error-sayfasi')
 
     return render(request, 'product/add-product.html',

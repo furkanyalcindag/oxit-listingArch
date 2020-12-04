@@ -68,7 +68,9 @@
 
                             <div class="row with-forms margin-top-2"
                                  style="border-top: 1px solid ;border-bottom: 1px solid">
-
+                                <div class="col-md-12">
+                                    <div class="col-md-1" id="option_name"></div>
+                                </div>
                                 <div class="col-md-12">
                                     <a href="#" style=";text-transform: uppercase;"
                                        class="more-search-options-trigger margin-bottom-5 margin-top-5"
@@ -155,7 +157,7 @@
                                                                 <div class="col-md-4"
                                                                      style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
                                                                     {% for option in options %}
-                                                                        {% if option.option.option.isBasic %}
+                                                                        {% if option.option.option.isBasic and  option.option.option.type == 'checkbox' %}
                                                                             <a href="#small-dialog-{{ option.option.option.pk }}"
                                                                                class="rate-review popup-with-zoom-anim"
                                                                                style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
@@ -173,11 +175,10 @@
                                                                             <input id="{{ value.option_value.pk }}"
                                                                                    type="checkbox"
                                                                                    onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
-                                                                                   name="{{ value.option_value.pk }}"
+                                                                                   name="checkbox"
+                                                                                   data-option="{{ value.option_value.option.pk }}"
                                                                                    value="{{ value.option_value.pk }}">
                                                                             <label for="{{ value.option_value.pk }}">{{ value }}</label>
-
-
 
                                                                         {% endfor %}
 
@@ -265,9 +266,9 @@
                 {% for product in products %}
                     {% if not product.product.isAdvert %}
                         <div class="col-lg-6 col-md-6" style="padding-left: 5px;padding-right: 5px;">
-                            <div class="hovereffect" onclick="location.href='#';">
+                            <div class="hovereffect">
                                 <div class="listing-item ">
-                                    <img height="100" src="/media/{{ product.product.cover_image }}" alt="">
+                                    <img style="height:100px " src="/media/{{ product.product.cover_image }}" alt="">
                                 </div>
                             </div>
                         </div>
@@ -404,37 +405,42 @@
                             <div class="col-lg-12">
                                 {% if advert_product %}
                                     {% for product in advert_product %}
+
                                         <div class="col-1-5" style="margin-bottom: 55px;">
                                             <div class="hovereffect">
                                                 <div class="listing-item">
                                                     <img src="/media/{{ product.product.cover_image }}" alt=""
                                                          style="height:200px !important;border: 2px solid #fd9116">
+                                                    <div class="listing-badge now-open">Ads</div>
+
                                                     <div class="overlay" style="text-align: center">
                                                         <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                            style="margin-top:50px;font-size:16px">{{ product.product.company.name }}</h2>
+                                                            style="font-size:16px">{{ product.product.company.name }}</h2>
                                                         <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                            style="font-size:10px">{{ product.product.name }}</h2>
-                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                            style="font-size:16px">ID {{ product.product.code }}</h2>
-                                                        <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
-                                                            style="font-size:16px">250$ Sqm</h2>
+                                                            style="font-size:12px">{{ product.product.name }}</h2>
+                                                        <h2 class="margin-top-40" style="font-size:14px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
+                                                            ID {{ product.product.code }}</h2>
+                                                        <h2 class="margin-top-45" style="font-size:10px"
+                                                            onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
+                                                            {{ product.product.price }} $ Sqm</h2>
                                                         <h2 onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';"
                                                             style="font-size:10px">{{ product.product.company.country.name }}</h2>
                                                         <a style="left: 5px;
-                                       bottom: 100px;
+
+                                       bottom: 5px;
                                        position: absolute;
                                        text-align: left;
                                        float: left;
                                        font-size: 24px;
                                        color: #fff;"
                                                            href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
-                                                            <i
-                                                                    class="im im-icon-Phone-2"></i></a>
-                                                        <a class=" popup-with-zoom-anim"
-                                                           style="right: 5px; bottom: 100px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
-                                                           href="#small-dialog-{{ product.product.pk }}"> <i
+                                                            <i class="im im-icon-Phone-2"></i></a>
+                                                        <a class="popup-with-zoom-anim" type="button"
+                                                           style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
+                                                           href="#small-dialog-{{ product.product.slug }}"> <i
                                                                 class="im im-icon-Like"></i></a>
-                                                        <div id="small-dialog-{{ product.product.pk }}"
+                                                        <div id="small-dialog-{{ product.product.slug }}"
                                                              class="zoom-anim-dialog mfp-hide" style="color: black">
 
                                                             <div class="message-reply margin-top-0"
@@ -448,7 +454,7 @@
                                                                     <!-- Title -->
                                                                     <div class="row with-forms">
                                                                         <div class="col-md-12"
-                                                                             style="margin-top: -21px;  padding-top: 9px;">
+                                                                             style="top: 0;  padding-top: 9px;">
 
                                                                             <div class="col-md-6">
                                                                                 <img style="margin-bottom: 10px"
@@ -485,7 +491,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="listing-badge now-open">Ads</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -502,11 +507,13 @@
                                         {% for product in products %}
                                             {% if not product.product.isAdvert %}
                                                 <div class="col-1-5">
+
                                                     <div class="hovereffect">
                                                         <div class="listing-item ">
                                                             <img style="height: 200px !important;"
                                                                  src="/media/{{ product.product.cover_image }}"
                                                                  alt="">
+
                                                             <div class="overlay">
                                                                 <h2 style="font-size:16px"
                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.company.name }}</h2>
@@ -517,7 +524,7 @@
                                                                     ID {{ product.product.code }}</h2>
                                                                 <h2 class="margin-top-45" style="font-size:10px"
                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">
-                                                                    250$ Sqm</h2>
+                                                                    {{ product.product.price }} $ Sqm</h2>
                                                                 <h2 style="font-size:10px"
                                                                     onclick="location.href='{% url 'listArch:urun-detay' product.product.slug %}';">{{ product.product.company.country.name }}</h2>
                                                                 <a style="left: 5px;
@@ -528,15 +535,14 @@
                                        font-size: 24px;
                                        color: #fff;"
                                                                    href="{% url 'listArch:firma-bilgileri' product.product.company.pk %}">
-                                                                    <i
-                                                                            class="im im-icon-Phone-2"></i></a>
+                                                                    <i class="im im-icon-Phone-2"></i></a>
                                                                 <a class=" popup-with-zoom-anim"
                                                                    style="right: 5px; bottom: 5px; position: absolute; text-align: right; float: right; font-size: 24px; color: #fff;"
-                                                                   href="#small-dialog-{{ product.product.pk }}"> <i
+                                                                   href="#small-dialog-{{ product.product.key }}"> <i
                                                                         class="im im-icon-Like"></i></a>
                                                             </div>
 
-                                                            <div id="small-dialog-{{ product.product.pk }}"
+                                                            <div id="small-dialog-{{ product.product.key }}"
                                                                  class="zoom-anim-dialog mfp-hide" style="color: black">
 
                                                                 <div class="message-reply margin-top-0"
@@ -823,73 +829,78 @@
                                                 {{ 'all'| get_item_by_lang }} [{{ option.count }}]
                                             </a>
 
+
                                             <!-- Checkboxes / End -->
-                                        </div>
+                                            <div id="small-dialog-{{ option.option.option.pk }}"
+                                                 class="zoom-anim-dialog mfp-hide" style="color: black">
 
-
-                                    </div>
-
-                                </div>
-                                <div id="small-dialog-{{ option.option.option.pk }}"
-                                     class="zoom-anim-dialog mfp-hide" style="color: black">
-
-                                    <div class="message-reply margin-top-0" style="background: white;width: 100%">
-                                        <div class="add-listing-section">
-                                            <!-- Headline -->
-                                            <div class="add-listing-headline">
-                                                <h3>{{ option.option.description }}</h3>
-                                            </div>
-                                            <!-- Title -->
-                                            <div class="row with-forms">
-                                                <div class="col-md-12"
-                                                     style="border: 1px solid;margin-top: -21px;  padding-top: 9px;">
-
-                                                    <div class="checkboxes one-in-row ">
-
-                                                        <div id="btnClick" style="color: black">
-                                                            <div class="col-md-3"
-                                                                 style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
-                                                                {% for option in options %}
-                                                                    {% if not option.option.option.isBasic  and option.option.option.type == 'checkbox' %}
-                                                                        <a href="#small-dialog-{{ option.option.option.pk }}"
-                                                                           class="rate-review popup-with-zoom-anim"
-                                                                           style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
-                                                                            {{ option.option.description }}
-                                                                            ad {{ option.option.description }}
-                                                                        </a> <br>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </div>
-
-                                                            <div id="advanced-option">
-                                                                <div class="col-md-6">
-                                                                    {% for value in option.allValues %}
-
-                                                                        <input id="{{ value.option_value.pk }}"
-                                                                               type="checkbox"
-                                                                               onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
-                                                                               name="{{ value.option_value.pk }}"
-                                                                               value="{{ value.option_value.pk }}">
-                                                                        <label for="{{ value.option_value.pk }}">{{ value }}</label>
-
-                                                                    {% endfor %}
-
-                                                                </div>
-                                                            </div>
+                                                <div class="message-reply margin-top-0"
+                                                     style="background: white;width: 100%">
+                                                    <div class="add-listing-section">
+                                                        <!-- Headline -->
+                                                        <div class="add-listing-headline">
+                                                            <h3 style="font-weight: 700">{{ option.option.description }}</h3>
                                                         </div>
+                                                        <!-- Title -->
+                                                        <div class="row with-forms">
+                                                            <div class="col-md-12"
+                                                                 style="border: 1px solid;margin-top: -21px;  padding-top: 9px;">
+
+                                                                <div class="checkboxes one-in-row ">
+
+                                                                    <div id="btnClick" style="color: black">
+                                                                        <div class="col-md-4"
+                                                                             style="height: 450px; overflow-x: hidden; overflow-y: scroll;text-align:center;">
+                                                                            {% for option in advanced_options %}
+                                                                                {% if option.option.option.type == 'checkbox' %}
+                                                                                        <a href="#small-dialog-{{ option.option.option.pk }}"
+                                                                                           class="rate-review popup-with-zoom-anim"
+                                                                                           style="background: #fff;color: #000000;margin-top: 3px; width: 80%;text-align: center; border-color: #fd9116;">
+                                                                                            {{ option.option.description }}
+                                                                                        </a> <br>
+
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </div>
+
+                                                                        <div id="basic-option">
+                                                                            <div class="col-md-8"
+                                                                                 style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
+                                                                                {% for value in option.allValues %}
+
+                                                                                    <input id="{{ value.option_value.pk }}"
+                                                                                           type="checkbox"
+                                                                                           onchange="option({{ value.option_value.option.pk }},this.value,'checkbox')"
+                                                                                           name="checkbox"
+                                                                                           data-option="{{ value.option_value.option.pk }}"
+                                                                                           value="{{ value.option_value.pk }}">
+                                                                                    <label for="{{ value.option_value.pk }}">{{ value }}</label>
+
+                                                                                {% endfor %}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <!-- Row -->
+
+                                                        <!-- Row / End -->
+
                                                     </div>
 
                                                 </div>
-
                                             </div>
-
-                                            <!-- Row -->
-
-                                            <!-- Row / End -->
-
                                         </div>
 
+
                                     </div>
+
                                 </div>
 
 
@@ -957,11 +968,6 @@
     </div>
     <input type="hidden" value="" id="checked_list" name="checked_list">
     <input type="hidden" value="{{ category.category.pk }}" id="filtered-category" name="filtered-category">
-
-
-
-
-
 
     <style>
         /* Center the loader */
@@ -1048,8 +1054,8 @@
                         <h4>{{ scrolling_text.subTextDesc }}</h4>
                         <form action="{% url 'listArch:filtreleme-sayfasi-search' %}" method="post">
                             {% csrf_token %}
-                            <div class="main-search-input">
 
+                            <div class="main-search-input">
                                 <div class="main-search-input-item">
 
 
@@ -1067,8 +1073,6 @@
                                     </select>
 
                                 </div>
-
-
                                 <div class="main-search-input-item">
                                     <input type="text" placeholder="Start to search" value="" id="search_value"
                                            name="search_value">
@@ -1085,7 +1089,6 @@
                                     </select>
 
                                 </div>
-
                                 <button class="button" onclick="">
                                     {{ 'search'| get_item_by_lang }}
                                 </button>
@@ -1102,7 +1105,6 @@
         </div>
     </div>
 {% endblock %}
-
 <script>
 
 
