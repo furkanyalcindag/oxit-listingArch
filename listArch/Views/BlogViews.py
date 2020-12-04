@@ -1,3 +1,5 @@
+import traceback
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -49,9 +51,11 @@ def add_blog_desc(request):
                                       lang_code=1)
                 blog_desc2.save()
 
-                image_row = int(request.POST['image_row'])
+                image_row = 1
+                if request.POST['image_row'] != "":
+                    image_row = int(request.POST['image_row'])
                 i = 0
-                while i <= image_row:
+                while i < len(blogDesc_image_form.files):
                     image = Image(image=blogDesc_image_form.files['product_image[' + str(i) + '][image]'])
                     image.save()
                     blog_image = BlogImage(blog=blog, image=image)
@@ -68,6 +72,8 @@ def add_blog_desc(request):
                 messages.success(request, "Alanları kontrol ediniz.")
 
     except Exception as e:
+        traceback.print_exc()
+
         print(e)
         return redirect('listArch:admin-error-sayfasi')
     return render(request, 'blog/add-blog.html',
