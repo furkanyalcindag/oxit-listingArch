@@ -214,6 +214,7 @@ urlpatterns = [
     url(r'profiller/$', ProfileViews.profile_list, name='profil-listesi'),
     url(r'delete/$', ProfileViews.profile_delete, name='profili-sil'),
     url(r'update-profile/(?P<pk>\d+)$', ProfileViews.update_profile, name='profil-guncelle'),
+    url(r'get-profile-blog/(?P<pk>\d+)$', ProfileViews.get_profile_blog, name='profil-bloglarini-getir'),
 
     url(r'profile-page/$', HomeViews.profile_page, name='profile-page'),
     url(r'profile-page-info/$', HomeViews.profile_info, name='profile-page-info'),

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -9,9 +11,11 @@ from listArch.Forms.ProfileForm import ProfileForm
 from listArch.Forms.UserCompanyForm import UserCompanyForm
 from listArch.Forms.UserForm import UserForm
 from listArch.Forms.UserUpdateForm import UserUpdateForm
-from listArch.models import Profile, BusinessTypeDesc, Country, Setting, Image, BlogImage
+from listArch.models import Profile, BusinessTypeDesc, Country, Setting, BlogImage, ProfileBlog, BusinessType, \
+    BlogDesc, CompanyBlog
 from listArch.services import general_methods
-from oxiterp.settings.base import EMAIL_HOST_USER
+from listArch.models.ProfileBlog import ProfileBlog
+from oxiterp.settings.base import EMAIL_HOST_USER, home_lang_code
 
 
 def add_profile(request):
@@ -150,3 +154,44 @@ def profile_delete(request):
         except Exception as e:
 
             return JsonResponse({'status': 'Fail', 'msg': e})
+
+
+def get_profile_blog(request, pk):
+    try:
+        blog_array = []
+        array_company = []
+
+        business = BusinessType.objects.filter(pk=pk)
+        profile_blogs = ProfileBlog.objects.filter(profile__profile_name=business[0])
+        profiles = BusinessTypeDesc.objects.filter(lang_code=home_lang_code).filter(
+            business_type__isProduct_based=True)
+
+        print(datetime.now())
+
+        if profile_blogs:
+            for blog in profile_blogs:
+                blog_dict = dict()
+                blog_dict['blog_name'] = \
+                    BusinessTypeDesc.objects.filter(business_type=blog.profile.profile_name).filter(
+                        lang_code=home_lang_code)[0]
+                blog_dict['desc'] = BlogDesc.objects.filter(blog=blog.blog).filter(lang_code=home_lang_code)[0]
+                blog_dict['images'] = BlogImage.objects.filter(blog=blog.blog).order_by('?')[:1]
+                blog_dict['blog'] = blog
+                blog_array.append(blog_dict)
+            company_blog = CompanyBlog.objects.filter(blog=profile_blogs[0].blog)
+            if company_blog:
+                for company_blog in company_blog:
+                    company_blog_dict = dict()
+                    company_blog_dict['company'] = company_blog
+                    company_blog_dict['images'] = BlogImage.objects.filter(blog=company_blog.blog).order_by('?')[:4]
+                    company_blog_dict['blog_desc'] = \
+                        BlogDesc.objects.filter(blog=company_blog.blog).filter(lang_code=home_lang_code)[0]
+                    company_blog_dict['profile_name'] = \
+                        BusinessTypeDesc.objects.filter(business_type=company_blog.company.business_type).filter(
+                        lang_code=home_lang_code)[0]
+                    array_company.append(company_blog_dict)
+
+        return render(request, 'home/profile-page.html',
+                      {'profiles': profiles, 'blogs': blog_array, 'company_blogs': array_company})
+    except Exception as e:
+        print(e)

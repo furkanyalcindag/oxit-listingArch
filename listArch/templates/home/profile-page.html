@@ -62,7 +62,8 @@
                         {% if forloop.counter < 7 %}
                             <div class="col-lg-2 col-md-2 page-padding ">
                                 <li><a style="text-transform: uppercase;" class="gplus-share"
-                                       href="#"> {{ profile.description }}</a></li>
+                                       href="{% url 'listArch:profil-bloglarini-getir' profile.business_type.pk %}"> {{ profile.description }}</a>
+                                </li>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -70,6 +71,7 @@
                 </ul>
                 <div class="clearfix"></div>
             </div>
+
             <div class="listing-share no-border">
 
 
@@ -92,6 +94,16 @@
 
         </div>
         <hr>
+    {% if not blogs and  not company_blogs %}
+
+
+
+
+            <div class="row">
+                <h3 style="text-align: center">Bu profilde blog bulunamadı.</h3>
+            </div>
+
+        {% else %}
         <div class="row ">
             <div class="main-search-input margin-top-20 margin-bottom-20 " style="width: 100%;">
 
@@ -151,177 +163,180 @@
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 margin-top-20 margin-bottom-20" style="border: 1px solid;width: 100%;">
-                <h4 style="font-weight: 800">{{ 'profile_by'|get_item_by_lang }} ..</h4>
+            <div class="row">
+                <div class="col-md-12 margin-top-20 margin-bottom-20" style="border: 1px solid;width: 100%;">
+                    <h4 style="font-weight: 800">{{ 'profile_by'|get_item_by_lang }} ..</h4>
 
+                </div>
             </div>
-        </div>
-
-        <div class="row " style="padding-bottom: 20px;">
-
-            {% for blog in blogs %}
-                <div class="col-md-3 padding-0-lr">
+            <div class="row " style="padding-bottom: 20px;">
+                {% if blogs %}
+                    {% for blog in blogs %}
+                        <div class="col-md-3 padding-0-lr">
 
 
-                    <div class="blog-page">
-                        <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+                            <div class="blog-page">
+                                <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
     margin-right: 0px; ">
 
-                            <div class=" padding-bottom-40">
-                                <div class="blog-post"
-                                     style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
-                                    <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">
-                                        {{ blog.blog_name.description }}</p>
+                                    <div class=" padding-bottom-40">
+                                        <div class="blog-post"
+                                             style="border: 2px solid #fd9116;       background: #fff; width: 100%;">
+                                            <p style="text-align: right;margin-bottom: 0;    color: #000;font-size: 8px;">
+                                                {{ blog.blog_name.description }}</p>
 
-                                    <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
-                                        <div class=" col-md-12 padding-top-20">
-                                            <a href="#" class="post-img">
-                                                <img src="/media/{{ blog.blog.profile.image }}"
-                                                     alt=""
-                                                     style=" height: 50px; width: auto; ">
-                                            </a><br>
+                                            <div class=" row"
+                                                 style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                                <div class=" col-md-12 padding-top-20">
+                                                    <a href="#" class="post-img">
+                                                        <img src="/media/{{ blog.blog.profile.image }}"
+                                                             alt=""
+                                                             style=" height: 50px; width: auto; ">
+                                                    </a><br>
 
-                                        </div>
-                                        {% for image in blog.images %}
-                                            <div class="col-md-12">
-                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                    <img src="/media/{{ image.image.image }}"
-                                                         style="" alt="">
-                                                </a>
+                                                </div>
+                                                {% for image in blog.images %}
+                                                    <div class="col-md-12">
+                                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                            <img src="/media/{{ image.image.image }}"
+                                                                 style="" alt="">
+                                                        </a>
+                                                        <br>
+                                                    </div>
+
+                                                {% endfor %}
+                                            </div>
+
+                                            <div class="post-content margin-top-7" style="border: 1px solid #000">
+
+                                                <a style="    line-height: 20px;color: #000;"
+                                                   href="#"> {{ blog.desc.title_desc }}</a>
                                                 <br>
-                                            </div>
-
-                                        {% endfor %}
-                                    </div>
-
-                                    <div class="post-content margin-top-7" style="border: 1px solid #000">
-
-                                        <a style="    line-height: 20px;color: #000;"
-                                           href="#"> {{ blog.desc.title_desc }}</a>
-                                        <br>
-                                        <a style="    line-height: 20px;color: #000;" href="#">{{ blog.blog.profile.category.name }}</a>
-                                        <br>
-                                        <a style="    line-height: 20px;color: #000;" href="#">{{ blog.blog.profile.city}}/{{ blog.blog.profile.country}}</a>
-                                        <br><br>
-                                        <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since
-                                            1999</a>
-                                        <br>
-                                        <a style="font-size: 12px;color: #000;
+                                                <a style="    line-height: 20px;color: #000;"
+                                                   href="#">{{ blog.blog.profile.category.name }}</a>
+                                                <br>
+                                                <a style="    line-height: 20px;color: #000;"
+                                                   href="#">{{ blog.blog.profile.city }}/{{ blog.blog.profile.country }}</a>
+                                                <br><br>
+                                                <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since
+                                                    1999</a>
+                                                <br>
+                                                <a style="font-size: 12px;color: #000;
     border: 1px solid #000;line-height: 30px;
     padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
 
-                                    </div>
+                                            </div>
 
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            {% endfor %}
-
-        </div>
-
-
-        <div class="row" style="padding-bottom: 20px;">
-
-            {% for company_blog in company_blogs %}
-                <div class="col-md-3 padding-0-lr">
-
-
-                    <div class="blog-page">
-                        <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
-    margin-right: 0px; ">
-
-                            <div class=" padding-bottom-40">
-
-
-
-                                <div class="blog-post"
-                                     style="border: 2px solid #fd9116;       background: #fff; width: 100%;padding: 0 10px 10px 10px !important;">
-                                    <p style="text-align: right;margin-bottom: 0;    line-height: 15px;color: #000;font-size: 8px;">{{ company_blog.profile_name.description }}</p>
-
-
-                                    <div class=" row" style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
-                                        <div class="col-md-12 padding-top-20" >
-                                            <a style="border: 1px solid #000" href="#" class="post-img">
-                                                <img src="/media/{{ company_blog.company.company.logo }}"
-                                                     alt=""
-                                                     style=" height: 50px; width: auto; ">
-                                            </a><br>
 
                                         </div>
-                                        {% for image in company_blog.images %}
-                                            <div class="col-md-6 padding-bottom-10">
-                                                <a style="border: 1px solid #fff;" href="#" class="post-img">
-                                                    <img src="/media/{{ image.image.image }}"
-                                                         style=" height: 100px; width: auto; " alt="">
-                                                </a><br>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+
+            <div class="row" style="padding-bottom: 20px;">
+                {% if company_blogs %}
+                    {% for company_blog in company_blogs %}
+                        <div class="col-md-3 padding-0-lr">
+
+
+                            <div class="blog-page">
+                                <div class="row margin-bottom-20 margin-top-20" style="margin-left: 0px;
+    margin-right: 0px; ">
+
+                                    <div class=" padding-bottom-40">
+
+
+                                        <div class="blog-post"
+                                             style="border: 2px solid #fd9116;       background: #fff; width: 100%;padding: 0 10px 10px 10px !important;">
+                                            <p style="text-align: right;margin-bottom: 0;    line-height: 15px;color: #000;font-size: 8px;">{{ company_blog.profile_name.description }}</p>
+
+
+                                            <div class=" row"
+                                                 style="border: 1px solid #000;margin-left: 0;margin-right: 0;">
+                                                <div class="col-md-12 padding-top-20">
+                                                    <a style="border: 1px solid #000" href="#" class="post-img">
+                                                        <img src="/media/{{ company_blog.company.company.logo }}"
+                                                             alt=""
+                                                             style=" height: 50px; width: auto; ">
+                                                    </a><br>
+
+                                                </div>
+                                                {% for image in company_blog.images %}
+                                                    <div class="col-md-6 padding-bottom-10">
+                                                        <a style="border: 1px solid #fff;" href="#" class="post-img">
+                                                            <img src="/media/{{ image.image.image }}"
+                                                                 style=" height: 100px; width: auto; " alt="">
+                                                        </a><br>
+
+                                                    </div>
+
+
+                                                {% endfor %}
+
+
+                                            </div>
+
+                                            <br>
+
+
+                                            <div class="post-content" style="border: 1px solid #000">
+
+                                                <a style="    line-height: 20px;color: #000;"
+                                                   href="#">{{ company_blog.company.company.name }}</a>
+                                                <br>
+                                                {% for category in company_blog.company.product.category.all %}
+                                                    {% if not category.is_parent %}
+                                                        <a style="    line-height: 20px;color: #000;" href="#">
+
+                                                            {{ category.name }}
+                                                            {% else %}
+                                                        </a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <br>
+                                                <a style="    line-height: 20px;color: #000;"
+                                                   href="#">{{ company_blog.company.company.country }}</a>
+                                                <br><br>
+                                                <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since
+                                                    {{ company_blog.company.company.date.year }}</a>
+                                                <br>
+                                                <a style="font-size: 12px;color: #000;
+    border: 1px solid #000;line-height: 30px;
+    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
 
                                             </div>
 
 
-                                        {% endfor %}
+                                        </div>
 
 
                                     </div>
-
-                                    <br>
-
-
-                                    <div class="post-content" style="border: 1px solid #000">
-
-                                        <a style="    line-height: 20px;color: #000;"
-                                           href="#">{{ company_blog.company.company.name }}</a>
-                                        <br>
-                                         {% for category in company_blog.company.product.category.all %}
-                                                {% if not category.is_parent %}
-                                        <a style="    line-height: 20px;color: #000;" href="#">
-
-                                                    {{ category.name }}
-                                                    {% else %}
-                                               </a>
-                                              {% endif %}
-                                            {% endfor %}
-                                        <br>
-                                        <a style="    line-height: 20px;color: #000;"
-                                           href="#">{{ company_blog.company.company.country }}</a>
-                                        <br><br>
-                                        <a style="    line-height: 20px;color: #000;font-size: 8px" href="#">Since
-                                            {{ company_blog.company.company.date.year }}</a>
-                                        <br>
-                                        <a style="font-size: 12px;color: #000;
-    border: 1px solid #000;line-height: 30px;
-    padding: 5px;" href="#" class="">NEXT <i class="fa fa-angle-right"></i></a>
-
-                                    </div>
-
 
                                 </div>
 
-
                             </div>
+
 
                         </div>
 
-                    </div>
 
+                    {% endfor %}
+                {% endif %}
+            </div>
 
-                </div>
-
-
-            {% endfor %}
-
-        </div>
-
+        {% endif %}
 
     </div>
 
