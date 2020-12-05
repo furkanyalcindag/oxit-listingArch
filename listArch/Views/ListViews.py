@@ -1,3 +1,5 @@
+import traceback
+
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.db.models import Count
@@ -73,7 +75,8 @@ def list_detail(request, pk):
         return render(request, 'User/list-detail.html',
                       {'list_product': list_product, 'list': list, 'customer': customer, 'user_list': user_list})
     except Exception as e:
-        print(e)
+        traceback.print_exc()
+
         return redirect('listArch:404-sayfasi')
 
 
