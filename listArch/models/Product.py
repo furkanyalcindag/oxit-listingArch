@@ -45,16 +45,49 @@ class Product(models.Model):
         from PIL import Image, ImageDraw
         from django.core.files import File
 
+
+
         if not self.qr_code:
             path = reverse('listArch:urun-detay', args=(self.slug,))
-            qrcode_img = qrcode.make('%s%s' % (Site.objects.get_current().domain, path))
-            canvas = Image.new('RGB', (350, 350), 'white')
+
+            qr = self.qr_generate(path)
+            self.qr_code.save(self.slug + '.png', BytesIO(qr), save=False)
+
+            '''qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=5,
+                border=1,
+            )
+            qr.add_data('%s%s' % (Site.objects.get_current().domain, path))
+            qrcode_img =qr.make(fit=True)
+
+
+            #qrcode_img = qrcode.make('%s%s' % (Site.objects.get_current().domain, path))
+
+
+            canvas = Image.new('RGB', (400, 400), 'white')
             draw = ImageDraw.Draw(canvas)
             canvas.paste(qrcode_img)
             fname = f'qr_code-{self.slug}.png'
             buffer = BytesIO()
             canvas.save(buffer, 'PNG')
             self.qr_code.save(fname, File(buffer), save=False)
-            canvas.close()
+            canvas.close()'''
             super().save(*args, **kwargs)
-        super().save(*args, **kwargs)
+
+    @staticmethod
+    def qr_generate(path):
+        qr = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(str(path))
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white")
+        qrByte = BytesIO()
+        img.save(qrByte)
+        return qrByte.getvalue()
