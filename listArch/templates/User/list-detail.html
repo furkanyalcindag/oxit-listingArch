@@ -314,7 +314,7 @@
                             {% for product in list_product %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                <td><img src="/media/{{ product.product.qr_code }}" alt=""></td>
+                                <td style="width: 60px"><img src="/media/{{ product.product.qr_code }}" alt=""></td>
                                     <td>
                                         {% for cat in product.product.category.all %}
                                             {% if cat.parent %}
