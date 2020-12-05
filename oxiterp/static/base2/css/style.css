@@ -17507,6 +17507,7 @@ img.mfp-img {
     height: 100%;
     min-height: 1px;
     width: 80px !important;
+    margin-left: 14px;
 }
 
 .slick-slide img {
