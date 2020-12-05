@@ -45,11 +45,10 @@ class Product(models.Model):
         from PIL import Image, ImageDraw
         from django.core.files import File
 
-
-
         if not self.qr_code:
             path = reverse('listArch:urun-detay', args=(self.slug,))
 
+            path = Site.objects.get_current().domain + path
             qr = self.qr_generate(path)
             self.qr_code.save(self.slug + '.png', BytesIO(qr), save=False)
 
