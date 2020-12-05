@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12" style="border-top: 2px solid #fd9116;border-bottom: 2px solid #fd9116">
                     <div class="slider">
-                        {% for category in parent_categories %}
+                       {% for category in parent_categories %}
                             <div class="">
                                 <a href="{% url 'listArch:anasayfa-urunler' category.pk %}"
                                    class="highlighted-category">
@@ -92,7 +92,7 @@
 
                             <div class="highlighted-categories">
 
-                                {% for category in sub_categories %}
+                               <!-- {% for category in sub_categories %}
 
                                     <a href="{% url 'listArch:urun-filtreleme-sayfasi' category.pk %}"
                                        class="highlighted-category">
@@ -100,7 +100,7 @@
                                         <h4 style="margin-top: 10px;display: block;">{{ category.name }}</h4>
                                     </a>
 
-                                {% endfor %}
+                                {% endfor %} -->
 
 
                             </div>
