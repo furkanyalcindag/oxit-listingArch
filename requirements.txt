@@ -41,7 +41,7 @@ oauthlib==3.1.0
 olefile==0.46
 paramiko==2.6.0
 pexpect==4.6.0
-Pillow==7.0.0
+Pillow==9.3.0
 pipupgrade==1.7.4
 protobuf==3.6.1
 psycopg2==2.8.5
